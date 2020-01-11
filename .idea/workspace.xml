@@ -2,23 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/css/layout.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/home.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/https.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/img/nav_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/classification/classification.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/mine/mine.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/my_cart/my_cart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/store/store.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/ansi-styles/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/ansi-styles/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/chalk/node_modules/supports-color/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/chalk/node_modules/supports-color/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/chalk/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/chalk/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/has-flag/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/has-flag/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/postcss/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/postcss/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/source-map/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/source-map/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/node_modules/supports-color/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/node_modules/supports-color/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/css-loader/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/css-loader/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HelloWorld.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/layout.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
     </list>
@@ -31,8 +26,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="SCSS File" />
+        <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -62,6 +58,12 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\shop\src\components\home" />
+      <recent name="D:\shop\src\api" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -122,7 +124,8 @@
       <workItem from="1578564148645" duration="467000" />
       <workItem from="1578564728347" duration="70000" />
       <workItem from="1578564806745" duration="222000" />
-      <workItem from="1578619796368" duration="15158000" />
+      <workItem from="1578619796368" duration="16905000" />
+      <workItem from="1578705827513" duration="14002000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1578557799284</created>
@@ -145,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578564537857</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="第二次提交">
+      <created>1578648380931</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1578648380931</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,7 +180,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="第一次提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="第一次提交" />
+    <MESSAGE value="第二次提交" />
+    <option name="LAST_COMMIT_MESSAGE" value="第二次提交" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
