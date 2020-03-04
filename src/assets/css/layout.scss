@@ -1,8 +1,37 @@
-*{
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-body,html{
-  background-color: #f9f9f9;
+body, html {
+  background-color: #f2f2f2;
 }
+
+.app{
+  padding-bottom: 67.8px;
+}
+
+
+
+.main_box {
+  background-color: #fff;
+}
+
+.m_b_10 {
+  margin-bottom: 10px;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+

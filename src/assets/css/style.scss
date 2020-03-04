@@ -1,0 +1,147 @@
+@font-face {
+  font-family: 'myFont';
+  src: url('../../assets/fonts/PingFang-SC-Regular.otf'); //你的资源目录
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  font-family: myFont, sans-serif;
+}
+
+img {
+  width: 100%;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.clo-g {
+  color: #009900 !important;
+}
+
+a {
+  color: inherit !important;
+  display: block;
+}
+
+//公共样式
+.common_box {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.content {
+  padding-top: 43px;
+}
+
+.bottom_fixed{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.navigation {
+  position: fixed;
+  top: 41px;
+  color: #999999;
+  width: 100%;
+  z-index: 9;
+
+  ul {
+    background-color: #fff;
+    border-bottom: 1px solid #f2f2f2;
+
+    li {
+      float: left;
+      border-bottom: 1px solid rgba(0, 0, 0, 0);
+      width: 20%;
+      padding: 18px 0;
+      font-size: 0.16rem;
+    }
+
+    li.active {
+      color: #009900;
+      border-bottom: 2px solid #009900;
+    }
+  }
+}
+
+//多选框修改样式
+.mycheck {
+  /deep/ .el-checkbox__inner {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: none;
+  }
+
+  /deep/ .el-checkbox__inner::after {
+    height: 11px;
+    left: 6px;
+    width: 5px;
+  }
+
+  /deep/ .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #009900;
+    border-color: #009900;
+  }
+
+  /deep/ .el-checkbox__inner:hover {
+    border-color: #009900;
+  }
+
+  /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: inherit;
+  }
+}
+
+/* 商品列表  */
+
+.list {
+  padding: 0 10px 10px 10px;
+
+  .goodslist {
+    text-align: left;
+    background-color: #f9f9f9;
+    margin: 0 -10px;
+    padding: 10px 10px 0 10px;
+    font-size: 0.12rem;
+
+    .el-col {
+      padding-bottom: 10px;
+      padding-right: 10px;
+    }
+
+    .el-col:nth-child(2n) {
+      padding-left: 5px !important;
+      padding-right: 0 !important;
+    }
+
+    .el-col:nth-child(2n+1) {
+      padding-right: 5px !important;
+    }
+
+    .item {
+      border-radius: 5px;
+      background-color: #fff;
+
+      div {
+        padding: 5px;
+      }
+    }
+  }
+}
+
+.top_name {
+  font-size: 0.18rem;
+  padding: 20px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .el-col-5 {
+    width: 20%
+  }
+
+}
