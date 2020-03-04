@@ -1,7 +1,6 @@
 <template>
   <div class="main_box">
     <!--  头部  -->
-
     <header>
       <el-row type="flex" class="row-bg" justify="space-between" style="align-items: center">
         <el-dropdown trigger="click">
@@ -34,19 +33,18 @@
     </header>
     <!--  轮播组件  -->
     <div class="banner">
-      <carousel :hmsg='msg'></carousel>
+      <carousel :hmsg='msg' :bannerdata='bannermsg'></carousel>
     </div>
 
     <!--  分类按钮  -->
     <div style="padding:10px">
       <el-row :gutter="20" class="f-nav">
-        <el-col :span="5" v-for="(o, index) in 10" :key="o">
+        <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
-            <router-link to="/classification">
-              <img src="../../assets/img/icon.png">
-              <p>{{name[index]}}</p>
+            <router-link :to="{path:'/classification',query:item.url}">
+              <img :src="item.img">
+              <p>{{item.cate_name}}</p>
             </router-link>
-
           </div>
         </el-col>
       </el-row>
@@ -55,8 +53,8 @@
     <div class="notice">
       <img src="../../assets/img/icon1.png">
       <el-carousel height="20px" direction="vertical" :autoplay="true">
-        <el-carousel-item v-for="(item,items) in ['ss','ssss','ssssss']" :key="items">
-          <h3 class="medium">{{ item }}</h3>
+        <el-carousel-item v-for="(item,items) in news" :key="items">
+          <h3 class="medium">{{ item.title }}</h3>
         </el-carousel-item>
       </el-carousel>
       <span class="clo-g"><router-link to="/news">查看</router-link></span>
@@ -64,16 +62,16 @@
 
     <!--  商品列表  -->
     <div class="list" v-for="(item,index) in lists" :key="index">
-      <div class="top_name">{{item.topname}}</div>
-      <img :src="require(`../../assets/img/${item.bannersrc}.png`)">
+      <div class="top_name">{{item.module}}</div>
+      <img :src="item.ad.img">
       <el-row class="goodslist">
         <router-link to="/goodsdetails">
-          <el-col :span="12" v-for="(goods, goodsindex) in item.goodsitem" :key="goodsindex">
+          <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
             <div class="item">
-              <img :src="require(`../../assets/img/${goods.goodsimg}.png`)">
+              <img :src="goods.imgsrc">
               <div style="">
-                <div class="goodsdtt">{{goods.goodsname}}</div>
-                <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                <div class="goodsdtt">{{goods.name}}</div>
+                <div class="goodsprice clo-g">{{goods.price}}</div>
               </div>
             </div>
           </el-col>
@@ -90,11 +88,9 @@
 </template>
 
 <script>
-    import Axios from 'axios';
     //1.先使用import导入你要在该组件中使用的子组件
     import Carousel from '../carousel-cp/carousel';
     import Search from "../search/search";
-
 
     export default {
         name: "home",
@@ -104,9 +100,12 @@
             return {
                 msg: '首页',
                 name: ['顾客区', '会员区', '零售区', '商家区', '签到区', '顾客区', '会员区', '零售区', '商家区', '签到区',],
+                categorylist: [],
+                bannermsg: [],
                 lists: [
                     {
                         'topname': '新款商品',
+                        'ad': {},
                         'goodsitem': [
                             {
                                 'goodsname': '云阖·永川秀芽【炒青】100g',
@@ -131,94 +130,48 @@
                         ],
                         'bannersrc': 'goods_banner'
                     },
-                    {
-                        'topname': '新款商品',
-                        'goodsitem': [
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            }
-                        ],
-                        'bannersrc': 'goods_banner'
-                    },
-                    {
-                        'topname': '新款商品',
-                        'goodsitem': [
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            }
-                        ],
-                        'bannersrc': 'goods_banner'
-                    },
-                ]
+                ],
+                news: [],
             }
         },
         methods: {},
         mounted() {
-
-            // var data = {params:7758521 }
-            // console.log(data)
-            // Axios.post('/api/v1/ad',
-            //     data,
-            //     {headers: {'Content-Type': 'application/json;charset=UTF-8'}}
-            // ).then(function (response) {
-            //     console.log(response);
-            // }).catch(function (error) {
-            //     console.log(error);
-            // });
-
-          var data = {};
-          data.method = "get.ad.banner.list";
-
-          var that = this;
-
-
-          Axios.post("/api/v1/ad",data, {headers: {'content-type': 'application/x-www-form-urlencoded'}}).then(function(result) {
-            console.log(result);
-          });
-
-
-            //
-            // console.log(data);
-            // return false;
-            // this.$post('/api/v1/ad', {method:"get.ad.banner.list"})
-            //     .then((response) => {
-            //         console.log(response)
-            //     })
-
+            const ad_data = {method: 'get.ad.banner.list'},
+                category = {method: 'get.category.list'},
+                goods = {method: 'get.ad.goods.list'},
+                news = {method: 'get.news.list'};
+            //获取banner
+            this.$post('/api/v1/ad', ad_data)
+                .then((response) => {
+                    console.log(response.data)
+                    this.bannermsg = response.data
+                }).catch(function (error) {
+                console.log(error);
+            });
+            //获取模块列表
+            this.$post('/api/v1/category', category)
+                .then((response) => {
+                    console.log(response.data)
+                    this.categorylist = response.data
+                }).catch(function (error) {
+                console.log(error);
+            });
+            //获取首页商品
+            this.$post('/api/v1/ad', goods)
+                .then((response) => {
+                    console.log(response.data)
+                    this.lists = response.data
+                }).catch(function (error) {
+                console.log(error);
+            });
+            //获取新闻列表
+            this.$post('/api/v1/news', news)
+                .then((response) => {
+                    console.log(response.data)
+                    this.news = response.data.items
+                }).catch(function (error) {
+                console.log(error);
+            });
         }
 
     }
@@ -264,9 +217,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: left;
 
     .el-carousel {
       width: 80%;
+    }
+
+    h3 {
+      font-weight: normal;
     }
 
     img {

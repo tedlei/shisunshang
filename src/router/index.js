@@ -155,6 +155,12 @@ export default new Router({
           component: resolve => require(['@/components/children/Address/Address'], resolve),
           meta: {title: '地址管理', showFooter: false, goods: false,}
         },
+        {
+          path: '/mine/add-address',
+          name: 'add-address',
+          component: resolve => require(['@/components/children/add-address/add-address'], resolve),
+          meta: {title: '添加收货地址', showFooter: false, goods: false,}
+        },
 
       ],
       meta: {title: '商品详情', showFooter: false}

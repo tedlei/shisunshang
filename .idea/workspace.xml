@@ -1,70 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="第二次提交">
-      <change afterPath="$PROJECT_DIR$/src/assets/css/style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/fonts/PingFang-SC-Regular.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/goods_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/goods_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/icon1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/js/conmon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/carousel-cp/carousel.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/Address/Address.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/Orderdetails/Orderdetails.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/Recharge/Recharge.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/StoreMsg/StoreMsg.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/ad/ad.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/articles/articles.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/child.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/empty/empty.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/goodsdetails/goodsdetails.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/makeorder/makeorder.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/myfootprint/myfootprint.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/news/news.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/order/order.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/orderheader.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/searchResult/searchResult.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/set/set.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/share/share.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/children/usermsg/usermsg.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/footer/footer.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/header/header.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/headerback/headerback.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/search/search.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+    <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/area.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/area.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/area.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/jquery.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/webpack.prod.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/webpack.prod.conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.postcssrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.postcssrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/dist/qs.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/dist/qs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/lib/formats.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/lib/formats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/lib/parse.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/lib/parse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/lib/stringify.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/lib/stringify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/lib/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/lib/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/test/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/test/.eslintrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/test/parse.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/test/parse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/test/stringify.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/test/stringify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/qs/test/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/qs/test/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/https.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/https.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/classification/classification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/classification/classification.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/Address/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/Address/Address.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/mine/mine.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mine/mine.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/my_cart/my_cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my_cart/my_cart.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/store/store.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/business/business.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,9 +26,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="SCSS File" />
         <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="package.json" />
+        <option value="tsconfig.json" />
+        <option value="SCSS File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -103,8 +57,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/新建临时文件" value="JSON" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="list.type.of.created.stylesheet" value="SCSS" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -112,6 +67,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\shop\static\js" />
       <recent name="D:\shop\src" />
       <recent name="D:\shop\src\components\home" />
       <recent name="D:\shop\src\api" />
@@ -194,7 +150,8 @@
       <workItem from="1583140490822" duration="1808000" />
       <workItem from="1583142314532" duration="1841000" />
       <workItem from="1583144171797" duration="486000" />
-      <workItem from="1583300614300" duration="1486000" />
+      <workItem from="1583300614300" duration="1717000" />
+      <workItem from="1583302351140" duration="10643000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1578557799284</created>
@@ -231,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578735276283</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="第二次提交">
+      <created>1583302238267</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583302238267</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,36 +228,38 @@
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
     <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1583157738376" />
     <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-    <state x="575" y="113" key="CommitChangelistDialog2" timestamp="1583301818993">
+    <state x="575" y="113" key="CommitChangelistDialog2" timestamp="1583302230567">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583301818993" />
+    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583302230567" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1583302008118">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583302008118" />
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom" timestamp="1583157771660">
+    <state width="1899" height="204" key="GridCell.Tab.0.bottom" timestamp="1583305137076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583157771660" />
-    <state width="1899" height="204" key="GridCell.Tab.0.center" timestamp="1583157771660">
+    <state width="1899" height="204" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137076" />
+    <state width="1899" height="204" key="GridCell.Tab.0.center" timestamp="1583305137075">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583157771660" />
-    <state width="1899" height="204" key="GridCell.Tab.0.left" timestamp="1583157771659">
+    <state width="1899" height="204" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137075" />
+    <state width="1899" height="204" key="GridCell.Tab.0.left" timestamp="1583305137075">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583157771659" />
-    <state width="1899" height="204" key="GridCell.Tab.0.right" timestamp="1583157771660">
+    <state width="1899" height="204" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137075" />
+    <state width="1899" height="204" key="GridCell.Tab.0.right" timestamp="1583305137076">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583157771660" />
+    <state width="1899" height="204" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137076" />
     <state x="466" y="79" key="SettingsEditor" timestamp="1583302181090">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="466" y="79" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583302181090" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1583157738376" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1583302253684">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583302253684" />
     <state x="752" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583301645209">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
