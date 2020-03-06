@@ -2,21 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/area.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/area.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/area.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/jquery.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.postcssrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.postcssrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/https.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/https.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/children/Address/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/Address/Address.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/child.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/child.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/empty/empty.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/empty/empty.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/orderheader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/orderheader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/area.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/area.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +147,12 @@
       <workItem from="1583142314532" duration="1841000" />
       <workItem from="1583144171797" duration="486000" />
       <workItem from="1583300614300" duration="1717000" />
-      <workItem from="1583302351140" duration="10643000" />
+      <workItem from="1583302351140" duration="11922000" />
+      <workItem from="1583386219195" duration="14000" />
+      <workItem from="1583386493165" duration="378000" />
+      <workItem from="1583386975395" duration="306000" />
+      <workItem from="1583387329570" duration="14538000" />
+      <workItem from="1583474734510" duration="19788000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1578557799284</created>
@@ -195,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583302238267</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="第二次提交">
+      <created>1583320206198</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1583320206199</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,38 +236,42 @@
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
     <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1583157738376" />
     <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-    <state x="575" y="113" key="CommitChangelistDialog2" timestamp="1583302230567">
+    <state x="575" y="113" key="CommitChangelistDialog2" timestamp="1583320204186">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583302230567" />
+    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583320204186" />
+    <state x="184" y="93" key="DiffContextDialog" timestamp="1583320192110">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="184" y="93" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583320192110" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1583302008118">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583302008118" />
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom" timestamp="1583305137076">
+    <state width="1899" height="204" key="GridCell.Tab.0.bottom" timestamp="1583426062919">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137076" />
-    <state width="1899" height="204" key="GridCell.Tab.0.center" timestamp="1583305137075">
+    <state width="1899" height="204" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062919" />
+    <state width="1899" height="204" key="GridCell.Tab.0.center" timestamp="1583426062918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137075" />
-    <state width="1899" height="204" key="GridCell.Tab.0.left" timestamp="1583305137075">
+    <state width="1899" height="204" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
+    <state width="1899" height="204" key="GridCell.Tab.0.left" timestamp="1583426062918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137075" />
-    <state width="1899" height="204" key="GridCell.Tab.0.right" timestamp="1583305137076">
+    <state width="1899" height="204" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
+    <state width="1899" height="204" key="GridCell.Tab.0.right" timestamp="1583426062918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583305137076" />
+    <state width="1899" height="204" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
     <state x="466" y="79" key="SettingsEditor" timestamp="1583302181090">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="466" y="79" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583302181090" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1583302253684">
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1583320223478">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583302253684" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583320223478" />
     <state x="752" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583301645209">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -268,5 +280,17 @@
     <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
     <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog" timestamp="1583157738376" />
     <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/static/js/area.js</url>
+          <line>45</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

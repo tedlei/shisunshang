@@ -1,4 +1,9 @@
-(function () {
+;(function () {
+  var allmsg = {};
+  var paramsobj = {};
+  var paramspostion = [];
+  allmsg.paramsobj = paramsobj;
+  allmsg.paramspostion = paramspostion;
   $.fn.getArea = function (options) {
     var defaults = {
       jsonUrl: '/static/js/area.json',
@@ -72,6 +77,13 @@
         $(params.inpEle).val(html);
         $(params.areaMask).fadeOut(200);
         $(params.areabox).fadeOut(200);
+        paramspostion.push(params.provinceObj.index)
+        paramspostion.push(params.cityObj.index)
+        paramspostion.push(params.regionObj.index)
+        paramsobj.province = params.provinceObj.name
+        paramsobj.city = params.cityObj.name
+        paramsobj.area = params.regionObj.name
+
         clearAreaList();
       });
       $(params.elePage).on(params.eventClick, params.cancelArea, function () {
@@ -279,5 +291,8 @@
         initArea(2, cityIndex, regionIndex);
       }
     });
+
+    return allmsg
   }
+
 })(jQuery);

@@ -8,9 +8,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/layout.scss'
 import './assets/css/style.scss'
-
 import qs from 'qs'
 import {post,fetch,patch,put} from './api/https'
+
 //定义全局变量
 Vue.prototype.$post=post;
 Vue.prototype.$fetch=fetch;
