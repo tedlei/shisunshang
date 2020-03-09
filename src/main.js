@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import store from "./store";
 import ElementUI from 'element-ui'
+import Vant from 'vant';
+import 'vant/lib/index.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/layout.scss'
 import './assets/css/style.scss'
@@ -19,7 +21,8 @@ Vue.prototype.$patch=patch;
 Vue.prototype.$put=put;
 Vue.prototype.Qs = qs
 
-Vue.use(ElementUI)
+Vue.use(ElementUI);
+Vue.use(Vant);
 Vue.config.productionTip = false;
 
 // 根据路由设置标题

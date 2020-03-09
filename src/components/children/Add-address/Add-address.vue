@@ -4,27 +4,33 @@
     <div class="common_box ipt_box">
       <div class="left_name">姓名：</div>
       <div class="right_ipt">
-        <el-input v-model="Allinput.input1" placeholder="请填写收货人姓名"></el-input>
+        <el-input v-model="input1" placeholder="请填写收货人姓名"></el-input>
       </div>
     </div>
     <div class="common_box ipt_box">
       <div class="left_name">手机号：</div>
       <div class="right_ipt">
-        <el-input v-model="Allinput.input2" placeholder="请填写收货人姓名"></el-input>
+        <el-input v-model="input2" placeholder="请填写收货人姓名"></el-input>
       </div>
     </div>
     <div class="common_box left_ttl">收货地址</div>
     <div class="common_box ipt_box">
       <div class="left_name">所在地区：</div>
       <div class="right_ipt select_address">
-        <input type="text" v-model="Allinput.input3" id="getArea" placeholder="请选择地区" readonly>
+        <input type="text" v-model="input3" id="getArea" placeholder="请选择地区" readonly>
+
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
+    <van-area
+      :area-list="areaList"
+      :columns-placeholder="['请选择', '请选择', '请选择']"
+      title="标题"
+    />
     <div class="common_box ipt_box">
       <div class="left_name">详细地址：</div>
       <div class="right_ipt">
-        <el-input v-model="Allinput.input4" placeholder="街道，门牌号等"></el-input>
+        <el-input v-model="input4" placeholder="街道，门牌号等"></el-input>
       </div>
     </div>
     <!--    <div class="common_box ipt_box">-->
@@ -46,34 +52,26 @@
       </div>
     </div>
   </div>
-  <!--    <button @click="choose">点我选择区域</button>-->
-  <!--    <p>您选择的城市为:<span>{{txt1}}</span><span>{{txt2}}</span><span>{{txt3}}</span></p>-->
-  <!--    <p class="pwrap" v-if="show">-->
-  <!--      <v-distpicker type="mobile" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea"></v-distpicker>-->
-  <!--    </p>-->
+<!--  <button @click="choose">点我选择区域</button>-->
+<!--  <p>您选择的城市为:<span>{{txt1}}</span><span>{{txt2}}</span><span>{{txt3}}</span></p>-->
+<!--  <p class="pwrap" v-if="show">-->
+<!--    <v-distpicker type="mobile" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea"></v-distpicker>-->
+<!--  </p>-->
 </template>
 
 <script>
-
-    // import VDistpicker from 'v-distpicker'
-    import $ from 'jquery'
-    // import $ from '../../../../static/js/jquery.min.js'
-    import getArea from '../../../../static/js/area.js'
-
     export default {
         name: "Add-address",
-        // components: {VDistpicker},
+
         data() {
             return {
-                Allinput: {
-                    input1: '',
-                    input2: '',
-                    input3: '',
-                    input4: '',
-                    // input5: '',
-                },
+                input1: '',
+                input2: '',
+                input3: '',
+                input4: '',
                 value1: false,
                 defaultArea: [],
+                show:false,
             }
         },
         computed: {
@@ -114,22 +112,21 @@
                 }
             },
             //地址选择
-            getArea: function () {
-                var Area = [];
-                if (this.$route.query.addressid == 'add') {
-                    console.log(321)
-                    Area = [21, 0, 0]
-                } else {
-                    Area = this.defaultArea == [] ? [21, 0, 0] : this.defaultArea
-                }
-
-                $('#getArea').getArea({
-                    defaultArea: Area,
-                    inpEle: '#getArea',
-                    normalArea: true
-                });
-
-            },
+            // getArea: function () {
+            //     var Area = [];
+            //     if (this.$route.query.addressid == 'add') {
+            //         console.log(321)
+            //         Area = [21, 0, 0]
+            //     } else {
+            //         Area = this.defaultArea == [] ? [21, 0, 0] : this.defaultArea
+            //     }
+            //     $('#getArea').getArea({
+            //         defaultArea: Area,
+            //         inpEle: '#getArea',
+            //         normalArea: true
+            //     });
+            //
+            // },
             //保存
             baocun: function (newValue) {
                 var flag = true;
@@ -194,27 +191,12 @@
                         });
                     }
                 }
+            },
 
-                // choose() {
-                //       this.show = !this.show
-                //     },
-                //     onChangeProvince(a) {
-                //       console.log(a)
-                //       this.txt1 = a.value + '-'
-                //     },
-                //     onChangeCity(a) {
-                //       console.log(a)
-                //       this.txt2 = a.value + '-'
-                //     },
-                //     onChangeArea(a) {
-                //       console.log(a)
-                //       this.txt3 = a.value
-                //       this.show = false
-                //     }
-                //   }
-            }
-            ,
+
+
         },
+
         mounted() {
             //这个是钩子函数
             //如果cartView函数要执行，必须先执行钩子函数
@@ -222,11 +204,12 @@
             //应该注意的是，使用mounted 并不能保证钩子函数中的 this.$el 在 document 中。为此还应该引入    Vue.nextTick/vm.$nextTick
             if (this.$route.query.addressid != 'add') {
                 console.log(this.$route.query.addressid)
-                this.getmsg()
+                // this.getmsg()
             }
-            this.getArea()
         },
-
+        updated() {
+            console.log(11)
+        }
     }
 </script>
 
