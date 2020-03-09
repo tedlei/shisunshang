@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/https.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/img/nav_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/classification/classification.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/mine/mine.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/my_cart/my_cart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/store/store.vue" afterDir="false" />
+    <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="第二次提交">
+      <change afterPath="$PROJECT_DIR$/src/components/children/Add-address/Add-address.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/Address/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/Address/Address.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/empty/empty.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/empty/empty.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/children/orderheader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/orderheader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/area.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/area.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +44,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1W9BAANigbJoXXZwYi2T85MhnzV" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="添加" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -52,7 +55,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vue-link-admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="nodejs_interpreter_path" value="$PROJECT_DIR$/../nodejs/node" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -126,6 +129,8 @@
       <workItem from="1578564806745" duration="222000" />
       <workItem from="1578619796368" duration="16905000" />
       <workItem from="1578705827513" duration="14002000" />
+      <workItem from="1583736033491" duration="2753000" />
+      <workItem from="1583740023027" duration="6406000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1578557799284</created>
@@ -208,5 +213,16 @@
     <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog/0.0.1920.1040@0.0.1920.1040" />
     <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog" />
     <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog/0.0.1920.1040@0.0.1920.1040" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/carousel-cp/carousel.vue</url>
+          <line>43</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

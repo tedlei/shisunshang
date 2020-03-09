@@ -25,6 +25,10 @@ a {
 }
 
 //公共样式
+.el-message i {
+  font-size: 0.18rem;
+}
+
 .common_box {
   background-color: #fff;
   padding: 10px;
@@ -35,7 +39,7 @@ a {
   padding-top: 43px;
 }
 
-.bottom_fixed{
+.bottom_fixed {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -84,16 +88,16 @@ a {
     width: 5px;
   }
 
-  /deep/ .el-checkbox__input.is-checked .el-checkbox__inner {
+  /deep/ .el-checkbox__input.is-checked .el-checkbox__inner, /deep/ .el-radio__input.is-checked .el-radio__inner {
     background-color: #009900;
     border-color: #009900;
   }
 
-  /deep/ .el-checkbox__inner:hover {
+  /deep/ .el-checkbox__inner:hover, /deep/ .el-radio__inner:hover{
     border-color: #009900;
   }
 
-  /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
+  /deep/ .el-checkbox__input.is-checked + .el-checkbox__label, /deep/ .el-radio__input.is-checked + .el-radio__label {
     color: inherit;
   }
 }

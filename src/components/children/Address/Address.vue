@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <ul class="address_list" v-show="addresslist != ''">
+    <ul class="address_list" v-show="addresslist != null">
       <li class="common_box" v-for="(item, index) in addresslist" :key="item.id">
         <div class="top">
           <div>
@@ -19,7 +19,7 @@
           </div>
           <div>
             <span class="edit">
-               <router-link :to="{path:'/mine/add-address',query:{addressid:item.id}}">
+               <router-link :to="{path:'/mine/Add-address',query:{addressid:item.id}}">
                 <i class="el-icon-edit-outline"></i>
                 <span>编辑</span>
               </router-link>
@@ -34,9 +34,9 @@
 
     </ul>
     <!--  添加  -->
-    <div class="bottom_fixed add_address" v-show="addresslist != ''">
-      <router-link :to="{path:'/mine/add-address',query:{addressid:'add'}}">
-        添加收获地址
+    <div class="bottom_fixed add_address" v-show="addresslist != null">
+      <router-link :to="{path:'/mine/Add-address',query:{addressid:'add'}}">
+        添加收货地址
       </router-link>
 
     </div>
@@ -52,7 +52,7 @@
   </span>
     </el-dialog>
     <!--  空  -->
-    <empty :isemptytype="isemptytype" v-show="addresslist == ''"></empty>
+    <empty :isemptytype="isemptytype" v-if="addresslist == null"></empty>
   </div>
 </template>
 
@@ -82,7 +82,7 @@
         const address = {method: 'get.address.list'}
         this.$post('/api/v1/address', address)
           .then((response) => {
-            console.log(response.data)
+            console.log(response)
             this.addresslist = response.data;
             this.$store.commit("user_address_msg", response.data);
             for (let i in response.data) {
@@ -98,7 +98,8 @@
       //批量删除
       DialogVisible: function (itemid) {
         this.dialogVisible = true;
-        this.deletid = itemid
+        this.deletid = itemid;
+        this.addresslist = null
       },
       delet: function () {
         const address = {method: 'del.address.list'};

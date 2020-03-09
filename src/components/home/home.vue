@@ -172,6 +172,15 @@
                 }).catch(function (error) {
                 console.log(error);
             });
+
+            //获取新闻列表
+            this.$post('/api/v1/district', {method:'get.district.list'})
+                .then((response) => {
+                    console.log(response.data)
+                    // this.news = response.data.items
+                }).catch(function (error) {
+                console.log(error);
+            });
         }
 
     }
