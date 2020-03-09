@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c08637-d875-43fe-af5d-ee94d1edde96" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/https.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/img/nav_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/classification/classification.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/mine/mine.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/my_cart/my_cart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/store/store.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/children/Address/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/Address/Address.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/add-address/add-address.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/children/child.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/child.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/children/empty/empty.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/empty/empty.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/children/orderheader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/children/orderheader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/layout.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/area.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/area.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,17 +26,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
-        <option value="JavaScript File" />
-        <option value="package.json" />
-        <option value="tsconfig.json" />
         <option value="SCSS File" />
-        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="PATH_TO_GIT" value="F:\Git\bin\git.exe" />
+    <option name="PATH_TO_GIT" value="D:\git\bin\git.exe" />
     <option name="PUSH_TAGS">
       <GitPushTagMode>
         <option name="argument" value="--tags" />
@@ -42,9 +43,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1W9BAANigbJoXXZwYi2T85MhnzV" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="添加" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -53,21 +52,30 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/新建临时文件" value="JSON" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="nodejs_interpreter_path" value="node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vue-link-admin" />
+    <property name="list.type.of.created.stylesheet" value="SCSS" />
+    <property name="nodejs_interpreter_path" value="$PROJECT_DIR$/../nodejs/node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\shop\static\js" />
-      <recent name="D:\shop\src" />
       <recent name="D:\shop\src\components\home" />
       <recent name="D:\shop\src\api" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="npm.dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -97,18 +105,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -130,29 +126,6 @@
       <workItem from="1578564806745" duration="222000" />
       <workItem from="1578619796368" duration="16905000" />
       <workItem from="1578705827513" duration="14002000" />
-      <workItem from="1578735253103" duration="37000" />
-      <workItem from="1578878129028" duration="22679000" />
-      <workItem from="1578968809446" duration="31000" />
-      <workItem from="1578968850085" duration="93000" />
-      <workItem from="1579139508375" duration="6391000" />
-      <workItem from="1579224374188" duration="720000" />
-      <workItem from="1579485025009" duration="10207000" />
-      <workItem from="1583131280558" duration="1165000" />
-      <workItem from="1583132777917" duration="297000" />
-      <workItem from="1583133091157" duration="1804000" />
-      <workItem from="1583134908691" duration="1794000" />
-      <workItem from="1583136805216" duration="1794000" />
-      <workItem from="1583138617779" duration="1795000" />
-      <workItem from="1583140490822" duration="1808000" />
-      <workItem from="1583142314532" duration="1841000" />
-      <workItem from="1583144171797" duration="486000" />
-      <workItem from="1583300614300" duration="1717000" />
-      <workItem from="1583302351140" duration="11922000" />
-      <workItem from="1583386219195" duration="14000" />
-      <workItem from="1583386493165" duration="378000" />
-      <workItem from="1583386975395" duration="306000" />
-      <workItem from="1583387329570" duration="14538000" />
-      <workItem from="1583474734510" duration="19788000" />
     </task>
     <task id="LOCAL-00001" summary="第一次提交">
       <created>1578557799284</created>
@@ -182,28 +155,7 @@
       <option name="project" value="LOCAL" />
       <updated>1578648380931</updated>
     </task>
-    <task id="LOCAL-00005" summary="第二次提交">
-      <created>1578735276283</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1578735276283</updated>
-    </task>
-    <task id="LOCAL-00006" summary="第二次提交">
-      <created>1583302238267</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1583302238267</updated>
-    </task>
-    <task id="LOCAL-00007" summary="第二次提交">
-      <created>1583320206198</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1583320206199</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,65 +184,29 @@
     <option name="LAST_COMMIT_MESSAGE" value="第二次提交" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583157738375" />
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-    <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1583157738376" />
-    <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-    <state x="575" y="113" key="CommitChangelistDialog2" timestamp="1583320204186">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583320204186" />
-    <state x="184" y="93" key="DiffContextDialog" timestamp="1583320192110">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="184" y="93" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583320192110" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1583302008118">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583302008118" />
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom" timestamp="1583426062919">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062919" />
-    <state width="1899" height="204" key="GridCell.Tab.0.center" timestamp="1583426062918">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
-    <state width="1899" height="204" key="GridCell.Tab.0.left" timestamp="1583426062918">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
-    <state width="1899" height="204" key="GridCell.Tab.0.right" timestamp="1583426062918">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="204" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583426062918" />
-    <state x="466" y="79" key="SettingsEditor" timestamp="1583302181090">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="466" y="79" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583302181090" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1583320223478">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583320223478" />
-    <state x="752" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583301645209">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="752" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1583301645209" />
-    <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog" timestamp="1583157738376" />
-    <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-    <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog" timestamp="1583157738376" />
-    <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583157738376" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/static/js/area.js</url>
-          <line>45</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" />
+    <state x="704" y="354" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="575" y="113" key="CommitChangelistDialog2" />
+    <state x="575" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" />
+    <state x="740" y="274" key="FileChooserDialogImpl" />
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" />
+    <state width="1898" height="277" key="GridCell.Tab.0.bottom" />
+    <state width="1898" height="277" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" />
+    <state width="1898" height="277" key="GridCell.Tab.0.center" />
+    <state width="1898" height="277" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" />
+    <state width="1898" height="277" key="GridCell.Tab.0.left" />
+    <state width="1898" height="277" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" />
+    <state width="1898" height="277" key="GridCell.Tab.0.right" />
+    <state width="1898" height="277" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" />
+    <state x="461" y="151" key="SettingsEditor" />
+    <state x="461" y="151" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" />
+    <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog" />
+    <state x="779" y="383" key="git4idea.rebase.GitRebaseDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog" />
+    <state x="677" y="327" key="jetbrains.nodejs.interpreters-dialog/0.0.1920.1040@0.0.1920.1040" />
   </component>
 </project>

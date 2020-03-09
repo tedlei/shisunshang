@@ -15,13 +15,7 @@
   export default {
     name: "child",
     components: {Orderheader, Headerback},
-    data(){
-      return{
-        doSomeThing:'',
-      }
-    },
     methods:{
-
 
     }
   }

@@ -40,6 +40,7 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 9;
 }
 
 .navigation {
@@ -68,10 +69,6 @@ a {
   }
 }
 
-
-.el-message i{
-  font-size: 0.16rem;
-}
 //多选框修改样式
 .mycheck {
   /deep/ .el-checkbox__inner {
