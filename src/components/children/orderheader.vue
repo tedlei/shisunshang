@@ -1,54 +1,68 @@
 <template>
   <header>
-    <i class="el-icon-arrow-left back" @click="$router.back(-1)" style="left: 5px;"></i>
+    <i class="el-icon-arrow-left back" @click="nobackss" style="left: 5px;" v-show="!noback"></i>
+    <i class="el-icon-arrow-left back" @click="$router.back(-1)" style="left: 5px;" v-show="noback"></i>
     <div class="center_name" v-show="!this.$route.query.searchid">
-      <span v-if="$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
-      <span v-else-if="this.$route.query.orderid != 4">{{$route.meta.title}}</span>
+      <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
+      <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
+      <span v-else-if="this.$route.query.orderid != 4">{{this.$route.meta.title}}</span>
       <span v-else>退款/售后</span>
-
     </div>
     <!--  搜索组件    -->
     <search v-show="this.$route.query.searchid" :dmsg='this.$route.query.searchid'></search>
     <!--    -->
     <i v-show="this.$route.query.searchid" class="el-icon-chat-dot-round" style="right: 5px"></i>
     <span class="news">
-      <span v-if="$route.meta.news">全部已读</span>
-      <span v-else-if="$route.meta.footprint && this.$route.query.printid != 3">编辑</span>
-      <span v-else-if="$route.meta.title == '微信营销广告'"><router-link to="/mine/articles">发布</router-link></span>
-      <span v-else-if="$route.meta.title == '发布文章'"><router-link to="/mine/articles">我的发布</router-link></span>
-      <span v-else-if="$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
+      <span v-if="this.$route.meta.news">全部已读</span>
+      <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3">编辑</span>
+      <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/articles">发布</router-link></span>
+      <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/articles">我的发布</router-link></span>
+      <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
     </span>
   </header>
 
 </template>
 
 <script>
-  import Header from "../header/header";
-  import Search from "../search/search";
-
-  export default {
-    name: "orderheader",
-    // msg: '首页',
-    components: {Search, Header},
-    data() {
-      return {
-        tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',]
-      }
-    },
-    methods: {
-        baocun:function (id) {
+    import Header from "../header/header";
+    import Search from "../search/search";
+    import Bus from '../../assets/js/bus';
+    export default {
+        name: "orderheader",
+        // msg: '首页',
+        components: {Search, Header},
+        data() {
+            return {
+                noback: true,
+                tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',],
+                record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
+            }
+        },
+        methods: {
+            baocun: function (id) {
+                var _this = this
+                _this.$store.commit('addressid', id);
+                setTimeout(function () {
+                    _this.$store.commit('clearaddressid');
+                }, 500)
+            },
+            nobackss:function () {
+                Bus.$emit('val', this.noback);
+                this.noback = false
+            }
+        },
+        mounted() {
+            // 用$on事件来接收参数
             var _this = this
-            _this.$store.commit('addressid', id);
-            setTimeout(function () {
-                _this.$store.commit('clearaddressid');
-            },500)
+            Bus.$on('val', (data) => {
+                if (data == 1726) {
+                    _this.noback = false
+                }
+                console.log(data)
+            })
+            console.log(this.$route)
         }
-    },
-    mounted() {
-
-      console.log(this.$route)
     }
-  }
 </script>
 
 <style scoped lang="scss">

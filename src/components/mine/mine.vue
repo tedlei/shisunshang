@@ -12,13 +12,13 @@
         </div>
         <div class="user_msg">
           <span class="user_name">
-            嘤嘤嘤
+            {{username}}
           </span>
           <span class="user_phone">
-            15320495341
+            {{phone}}
           </span>
           <div class="vip_lv">
-            <span>普通会员</span>
+            <span>{{level_name}}</span>
           </div>
         </div>
       </div>
@@ -37,13 +37,12 @@
     <div class="m_b_10 conmon_box my_zc">
       <div class="conmon_deader">
         <span class="left_text">我的资产</span>
-
       </div>
 
       <ul class="zc_lists clearfix">
-        <li v-for="(item,index) in zclists" :key="item.index">
-          <router-link to="">
-            <div style="margin-bottom: 10px">{{item.num}}</div>
+        <li v-for="(item,index) in zclists" :key="index">
+          <router-link :to="{path:'/mine/record',query:{recordid:index+1}}">
+            <div style="margin-bottom: 10px">{{ item.num | moneyFormat}}</div>
             <div>{{item.name}}</div>
           </router-link>
         </li>
@@ -122,153 +121,179 @@
 </template>
 
 <script>
-  import Axios from 'axios';
-  import Header from "../header/header";
-  import router from "../../router";
 
-  export default {
-    name: "mine",
-    components: {Header},
-    data() {
-      return {
-        msg: '我的',
-        gjlingk: ['/mine/ad','/mine/ad','/mine/ad','/mine/Address','/mine/usermsg','/mine/ad','/mine/ad','/mine/ad',],
-        headerlists: [
-          {
-            num: 0,
-            name: '收藏商品'
-          },
-          {
-            num: 0,
-            name: '关注店铺'
-          },
-          {
-            num: 0,
-            name: '浏览足迹'
-          },
-          {
-            num: 0,
-            name: '我的评价'
-          }],
-        zclists: [
-          {
-            num: 0,
-            name: '充值账户'
-          },
-          {
-            num: 0,
-            name: '补贴账户'
-          },
-          {
-            num: 0,
-            name: '推广账户'
-          },
-          {
-            num: 0,
-            name: '代理账户'
-          },
-          {
-            num: 0,
-            name: '签到现金'
-          },
-          {
-            num: 0,
-            name: '生态币账户'
-          },
-          {
-            num: 0,
-            name: '原始股账户'
-          },
-        ],
-        orderlists: [
-          {
-            img: 'dfk',
-            name: '待付款'
-          },
-          {
-            img: 'dfh',
-            name: '待发货'
-          },
-          {
-            img: 'dsh',
-            name: '待收货'
-          },
-          {
-            img: 'dpj',
-            name: '待评价'
-          },
-          {
-            img: 'sh',
-            name: '售后'
-          }],
-        gjlists: [
-          {
-            img: 'gj1',
-            name: '营销广告'
-          },
-          {
-            img: 'gj2',
-            name: '我的分享'
-          },
-          {
-            img: 'gj3',
-            name: '商品分享'
-          },
-          {
-            img: 'gj4',
-            name: '收货地址'
-          },
-          {
-            img: 'gj5',
-            name: '个人信息'
-          },
-          {
-            img: 'gj6',
-            name: '我的团队'
-          },
-          {
-            img: 'gj7',
-            name: '财务记录'
-          },
-          {
-            img: 'gj8',
-            name: '关于我们'
-          }],
-        gamelists: [
-          {
-            img: 'gj1',
-            name: 'QQ飞车',
-            text: '0元领一箱水果'
-          },
-          {
-            img: 'gj1',
-            name: 'QQ飞车',
-            text: '0元领一箱水果'
-          },
-          {
-            img: 'gj1',
-            name: 'QQ飞车',
-            text: '0元领一箱水果'
-          },
-          {
-            img: 'gj1',
-            name: 'QQ飞车',
-            text: '0元领一箱水果'
-          },
-        ]
-      }
-    },
+    import Header from "../header/header";
+    import '../../assets/js/filter'
 
-    // 监听,当路由发生变化的时候执行
-    watch: {
-      '$route': 'getPath'
-    },
-    methods: {
-      getPath() {
-        console.log(this.$route.path);
-      }
+    export default {
+        name: "mine",
+        components: {Header},
+        data() {
+            return {
+                msg: '我的',
+                username:'',
+                phone:'',
+                level_name:'',
+                gjlingk: ['/mine/ad', '/mine/ad', '/mine/share', '/mine/Address', '/mine/usermsg', '/mine/Myteam', '/mine/record', '/mine/ad',],
+                headerlists: [
+                    {
+                        num: 0,
+                        name: '收藏商品'
+                    },
+                    {
+                        num: 0,
+                        name: '关注店铺'
+                    },
+                    {
+                        num: 0,
+                        name: '浏览足迹'
+                    },
+                    {
+                        num: 0,
+                        name: '我的评价'
+                    }],
+                zclists: [
+                    {
+                        num: 11.565,
+                        name: '充值账户'
+                    },
+                    {
+                        num: 0,
+                        name: '补贴账户'
+                    },
+                    {
+                        num: 0,
+                        name: '推广账户'
+                    },
+                    {
+                        num: 0,
+                        name: '代理账户'
+                    },
+                    {
+                        num: 0,
+                        name: '签到现金'
+                    },
+                    {
+                        num: 0,
+                        name: '生态币账户'
+                    },
+                    // {
+                    //     num: 0,
+                    //     name: '原始股账户'
+                    // },
+                ],
+                orderlists: [
+                    {
+                        img: 'dfk',
+                        name: '待付款'
+                    },
+                    {
+                        img: 'dfh',
+                        name: '待发货'
+                    },
+                    {
+                        img: 'dsh',
+                        name: '待收货'
+                    },
+                    {
+                        img: 'dpj',
+                        name: '待评价'
+                    },
+                    {
+                        img: 'sh',
+                        name: '售后'
+                    }],
+                gjlists: [
+                    {
+                        img: 'gj1',
+                        name: '营销广告'
+                    },
+                    {
+                        img: 'gj2',
+                        name: '我的分享'
+                    },
+                    {
+                        img: 'gj3',
+                        name: '商品分享'
+                    },
+                    {
+                        img: 'gj4',
+                        name: '收货地址'
+                    },
+                    {
+                        img: 'gj5',
+                        name: '个人信息'
+                    },
+                    {
+                        img: 'gj6',
+                        name: '我的团队'
+                    },
+                    {
+                        img: 'gj7',
+                        name: '财务记录'
+                    },
+                    {
+                        img: 'gj8',
+                        name: '关于我们'
+                    }],
+                gamelists: [
+                    {
+                        img: 'gj1',
+                        name: 'QQ飞车',
+                        text: '0元领一箱水果'
+                    },
+                    {
+                        img: 'gj1',
+                        name: 'QQ飞车',
+                        text: '0元领一箱水果'
+                    },
+                    {
+                        img: 'gj1',
+                        name: 'QQ飞车',
+                        text: '0元领一箱水果'
+                    },
+                    {
+                        img: 'gj1',
+                        name: 'QQ飞车',
+                        text: '0元领一箱水果'
+                    },
+                ]
+            }
+        },
+
+        // 监听,当路由发生变化的时候执行
+        watch: {
+            '$route': 'getPath'
+        },
+        methods: {
+
+            //获取用户信息并存储
+            getuserinfo: function () {
+                let _this = this;
+                let userinfo = {
+                    method: 'get.user.info'
+                }
+                this.$post('/api/v1/user', userinfo)
+                    .then((response) => {
+                        for (var i in _this.zclists) {
+                            _this.zclists[i].num = Number(response.data['money' + (Number(i) + 1)])
+                        }
+                        _this.username = response.data.name;
+                        _this.phone = response.data.phone;
+                        _this.level_name = response.data.level_name;
+                        console.log(response)
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getPath() {
+                console.log(this.$route.path);
+            }
+        },
+        mounted() {
+            this.getuserinfo();
+        }
     }
-  }
 </script>
 
 <style lang="scss" scoped>

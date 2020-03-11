@@ -1,6 +1,6 @@
 <template>
   <div class="main_box">
-    <header ref="header_h">
+    <header ref="headerh">
       <i class="el-icon-full-screen"></i>
       <search :dmsg='msg'></search>
       <router-link to="/news">
@@ -11,8 +11,9 @@
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
       <el-aside width="100px">
         <ul class="left">
-          <li v-for="(item,index) in leftlists" :key="item.id" :class="{active:num==index}" @click="getNum(index)">
-            {{item}}
+          <li v-for="(item,leftindex) in typelist" :key="item.id" :class="{active:num==leftindex}"
+              @click="getNum(leftindex)">
+            {{item.cate_name}}
           </li>
         </ul>
       </el-aside>
@@ -20,12 +21,12 @@
       <el-container>
         <el-main>
           <img src="../../assets/img/banner2.png">
-          <div class="" v-for="(item,index) in typelist" :key="index">
-            <div class="ttl">{{item.typename}}</div>
+          <div class="" v-for="(item,index) in typelist[num].sub" :key="index">
+            <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
-              <li v-for="(goodsitem,goodsindex) in item.goods" :key="goodsindex">
-                <img :src="require(`../../assets/img/${goodsitem.img}.png`)">
-                <div>{{goodsitem.goodsname}}</div>
+              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex">
+                <!--                <img :src="require(`../../assets/img/${goodsitem.img}.png`)">-->
+                <div>{{goodsitem.cate_name}}</div>
               </li>
             </ul>
           </div>
@@ -37,117 +38,58 @@
 </template>
 
 <script>
-  import Axios from 'axios';
-  import Header from "../header/header";
-  import Search from "../search/search";
+    import Axios from 'axios';
+    import Header from "../header/header";
+    import Search from "../search/search";
 
-  export default {
-    name: "classification",
-    components: {Search, Header},
-    data() {
-      return {
-        msg: '分类',
-        height: '100px',
-        sss: 'sssss',
-        num: 0,
-        leftlists: ['生活家居', '生活家居', '生活家居'],
-        typelist: [
-          {
-            typename: '烹饪锅具、用具',
-            goods: [{
-              img: 'goods',
-              goodsname: '不锈钢汤锅'
-            },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              }]
-          },
-          {
-            typename: '烹饪锅具、用具',
-            goods: [{
-              img: 'goods',
-              goodsname: '不锈钢汤锅'
-            },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              }]
-          },
-          {
-            typename: '烹饪锅具、用具',
-            goods: [{
-              img: 'goods',
-              goodsname: '不锈钢汤锅'
-            },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              },
-              {
-                img: 'goods',
-                goodsname: '不锈钢汤锅'
-              }]
-          }
-        ]
-      }
-    },
-    methods: {
-      getNum: function (index) {
-        this.num = index;
-      }
-    },
-    mounted() {
-      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-      let topH = this.$refs.header_h.offsetHeight;
-      this.height = h - topH - 67.8 + 'px'
+    export default {
+        name: "classification",
+        components: {Search, Header},
+        data() {
+            return {
+                msg: '分类',
+                height: '100px',
+                sss: 'sssss',
+                num: 0,
+                typelist: [
+                    {
+                        sub:[]
+                    }
+                ],
+            }
+        },
+        methods: {
+            //    获取分类商品
+            getgoods: function () {
+                let _this = this;
+                let parms = {
+                    method: 'get.goods.category.list',
+                };
+                this.$post('/api/v1/goodsCategory', parms)
+                    .then((response) => {
 
+                        _this.typelist = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            //  切换商品
+            getNum: function (index) {
+                this.num = index;
+            },
+
+        },
+        mounted() {
+            setTimeout(()=> {
+                let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+                let topH = this.$refs.headerh.offsetHeight;
+                this.height = h - topH - 67.8 + 'px'
+            },100)
+            this.getgoods();
+
+
+        }
     }
-  }
 </script>
 
 <style lang="scss" scoped>
@@ -190,6 +132,7 @@
     }
   }
 
+
   section .el-main {
     padding: 10px;
 
@@ -207,12 +150,12 @@
 
     .goodslist li {
       float: left;
-      width: calc(33.3333% - 10px);
+      width: calc(33.3333% - 6.66666px);
       background-color: #fff;
       margin-bottom: 10px;
       font-weight: bold;
       padding: 20px 10px;
-      min-height: 13vh;
+      min-height: 14vh;
       display: flex;
       flex-direction: column;
       justify-content: center;

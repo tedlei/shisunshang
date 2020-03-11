@@ -90,7 +90,7 @@ export default new Router({
           meta: {title: '订单详情', showFooter: false, goods: false}
         },
         {
-          path: '/goodsdetails/share',
+          path: '/mine/share',
           name: 'share',
           component: resolve => require(['@/components/children/share/share'], resolve),
           meta: {title: '产品分享', showFooter: false, goods: false}
@@ -106,6 +106,12 @@ export default new Router({
           name: 'searchResult',
           component: resolve => require(['@/components/children/searchResult/searchResult'], resolve),
           meta: {title: '搜索结果', showFooter: false, goods: false}
+        },
+        {
+          path: '/Special-area',
+          name: 'Special-area',
+          component: resolve => require(['@/components/children/Special-area/Special-area'], resolve),
+          meta: {title: '专区', showFooter: false, goods: false}
         },
         {
           path: '/news',
@@ -160,6 +166,18 @@ export default new Router({
           name: 'Add-address',
           component: resolve => require(['@/components/children/Add-address/Add-address'], resolve),
           meta: {title: '添加收货地址', showFooter: false, goods: false,}
+        },
+        {
+          path: '/mine/record',
+          name: 'record',
+          component: resolve => require(['@/components/children/record/record'], resolve),
+          meta: {title: 'record', showFooter: false, goods: false}
+        },
+        {
+          path: '/mine/Myteam',
+          name: 'Myteam',
+          component: resolve => require(['@/components/children/Myteam/Myteam'], resolve),
+          meta: {title: '我的团队', showFooter: false, goods: false, Same: true}
         },
       ],
       meta: {title: '商品详情', showFooter: false}

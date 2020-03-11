@@ -2,7 +2,7 @@ import axios from 'axios';
 import Qs from 'qs'
 import { Message } from 'element-ui';
 
-const tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODM4MzIyNjIsIm5iZiI6MTU4MzIyNzQ2MiwiaWF0IjoxNTgzMjI3NDYyLCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiRWNvbG9neSJ9.F-YcDw4YI4nz2jP5xUqE8PVbrKMYcv35QwMMjvEY81o'
+const tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODQ0MzczMDAsIm5iZiI6MTU4MzgzMjUwMCwiaWF0IjoxNTgzODMyNTAwLCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiRWNvbG9neSJ9.1RmPozkut4A6-MQCPauNKG-F3JZALx_knpJonGsVoVw'
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = 'http://test.gj.wjeys.com';

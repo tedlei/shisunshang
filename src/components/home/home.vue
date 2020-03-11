@@ -41,7 +41,7 @@
       <el-row :gutter="20" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
-            <router-link :to="{path:'/classification',query:item.url}">
+            <router-link :to="{path:'/Special-area',query:item.url}">
               <img :src="item.img">
               <p>{{item.cate_name}}</p>
             </router-link>

@@ -65,6 +65,7 @@
     padding: 8px;
     z-index: 9999;
     border-top: 1px solid #f2f2f2;
+    height: 0.7rem;
     span{
       color: #999999;
     }

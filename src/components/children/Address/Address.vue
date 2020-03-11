@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" :style="addresslist== null ? {paddingBottom:0}:''">
     <ul class="address_list" v-show="addresslist != null">
       <li class="common_box" v-for="(item, index) in addresslist" :key="item.id">
         <div class="top">
@@ -13,7 +13,8 @@
         </div>
         <div class="bottom">
           <div class="mycheck">
-            <el-radio class="all" @change="handleCheckAllChange(index)" v-model="radio" :label="index"
+            <el-radio class="all" @change="handleCheckAllChange(index,item.id)"
+                      v-model="radio = item.default == 0 ? index+1 : index" :label="index"
                       style="margin-right: 10px">默认地址
             </el-radio>
           </div>
@@ -57,76 +58,90 @@
 </template>
 
 <script>
-  import Empty from "../empty/empty";
+    import Empty from "../empty/empty";
 
-  export default {
-    name: "Address",
-    components: {Empty},
-    data() {
-      return {
-        check: false,
-        dialogVisible: false,
-        isemptytype: 'address',
-        deletid: '',
-        addresslist: '',
-        radio: ''
-      }
-    },
-    methods: {
-      handleCheckAllChange(val) {
-
-        this.radio = val
-      },
-      //获取地址列表
-      getaddress: function () {
-        const address = {method: 'get.address.list'}
-        this.$post('/api/v1/address', address)
-          .then((response) => {
-            console.log(response)
-            this.addresslist = response.data;
-            this.$store.commit("user_address_msg", response.data);
-            for (let i in response.data) {
-              if (response.data[i].default == 1) {
-                console.log(i)
-                this.radio = Number(i)
-              }
+    export default {
+        name: "Address",
+        components: {Empty},
+        data() {
+            return {
+                check: false,
+                dialogVisible: false,
+                isemptytype: 'address',
+                deletid: '',
+                addresslist: '',
+                radio: ''
             }
-          }).catch(function (error) {
-          console.log(error);
-        })
-      },
-      //批量删除
-      DialogVisible: function (itemid) {
-        this.dialogVisible = true;
-        this.deletid = itemid;
-        this.addresslist = null
-      },
-      delet: function () {
-        const address = {method: 'del.address.list'};
-        address.id = [this.deletid]
-        this.$post('/api/v1/address', address)
-          .then((response) => {
-            this.dialogVisible = false
-            this.$message({
-              message: '删除成功!',
-              type: 'success',
-            });
-            for (let i in this.addresslist) {
-              if (this.addresslist[i].id == this.deletid) {
-                this.addresslist.splice(i, 1)
-              }
-            }
-            console.log(this.addresslist)
-          }).catch(function (error) {
-          console.log(error);
-        });
-      }
+        },
+        methods: {
 
-    },
-    mounted() {
-      this.getaddress()
+            //获取地址列表
+            getaddress: function () {
+                const address = {method: 'get.address.list'}
+                this.$post('/api/v1/address', address)
+                    .then((response) => {
+                        this.addresslist = response.data;
+                        this.$store.commit("user_address_msg", response.data);
+                        for (let i in response.data) {
+                            if (response.data[i].default == 1) {
+                                this.radio = Number(i)
+                            }
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            //设置为默认
+            handleCheckAllChange(val, id) {
+                console.log(val)
+                for (let i in this.$store.state.user_address_msg) {
+                    if (val == Number(i)) {
+                        this.$store.state.user_address_msg[i].default = 1
+                    } else {
+                        this.$store.state.user_address_msg[i].default = 0
+                    }
+                }
+                const address = {method: 'set.address.default', id: id}
+                this.$post('/api/v1/address', address)
+                    .then((response) => {
+                        this.radio = val
+                        this.radio = true
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            //批量删除
+            DialogVisible: function (itemid) {
+                this.dialogVisible = true;
+                this.deletid = itemid;
+            },
+            delet: function () {
+                const address = {method: 'del.address.list'};
+                address.id = this.deletid
+                this.$post('/api/v1/address', address)
+                    .then((response) => {
+                        this.dialogVisible = false
+                        this.$message({
+                            message: '删除成功!',
+                            type: 'success',
+                        });
+                        for (let i in this.addresslist) {
+                            if (this.addresslist[i].id == this.deletid) {
+                                this.addresslist.splice(i, 1)
+                            }
+                        }
+                        console.log(this.addresslist)
+                        this.addresslist = this.addresslist.length == 0 ? null : this.addresslist
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+        },
+        mounted() {
+            this.getaddress()
+        }
     }
-  }
 </script>
 
 <style scoped lang="scss">
