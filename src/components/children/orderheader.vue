@@ -48,7 +48,7 @@
             },
             nobackss:function () {
                 Bus.$emit('val', this.noback);
-                this.noback = false
+                this.noback = true
             }
         },
         mounted() {
