@@ -63,7 +63,7 @@
     bottom: 0;
     background-color: #fff;
     padding: 8px;
-    z-index: 9999;
+    z-index: 99;
     border-top: 1px solid #f2f2f2;
     height: 0.7rem;
     span{

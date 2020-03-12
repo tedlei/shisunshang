@@ -5,7 +5,9 @@
         <i class="el-icon-location-outline"></i>
         <span>重庆</span>
       </div>
-      <search :dmsg="msg"></search>
+      <div @click="opensearch" style="width: 100%">
+        <search :dmsg='msg'></search>
+      </div>
       <i class="el-icon-plus"></i>
     </header>
 
@@ -47,82 +49,87 @@
         </el-main>
       </el-container>
     </el-container>
-
+    <searchResult></searchResult>
 
   </div>
 
 </template>
 
 <script>
-  import Axios from 'axios';
-  import Header from "../header/header";
-  import Search from "../search/search";
+    import Axios from 'axios';
+    import Header from "../header/header";
+    import Search from "../search/search";
+    import Bus from "../../assets/js/bus";
+    import SearchResult from "../children/searchResult/searchResult";
 
-  export default {
-    name: "business",
-    components: {Search, Header},
-    data() {
-      return {
-        msg: '附近商家',
-        height: '100px',
-        num: 0,
-        leftlists: ['全部', '品质购物', '品质购物'],
-        cpylist: [{
-          img: 'company',
-          title: '重庆安利科技技术有限公司',
-          address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-          phone: '023-6345645',
-          long: '3.14公里'
+    export default {
+        name: "business",
+        components: {SearchResult, Search, Header},
+        data() {
+            return {
+                msg: '附近商家',
+                height: '100px',
+                num: 0,
+                leftlists: ['全部', '品质购物', '品质购物'],
+                cpylist: [{
+                    img: 'company',
+                    title: '重庆安利科技技术有限公司',
+                    address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                    phone: '023-6345645',
+                    long: '3.14公里'
+                },
+                    {
+                        img: 'company',
+                        title: '重庆安利科技技术有限公司',
+                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                        phone: '023-6345645',
+                        long: '3.14公里'
+                    },
+                    {
+                        img: 'company',
+                        title: '重庆安利科技技术有限公司',
+                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                        phone: '023-6345645',
+                        long: '3.14公里'
+                    },
+                    {
+                        img: 'company',
+                        title: '重庆安利科技技术有限公司',
+                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                        phone: '023-6345645',
+                        long: '3.14公里'
+                    },
+                    {
+                        img: 'company',
+                        title: '重庆安利科技技术有限公司',
+                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                        phone: '023-6345645',
+                        long: '3.14公里'
+                    },
+                    {
+                        img: 'company',
+                        title: '重庆安利科技技术有限公司',
+                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                        phone: '023-6345645',
+                        long: '3.14公里'
+                    },]
+            }
         },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },]
-      }
-    },
-    methods: {
-      getNum: function f(index) {
-        this.num = index;
-      }
-    },
-    mounted() {
-      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-      let topH = this.$refs.header_h.offsetHeight;
-      this.height = h - topH - 67.8 + 'px'
+        methods: {
+            opensearch: function () {
+                Bus.$emit('val', true)
+            },
+            getNum: function f(index) {
+                this.num = index;
+            }
+        },
+        mounted() {
+            let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+            let topH = this.$refs.header_h.offsetHeight;
+            this.height = h - topH - 67.8 + 'px'
 
+        }
     }
-  }
 </script>
 
 <style lang="scss" scoped>

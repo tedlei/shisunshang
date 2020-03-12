@@ -16,7 +16,10 @@
           </el-dropdown-menu>
         </el-dropdown>
         <!--  搜索组件    -->
-        <search :dmsg='msg'></search>
+        <div @click="opensearch" style="width: 100%">
+          <search :dmsg='msg'></search>
+        </div>
+
         <!--扫码-->
         <div class="sao">
           <i class="el-icon-full-screen"></i>
@@ -41,7 +44,7 @@
       <el-row :gutter="20" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
-            <router-link :to="{path:'/Special-area',query:item.url}">
+            <router-link :to="{path:'/Special-area',query:{typeid:item.module}}">
               <img :src="item.img">
               <p>{{item.cate_name}}</p>
             </router-link>
@@ -82,6 +85,9 @@
     <div>
       没得更多了
     </div>
+    <searchResult></searchResult>
+
+
   </div>
 
 
@@ -91,14 +97,17 @@
     //1.先使用import导入你要在该组件中使用的子组件
     import Carousel from '../carousel-cp/carousel';
     import Search from "../search/search";
+    import SearchResult from "../children/searchResult/searchResult";
+    import Bus from "../../assets/js/bus";
 
     export default {
         name: "home",
         //2.然后,在components中写入子组件
-        components: {Search, Carousel},
+        components: {SearchResult, Search, Carousel},
         data() {
             return {
                 msg: '首页',
+
                 name: ['顾客区', '会员区', '零售区', '商家区', '签到区', '顾客区', '会员区', '零售区', '商家区', '签到区',],
                 categorylist: [],
                 bannermsg: [],
@@ -134,7 +143,11 @@
                 news: [],
             }
         },
-        methods: {},
+        methods: {
+            opensearch:function () {
+                Bus.$emit('val', true)
+            }
+        },
         mounted() {
             const ad_data = {method: 'get.ad.banner.list'},
                 category = {method: 'get.category.list'},
@@ -173,14 +186,6 @@
                 console.log(error);
             });
 
-            //获取新闻列表
-            this.$post('/api/v1/district', {method:'get.district.list'})
-                .then((response) => {
-                    console.log(response.data)
-                    // this.news = response.data.items
-                }).catch(function (error) {
-                console.log(error);
-            });
         }
 
     }
@@ -240,18 +245,6 @@
       width: 20px;
     }
   }
-
-  /*.banner /deep/ .el-carousel__item{*/
-
-  /*}*/
-
-  /*.banner /deep/ .el-carousel__item.is-active {*/
-  /*  transform:translateX(50%) scale(1.8) !important;*/
-  /*}*/
-
-  /*.banner .el-carousel--horizontal{*/
-  /*  overflow: visible;*/
-  /*}*/
 
   .el-carousel__indicators--vertical {
     display: none !important;

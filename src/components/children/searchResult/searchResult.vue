@@ -1,70 +1,114 @@
 <template>
   <div>
-    <div class="navigation">
-      <ul class="clearfix">
-        <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
-      </ul>
-    </div>
-    <div class="common_box content">
-      <el-row class="introduce_img" :gutter="10">
-        <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-          <div class="grid-content bg-purple">
-            <img src="../../../assets/img/company1.png">
-            <div class="msg">
-              <div class="text">
-                <span class="vip">会员区</span>
-                {{item.text}}
+    <van-popup
+      v-model="tans"
+      position="left"
+      :style="{ height: '100%' }"
+    >
+      <header>
+        <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
+        <search :tmsg='tan' :dmsg="true"></search>
+      </header>
+
+      <div class="navigation">
+        <ul class="clearfix">
+          <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
+        </ul>
+      </div>
+      <div class="common_box content">
+        <el-row class="introduce_img" :gutter="10">
+          <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
+            <div class="grid-content bg-purple">
+              <img src="../../../assets/img/company1.png">
+              <div class="msg">
+                <div class="text">
+                  <span class="vip">会员区</span>
+                  {{item.text}}
+                </div>
+                <div class="yishou">已售：{{item.num}}件</div>
+                <div class="clo-g price">￥{{item.price}}</div>
               </div>
-              <div class="yishou">已售：{{item.num}}件</div>
-              <div class="clo-g price">￥{{item.price}}</div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+          </el-col>
+        </el-row>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "searchResult",
-    data() {
-      return {
-        num: 0,
-        navItems: ['全部', '茶叶', '副食品', '水果', '补品', '日用品'],
-        list: [
-          {
-            text: '富锦年货特产坚果零食大礼包',
-            num: 323,
-            price: 268.00
-          },
-          {
-            text: '富锦年货特产坚果零食大礼包',
-            num: 323,
-            price: 268.00
-          },
-          {
-            text: '富锦年货特产坚果零食大礼包',
-            num: 323,
-            price: 268.00
-          },
-          {
-            text: '富锦年货特产坚果零食大礼包',
-            num: 323,
-            price: 268.00
-          },
-        ]
-      }
-    },
-    methods: {
-      getNum: function (index) {
-        this.num = index;
-      }
+    import Search from "../../search/search";
+    import Header from "../../header/header";
+    import Bus from "../../../assets/js/bus";
+
+    export default {
+        name: "searchResult",
+        components: {Header, Search},
+        data() {
+            return {
+                num: 0,
+                tan: 'tan',
+                tans:false,
+                navItems: ['全部', '茶叶', '副食品', '水果', '补品', '日用品'],
+                list: [
+                    {
+                        text: '富锦年货特产坚果零食大礼包',
+                        num: 323,
+                        price: 268.00
+                    },
+                    {
+                        text: '富锦年货特产坚果零食大礼包',
+                        num: 323,
+                        price: 268.00
+                    },
+                    {
+                        text: '富锦年货特产坚果零食大礼包',
+                        num: 323,
+                        price: 268.00
+                    },
+                    {
+                        text: '富锦年货特产坚果零食大礼包',
+                        num: 323,
+                        price: 268.00
+                    },
+                ]
+            }
+        },
+        methods: {
+            //弹窗消失
+            Popup: function () {
+                this.tans = false
+                console.log(this)
+            },
+            getNum: function (index) {
+                this.num = index;
+            }
+        },
+        mounted() {
+            Bus.$on('val', (data) => {
+                if (data == true) {
+                    this.tans = true
+                }
+            })
+        }
     }
-  }
 </script>
 
 <style scoped lang="scss">
+  header {
+    display: flex;
+    align-items: center;
+    padding: 0.1rem;
+
+    i {
+      font-size: 0.28rem;
+    }
+
+    .van-search {
+      margin-left: 10px;
+    }
+  }
+
   .navigation {
     overflow-x: scroll;
     background-color: #fff;
@@ -126,4 +170,5 @@
 
     }
   }
+
 </style>

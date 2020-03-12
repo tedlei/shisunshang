@@ -11,6 +11,7 @@
         :finished="finished"
         finished-text="没有更多了"
         :error.sync="error"
+        :immediate-check="false"
         error-text="请求失败，点击重新加载"
         @load="onLoad"
       >
@@ -60,13 +61,12 @@
                 };
                 this.$post('/api/v1/userMoney', Money)
                     .then((response) => {
-                        console.log(response)
                         this.list = this.list.concat(response.data.items)
                         // 加载状态结束
                         this.loading = false;
                         this.pages += response.data.items.length;
                         // 数据全部加载完成
-                        if (response.data.items.length < 1) {
+                        if (response.data.items.length < 20) {
                             this.finished = true;
                         }
                     }).catch(function (error) {
@@ -77,7 +77,6 @@
             onLoad() {
                 // 异步更新数据
                 setTimeout(() => {
-
                     this.getMoney();
                 }, 1000);
             },

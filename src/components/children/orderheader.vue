@@ -2,16 +2,18 @@
   <header>
     <i class="el-icon-arrow-left back" @click="nobackss" style="left: 5px;" v-show="!noback"></i>
     <i class="el-icon-arrow-left back" @click="$router.back(-1)" style="left: 5px;" v-show="noback"></i>
-    <div class="center_name" v-show="!this.$route.query.searchid">
+    <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
       <span v-else-if="this.$route.query.orderid != 4">{{this.$route.meta.title}}</span>
       <span v-else>退款/售后</span>
     </div>
     <!--  搜索组件    -->
-    <search v-show="this.$route.query.searchid" :dmsg='this.$route.query.searchid'></search>
+    <search v-show="this.$route.name == 'Special-area'"
+            :dmsg='true' :style="this.$route.name == 'Special-area'? 'padding: 0 20px':'padding:0 0 0 20px'"></search>
     <!--    -->
-    <i v-show="this.$route.query.searchid" class="el-icon-chat-dot-round" style="right: 5px"></i>
+    <i v-show="this.$route.name == 'Special-area'" class="el-icon-chat-dot-round" style="right: 5px"></i>
+
     <span class="news">
       <span v-if="this.$route.meta.news">全部已读</span>
       <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3">编辑</span>
@@ -27,6 +29,7 @@
     import Header from "../header/header";
     import Search from "../search/search";
     import Bus from '../../assets/js/bus';
+
     export default {
         name: "orderheader",
         // msg: '首页',
@@ -46,7 +49,7 @@
                     _this.$store.commit('clearaddressid');
                 }, 500)
             },
-            nobackss:function () {
+            nobackss: function () {
                 Bus.$emit('val', this.noback);
                 this.noback = true
             }
@@ -55,12 +58,11 @@
             // 用$on事件来接收参数
             var _this = this
             Bus.$on('val', (data) => {
-                if (data == 1726) {
+                if (data == true) {
                     _this.noback = false
                 }
-                console.log(data)
             })
-            console.log(this.$route)
+            console.log(_this.$route)
         }
     }
 </script>
@@ -70,9 +72,9 @@
     font-size: 0.16rem;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 10px 15px;
     background-color: #fff;
-    position: relative;
     position: fixed;
     width: 100%;
     z-index: 9;
@@ -91,8 +93,5 @@
       right: 5px;
     }
 
-    /deep/ .el-input {
-      margin: 0 30px;
-    }
   }
 </style>

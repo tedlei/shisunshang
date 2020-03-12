@@ -4,7 +4,7 @@
     <!--  足迹，收藏，店铺  -->
     <div v-show="$route.query.printid != 3">
       <div class="footprint" v-for="(item,index) in goodslist" :key="index">
-        <el-checkbox v-model="checkitem" :key="index" v-show="false"></el-checkbox>
+        <el-checkbox class="mycheck" v-model="checkitem" :key="index" v-show="false" @click="handleCheckedChange"></el-checkbox>
         <div class="img_box">
           <img :src="require(`../../../assets/img/${item.goodsimg}.png`)">
         </div>
@@ -86,8 +86,9 @@
     components: {Empty},
     data() {
       return {
-        checkitem: false,
-        checkAll: false,
+          checkAll: false,
+          checkitem: [],
+          isIndeterminate: true,
 
         goodslist: [
           {
@@ -152,8 +153,11 @@
       }
     },
     methods: {
-      handleCheckAllChange: function (e) {
-
+        //复选框
+        handleCheckedChange: function (value) {
+            let checkedCount = value.length;
+            this.checkAll = checkedCount === this.cities.length;
+            this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
         this.checkitem = this.checkAll
       }
     },

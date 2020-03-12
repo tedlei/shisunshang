@@ -5,12 +5,12 @@
         <img src="../../../assets/img/icon3.png">
         <span style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%">我的团队</span>
       </div>
-      <div class="common_box totalperson" @click="aaaa">
+      <div class="common_box totalperson">
         团队总人数:{{team_num}}人
       </div>
       <div>
         <ul class="team_list">
-          <li v-for="(item,index) in msglists" :key="index">
+          <li v-for="(item,index) in msglists" :key="index" @click="openteam(item.id)">
             <div class="left">{{item.name}}:{{item.num}}人</div>
             <div class="right">
               <span>查看</span>
@@ -30,13 +30,18 @@
           <td>推荐人</td>
         </tr>
         <tr v-for="(item,index) in team_dtllists" :key="index">
-          <td>{{item.img}}</td>
+          <td>
+            <div class="head">
+              <img :src="item.portrait" v-if="item.portrait!=null">
+              <img :src="require(`../../../assets/img/news_head.png`)" v-else>
+            </div>
+          </td>
           <td>
             <div>{{item.name}}</div>
             <div>{{item.phone}}</div>
           </td>
-          <td>{{item.time}}</td>
-          <td>{{item.tjr}}</td>
+          <td>{{item.add_time}}</td>
+          <td>{{item.referee_name == null ? '-':item.referee_name}}</td>
         </tr>
       </table>
     </div>
@@ -51,60 +56,48 @@
         data() {
             return {
                 look: true,
-                team_num:1,
+                team_num: 1,
                 msglists: [],
-                team_dtllists: [
-                    {
-                        img: '',
-                        name: '嘤嘤嘤',
-                        phone: 15320495341,
-                        time: '2020.1.19',
-                        tjr: '你妹',
-                    },
-                    {
-                        img: '',
-                        name: '嘤嘤嘤',
-                        phone: 15320495341,
-                        time: '2020.1.19',
-                        tjr: '你妹',
-                    },
-                    {
-                        img: '',
-                        name: '嘤嘤嘤',
-                        phone: 15320495341,
-                        time: '2020.1.19',
-                        tjr: '你妹',
-                    },
-                ]
+                team_dtllists: []
             }
         },
         methods: {
             getteam: function () {
                 let _this = this,
                     teammsg = {
-                        method:'get.user.team.count'
+                        method: 'get.user.team.count'
                     };
                 this.$post('/api/v1/UserTeam', teammsg)
                     .then((response) => {
                         _this.team_num = response.data.team_num;
                         _this.msglists = response.data.items
-                        console.log(response)
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
-            aaaa:function () {
-                this.look = false
-                Bus.$emit('val', this.team_num)
+            //查看
+            openteam: function (e) {
+                let _this = this,
+                    teammsg = {
+                        method: 'get.user.team.list',
+                        level: e
+                    };
+                this.$post('/api/v1/UserTeam', teammsg)
+                    .then((response) => {
+                        _this.team_dtllists = response.data.items
+                        _this.look = false
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                Bus.$emit('val', true)
             }
         },
         mounted() {
             var _this = this
             Bus.$on('val', (data) => {
-                if (data == false){
-                    this.look = true
+                if (data == false) {
+                    _this.look = true
                 }
-                console.log(data)
             })
             this.getteam();
         }
@@ -142,13 +135,19 @@
         padding: 15px;
         background-color: #fff;
         border-bottom: 1px solid #f2f2f2;
+        .head{
+          img{
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 50%;
+          }
+        }
       }
 
       tr.headtr {
         td {
           background-color: #009900;
         }
-
         color: #fff;
 
       }

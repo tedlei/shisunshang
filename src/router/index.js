@@ -69,7 +69,13 @@ export default new Router({
           path: '',
           name: 'goodsdetails',
           component: Goodsdetails,
-          meta: {goods: true}
+          meta: {title: '商品详情', goods: true}
+        },
+        {
+          path: '/goodslist',
+          name: 'goodslist',
+          component: resolve => require(['@/components/children/goodslist/goodslist'], resolve),
+          meta: {title: '商品列表', goods: false, showFooter: false,}
         },
         {
           path: '/goodsdetails/makeorder',
@@ -101,12 +107,7 @@ export default new Router({
           component: resolve => require(['@/components/children/StoreMsg/StoreMsg'], resolve),
           meta: {title: '商家信息', showFooter: false, goods: false}
         },
-        {
-          path: '/searchResult',
-          name: 'searchResult',
-          component: resolve => require(['@/components/children/searchResult/searchResult'], resolve),
-          meta: {title: '搜索结果', showFooter: false, goods: false}
-        },
+
         {
           path: '/Special-area',
           name: 'Special-area',

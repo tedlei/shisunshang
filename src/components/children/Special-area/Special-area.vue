@@ -1,27 +1,36 @@
 <template>
   <div>
-    <div class="navigation">
-      <ul class="clearfix">
-        <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
-      </ul>
-    </div>
-    <div class="common_box content">
-      <el-row class="introduce_img" :gutter="10">
-        <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-          <div class="grid-content bg-purple">
-            <img src="../../../assets/img/company1.png">
-            <div class="msg">
-              <div class="text">
-                <span class="vip">会员区</span>
-                {{item.text}}
-              </div>
-              <div class="yishou">已售：{{item.num}}件</div>
-              <div class="clo-g price">￥{{item.price}}</div>
-            </div>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+    <van-tabs class="nav" v-model="active" animated @click="qiehuan">
+      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name" >
+        <div class="common_box">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            :error.sync="error"
+            :immediate-check="false"
+            error-text="请求失败，点击重新加载"
+            @load="onLoad"
+          >
+            <el-row class="introduce_img" :gutter="10">
+              <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
+                <div class="grid-content bg-purple">
+                  <img :src="item.imgsrc">
+                  <div class="msg">
+                    <div class="text">
+                      <span class="vip">{{zhuan[$route.query.typeid]}}</span>
+                      {{item.name}}
+                    </div>
+                    <div class="yishou">已售：{{item.xiaoliang}}件</div>
+                    <div class="clo-g price">￥{{item.price}}</div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </van-list>
+        </div>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -31,62 +40,109 @@
         data() {
             return {
                 num: 0,
-                navItems: ['全部', '茶叶', '副食品', '水果', '补品', '日用品'],
-                list: [
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                ]
+                loading: false,
+                finished: false,
+                error: false,
+                pages: 0,
+                flag:false,
+                navItems: [],
+                list: [],
+                defaultcateid:'',
+                cateidarry:[],
+                active:'',
+                zhuan:{vip:'会员区',customer:'顾客区',retail:'零售区',shop:'商家区'}
             }
         },
         methods: {
-            getNum: function (index) {
-                this.num = index;
-            }
+            //获取导航
+            getgoods: function () {
+                let _this = this;
+                let parms = {
+                    method: 'get.goods.category.list',
+                };
+                this.$post('/api/v1/goodsCategory', parms)
+                    .then((response) => {
+                        _this.navItems = response.data;
+                        _this.defaultcateid = response.data[0].id;
+                        for (var i in response.data){
+                            _this.cateidarry.push(response.data[i].id)
+                        }
+                        _this.getlist()
+
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            //点击切换
+            qiehuan(name, title){
+                this.flag = true
+                this.defaultcateid = this.cateidarry[name];
+                this.getlist();
+            },
+            //获取商品
+            async getlist() {
+                let _this = this,
+                    parms = {
+                        method: 'get.goods.map.list',
+                        map: _this.$route.query.typeid,
+                        page: this.pages,
+                        page_size: 20,
+                        cate_id: _this.defaultcateid
+                    };
+                this.$post('/api/v1/goods', parms)
+                    .then((response) => {
+                        if (_this.flag){
+                            this.list = response.data
+                        }else {
+                            this.list = this.list.concat(response.data)
+                        }
+                        // 加载状态结束
+                        this.loading = false;
+                        this.pages += response.data.length;
+                        // 数据全部加载完成
+                        if (response.data.length < 20) {
+                            this.finished = true;
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+
+            //下拉加载
+            onLoad() {
+                // 异步更新数据
+                setTimeout(() => {
+                    this.flag = false
+                    this.getlist();
+                }, 1000);
+            },
+        },
+        mounted() {
+            // this.getlist();
+            this.getgoods();
         }
     }
 </script>
 
 <style scoped lang="scss">
-  .navigation {
-    overflow-x: scroll;
-    background-color: #fff;
-    top: 56px;
+  .nav {
+    top: 55px;
 
-    ul {
-      width: max-content;
-
-      li {
-        padding: 18px 20px;
-        width: auto;
-      }
+    /deep/ .van-tabs__wrap {
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 999;
     }
-  }
 
-  .common_box {
-    background: none;
-    margin-bottom: 0;
-  }
+    /deep/ .van-tabs__content {
+      padding-top: 44px;
+      text-align: left;
+    }
 
-  .content {
-    padding-top: 127px;
+    /deep/ .van-tabs__line {
+      background-color: #009900;
+    }
 
     .lists {
       margin-bottom: 10px;
@@ -126,4 +182,10 @@
 
     }
   }
+
+  .common_box {
+    background: none;
+    margin-bottom: 0;
+  }
+
 </style>

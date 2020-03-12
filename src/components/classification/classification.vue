@@ -2,7 +2,10 @@
   <div class="main_box">
     <header ref="headerh">
       <i class="el-icon-full-screen"></i>
-      <search :dmsg='msg'></search>
+      <div @click="opensearch" style="width: 100%">
+        <search :dmsg='msg'></search>
+      </div>
+
       <router-link to="/news">
         <i class="el-icon-chat-dot-round"></i>
       </router-link>
@@ -24,8 +27,8 @@
           <div class="" v-for="(item,index) in typelist[num].sub" :key="index">
             <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
-              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex">
-                <!--                <img :src="require(`../../assets/img/${goodsitem.img}.png`)">-->
+              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(item.id)">
+                <img :src="goodsitem.icon">
                 <div>{{goodsitem.cate_name}}</div>
               </li>
             </ul>
@@ -33,6 +36,7 @@
         </el-main>
       </el-container>
     </el-container>
+    <searchResult></searchResult>
   </div>
 
 </template>
@@ -41,10 +45,11 @@
     import Axios from 'axios';
     import Header from "../header/header";
     import Search from "../search/search";
-
+    import Bus from "../../assets/js/bus";
+    import SearchResult from "../children/searchResult/searchResult";
     export default {
         name: "classification",
-        components: {Search, Header},
+        components: {SearchResult, Search, Header},
         data() {
             return {
                 msg: '分类',
@@ -53,12 +58,15 @@
                 num: 0,
                 typelist: [
                     {
-                        sub:[]
+                        sub: []
                     }
                 ],
             }
         },
         methods: {
+            opensearch: function () {
+                Bus.$emit('val', true)
+            },
             //    获取分类商品
             getgoods: function () {
                 let _this = this;
@@ -67,7 +75,6 @@
                 };
                 this.$post('/api/v1/goodsCategory', parms)
                     .then((response) => {
-
                         _this.typelist = response.data
                     }).catch(function (error) {
                     console.log(error);
@@ -77,17 +84,20 @@
             getNum: function (index) {
                 this.num = index;
             },
+            //    跳转
+            todetile: function (e) {
+                this.$router.push({path: '/goodslist', query: {id: e}})
+                console.log(e)
+            }
 
         },
         mounted() {
-            setTimeout(()=> {
+            setTimeout(() => {
                 let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
                 let topH = this.$refs.headerh.offsetHeight;
-                this.height = h - topH - 67.8 + 'px'
-            },100)
-            this.getgoods();
-
-
+                this.height = h - topH - 70 + 'px'
+            }, 100)
+            this.getgoods()
         }
     }
 </script>
