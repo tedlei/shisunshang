@@ -151,10 +151,22 @@ export default new Router({
           meta: {title: '微信营销广告', showFooter: false, goods: false,}
         },
         {
-          path: '/mine/articles',
+          path: '/mine/ad/addetails',
+          name: 'addetails',
+          component: resolve => require(['@/components/children/ad/addetails'], resolve),
+          meta: {title: '广告详情', showFooter: false, goods: false,}
+        },
+        {
+          path: '/mine/ad/articles',
           name: 'articles',
-          component: resolve => require(['@/components/children/articles/articles'], resolve),
+          component: resolve => require(['@/components/children/ad/articles'], resolve),
           meta: {title: '发布文章', showFooter: false, goods: false,}
+        },
+        {
+          path: '/mine/ad/myad',
+          name: 'myad',
+          component: resolve => require(['@/components/children/ad/myad'], resolve),
+          meta: {title: '我的发布', showFooter: false, goods: false,}
         },
         {
           path: '/mine/Address',

@@ -1,11 +1,14 @@
 import axios from 'axios';
 import Qs from 'qs'
-import { Message } from 'element-ui';
+import {Message} from 'element-ui';
 
-const tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODQ0MzczMDAsIm5iZiI6MTU4MzgzMjUwMCwiaWF0IjoxNTgzODMyNTAwLCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiRWNvbG9neSJ9.1RmPozkut4A6-MQCPauNKG-F3JZALx_knpJonGsVoVw'
+const tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODQ0MzczMDAsIm5iZiI6MTU4MzgzMjUwMCwiaWF0IjoxNTgzODMyNTAwLCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiRWNvbG9neSJ9.1RmPozkut4A6-MQCPauNKG-F3JZALx_knpJonGsVoVw';
+
+const baseURL = 'http://test.gj.wjeys.com';
+export default {baseURL, tokens};
 
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = 'http://test.gj.wjeys.com';
+axios.defaults.baseURL = baseURL;
 
 
 //http request 拦截器
@@ -14,11 +17,11 @@ axios.interceptors.request.use(
     // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
     config.headers = {
-      // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      // 'Content-Type': 'multipart/form-data'
     }
-    // if(token){
-    //   config.params = {'token':token}
+    // if(tokens){
+    //   config.params = {'token':tokens}
     // }
     return config;
   },
@@ -26,46 +29,60 @@ axios.interceptors.request.use(
     if (err && err.response) {
       switch (err.response.status) {
         case 400:
-          error.message = '错误请求' ; Message('错误请求');
+          error.message = '错误请求';
+          Message('错误请求');
           break
         case 401:
-          error.message = '未授权，请重新登录' ; Message('未授权，请重新登录');
+          error.message = '未授权，请重新登录';
+          Message('未授权，请重新登录');
           break
         case 403:
-          error.message = '拒绝访问' ; Message('拒绝访问');
+          error.message = '拒绝访问';
+          Message('拒绝访问');
           break
         case 404:
-          error.message = '请求错误,未找到该资源' ; Message('请求错误,未找到该资源');
+          error.message = '请求错误,未找到该资源';
+          Message('请求错误,未找到该资源');
           break
         case 405:
-          error.message = '请求方法未允许' ; Message('请求方法未允许');
+          error.message = '请求方法未允许';
+          Message('请求方法未允许');
           break
         case 408:
-          error.message = '请求超时' ; Message('请求超时');
+          error.message = '请求超时';
+          Message('请求超时');
           break
         case 500:
-          error.message = '服务器端出错' ; Message('服务器端出错');
+          error.message = '服务器端出错';
+          Message('服务器端出错');
           break
         case 501:
-          error.message = '网络未实现' ; Message('网络未实现');
+          error.message = '网络未实现';
+          Message('网络未实现');
           break
         case 502:
-          error.message = '网络错误' ; Message('网络错误');
+          error.message = '网络错误';
+          Message('网络错误');
           break
         case 503:
-          error.message = '服务不可用' ; Message('服务不可用');
+          error.message = '服务不可用';
+          Message('服务不可用');
           break
         case 504:
-          error.message = '网络超时' ; Message('网络超时');
+          error.message = '网络超时';
+          Message('网络超时');
           break
         case 505:
-          error.message = 'http版本不支持该请求' ; Message('http版本不支持该请求');
+          error.message = 'http版本不支持该请求';
+          Message('http版本不支持该请求');
           break
         default:
-          error.message = `连接错误${error.response.status}`; Message(`'连接错误'${error.response.status}`);
+          error.message = `连接错误${error.response.status}`;
+          Message(`'连接错误'${error.response.status}`);
       }
     } else {
-      error.message = "连接到服务器失败";  Message('连接到服务器失败');
+      error.message = "连接到服务器失败";
+      Message('连接到服务器失败');
     }
     return Promise.resolve(err.response)
   });
@@ -117,12 +134,12 @@ export function fetch(url, params = {}) {
  * @returns {Promise}
  */
 
-export function post(url, params = {}) {
+export function post(url, params) {
   params.token = tokens;
   return new Promise((resolve, reject) => {
-    axios.post(url, params)
+    axios.post(url, Qs.stringify(params))
       .then(response => {
-        if (response.status != 200){
+        if (response.status != 200) {
           Message('数据错误');
           return false
         }
@@ -132,7 +149,6 @@ export function post(url, params = {}) {
       })
   })
 }
-
 
 
 /**

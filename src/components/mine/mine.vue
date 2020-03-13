@@ -1,25 +1,32 @@
 <template>
   <div>
-    <header class="m_b_10">
+    <header class="">
       <div style="text-align: right">
         <router-link to="/mine/set"><i class="el-icon-setting"></i></router-link>
       </div>
       <div class="user">
-        <div class="user_header">
-          <router-link to="/mine/usermsg">
-            <img src="../../assets/img/company.png" class="">
-          </router-link>
-        </div>
-        <div class="user_msg">
+        <div style="display: flex">
+          <div class="user_header">
+            <router-link to="/mine/usermsg">
+              <img src="../../assets/img/company.png" class="">
+            </router-link>
+          </div>
+          <div class="user_msg">
           <span class="user_name">
             {{username}}
           </span>
-          <span class="user_phone">
+            <span class="user_phone">
             {{phone}}
           </span>
-          <div class="vip_lv">
-            <span>{{level_name}}</span>
+            <div class="vip_lv">
+              <span><img src="../../assets/img/vip_icon.png" style="width: 12px;margin-right: 5px">{{level_name}}</span>
+            </div>
           </div>
+
+        </div>
+        <div class="user_up">
+          <div class="Recharge">在线充值</div>
+          <div class="shengji">会员升级</div>
         </div>
       </div>
 
@@ -33,6 +40,25 @@
       </ul>
 
     </header>
+
+    <!--   累计   -->
+    <div class="leiji m_b_10">
+      <ul class="leiji_list clearfix">
+
+        <li>
+          <div>10/190</div>
+          <div>今日/累计收入</div>
+        </li>
+        <li>
+          <div>0</div>
+          <div>累计消费</div>
+        </li>
+        <li>
+          <div>0</div>
+          <div>累计体现</div>
+        </li>
+      </ul>
+    </div>
     <!--  我的资产  -->
     <div class="m_b_10 conmon_box my_zc">
       <div class="conmon_deader">
@@ -131,9 +157,9 @@
         data() {
             return {
                 msg: '我的',
-                username:'',
-                phone:'',
-                level_name:'',
+                username: '',
+                phone: '',
+                level_name: '',
                 gjlingk: ['/mine/ad', '/mine/ad', '/mine/share', '/mine/Address', '/mine/usermsg', '/mine/Myteam', '/mine/record', '/mine/ad',],
                 headerlists: [
                     {
@@ -154,7 +180,7 @@
                     }],
                 zclists: [
                     {
-                        num: 11.565,
+                        num: 0,
                         name: '充值账户'
                     },
                     {
@@ -199,10 +225,11 @@
                         img: 'dpj',
                         name: '待评价'
                     },
-                    {
-                        img: 'sh',
-                        name: '售后'
-                    }],
+                    // {
+                    //     img: 'sh',
+                    //     name: '售后'
+                    // }
+                ],
                 gjlists: [
                     {
                         img: 'gj1',
@@ -311,8 +338,7 @@
 
     .user {
       display: flex;
-      align-items: center;
-
+      justify-content: space-between;
       .user_header {
         overflow: hidden;
         border-radius: 50%;
@@ -344,14 +370,47 @@
           font-size: 0.12rem;
         }
       }
+
+      .user_up {
+        margin-top: 30px;
+        .Recharge,.shengji{
+          line-height: 0.18rem;
+          border-radius: 0.18rem;
+          padding: 0 0.1rem;
+          font-size: 0.12rem;
+        }
+        .Recharge{
+          background-color: red;
+          margin-bottom: 5px;
+        }
+        .shengji{
+          background-color: #235f23;
+        }
+      }
     }
 
     .bot_lists li {
       float: left;
       width: 25%;
+    }
 
+
+  }
+
+  .leiji {
+    color: #fff;
+
+    .leiji_list {
+      padding: 10px;
+      background-color: #235f23;
+
+      li {
+        float: left;
+        width: 33.3333%;
+      }
     }
   }
+
 
   /*  */
   .conmon_box {
@@ -381,7 +440,7 @@
 
   .order_lists li {
     float: left;
-    width: 20%;
+    width: 25%;
     padding: 15px 0;
     display: flex;
     flex-direction: column;
