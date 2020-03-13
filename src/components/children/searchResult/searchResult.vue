@@ -3,34 +3,47 @@
     <van-popup
       v-model="tans"
       position="left"
-      :style="{ height: '100%' }"
+      :style="{ height: '100%',width:'100%' }"
     >
       <header>
-        <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
+        <i class="clo-9 el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
         <search :tmsg='tan' :dmsg="true"></search>
       </header>
 
-      <div class="navigation">
-        <ul class="clearfix">
-          <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
-        </ul>
+      <!--   搜索前   -->
+      <div class="search_record" v-show="true">
+        <div class="search_box">
+          <p><i></i>热门搜索</p>
+          <ul class="hot_list clearfix">
+            <li>热门搜索</li>
+            <li>热门搜索</li>
+            <li>热门搜索</li>
+            <li>热门搜索</li>
+          </ul>
+        </div>
+
+        <div class="search_box">
+          <p><i></i>搜索历史</p>
+          <ul class="history_list clearfix">
+            <li>搜索历史</li>
+            <li>搜索历史</li>
+            <li>搜索历史</li>
+            <li>搜索历史</li>
+          </ul>
+        </div>
+
+        <div class="delet_his">
+          <i class="el-icon-delete"></i>
+          <span>清空历史搜索</span>
+        </div>
       </div>
-      <div class="common_box content">
-        <el-row class="introduce_img" :gutter="10">
-          <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-            <div class="grid-content bg-purple">
-              <img src="../../../assets/img/company1.png">
-              <div class="msg">
-                <div class="text">
-                  <span class="vip">会员区</span>
-                  {{item.text}}
-                </div>
-                <div class="yishou">已售：{{item.num}}件</div>
-                <div class="clo-g price">￥{{item.price}}</div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+      <!--   搜索结果   -->
+      <!--      <div class="search_result">-->
+      <!--        <goodslist></goodslist>-->
+      <!--      </div>-->
+      <!--   搜索空   -->
+      <div class="none" v-show="false">
+        <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">
       </div>
     </van-popup>
   </div>
@@ -40,45 +53,23 @@
     import Search from "../../search/search";
     import Header from "../../header/header";
     import Bus from "../../../assets/js/bus";
+    import Goodslist from "../goodslist/goodslist";
 
     export default {
         name: "searchResult",
-        components: {Header, Search},
+        components: {Goodslist, Header, Search},
         data() {
             return {
                 num: 0,
                 tan: 'tan',
-                tans:false,
-                navItems: ['全部', '茶叶', '副食品', '水果', '补品', '日用品'],
-                list: [
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                    {
-                        text: '富锦年货特产坚果零食大礼包',
-                        num: 323,
-                        price: 268.00
-                    },
-                ]
+                tans: false,
             }
         },
         methods: {
             //弹窗消失
             Popup: function () {
                 this.tans = false
-                console.log(this)
+
             },
             getNum: function (index) {
                 this.num = index;
@@ -109,65 +100,48 @@
     }
   }
 
-  .navigation {
-    overflow-x: scroll;
-    background-color: #fff;
-    top: 56px;
+  .search_record {
+    margin-top: 20px;
+    padding: 0 10px;
 
-    ul {
-      width: max-content;
+    .search_box {
 
-      li {
-        padding: 18px 20px;
-        width: auto;
+      p {
+        font-size: 0.18rem;
+        text-align: left;
+        color: #999999;
+
+        i {
+          width: 3px;
+          height: 0.18rem;
+          background-color: #009900;
+          display: inline-block;
+          vertical-align: -3px;
+          margin-right: 5px;
+        }
+      }
+
+      .hot_list, .history_list {
+        margin-top: 20px;
+
+        li {
+          float: left;
+          margin-right: 15px;
+          padding: 5px 20px;
+          background-color: #f5f5f5;
+          color: #666;
+          margin-bottom: 20px;
+        }
       }
     }
-  }
 
-  .common_box {
-    background: none;
-    margin-bottom: 0;
-  }
-
-  .content {
-    padding-top: 127px;
-
-    .lists {
-      margin-bottom: 10px;
-
-      .grid-content {
-        background-color: #fff;
-        border-radius: 3px;
-        overflow: hidden;
-
-        .msg {
-          padding: 10px;
-          text-align: left;
-
-          .text {
-            font-size: 0.16rem;
-
-            .vip {
-              background-color: #009900;
-              color: #fff;
-              display: inline-block;
-              line-height: 16px;
-              border-radius: 5px;
-              padding: 4px;
-            }
-          }
-
-          .yishou {
-            font-size: 0.12rem;
-            color: #999999;
-            margin: 10px 0;
-            text-align: right;
-          }
-
-        }
-
-      }
-
+    .delet_his {
+      margin-top: 50px;
+      border: 1px solid #666;
+      color: #666;
+      line-height: 40px;
+      font-size: 0.16rem;
+      border-radius: 5px;
     }
   }
 
