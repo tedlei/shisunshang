@@ -68,7 +68,7 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link to="/goodsdetails">
+        <router-link to="/goodsDATA">
           <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
             <div class="item">
               <img :src="goods.imgsrc">

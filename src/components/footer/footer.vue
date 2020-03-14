@@ -59,13 +59,13 @@
 <style scoped lang="scss">
   footer {
     width: 100%;
+    height: 0.7rem;
     position: fixed;
     bottom: 0;
     background-color: #fff;
     padding: 8px;
-    z-index: 99;
+    z-index: 9999;
     border-top: 1px solid #f2f2f2;
-    height: 0.7rem;
     span{
       color: #999999;
     }
@@ -92,38 +92,38 @@
   }
 
   .icon-home {
-    width: 24px;
-    height: 28.8px;
+    width: 0.24rem;
+    height: 0.288rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
     background-position: 0 0;
   }
 
   .icon-fenlei {
-    width: 28.8px;
-    height: 28.8px;
+    width: 0.288rem;
+    height: 0.288rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -28.8px 0;
+    background-position: -0.288rem 0;
   }
 
   .icon-fujin {
-    width: 20px;
-    height: 28.8px;
+    width: 0.2rem;
+    height: 0.288rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -64.8px 0;
+    background-position: -0.648rem 0;
   }
 
   .icon-cart {
-    width: 28.8px;
-    height: 28.8px;
+    width: 0.288rem;
+    height: 0.288rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -92px 0;
+    background-position: -0.92rem 0;
   }
 
   .icon-mine {
-    width: 20px;
-    height: 28.8px;
+    width: 0.2rem;
+    height: 0.288rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -126px 0;
+    background-position: -1.26rem 0;
   }
 
   .router-link-exact-active span{
@@ -131,22 +131,22 @@
   }
 
   .router-link-exact-active .icon-home{
-    background-position: 0 -28.8px;
+    background-position: 0 -0.288rem;
   }
 
   .router-link-exact-active .icon-fenlei{
-    background-position: -28.8px -28.8px;
+    background-position: -0.288rem -0.288rem;
   }
 
   .router-link-exact-active .icon-fujin{
-    background-position: -64.8px -28.8px;
+    background-position: -0.648rem -0.288rem;
   }
 
   .router-link-exact-active .icon-cart{
-    background-position: -92px -28.8px;
+    background-position: -0.92rem -0.288rem;
   }
 
   .router-link-exact-active .icon-mine{
-    background-position: -126px -28.8px;
+    background-position: -1.26rem -0.288rem;
   }
 </style>

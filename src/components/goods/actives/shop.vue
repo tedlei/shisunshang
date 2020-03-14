@@ -1,0 +1,158 @@
+<template>
+  <div class="shop">
+      <div class="shopHeder">
+          <div class="shopHederImg"></div>
+          <div class="shopHederName">
+              <p>美的旗舰店</p>
+              <span>综合评分</span>
+              <span class="shopHederNameS">5.0</span>
+          </div>
+      </div>
+      <div class="min">
+          <div class="minOne" v-for="(item,n) of minlist" :key="n">
+              <p>{{item.num}}</p>
+              <p>{{item.tiele}}</p>
+          </div>
+          <div class="msg">
+              <div>
+                  <span>描述相符</span>
+                  <span class="shopHederNameS">5.00</span>
+              </div>
+              <div>
+                  <span>服务态度</span>
+                  <span class="shopHederNameS">5.00</span>
+              </div>
+              <div>
+                  <span>发货速度</span>
+                  <span class="shopHederNameS">5.00</span>
+              </div>
+          </div>
+      </div>
+      <div class="footer">
+            <div @click="isCollection=!isCollection">
+                <div class="footerImg">
+                    <van-icon v-if="isCollection==true" name="like" />
+                    <van-icon v-else name="like-o" />
+                </div>
+                <div>收藏店铺</div>
+            </div>
+            <div>
+                <router-link :to="{path:'/storeDetails',query:{id:'1'}}">
+                    <div class="storeDetails">
+                        <div class="footerImgS">
+                            <img class="footerImgShop" src="../../../assets/img/shop.png" alt="#">
+                        </div>
+                        <div>进入店铺</div>
+                    </div>
+                </router-link>
+            </div>
+      </div>
+  </div>
+</template>
+
+<script>
+  export default {
+  components: {},
+  data () {
+    return {
+      minlist: [ {num: "32", tiele: "全部商品"}, {num: "41", tiele: "关注人数"}],
+      isCollection: false,
+    }
+  },
+  methods: {
+    setCollection () {
+
+    },
+  },
+  computed: {
+
+  },
+  watch: {
+
+  }
+}
+</script>
+<style lang="scss" scoped>
+    .shop{
+        padding: 0.1rem;
+        background-color: #fff;
+        margin-bottom: 0.1rem;
+        .shopHeder{
+            display: flex;
+            align-items: center;
+            .shopHederImg{
+                width: 1rem;
+                height: 0.5rem;
+                background-color: wheat;
+                border-radius: 10px;
+            }
+            .shopHederName{
+                margin: 0 0.1rem;
+                span{
+                    font-size: 0.12rem;
+                    color:  #999;
+                }
+                .shopHederNameS{
+                    color: #009900;
+                }
+            }
+        }
+        .min{
+            display: flex;
+            align-items: center;
+            margin: 0.1rem 0;
+            .minOne{
+                width: 34%;
+                p{
+                    border-right: 1px solid #e1e1e1;
+                }
+                p:nth-child(2){
+                    color: #999999;
+                }
+            }
+            .msg{
+                width: 32%;
+                line-height: 0.25rem;
+                span{
+                    color:  #999;
+                }
+                .shopHederNameS{
+                    color: #009900;
+                }
+            }
+        }
+        .footer{
+            display: flex;
+            justify-content: space-around;
+            >div{
+                line-height: 0.3rem;
+                border: 1px solid #e1e1e1;
+                border-radius: 30px;
+                padding: 0 0.25rem;
+                margin: 0 0.2rem;
+                display: flex;
+                align-items: center;
+                >div:nth-child(2){
+                    color: #999;
+                }
+                .footerImg{
+                    padding: 0.05rem 0.05rem 0 0;
+
+                }
+                .storeDetails{
+                    display: flex;
+                    align-items: center;
+                    color: #999999;
+                }
+                .footerImgS{
+                    margin-right: 0.03rem;
+                    .footerImgShop{
+                        width: 0.14rem;
+                        height: 0.14rem;
+                    }
+                }
+            }
+
+        }
+    }
+</style>

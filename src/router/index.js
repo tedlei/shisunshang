@@ -9,7 +9,7 @@ import classification from '@/components/classification/classification'
 import business from '@/components/business/business'
 import mine from '@/components/mine/mine'
 import my_cart from '@/components/my_cart/my_cart'
-
+import goodsDATA from '../components/goods/goodsDATA'
 
 // const order = resolve => require(['@/components/order/order'], resolve)
 
@@ -50,11 +50,7 @@ export default new Router({
       path: '/business',
       name: 'business',
       component: business,
-      // children: [
-      //   {
-      //     path: '/',
-      //     meta: {showFooter: false}
-      //   }],
+
       meta: {
         title: '附近商家',
         index: 0,
@@ -65,11 +61,20 @@ export default new Router({
       path: '/goodsdetails',
       component: goodschildren,
       children: [
+        // {
+        //   path: '',
+        //   name: 'goodsdetails',
+        //   component: Goodsdetails,
+        //   meta: {title: '商品详情', goods: true}
+        // },
         {
-          path: '',
-          name: 'goodsdetails',
-          component: Goodsdetails,
-          meta: {title: '商品详情', goods: true}
+          path: '/goodsDATA',
+          name: 'goodsDATA',
+          component: goodsDATA,
+          meta: {
+            title: 'goodsDATA',
+            goods: true
+          }
         },
         {
           path: '/goodslist',

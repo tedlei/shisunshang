@@ -38,11 +38,14 @@
     margin: 0;
     padding: 0;
   }
-
-
   html{
     font-size: 100px;
     height: 100%;
+  }
+  @media screen and (max-width: 320px) {
+    html{
+      font-size: 80px !important;
+    }
   }
   body{
     height: 100%;
