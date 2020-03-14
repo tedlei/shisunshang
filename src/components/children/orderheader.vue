@@ -20,6 +20,7 @@
       <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
       <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
       <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
+      <span v-else-if="this.bank" @click="add_bank">添加</span>
     </span>
   </header>
 
@@ -41,6 +42,17 @@
                 record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
             }
         },
+        computed: {
+            bank() {
+                return this.$store.state.bank;
+            }
+        },
+        watch: {
+            //监听属性，在computed计算属性更改之后会触发参数值的改变，所以能够监听到
+            bank(newValue, oldValue) {
+                console.log(newValue)
+            }
+        },
         methods: {
             baocun: function (id) {
                 var _this = this
@@ -52,6 +64,12 @@
             nobackss: function () {
                 Bus.$emit('val', this.noback);
                 this.noback = true
+            },
+            add_bank:function () {
+                this.$router.push({
+                    path:'/Bank-card/add-bank-card'
+                });
+                this.$store.commit('sendbank', false);
             }
         },
         mounted() {
@@ -62,7 +80,6 @@
                     _this.noback = false
                 }
             })
-            console.log(_this.$route)
         }
     }
 </script>

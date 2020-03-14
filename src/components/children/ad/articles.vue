@@ -91,6 +91,7 @@
                     })
                     instance.post(baseURL.baseURL + '/api/v1/weixinAd', formData)
                         .then((response) => {
+                            console.log(response);
                             response = response.data
                             if (response.status == 200) {
                                 _this.$toast({
@@ -99,7 +100,7 @@
                                 })
                                 setTimeout(() => {
                                     _this.$toast.clear();
-                                    window.location.reload()
+                                    // window.location.reload()
                                 }, 2000)
                             } else {
                                 _this.$toast({

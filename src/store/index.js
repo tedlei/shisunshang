@@ -8,12 +8,16 @@ const actions = {}
 const state = {
   user_address_msg: localStorage.getItem('user_address_msg'),
   addressid: localStorage.getItem('addressid'),
+  bank: false,
   // user_name: localStorage.getItem('user_name'),
   // isLogin : localStorage.getItem('isLogin')
 }
 // getters 只会依赖 state 中的成员去更新
 const getters = {
   user_address_msg: (state) => state.user_address_msg,
+  getbank: (state) => {
+    return state.bank;
+  }
   // userName: (state) => state.user_name,
   // isLogin :(state) => state.isLogin
 }
@@ -30,6 +34,9 @@ const mutations = {
   clearaddressid(state) {
     sessionStorage.removeItem('addressid');
     state.addressid = '';
+  },
+  sendbank(state, res) {
+    state.bank = res
   },
   isLogin(state, status) {
     state.isLogin = status;

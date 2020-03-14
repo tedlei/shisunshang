@@ -2,7 +2,7 @@
   <div>
     <div class="list_box">
       <ul class="set_list">
-        <li v-for="(item,index) in msglists" :key="index" @click="set(index)">
+        <li v-for="(item,index) in msglists" :key="index" @click="set(item.left)">
           <div class="left">{{item.left}}</div>
           <div class="right">
             <img :src="require(`../../../assets/img/${item.right}.png`)" v-if="index==0">
@@ -51,7 +51,7 @@
                     },
                     {
                         left: '绑定手机',
-                        right: '男'
+                        right: ''
                     },
                     {
                         left: '绑定银行卡',
@@ -70,11 +70,26 @@
                 ]
             }
         },
-        methods:{
-            set:function (e) {
-                if (index == 2){
-
+        methods: {
+            set: function (e) {
+                switch (e) {
+                    case '绑定银行卡':
+                        this.$router.push({
+                            path: '/set/Bank-card',
+                        })
+                        break;
+                    case '设置支付密码':
+                        this.$router.push({
+                            path: '/set/set-pay-password',
+                        })
+                        break;
+                    case '绑定手机':
+                        this.$router.push({
+                            path: '/set/set-phone',
+                        })
+                        break;
                 }
+
             }
         }
     }

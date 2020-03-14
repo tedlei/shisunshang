@@ -235,11 +235,8 @@
                 this.getmsg()
             }
 
-        }
-        ,
-        updated() {
+        },
 
-        }
     }
 </script>
 

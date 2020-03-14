@@ -134,10 +134,35 @@ export default new Router({
         },
         {
           path: '/mine/set',
-          name: ' set',
+          name: 'set',
           component: resolve => require(['@/components/children/set/set'], resolve),
-          meta: {title: '个人设置', showFooter: false, goods: false,}
+          meta: {title: '个人设置', showFooter: false, goods: false,},
         },
+        {
+          path: '/set/Bank-card',
+          name: 'Bank-card',
+          component: resolve => require(['@/components/children/set/Bank-card'], resolve),
+          meta: {title: '绑定银行卡', showFooter: false, goods: false,},
+        },
+        {
+          path: '/Bank-card/add-bank-card',
+          name: 'add-bank-card',
+          component: resolve => require(['@/components/children/set/add-bank-card'], resolve),
+          meta: {title: '添加银行卡', showFooter: false, goods: false,},
+        },
+        {
+          path: '/set/set-pay-password',
+          name: 'set-pay-password',
+          component: resolve => require(['@/components/children/set/set-pay-password'], resolve),
+          meta: {title: '设置支付密码', showFooter: false, goods: false,},
+        },
+        {
+          path: '/set/set-phone',
+          name: 'set-phone',
+          component: resolve => require(['@/components/children/set/set-phone'], resolve),
+          meta: {title: '绑定手机号', showFooter: false, goods: false,},
+        },
+
         {
           path: '/mine/Recharge',
           name: ' Recharge',
