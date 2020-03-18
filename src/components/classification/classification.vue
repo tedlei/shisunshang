@@ -28,8 +28,14 @@
             <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
               <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(item.id)">
-                <img :src="goodsitem.icon">
-                <div>{{goodsitem.cate_name}}</div>
+                <van-image
+                  width="100%"
+                  height="0.71rem"
+                  fit="cover"
+                  :src="goodsitem.icon"
+                  style="margin-bottom: 0.1rem"
+                />
+                <div class="cate_name">{{goodsitem.cate_name}}</div>
               </li>
             </ul>
           </div>
@@ -164,20 +170,13 @@
       background-color: #fff;
       margin-bottom: 10px;
       font-weight: bold;
-      padding: 20px 10px;
+      padding: 10px;
       min-height: 14vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
       margin-right: 10px;
-
-      div {
-        position: absolute;
-        bottom: 10px;
-        width: 100%;
-        left: 0;
-      }
     }
 
     .goodslist li:nth-child(3n+3) {

@@ -5,7 +5,7 @@
     <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
-      <span v-else-if="this.$route.query.orderid != 4">{{this.$route.meta.title}}</span>
+      <span v-else-if="this.$route.query.orderid != 5">{{this.$route.meta.title}}</span>
       <span v-else>退款/售后</span>
     </div>
     <!--  搜索组件    -->
@@ -21,6 +21,7 @@
       <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
       <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
       <span v-else-if="this.bank" @click="add_bank">添加</span>
+      <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
     </span>
   </header>
 
@@ -45,12 +46,15 @@
         computed: {
             bank() {
                 return this.$store.state.bank;
+            },
+            Rrecord() {
+                return this.$store.state.Rrecord;
             }
         },
         watch: {
             //监听属性，在computed计算属性更改之后会触发参数值的改变，所以能够监听到
             bank(newValue, oldValue) {
-                console.log(newValue)
+
             }
         },
         methods: {
@@ -69,10 +73,10 @@
                 this.$router.push({
                     path:'/Bank-card/add-bank-card'
                 });
-                this.$store.commit('sendbank', false);
             }
         },
         mounted() {
+
             // 用$on事件来接收参数
             var _this = this
             Bus.$on('val', (data) => {

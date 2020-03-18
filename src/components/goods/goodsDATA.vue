@@ -1,7 +1,16 @@
 <template>
   <div>
     <div class="main">
-      <div class="">
+      <div class="Anchor">
+        <a :class="active==0?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#allmerchandise',0)">
+        </a>
+        <a :class="active==1?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#commoditDetails',1)">
+        </a>
+        <a :class="active==2?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#commoditEvaluate',2)">
+        </a>
+        <div class="Last"></div>
+      </div>
+      <div id="allmerchandise" class="">
         <el-carousel :height="imgHeight+'px'">
           <el-carousel-item v-for="(item,index) in bannerlists" :key="index">
             <img :src="require(`../../assets/img/${item}.png`)" ref="imgSize">
@@ -9,27 +18,35 @@
         </el-carousel>
       </div>
       <!-- 1 -->
-      <div class="m_b_10 conmo_box box_one">
-        <div class="name">{{name}}</div>
+      <div  class="m_b_10 conmo_box box_one">
+        <div class="name">{{goodsData.goods_info.name}}</div>
         <div class="gg">
-          <span>礼盒装1000*6盒</span>
+          <span>
+            {{initialName}}
+            </span>
           <span class="share">
             <router-link to="/goodsdetails/share"><i class="el-icon-share"></i>分享</router-link>
           </span>
         </div>
         <div class="price">
-          ￥560.00
+          {{goodsData.goods_info.price}}
         </div>
         <div class="ys">
-          <span>已售4354</span>
-          <span style="margin-left: 40px">库存充足</span>
+          <span>已售
+          {{goodsData.goods_info.xiaoliang}}
+            </span>
+          <span style="margin-left: 40px">库存
+          {{goodsData.goods_info.kuchun}}
+          </span>
         </div>
       </div>
       <!-- 2 -->
       <div class="m_b_10 conmo_box box_two" @click="drawer = true">
         <span class="left">选择</span>
         <div class="right">
-          <span>已选择：1000*6</span>
+          <span>已选择：
+            {{initialName}}
+          </span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -37,7 +54,7 @@
       <div class="m_b_10 conmo_box box_three">
         <span class="left">送至</span>
         <div class="right">
-          <span><i class="el-icon-location-outline"></i>重庆市 渝北区</span>
+          <span><i class="el-icon-location-outline">{{ReceivingAddress}}</i></span>
           <span>免运费</span>
           <i class="el-icon-arrow-right"></i>
         </div>
@@ -63,7 +80,9 @@
         </div>
       </div>
       <!-- 店铺详情 -->
+      <div id="commoditEvaluate">
       <shop></shop>
+      </div>
       <!--   商品评价   -->
       <div class="m_b_10 conmo_box goods_evaluate">
         <div class="head">商品评价（23）</div>
@@ -114,7 +133,7 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-
+      <div id="commoditDetails"></div>
       <div class="conmo_box bot_img_box">
         <img src="../../assets/img/banner.png">
       </div>
@@ -143,7 +162,7 @@
           加入购物车
         </div>
         <div class="buy">
-          <router-link to="/goodsdetails/makeorder">
+          <router-link :to="{path:'/goodsdetails/makeorder',query:{goodsData: {id: goodsData.goods_info.id, num: nums, goods_sku_id: initial}}}">
             立即购买
           </router-link>
         </div>
@@ -180,7 +199,9 @@
       <div class="btn_bottom">
         <div class="carts" @click="goodsCart">加入购物车</div>
         <div class="buy">
-          <router-link to="/goodsdetails/makeorder">立即购买</router-link>
+          <router-link :to="{path:'/goodsdetails/makeorder',query:{goodsData: {id: goodsData.goods_info.id, num: nums, goods_sku_id: initial}}}">
+          立即购买
+          </router-link>
         </div>
       </div>
     </el-drawer>
@@ -198,6 +219,12 @@
     },
     data() {
       return {
+        active: 0,
+        sImgs: [],//轮播图
+        initial: [],//默认规格Id
+        initialName: '',//默认规格名称
+        ReceivingAddress: "",//收货地址
+
         msg: '商品详情',
         imgHeight: '',
         boxHeight: '',
@@ -205,7 +232,7 @@
         direction: 'btt',
         nums: 1,//添加购物车的商品数量
         name: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-        bannerlists: ['banner', 'banner', 'banner', 'banner', 'banner'],
+        bannerlists: ['banner', 'banner', 'banner', 'banner'],
         slidelists: [
           {
             'goodsitem': [
@@ -396,25 +423,44 @@
 		    			}
 		    		}
 		    	]
-		    }
         },
-        initial: [],
+        "shopinfo": {
+          id: '',
+          name: '',
+          score_zh: '',
+          score_ms: '',
+          score_fw: '',
+          score_fh: ''
+        }
+        },
+        
       }
     },
 
     methods: {
+      goAnchor (selector, n) {
+        this.active = n;
+        var anchor = this.$el.querySelector(selector);
+        document.documentElement.scrollTop = anchor.offsetTop;
+      },
+
+      //商品信息
       getDATA () {
           let _id = this.$route.query.id;
         //   console.log(_id)
           let ad_data = {method: 'get.goods.item', goods_id: '3'};
           this.$post('/api/v1/goods', ad_data)
           .then((res) => {
-            // console.log(res.data) 
+            console.log(res.data) 
             if(res.status == 200){
               this.goodsData = res.data;
+              // console.log(this.goodsData);
+              this.$store.commit('getGoodsData',res.data);
+              this.$store.commit('getshopsData',res.data.shopinfo);
               let list = res.data.specData.spec_attr;
               for (var i in list) {
                 this.initial.push( list[i].spec_items[0].item_id );
+                this.initialName += list[i].spec_items[0].spec_value+'*' ;
               }
               // console.log(this.initial);
             }
@@ -422,6 +468,8 @@
               console.log(error);
           });
       },
+
+      //添加购物车
       goodsCart () {
         let getCart = '';
         // for (var i in this.initial) {
@@ -447,6 +495,7 @@
             console.log(error);
         });
       },
+
       back: function () {
         if (window.history.length <= 1) {
           this.$router.push({path: '/'})
@@ -455,13 +504,19 @@
           this.$router.go(-1)
         }
       },
+
       // 关闭窗口
       handleClose(done) {
         done();
       }
     },
 
-
+    created () {
+      this.getDATA();
+    },
+    updated () {
+      
+    },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
       setTimeout(() => {
@@ -471,7 +526,6 @@
         this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
         // console.log(this.$refs.boxSize[0].offsetHeight)
       })
-      this.getDATA();
     }
   }
 </script>
@@ -479,8 +533,31 @@
 <style scoped lang="scss">
 
   .main {
-    padding-top: 54px;
-
+    padding-top: 0.54rem;
+    .Anchor{
+      width: 100%;
+      position: fixed;
+      left:0.4rem;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.1rem 0;
+      a{
+        width: 0.62rem;
+        height: 0.35rem;
+        // background: chartreuse;
+      }
+      .Last{
+        width: 0.8rem;
+        height: 0.35rem;
+      }
+      .active {
+        border-bottom: 3px solid #009900;
+      }
+    }
+    
     .conmo_box {
       background-color: #fff;
       padding: 10px;
@@ -563,18 +640,18 @@
 
       .head {
         font-size: 0.18rem;
-        margin-bottom: 20px;
+        margin-bottom: 0.2rem;
       }
 
       .goods_evaluate_list li {
         float: left;
-        line-height: 33px;
+        line-height: 0.3rem;
         color: #fff;
-        border-radius: 33px;
+        border-radius: 20px;
         background-color: #7fcc7f;
-        padding: 0 12px;
-        margin-right: 10px;
-        margin-bottom: 10px;
+        padding: 0 0.12rem;
+        margin-right: 0.1rem;
+        margin-bottom: 0.1rem;
       }
 
       .user_evaluate {

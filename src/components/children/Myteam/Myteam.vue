@@ -130,7 +130,6 @@
   .team_dtl {
     table {
       width: 100%;
-
       tr td {
         padding: 15px;
         background-color: #fff;
@@ -151,7 +150,6 @@
         color: #fff;
 
       }
-
 
     }
   }

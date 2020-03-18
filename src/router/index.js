@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import goodschildren from '@/components/children/child'
-import Goodsdetails from '@/components/children/goodsdetails/goodsdetails'
 import order from '@/components/children/order/order'
 
 import home from '@/components/home/home'
@@ -9,8 +8,10 @@ import classification from '@/components/classification/classification'
 import business from '@/components/business/business'
 import mine from '@/components/mine/mine'
 import my_cart from '@/components/my_cart/my_cart'
-import goodsDATA from '../components/goods/goodsDATA'
+import author from '../components/author'
 
+import goodsDATA from '../components/goods/goodsDATA'
+import storeDetails from '../components/storeDetails/storeDetails'
 // const order = resolve => require(['@/components/order/order'], resolve)
 
 Vue.use(Router)
@@ -18,6 +19,16 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',  //去掉url中的#
   routes: [
+    // {
+    //   path: '/',
+    //   redirect: {name:'author'},
+    // },
+    {
+      path: '/author',
+      name: 'author',
+      component: author,
+      meta: {title: '授权', showFooter: false}
+    },
     {
       path: '/',
       name: 'home',
@@ -50,7 +61,6 @@ export default new Router({
       path: '/business',
       name: 'business',
       component: business,
-
       meta: {
         title: '附近商家',
         index: 0,
@@ -61,19 +71,22 @@ export default new Router({
       path: '/goodsdetails',
       component: goodschildren,
       children: [
-        // {
-        //   path: '',
-        //   name: 'goodsdetails',
-        //   component: Goodsdetails,
-        //   meta: {title: '商品详情', goods: true}
-        // },
         {
-          path: '/goodsDATA',
+          path: '/goodsdetails',
           name: 'goodsDATA',
           component: goodsDATA,
           meta: {
             title: 'goodsDATA',
             goods: true
+          }
+        },
+        {
+          path: '/storeDetails',
+          name: 'storeDetails',
+          component: storeDetails,
+          meta: {
+            title: '店铺详情',
+            goods: false
           }
         },
         {
@@ -167,13 +180,19 @@ export default new Router({
           component: resolve => require(['@/components/children/set/set-phone'], resolve),
           meta: {title: '绑定手机号', showFooter: false, goods: false,},
         },
-
+        {
+          path: '/mine/upgrade',
+          name: 'upgrade',
+          component: resolve => require(['@/components/children/upgrade/upgrade'], resolve),
+          meta: {title: '在线升级', showFooter: false, goods: false,}
+        },
         {
           path: '/mine/Recharge',
-          name: ' Recharge',
+          name: 'Recharge',
           component: resolve => require(['@/components/children/Recharge/Recharge'], resolve),
-          meta: {title: '充值', showFooter: false, goods: false,}
+          meta: {title: '充值活动', showFooter: false, goods: false,}
         },
+
         {
           path: '/mine/ad',
           name: 'ad',
@@ -222,10 +241,36 @@ export default new Router({
           component: resolve => require(['@/components/children/Myteam/Myteam'], resolve),
           meta: {title: '我的团队', showFooter: false, goods: false, Same: true}
         },
+        {
+          path: '/mine/More-tools',
+          name: 'More-tools',
+          component: resolve => require(['@/components/children/More-tools/More-tools'], resolve),
+          meta: {title: '更多工具', showFooter: false, goods: false, Same: true}
+        },
+        {
+          path: '/mine/Rechargemoney',
+          name: 'Rechargemoney',
+          component: resolve => require(['@/components/children/More-tools/Rechargemoney/Rechargemoney'], resolve),
+          meta: {title: '在线充值', showFooter: false, goods: false,}
+        },
+        {
+          path: '/mine/R-record',
+          name: 'R-record',
+          component: resolve => require(['@/components/children/More-tools/Rechargemoney/R-record'], resolve),
+          meta: {title: '充值记录', showFooter: false, goods: false,}
+        },
+        {
+          path: '/mine/Cash-withdrawal',
+          name: 'Cash-withdrawal',
+          component: resolve => require(['@/components/children/More-tools/Cash-withdrawal/Cash-withdrawal'], resolve),
+          meta: {title: '申请体现', showFooter: false, goods: false,}
+        },
+
       ],
       meta: {title: '商品详情', showFooter: false}
     },
   ]
 })
+
 
 

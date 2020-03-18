@@ -3,9 +3,13 @@
       <div class="shopHeder">
           <div class="shopHederImg"></div>
           <div class="shopHederName">
-              <p>美的旗舰店</p>
-              <span>综合评分</span>
-              <span class="shopHederNameS">5.0</span>
+            <p>
+                {{this.$store.state.cart.getshops.name}}
+            </p>
+              <span @click="setCollection">综合评分</span>
+              <span class="shopHederNameS">
+                {{this.$store.state.cart.getshops.score_zh}}
+              </span>
           </div>
       </div>
       <div class="min">
@@ -16,15 +20,23 @@
           <div class="msg">
               <div>
                   <span>描述相符</span>
-                  <span class="shopHederNameS">5.00</span>
+                  <span class="shopHederNameS">
+                {{this.$store.state.cart.getshops.score_ms}}
+                  </span>
               </div>
               <div>
                   <span>服务态度</span>
-                  <span class="shopHederNameS">5.00</span>
+                  <span class="shopHederNameS">
+                {{this.$store.state.cart.getshops.score_fw}}
+
+                  </span>
               </div>
               <div>
                   <span>发货速度</span>
-                  <span class="shopHederNameS">5.00</span>
+                  <span class="shopHederNameS">
+                {{this.$store.state.cart.getshops.score_fh}}
+
+                  </span>
               </div>
           </div>
       </div>
@@ -52,7 +64,11 @@
 
 <script>
   export default {
-  components: {},
+  components: {
+      
+  },
+  props: [
+  ],
   data () {
     return {
       minlist: [ {num: "32", tiele: "全部商品"}, {num: "41", tiele: "关注人数"}],
@@ -61,14 +77,20 @@
   },
   methods: {
     setCollection () {
-
+        // console.log(this.$store.state.cart.getshops.name)
     },
   },
+  created () {
+        // console.log(this.$store.state)
+    //   this.shopsdata = this.shopinfo;
+  },
+  updated () {
+  },
   computed: {
-
+    
   },
   watch: {
-
+    
   }
 }
 </script>
@@ -137,7 +159,7 @@
                 }
                 .footerImg{
                     padding: 0.05rem 0.05rem 0 0;
-
+                    
                 }
                 .storeDetails{
                     display: flex;
@@ -152,7 +174,7 @@
                     }
                 }
             }
-
+            
         }
     }
 </style>

@@ -16,27 +16,18 @@
   data () {
     return {
       active: 0,
-      // activeOne: [],
-      getCart: '',
     }
   },
   methods: {
     activeAdd ( n, itemId) {
       this.active = n;
       let _id = itemId + '';
-      // let _id = toString(itemId);
-      // console.log(_id)
       this.initial[this.listIndex] = _id;
-      // this.$emit('getCart',_id);
-      // for (var i in this.initial) {
-      //   this.getCart += this.initial[i];
-      // }
-      // console.log(this.getCart);
+      // console.log(this.initial);
     },
     
   },
   mounted(){
-    // console.log(this.listIndex);
     // console.log(this.initial);
   },
   computed: {

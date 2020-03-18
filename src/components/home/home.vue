@@ -8,11 +8,7 @@
             重庆<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-plus">重庆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!--  搜索组件    -->
@@ -22,7 +18,7 @@
 
         <!--扫码-->
         <div class="sao">
-          <i class="el-icon-full-screen"></i>
+          <i class="el-icon-full-screen" @click="aaa"></i>
           <div>扫码</div>
         </div>
         <!--消息-->
@@ -35,8 +31,16 @@
       </el-row>
     </header>
     <!--  轮播组件  -->
+
     <div class="banner">
-      <carousel :hmsg='msg' :bannerdata='bannermsg'></carousel>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="(item,index) in bannermsg" :key="index">
+            <img :src="item.img" style="border-radius: 5px">
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <!--  分类按钮  -->
@@ -71,7 +75,12 @@
         <router-link to="/goodsDATA">
           <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
             <div class="item">
-              <img :src="goods.imgsrc">
+              <van-image
+                width="100%"
+                height="1.92rem"
+                fit="cover"
+                :src="goods.imgsrc"
+              />
               <div style="">
                 <div class="goodsdtt">{{goods.name}}</div>
                 <div class="goodsprice clo-g">{{goods.price}}</div>
@@ -86,8 +95,6 @@
       没得更多了
     </div>
     <searchResult></searchResult>
-
-
   </div>
 
 
@@ -99,6 +106,7 @@
     import Search from "../search/search";
     import SearchResult from "../children/searchResult/searchResult";
     import Bus from "../../assets/js/bus";
+    import Swiper from 'swiper';
 
     export default {
         name: "home",
@@ -107,7 +115,6 @@
         data() {
             return {
                 msg: '首页',
-
                 name: ['顾客区', '会员区', '零售区', '商家区', '签到区', '顾客区', '会员区', '零售区', '商家区', '签到区',],
                 categorylist: [],
                 bannermsg: [],
@@ -144,9 +151,48 @@
             }
         },
         methods: {
-            opensearch:function () {
+            opensearch: function () {
                 Bus.$emit('val', true)
+            },
+            aaa:function () {
+                this.$router.push({path: '/author'})
             }
+        },
+        created(){
+            setTimeout(()=>{
+                const mySwiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1.15,
+                    observer: true,
+                    slidesOffsetAfter: 15,
+                    direction: 'horizontal',
+                    observe:true,
+                    observeParents:true,
+                    spaceBetween: 20,
+                    loop: true,
+                    centeredSlides: true,
+                    effect: "coverflow",
+                    grabCursor: true,
+                    watchSlidesProgress: true,
+                    loopedSlides: 5,
+                    autoplay: {
+                        delay: 3000,//自动播放速度
+                        disableOnInteraction: false//鼠标移上去时是否还继续播放
+                    },
+                    coverflowEffect: {
+                        rotate: 0,
+                        stretch: 0,
+                        depth: 30,
+                        modifier: 3,
+                        slideShadows: false
+                    },
+                    speed: 1000,
+                    initialSlide: 1,
+                    // lazy: {loadPrevNext: true,},
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                });
+            },300)
         },
         mounted() {
             const ad_data = {method: 'get.ad.banner.list'},

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navigation" v-show="this.$route.query.orderid != 4">
+    <div class="navigation" v-show="this.$route.query.orderid != 5">
       <ul class="clearfix">
         <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
       </ul>
@@ -115,7 +115,7 @@
         is: 'num',
         shouhou: '',
         isshouhou: false,
-        navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
+        navItems: this.$route.query.orderid == 5 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
         orderAllItem: [
           {
             storename: '富锦旗舰店',
@@ -174,9 +174,9 @@
       }
     },
     mounted() {
-      this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
-      this.isshouhou = this.$route.query.orderid == 4 ? true : false;
-      this.shouhou = this.$route.query.orderid == 4 ? '43px' : '101px';
+      this.is = this.$route.query.orderid ==5 ? 'index' : 'num';
+      this.isshouhou = this.$route.query.orderid ==5 ? true : false;
+      this.shouhou = this.$route.query.orderid == 5 ? '43px' : '101px';
       this.num = this.$route.query.orderid
     }
   }

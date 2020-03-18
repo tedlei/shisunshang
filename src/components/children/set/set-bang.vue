@@ -68,14 +68,16 @@
         methods: {
             //获取验证码
             getcode: function () {
+                let _this = this;
+                let can = _this.show ? 'send.sms.update.paypassword' : 'send.sms.bind.mobile';
                 let values = {
-                    method: 'send.sms.bind.mobile',
+                    method: can,
                     phone: this.phone
                 };
                 this.$post('/api/v1/user', values)
                     .then((response) => {
                         if (response.status == 200) {
-                            this.$toast(response.message);
+                            this.$toast(response.data.msg);
                         } else {
                             this.$toast(response.message);
                         }
@@ -89,11 +91,12 @@
                 let _this = this;
                 let can = _this.show ? 'set.user.pay.password' : 'set.user.mobile';
                 let url =  '/api/v1/user'
+
                 let addmsg = {
                     method: can
                 }
-                values = _this.show ? Object.assign(addmsg, values) : values;
-
+                values = Object.assign(addmsg, values);
+                console.log(values)
                 this.$post(url, values)
                     .then((response) => {
                         if (response.status == 200) {
@@ -108,8 +111,6 @@
                     }).catch(function (error) {
                     console.log(error);
                 });
-
-
             },
         },
         mounted() {
@@ -126,10 +127,6 @@
     }
 
     /deep/ form {
-      .van-field__label {
-        text-align: left;
-      }
-
       input, .van-field__error-message {
         text-align: right;
       }

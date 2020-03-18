@@ -2,14 +2,14 @@ import axios from 'axios';
 import Qs from 'qs'
 import {Message} from 'element-ui';
 
-const tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODQ0MzczMDAsIm5iZiI6MTU4MzgzMjUwMCwiaWF0IjoxNTgzODMyNTAwLCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiRWNvbG9neSJ9.1RmPozkut4A6-MQCPauNKG-F3JZALx_knpJonGsVoVw';
+// let tokens = sessionStorage.getItem('token');
+let tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODUxMDM5MjYsIm5iZiI6MTU4NDQ5OTEyNiwiaWF0IjoxNTg0NDk5MTI2LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.-znJrXAbHSKuWMVb5lIhOgY39Al1QEhWnRXzOmWks58';
 
-const baseURL = 'http://test.gj.wjeys.com';
+const baseURL = 'http://user.wjeys.com';
 export default {baseURL, tokens};
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;
-
 
 //http request 拦截器
 axios.interceptors.request.use(

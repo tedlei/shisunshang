@@ -1,14 +1,14 @@
 <template>
   <div class="content">
     <!--   添加银行卡     -->
-    <div class="add_bankcard " @click="aaaa" :style="banklist == '' ?'padding: 0.4rem 0;':''">
+    <div class="add_bankcard " :style="show ?'padding: 0.4rem 0;background-color: #fff;':''">
       <!--   空   -->
-      <div v-show="false" style="background-color: #fff">
+      <div v-show="show" style="background-color: #fff" @click="add_bank">
         <van-icon name="add" class="add_bank clo-g"/>
         <div class="clo-9" style="font-size: 0.18rem">添加银行卡</div>
       </div>
 
-      <div :class="bank[index]" class="m_b_10" v-for="(item,index) in banklist" :key="index">
+      <div v-show="!show" :class="bank[index]" class="m_b_10" v-for="(item,index) in banklist" :key="index">
         <div class="msg_box">
           <div class="name">{{item.name}}</div>
           <div>{{item.number}}</div>
@@ -26,14 +26,10 @@
             return {
                 banklist: [],
                 bank: [],
+                show:false,
             }
         },
-
         methods: {
-            aaaa: function () {
-                this.$store.commit('sendbank', true);
-            },
-
             getbank: function () {
                 let _this = this,
                     bankmsg = {
@@ -41,20 +37,32 @@
                     };
                 this.$post('/api/v1/bank', bankmsg)
                     .then((response) => {
-                        _this.banklist = response.data
-                        console.log(response)
-                        for(var i=0; i<response.data.length; i++){
-                            _this.bank.push("bank" + Math.floor(Math.random() * 3));
+                        if (response.data){
+                            _this.banklist = response.data
+                            for (var i = 0; i < response.data.length; i++) {
+                                _this.bank.push("bank" + Math.floor(Math.random() * 3));
+                            }
+                        }else {
+                            _this.show = true;
+                            this.$store.commit('sendbank', false);
                         }
-                        console.log(this.bank)
+
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
+            add_bank:function () {
+                this.$router.push({
+                    path:'/Bank-card/add-bank-card'
+                });
+            }
         },
         mounted() {
-            console.log(this.getbank())
-            console.log(this.$store.getters.getbank)
+            this.getbank();
+            this.$store.commit('sendbank', true);
+        },
+        destroyed() {
+            this.$store.commit('sendbank', false);
         }
     }
 </script>
@@ -70,7 +78,7 @@
         font-size: 0.4rem;
       }
 
-      .bank0,.bank1,.bank2 {
+      .bank0, .bank1, .bank2 {
 
         height: 1.5rem;
         background-size: cover;
@@ -92,13 +100,16 @@
           }
         }
       }
-      .bank0{
+
+      .bank0 {
         background: url("../../../assets/img/bank1.jpg") no-repeat;
       }
-      .bank1{
+
+      .bank1 {
         background: url("../../../assets/img/bank2.jpg") no-repeat;
       }
-      .bank2{
+
+      .bank2 {
         background: url("../../../assets/img/bank3.jpg") no-repeat;
       }
     }

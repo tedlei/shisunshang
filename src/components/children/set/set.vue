@@ -12,6 +12,7 @@
         </li>
       </ul>
     </div>
+
   </div>
 </template>
 
@@ -27,16 +28,9 @@
                     },
                     {
                         left: '用户名',
-                        right: '15320495341'
+                        right: JSON.parse(this.$store.getters.getuserinfo).name,
                     },
-                    {
-                        left: '性别',
-                        right: '陈俊余'
-                    },
-                    {
-                        left: '出生日期',
-                        right: '黑钻'
-                    },
+
                     {
                         left: '实名认证',
                         right: '15320495341'
@@ -51,7 +45,7 @@
                     },
                     {
                         left: '绑定手机',
-                        right: ''
+                        right: JSON.parse(this.$store.getters.getuserinfo).phone,
                     },
                     {
                         left: '绑定银行卡',
@@ -60,14 +54,19 @@
 
                     {
                         left: '清除缓存',
-                        right: '已认证'
+                        right: '0.00M'
                     },
 
                     {
                         left: '关于商城',
-                        right: '123.456.54.64'
+                        right: ''
                     },
                 ]
+            }
+        },
+        computed: {
+            userinfo() {
+                return JSON.parse(this.$store.getters.getuserinfo)
             }
         },
         methods: {
@@ -88,9 +87,21 @@
                             path: '/set/set-phone',
                         })
                         break;
+                    case '地址管理':
+                        this.$router.push({
+                            path: '/mine/Address',
+                        })
+                        break;
+                    default:
+                        this.$toast({
+                                message: '数据错误',
+                            })
                 }
 
             }
+        },
+        mounted() {
+
         }
     }
 </script>
