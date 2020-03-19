@@ -40,7 +40,7 @@
                             {
                                 img: 'mgj3',
                                 text: '账户互转',
-                                linkto:''
+                                linkto:'/mine/Trans'
                             },
                             {
                                 img: 'mgj4',

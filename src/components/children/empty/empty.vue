@@ -30,10 +30,10 @@
                 tolink: '',
                 url: '',
                 urlcode: '',
-                addressid:'',
-                show1:true,
-                show2:true,
-                show3:true
+                addressid: '',
+                show1: true,
+                show2: true,
+                show3: true
             }
         },
         mounted() {
@@ -45,8 +45,8 @@
                     this.text2 = '您可以新增地址以方便收货'
                     this.tolink = '新增收货地址'
                     this.url = '/mine/Add-address'
-                    this.urlcode = 'add',
-                        this.addressid = 'id'
+                    this.urlcode = 'add'
+                    this.addressid = 'id'
                     break;
                 case 'record':
                     this.text1 = '暂无相关记录'

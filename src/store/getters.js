@@ -33,14 +33,21 @@ export default {
   getbank: (state) => {
     return state.bank;
   },
+  //获取银行卡列表信息
+  getbankinfo: (state) => state.banklist,
+
   getRrecord: (state) => {
     return state.Rrecord;
+  },
+
+  getWrecord: (state) => {
+    return state.Wrecord;
   },
 
   getuserinfo: (state) => {
     return state.userinfo;
   },
   // userName: (state) => state.user_name,
-  isLogin :(state) => state.isLogin
+  isLogin: (state) => state.isLogin
 
 }

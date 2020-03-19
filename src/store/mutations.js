@@ -1,3 +1,4 @@
+
 export default {
   user_address_msg: (state, user_address_msg) => {
     state.user_address_msg = user_address_msg
@@ -12,11 +13,17 @@ export default {
     sessionStorage.removeItem('addressid');
     state.addressid = '';
   },
+
   sendbank(state, res) {
     state.bank = res
   },
+
   sendRrecord(state, res) {
     state.Rrecord = res
+  },
+
+  sendWrecord(state, res) {
+    state.Wrecord = res
   },
 
   userinfo(state, res) {

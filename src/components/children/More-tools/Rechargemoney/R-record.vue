@@ -12,15 +12,22 @@
     >
       <van-cell class="moneylist">
         <table class="tablehead" border="0" cellspacing="0">
-          <tr class="headtr">
+          <tr class="headtr" v-if="!show">
             <td>充值时间</td>
             <td>充值金额</td>
           </tr>
+
+          <tr class="headtr" v-if="show">
+            <td>提现时间</td>
+            <td>提现金额</td>
+            <td>到账方式</td>
+            <td>提现状态</td>
+          </tr>
           <tr v-for="(item,index) in record_dtllists" :key="index">
-            <td>
-              <div>{{item.add_time}}</div>
-            </td>
+            <td>{{item.add_time}}</td>
             <td>{{item.money}}</td>
+            <td v-if="show">银行卡</td>
+            <td v-if="show">{{state[item.status]}}</td>
           </tr>
         </table>
       </van-cell>
@@ -36,25 +43,28 @@
     export default {
         name: "R-record",
         components: {Empty},
+        props: ['records'],
         data() {
             return {
                 record_dtllists: [],
-                pages: 0,
                 isemptytype: 'record',
                 loading: false,
                 finished: false,
                 error: false,
-                pages:0
+                state: ['待处理', '成功', '失败', '已撤回'],
+                pages: 0,
+                show: false,
             }
         },
         methods: {
             async getlist() {
+                let url = this.show ? '/api/v1/userMoneyCashed' : '/api/v1/UserRecharge';
                 let parms = {
-                    method: 'get.recharge.list',
+                    method: this.show ? 'get.cashed.list' : 'get.recharge.list',
                     page: this.pages,
-                    page_size:20
+                    page_size: 20
                 }
-                this.$post('/api/v1/UserRecharge', parms)
+                this.$post(url, parms)
                     .then((response) => {
                         this.record_dtllists = this.record_dtllists.concat(response.data.items)
                         // 加载状态结束
@@ -78,19 +88,24 @@
 
         },
         mounted() {
-            this.getlist()
+            this.getlist();
+            if (this.records) {
+                this.show = true
+            }
+            console.log(this.records)
         }
     }
 </script>
 
 <style scoped lang="scss">
   .content {
-    .moneylist{
+    .moneylist {
       padding: 0;
     }
+
     table {
       width: 100%;
-
+      text-align: center;
       tr td {
         padding: 15px;
         background-color: #fff;
@@ -108,6 +123,7 @@
       tr.headtr {
         td {
           background-color: #009900;
+          width: 25%;
         }
 
         color: #fff;

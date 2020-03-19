@@ -263,7 +263,21 @@ export default new Router({
           path: '/mine/Cash-withdrawal',
           name: 'Cash-withdrawal',
           component: resolve => require(['@/components/children/More-tools/Cash-withdrawal/Cash-withdrawal'], resolve),
-          meta: {title: '申请体现', showFooter: false, goods: false,}
+          meta: {title: '申请提现', showFooter: false, goods: false,}
+        },
+
+        {
+          path: '/mine/withdrawRecord',
+          name: 'withdrawRecord',
+          component: resolve => require(['@/components/children/More-tools/Cash-withdrawal/withdrawRecord'], resolve),
+          meta: {title: '提现记录', showFooter: false, goods: false,}
+        },
+
+        {
+          path: '/mine/Trans',
+          name: 'Trans',
+          component: resolve => require(['@/components/children/More-tools/Trans/Trans'], resolve),
+          meta: {title: '账户互转', showFooter: false, goods: false,}
         },
 
       ],

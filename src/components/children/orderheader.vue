@@ -22,6 +22,7 @@
       <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
       <span v-else-if="this.bank" @click="add_bank">添加</span>
       <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
+      <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
     </span>
   </header>
 
@@ -49,6 +50,9 @@
             },
             Rrecord() {
                 return this.$store.state.Rrecord;
+            },
+            Wrecord() {
+                return this.$store.state.Wrecord;
             }
         },
         watch: {

@@ -15,8 +15,9 @@
       </div>
 
       <van-field
-        v-model="money"
-        name="提现金额"
+        v-model="dmoney"
+        name="money"
+        type="number"
         label="提现金额"
         placeholder="请输入提现金额"
         :rules="[{ required: true, message: '请输入提现金额' }]"
@@ -27,26 +28,29 @@
         readonly
         clickable
         name="picker"
-        :value="value"
+        :value="value1"
         label=""
         placeholder="请选择提现账户"
-        @click="showPicker = true"
+        @click="showPopup('moneytype')"
+        :rules="[{ required: true, message: '请选择提现账户' }]"
       />
-
+      <van-field name="money_type_id" :value="money_type_id" v-show="false"></van-field>
       <van-field
         readonly
         clickable
         name="picker"
-        :value="value"
+        :value="value2"
         label=""
         placeholder="请选择银行账户"
-        @click="showPicker = true"
+        @click="showPopup('bank')"
+        :rules="[{ required: true, message: '请选择银行账户' }]"
       />
+      <van-field name="bank_id" :value="bank_id" v-show="false"></van-field>
 
       <van-field
         readonly
         clickable
-        :value="10+'元'"
+        :value="qiti+'元'"
         label="起提金额"
         placeholder=""
       />
@@ -54,14 +58,14 @@
       <van-field
         readonly
         clickable
-        :value="3+'%'"
+        :value="poundage+'%'"
         label="手续费"
         placeholder=""
       />
       <van-field
         readonly
         clickable
-        :value="'必须是10的倍数'"
+        :value="'必须是'+multiple+'的倍数'"
         label="提现倍数"
         placeholder=""
       />
@@ -83,7 +87,7 @@
     <van-popup v-model="showPicker" position="bottom">
       <van-picker
         show-toolbar
-        :columns="columns"
+        :columns="columnsArry"
         @confirm="onConfirm"
         @cancel="showPicker = false"
       />
@@ -92,38 +96,140 @@
 </template>
 
 <script>
+
     export default {
         name: "Cash-withdrawal",
         data() {
             return {
-                username: '',
                 dang: 0.00,
-                money: '',
-                value: '',
-                columns: [],
+                dmoney: '',
+                qiti: '',
+                poundage: '',
+                multiple: '',
+                value1: '',
+                value2: '',
+                bank_id: '',
+                money_type_id: '',
+                moneytypeid: [],
+                bankid: [],
+                dangtype: '',
+                columns: {
+                    money_type_column: [],
+                    bank_columns: []
+                },
+                columnsArry: [],
+                balance: [],
                 showPicker: false,
-                password:''
+                password: '',
             }
         },
+        computed: {},
         methods: {
-
-            //提交表单
+            //获取提现配置信息
+            getpei: function () {
+                let parms = {
+                    method: 'get.cashed.info',
+                }
+                this.$post('/api/v1/userMoneyCashed', parms)
+                    .then((response) => {
+                        let val = response.data.info
+                        this.qiti = val.withdrawal_money.values
+                        this.poundage = val.withdrawal_poundage.values * 100
+                        this.multiple = val.withdrawal_multiple.values
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            //获取银行卡ID
+            getID: function () {
+                let bankmsg = {
+                    method: 'get.bank.list'
+                };
+                this.$post('/api/v1/bank', bankmsg)
+                    .then((response) => {
+                        for (let i in response.data) {
+                            this.columns.bank_columns.push(response.data[i].name);
+                            this.bankid.push(response.data[i].id);
+                        }
+                        console.log(this.columns)
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //获取账户和余额信息
+            getbalance: function () {
+                let bankmsg = {
+                    method: 'get.cashed.type.list'
+                };
+                this.$post('/api/v1/userMoneyCashed', bankmsg)
+                    .then((response) => {
+                        for (let i in response.data.items) {
+                            this.columns.money_type_column.push(response.data.items[i].name);
+                            this.moneytypeid.push(response.data.items[i].sequence);
+                            this.balance.push(response.data.items[i].balance);
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //提交表单 申请提现
             onSubmit(values) {
-                console.log('submit', values);
+                if (this.dmoney > this.dang) {
+                    this.$toast('提现金额不能大于可提现金额')
+                } else {
+                    let bankmsg = {
+                        method: 'add.cashed.item'
+                    };
+                    values = Object.assign(bankmsg, values)
+                    this.$post('/api/v1/userMoneyCashed', values)
+                        .then((response) => {
+                            if (response.status == 200) {
+                                this.$toast('提现成功')
+                            } else {
+                                this.$toast(response.message)
+                            }
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+                console.log(values);
             },
             // 底部选择省市弹窗
-            showPopup() {
+            showPopup(e) {
+                this.dangtype = e;
+                if (e == 'moneytype') {
+                    this.columnsArry = this.columns.money_type_column
+                } else {
+                    this.columnsArry = this.columns.bank_columns
+                }
                 this.showPicker = true;
             },
             // 底部选择省市弹窗 确定按钮
-            onConfirm(e) {
-
+            onConfirm(e, index) {
+                if (this.dangtype == 'moneytype') {
+                    this.value1 = e;
+                    this.money_type_id = this.moneytypeid[index];
+                    this.dang = this.balance[index];
+                } else {
+                    this.value2 = e;
+                    this.bank_id = this.bankid[index]
+                }
+                this.showPicker = false;
                 console.log(e)
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {
                 this.showPicker = false;
             },
+        },
+        mounted() {
+            this.getpei();
+            this.getID();
+            this.getbalance();
+            this.$store.commit('sendWrecord', true);
+        },
+        destroyed() {
+            this.$store.commit('sendWrecord', false);
         }
     }
 </script>
@@ -138,7 +244,7 @@
         padding-left: 0;
       }
 
-      .van-cell:not(:last-child)::after{
+      .van-cell:not(:last-child)::after {
         left: 0;
       }
 
