@@ -48,6 +48,11 @@ export default {
     return state.userinfo;
   },
   // userName: (state) => state.user_name,
-  isLogin: (state) => state.isLogin
-
+  isLogin: (state) => state.isLogin,
+  getLoading (state) {
+    return state.cart.isLoading;  
+  },
+  getEmpty (state) {
+      return state.cart.empty;
+  }
 }
