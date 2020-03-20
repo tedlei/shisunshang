@@ -1,14 +1,23 @@
 <template>
   <div class="main_box">
     <header ref="headerh">
-      <i class="el-icon-full-screen"></i>
+      <!--扫码-->
+      <div class="sao">
+        <i class="el-icon-full-screen"></i>
+
+      </div>
+
       <div @click="opensearch" style="width: 100%">
         <search :dmsg='msg'></search>
       </div>
 
-      <router-link to="/news">
-        <i class="el-icon-chat-dot-round"></i>
-      </router-link>
+      <!--消息-->
+      <div class="news">
+        <router-link to="/news">
+          <i class="el-icon-chat-dot-round"></i>
+
+        </router-link>
+      </div>
     </header>
 
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
@@ -121,12 +130,15 @@
     align-items: center;
     border-bottom: 1px solid #f2f2f2;
     height: 0.55rem;
-
-    i {
-      font-size: 30px;
+    .sao,.news{
       color: #999;
-      margin: 0 8px;
+      min-width: 0.45rem;
+      i {
+        font-size: 0.24rem;
+
+      }
     }
+
   }
 
   aside {

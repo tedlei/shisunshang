@@ -45,7 +45,7 @@
 
     <!--  分类按钮  -->
     <div style="padding:0.1rem">
-      <el-row :gutter="20" class="f-nav">
+      <el-row :gutter="0" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
             <router-link :to="{path:'/Special-area',query:{typeid:item.module}}">
@@ -61,7 +61,7 @@
       <img src="../../assets/img/icon1.png">
       <el-carousel height="0.2rem" direction="vertical" :autoplay="true">
         <el-carousel-item v-for="(item,items) in news" :key="items">
-          <router-link :to="{}">
+          <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}">
             <h3 class="medium">{{ item.title }}</h3>
           </router-link>
         </el-carousel-item>
@@ -71,8 +71,11 @@
 
     <!--  商品列表  -->
     <div class="list" v-for="(item,index) in lists" :key="index">
-      <div class="top_name">{{item.module}}</div>
-      <img :src="item.ad.img">
+      <div class="top_name">
+        <span>{{item.module}}</span>
+        <span class="text_rich">新款商品下单</span>
+      </div>
+      <img :src="item.ad.img" style="height: 28vw">
       <el-row class="goodslist">
         <router-link v-for="(goods, index) in item.goods" :key="index"
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">

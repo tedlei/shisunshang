@@ -7,6 +7,7 @@
     @search="onSearch"
     style="padding: 0;width: 100%"
     :readonly="readonly"
+    :class="!tan ?'nobtn':''"
   >
     <div slot="action" @click="onSearch" v-show="tan">搜索</div>
   </van-search>
@@ -62,5 +63,9 @@
 
   .el-input /deep/ i {
     line-height: 35px;
+  }
+
+  .nobtn .van-search__action{
+    display: none;
   }
 </style>

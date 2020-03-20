@@ -50,7 +50,7 @@
                             {
                                 img: 'mgj5',
                                 text: '实名认证',
-                                linkto:''
+                                linkto:'/mine/certification'
                             },
                             {
                                 img: 'mgj6',

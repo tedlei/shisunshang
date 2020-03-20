@@ -136,13 +136,13 @@ export default new Router({
           path: '/news',
           name: 'news',
           component: resolve => require(['@/components/children/news/news'], resolve),
-          meta: {title: '消息中心', showFooter: false, goods: false, news: true}
+          meta: {title: '消息新闻中心', showFooter: false, goods: false, news: true}
         },
         {
           path: '/news/newsdetail',
           name: 'newsdetail',
           component: resolve => require(['@/components/children/news/newsdetail'], resolve),
-          meta: {title: '消息中心', showFooter: false, goods: false, news: true}
+          meta: {title: '新闻详情', showFooter: false, goods: false,}
         },
         {
           path: '/mine/usermsg',
@@ -291,6 +291,14 @@ export default new Router({
           component: resolve => require(['@/components/children/More-tools/Trans/Trans'], resolve),
           meta: {title: '账户互转', showFooter: false, goods: false,}
         },
+        {
+          path: '/mine/certification',
+          name: 'certification',
+          component: resolve => require(['@/components/children/More-tools/certification/certification'], resolve),
+          meta: {title: '实名认证', showFooter: false, goods: false,}
+        },
+
+
 
       ],
       meta: {title: '商品详情', showFooter: false}

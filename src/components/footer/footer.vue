@@ -103,7 +103,7 @@
   }
 
   .icon-fenlei {
-    width: 0.21rem;
+    width: 0.22rem;
     height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
     background-position: 0 -0.42rem;

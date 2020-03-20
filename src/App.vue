@@ -40,18 +40,22 @@
     margin: 0;
     padding: 0;
   }
-  html{
+
+  html {
     font-size: 100px;
     height: 100%;
   }
+
   @media screen and (max-width: 320px) {
-    html{
+    html {
       font-size: 80px !important;
     }
   }
-  body{
+
+  body {
     height: 100%;
   }
+
   #app {
     height: 100%;
     -webkit-font-smoothing: antialiased;

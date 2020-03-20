@@ -62,7 +62,7 @@
 <script>
     import Headerback from "../../headerback/headerback";
     import Header from "../../header/header";
-
+    import clientW from '../../../assets/js/conmon'
     export default {
         name: "news",
         components: {Header, Headerback},
@@ -71,39 +71,7 @@
                 boxHeight: '',
                 flex: 'flex',
                 center: 'center',
-                newslists: [
-                    {
-                        headimg: 'news_head',
-                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-                        name: '小伙子',
-                        time: '昨天',
-                    },
-                    {
-                        headimg: 'news_head',
-                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-                        name: '小伙子',
-                        time: '昨天',
-                    },
-                    {
-                        headimg: 'news_head',
-                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-                        name: '小伙子',
-                        time: '昨天',
-                    },
-                    {
-                        headimg: 'news_head',
-                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-                        name: '小伙子',
-                        time: '昨天',
-                    },
-                    {
-                        headimg: 'news_head',
-                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-                        name: '小伙子',
-                        time: '昨天',
-                    },
-
-                ]
+                newslists: []
             }
         },
         methods: {
@@ -119,8 +87,8 @@
             }
         },
         mounted() {
-            this.getnews()
-            this.boxHeight = ((document.documentElement.clientHeight || document.body.clientHeight) - 161.5) + 'px';
+            this.getnews();
+            this.boxHeight = (((document.documentElement.clientHeight || document.body.clientHeight) - 161.5) * clientW/100)/clientW + 'rem';
         }
     }
 </script>
@@ -128,17 +96,17 @@
 <style scoped lang="scss">
   .news_header {
     position: fixed;
-    top: 43px;
+    top: 0.43rem;
     z-index: 9;
 
     ul {
-      padding: 10px;
+      padding: 0.1rem;
       background-color: #fff;
 
       li {
         float: left;
         width: 25%;
-        padding: 0 20px;
+        padding: 0 0.15rem;
 
         p {
           color: #999999;
@@ -165,12 +133,12 @@
   }
 
   .content {
-    padding-top: 161.5px;
+    padding-top: 1.615rem;
     background: none;
 
     .news {
       background-color: #fff;
-      padding: 0 10px;
+      padding: 0 0.1rem;
 
       li {
         display: flex;

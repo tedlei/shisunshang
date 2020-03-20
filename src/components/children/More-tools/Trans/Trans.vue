@@ -127,7 +127,10 @@
                 this.$post('/api/v1/UserTrans', values)
                     .then((response) => {
                         if (response.status == 200) {
-                            this.$toast('提现成功')
+                            this.$toast('提现成功');
+                            setTimeout(()=>{
+                              window.location.reload()
+                            },2000)
                         } else {
                             this.$toast(response.message)
                         }
