@@ -12,7 +12,7 @@
     </header>
 
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
-      <el-aside width="100px">
+      <el-aside width="1rem">
         <ul class="left">
           <li v-for="(item,leftindex) in typelist" :key="item.id" :class="{active:num==leftindex}"
               @click="getNum(leftindex)">
@@ -53,6 +53,8 @@
     import Search from "../search/search";
     import Bus from "../../assets/js/bus";
     import SearchResult from "../children/searchResult/searchResult";
+    import clientW from '../../assets/js/conmon'
+
     export default {
         name: "classification",
         components: {SearchResult, Search, Header},
@@ -94,14 +96,18 @@
             todetile: function (e) {
                 this.$router.push({path: '/goodslist', query: {id: e}})
                 console.log(e)
-            }
-
+            },
+            getHeight: function () {
+                console.log(clientW)
+                let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+                let topH = this.$refs.headerh.offsetHeight;
+                this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem'
+                console.log(topH)
+            },
         },
         mounted() {
             setTimeout(() => {
-                let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-                let topH = this.$refs.headerh.offsetHeight;
-                this.height = h - topH - 70 + 'px'
+                this.getHeight();
             }, 100)
             this.getgoods()
         }
@@ -112,8 +118,8 @@
   header {
     display: flex;
     align-items: center;
-    padding: 10px 0;
     border-bottom: 1px solid #f2f2f2;
+    height: 0.55rem;
 
     i {
       font-size: 30px;

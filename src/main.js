@@ -15,6 +15,7 @@ import 'swiper/dist/css/swiper.min.css';
 import axios from 'axios'
 import qs from 'qs'
 import {post, fetch, patch, put} from './api/https'
+
 import tokens from './api/https'
 //定义全局变量
 Vue.prototype.$post = post;

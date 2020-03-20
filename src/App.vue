@@ -3,7 +3,6 @@
 
     <Footer v-show="$route.meta.showFooter"></Footer>
     <router-view/>
-    <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
   </div>
 </template>
 
@@ -40,18 +39,13 @@
   }
   html{
     font-size: 100px;
-    height: 100%;
   }
   @media screen and (max-width: 320px) {
     html{
       font-size: 80px !important;
     }
   }
-  body{
-    height: 100%;
-  }
   #app {
-    height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;

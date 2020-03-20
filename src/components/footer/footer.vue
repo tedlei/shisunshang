@@ -63,10 +63,12 @@
     position: fixed;
     bottom: 0;
     background-color: #fff;
-    padding: 8px;
-    z-index: 9999;
+    padding: 0 0.08rem;
+    z-index: 999;
     border-top: 1px solid #f2f2f2;
-    span{
+    display: flex;
+    align-items: center;
+    span {
       color: #999999;
     }
   }
@@ -74,6 +76,7 @@
   .footer_guide {
     display: flex;
     justify-content: space-around;
+    width: 100%;
   }
 
   .guide_item {
@@ -85,68 +88,71 @@
 
   .item_icon {
     display: inline-block;
+
     i {
       display: inline-block;
-      background-size: auto 200%;
+      background-size: auto 300%;
     }
   }
 
   .icon-home {
-    width: 0.24rem;
-    height: 0.288rem;
+    width: 0.21rem;
+    height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: 0 0;
+    background-position: -0.32rem -0.42rem;
   }
 
   .icon-fenlei {
-    width: 0.288rem;
-    height: 0.288rem;
+    width: 0.21rem;
+    height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -0.288rem 0;
+    background-position: 0 -0.42rem;
+
   }
 
   .icon-fujin {
-    width: 0.2rem;
-    height: 0.288rem;
+    width: 0.21rem;
+    height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -0.648rem 0;
+    background-position: -0.585rem -0.42rem;
   }
 
   .icon-cart {
-    width: 0.288rem;
-    height: 0.288rem;
+    width: 0.21rem;
+    height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -0.92rem 0;
+    background-position: -0.85rem -0.42rem;
   }
 
   .icon-mine {
-    width: 0.2rem;
-    height: 0.288rem;
+    width: 0.21rem;
+    height: 0.21rem;
     background: url('../../assets/img/nav_icon.png') no-repeat;
-    background-position: -1.26rem 0;
+    background-position: -1.16rem -0.42rem;
   }
 
-  .router-link-exact-active span{
+  .router-link-exact-active span {
     color: #009900;
   }
 
-  .router-link-exact-active .icon-home{
-    background-position: 0 -0.288rem;
+  .router-link-exact-active .icon-home {
+    background-position: -0.32rem 0;
   }
 
-  .router-link-exact-active .icon-fenlei{
-    background-position: -0.288rem -0.288rem;
+  .router-link-exact-active .icon-fenlei {
+    background-position: 0 0;
+
   }
 
-  .router-link-exact-active .icon-fujin{
-    background-position: -0.648rem -0.288rem;
+  .router-link-exact-active .icon-fujin {
+    background-position: -0.585rem 0;
   }
 
-  .router-link-exact-active .icon-cart{
-    background-position: -0.92rem -0.288rem;
+  .router-link-exact-active .icon-cart {
+    background-position: -0.85rem 0;
   }
 
-  .router-link-exact-active .icon-mine{
-    background-position: -1.26rem -0.288rem;
+  .router-link-exact-active .icon-mine {
+    background-position: -1.16rem 0;
   }
 </style>
