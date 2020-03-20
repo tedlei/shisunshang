@@ -4,33 +4,43 @@
     <div class="common_box ipt_box">
       <div class="left_name">姓名：</div>
       <div class="right_ipt">
-        <el-input v-model="input1" placeholder="请填写收货人姓名"></el-input>
+        <el-input v-model="allinput.input1" placeholder="请填写收货人姓名"></el-input>
       </div>
     </div>
     <div class="common_box ipt_box">
       <div class="left_name">手机号：</div>
       <div class="right_ipt">
-        <el-input v-model="input2" placeholder="请填写收货人姓名"></el-input>
+        <el-input v-model="allinput.input2" placeholder="请填写收货手机号"></el-input>
       </div>
     </div>
     <div class="common_box left_ttl">收货地址</div>
     <div class="common_box ipt_box">
       <div class="left_name">所在地区：</div>
       <div class="right_ipt select_address">
-        <input type="text" v-model="input3" id="getArea" placeholder="请选择地区" readonly>
-
-        <i class="el-icon-arrow-right"></i>
+        <van-cell is-link @click="showPopup" style="padding-left: 0;padding-right: 0">{{Areas}}</van-cell>
       </div>
     </div>
-    <van-area
-      :area-list="areaList"
-      :columns-placeholder="['请选择', '请选择', '请选择']"
-      title="标题"
-    />
+
+
+    <van-popup
+      v-model="areashow"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-area
+        :area-list="areaList"
+        title=""
+        confirm-button-text="保存"
+        @confirm="confirm"
+        @cancel="cancel"
+        :value="defaultCode"
+      />
+    </van-popup>
+
     <div class="common_box ipt_box">
       <div class="left_name">详细地址：</div>
       <div class="right_ipt">
-        <el-input v-model="input4" placeholder="街道，门牌号等"></el-input>
+        <el-input v-model="allinput.input4" placeholder="街道，门牌号等"></el-input>
       </div>
     </div>
     <!--    <div class="common_box ipt_box">-->
@@ -52,26 +62,29 @@
       </div>
     </div>
   </div>
-<!--  <button @click="choose">点我选择区域</button>-->
-<!--  <p>您选择的城市为:<span>{{txt1}}</span><span>{{txt2}}</span><span>{{txt3}}</span></p>-->
-<!--  <p class="pwrap" v-if="show">-->
-<!--    <v-distpicker type="mobile" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea"></v-distpicker>-->
-<!--  </p>-->
+
 </template>
 
 <script>
+    import {Area} from '../../../assets/js/Area'
+
     export default {
         name: "Add-address",
 
         data() {
             return {
-                input1: '',
-                input2: '',
-                input3: '',
-                input4: '',
+                allinput: {
+                    input1: '',
+                    input2: '',
+                    input4: '',
+                },
                 value1: false,
-                defaultArea: [],
-                show:false,
+                defaultCode: '500000,500100,500103',
+                show: false,
+                areashow: false,
+                areaList: Area,
+                Areas: '请选择地区',
+                chooseAreasCode: {},
             }
         },
         computed: {
@@ -100,47 +113,64 @@
                 if (addressid) {
                     for (let i in addressmsg) {
                         if (addressid == addressmsg[i].id) {
-                            _this.Allinput.input1 = addressmsg[i].name
-                            _this.Allinput.input2 = addressmsg[i].phone
-                            _this.Allinput.input3 = addressmsg[i].province + "," + addressmsg[i].city + "," + addressmsg[i].area
-                            _this.Allinput.input4 = addressmsg[i].address
-                            _this.defaultArea = [addressmsg[i].province_id, addressmsg[i].city_id, addressmsg[i].area_id]
+                            _this.allinput.input1 = addressmsg[i].name
+                            _this.allinput.input2 = addressmsg[i].phone
+                            _this.allinput.input4 = addressmsg[i].address
+
+                            _this.Areas = addressmsg[i].province + "," + addressmsg[i].city + "," + addressmsg[i].area
+                            _this.defaultCode = addressmsg[i].province_id + ',' + addressmsg[i].city_id + ',' + addressmsg[i].area_id
+                            _this.chooseAreasCode.province = addressmsg[i].province
+                            _this.chooseAreasCode.city = addressmsg[i].city
+                            _this.chooseAreasCode.area = addressmsg[i].area
+                            _this.chooseAreasCode.province_id = addressmsg[i].province_id
+                            _this.chooseAreasCode.city_id = addressmsg[i].city_id
+                            _this.chooseAreasCode.area_id = addressmsg[i].area_id
                             _this.value1 = addressmsg[i].default == 1 ? true : false
-                            // this.Allinput.input5 = addressmsg[i].address
                         }
                     }
                 }
             },
-            //地址选择
-            // getArea: function () {
-            //     var Area = [];
-            //     if (this.$route.query.addressid == 'add') {
-            //         console.log(321)
-            //         Area = [21, 0, 0]
-            //     } else {
-            //         Area = this.defaultArea == [] ? [21, 0, 0] : this.defaultArea
-            //     }
-            //     $('#getArea').getArea({
-            //         defaultArea: Area,
-            //         inpEle: '#getArea',
-            //         normalArea: true
-            //     });
-            //
-            // },
+            // 底部选择省市弹窗
+            showPopup() {
+                this.areashow = true;
+            },
+            // 底部选择省市弹窗 确定按钮
+            confirm(e) {
+                this.Areas = e[0].name + ',' + e[1].name + ',' + e[2].name;
+                this.chooseAreasCode.province = e[0].name
+                this.chooseAreasCode.city = e[1].name
+                this.chooseAreasCode.area = e[2].name
+                this.chooseAreasCode.province_id = e[0].code
+                this.chooseAreasCode.city_id = e[1].code
+                this.chooseAreasCode.area_id = e[2].code
+                this.areashow = false;
+                console.log(e)
+            },
+            // 底部选择省市弹窗 取消按钮
+            cancel() {
+                this.areashow = false;
+            },
             //保存
             baocun: function (newValue) {
-                var flag = true;
-                for (let key in allinput) {
-                    if (allinput[key] == '') {
-                        flag = false
+                var flag = 0,
+                    _this = this;
+                for (let key in _this.allinput) {
+                    if (_this.allinput[key] == '') {
+                        flag = 1
+                    } else if (_this.chooseAreasCode.province == undefined) {
+                        flag = 2
                     } else {
-                        flag = true
+                        flag = 0
                     }
-                }
-                ;
-                if (!flag) {
+                };
+                if (flag == 1) {
                     this.$message({
                         message: '请填写完整哦!',
+                        type: 'warning',
+                    });
+                }else if(flag == 2){
+                    this.$message({
+                        message: '还未选择城市哦!',
                         type: 'warning',
                     });
                 } else {
@@ -149,14 +179,12 @@
                         // 新增保存
                         let address = {
                             method: 'add.address.item',
-                            name: this.Allinput.input1,
-                            phone: this.Allinput.input2,
-                            address: this.Allinput.input4,
-                            id: this.$route.query.addressid,
+                            name: this.allinput.input1,
+                            phone: this.allinput.input2,
+                            address: this.allinput.input4,
                             default: this.value1 == false ? 0 : 1
                         };
-                        let getArea = $('#getArea').getArea();
-                        let newaddress = Object.assign(address, getArea)
+                        let newaddress = Object.assign(address, _this.chooseAreasCode)
                         _this.$post('/api/v1/address', newaddress)
                             .then((response) => {
                                 _this.$message({
@@ -164,10 +192,8 @@
                                     type: 'warning',
                                     onClose: function () {
                                         _this.$router.back(-1);
-                                        window.location.reload()
                                     }
                                 });
-                                console.log(response.data)
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -175,41 +201,38 @@
                         //修改保存
                         let address = {
                             method: 'set.address.item',
-                            name: this.Allinput.input1,
-                            phone: this.Allinput.input2,
-                            address: this.Allinput.input4,
-                            id: this.$route.query.addressid,
+                            name: _this.allinput.input1,
+                            phone: _this.allinput.input2,
+                            address: _this.allinput.input4,
+                            id: _this.$route.query.addressid,
                             default: this.value1 == false ? 0 : 1
                         };
-                        let getArea = $('#getArea').getArea();
-                        let newaddress = Object.assign(address, getArea)
+                        let newaddress = Object.assign(address, _this.chooseAreasCode)
                         this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                console.log(response.data)
+                                _this.$message({
+                                    message: '修改成功!',
+                                    type: 'warning',
+                                    onClose: function () {
+                                        _this.$router.back(-1);
+                                    }
+                                });
                             }).catch(function (error) {
                             console.log(error);
                         });
                     }
                 }
             },
-
-
-
         },
 
         mounted() {
-            //这个是钩子函数
-            //如果cartView函数要执行，必须先执行钩子函数
-            //这个钩子函数完成了对cratView函数的调用
-            //应该注意的是，使用mounted 并不能保证钩子函数中的 this.$el 在 document 中。为此还应该引入    Vue.nextTick/vm.$nextTick
+
             if (this.$route.query.addressid != 'add') {
-                console.log(this.$route.query.addressid)
-                // this.getmsg()
+                this.getmsg()
             }
+
         },
-        updated() {
-            console.log(11)
-        }
+
     }
 </script>
 

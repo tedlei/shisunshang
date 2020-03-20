@@ -1,52 +1,54 @@
 <template>
-
-  <el-input
-    :placeholder='placeholder'
+  <van-search
     v-model="searchVal"
-    @keyup.enter.native="onEnterSearch()"
-    @focus="focus()"
-    class="search_ipt"
+    shape="round"
+    show-action
+    placeholder="请输入搜索关键词"
+    @search="onSearch"
+    style="padding: 0;width: 100%"
+    :readonly="readonly"
   >
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-  </el-input>
+    <div slot="action" @click="onSearch" v-show="tan">搜索</div>
+  </van-search>
 </template>
 
 <script>
-  export default {
-    name: "search",
-    props: ['dmsg'],
-    data() {
-      return {
-        placeholder: '',
-        searchVal: '',
-      }
-    },
-    methods: {
+    export default {
+        name: "search",
+        props: ['dmsg','tmsg'],
+        data() {
+            return {
+                placeholder: '',
+                searchVal: '',
+                readonly:true,
+                tan:false
+            }
+        },
+        methods: {
+            //
+            // focus: function (e) {
+            //     let pros_data = this.dmsg
+            //     if (pros_data != true) {
+            //         this.$router.push({path: '/searchResult', query: {searchid: this.dmsg}});
+            //     }
+            // },
+            onEnterSearch: function (e, searchVal) {
+                console.log("search: " + this.searchVal);
+            },
+            onSearch: function () {
 
-      focus: function (e) {
-        if (!this.$route.query.searchid) {
-          this.$router.push({path: '/searchResult', query: {searchid: this.dmsg}});
+            }
+        },
+        mounted() {
+            let _this = this
+            if (_this.dmsg == true){
+                this.readonly = false
+            }
+            if (_this.tmsg == 'tan'){
+                _this.tan = true
+            }
         }
-      },
-      onEnterSearch: function (e, searchVal) {
-        console.log("search: " + this.searchVal);
-      }
-    },
-    mounted() {
-      let pros_data = this.dmsg
-      switch (pros_data) {
-        case '首页':
-          this.placeholder = '请输入搜索内容'
-          break
-        case '分类':
-          this.placeholder = '请输入商品名称'
-          break
-        case '附近商家':
-          this.placeholder = '请输入商品名称或者公司'
-          break
-      }
     }
-  }
 </script>
 
 <style lang="scss">

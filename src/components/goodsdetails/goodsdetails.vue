@@ -54,10 +54,10 @@
           <img src="../../assets/img/store_head.png">
         </div>
         <div class="right">
-          <span>重庆网络科技自营店
-          </span>
+          <span>重庆网络科技自营店</span>
           <i class="el-icon-arrow-right"></i>
         </div>
+
       </div>
     </div>
 

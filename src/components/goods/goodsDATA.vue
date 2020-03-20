@@ -19,11 +19,9 @@
       </div>
       <!-- 1 -->
       <div  class="m_b_10 conmo_box box_one">
-        <div class="name textLinefeed commodityName">
-          {{goodsData.goods_info.name}}
-        </div>
+        <div class="name">{{goodsData.goods_info.name}}</div>
         <div class="gg">
-          <span class="textLinefeed SpecificationsName">
+          <span>
             {{initialName}}
             </span>
           <span class="share">
@@ -46,9 +44,8 @@
       <div class="m_b_10 conmo_box box_two" @click="drawer = true">
         <span class="left">选择</span>
         <div class="right">
-          <span class="textLinefeed SpecificationsName">已选择：
+          <span>已选择：
             {{initialName}}
-          <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
           </span>
           <i class="el-icon-arrow-right"></i>
         </div>
@@ -73,22 +70,18 @@
         </div>
       </div> -->
       <!--   5   -->
-      <div style="display: flex;justify-content: space-between;"
-       class="m_b_10 conmo_box"
-       @click="show=true">
+      <div class="m_b_10 conmo_box box_five">
         <div class="left vip_head">
           购买方式
         </div>
-        <div>{{actionsName}}</div>
         <div class="right">
+          <span>会员购买</span>
           <i class="el-icon-arrow-right"></i>
         </div>
-        <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
       </div>
       <!-- 店铺详情 -->
       <div id="commoditEvaluate">
       <shop></shop>
-      <!-- <shop :is_follow=""></shop> -->
       </div>
       <!--   商品评价   -->
       <div class="m_b_10 conmo_box goods_evaluate">
@@ -155,7 +148,7 @@
         </div>
         <div>
           <div class="el-icon-chat-dot-round"></div>
-          <div @click="collection">收藏</div>
+          <div>收藏</div>
         </div>
         <div>
           <router-link to="/my_cart">
@@ -169,7 +162,7 @@
           加入购物车
         </div>
         <div class="buy">
-          <router-link :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial, buy_type: isactions}}">
+          <router-link :to="{path:'/goodsdetails/makeorder',query:{goodsData: {id: goodsData.goods_info.id, num: nums, goods_sku_id: initial}}}">
             立即购买
           </router-link>
         </div>
@@ -188,13 +181,11 @@
           <img :src="require(`../../assets/img/banner.png`)">
         </div>
         <div class="right_msg">
-          <div class="clo-g price">￥
-          {{goodsData.goods_info.price}}
-          </div>
-          <p>库存：
-          {{goodsData.goods_info.kuchun}}
-          </p>
+          <div class="clo-g price">￥560.00</div>
+          <p>库存：359件</p>
+          <p>已选：1000*6盒</p>
         </div>
+
       </div>
       <div class="Specifications_select" v-for="(item,n) of goodsData.specData.spec_attr" :key="n">
         <p>{{item.group_name}}</p>
@@ -208,7 +199,7 @@
       <div class="btn_bottom">
         <div class="carts" @click="goodsCart">加入购物车</div>
         <div class="buy">
-          <router-link :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial,buy_type: isactions}}">
+          <router-link :to="{path:'/goodsdetails/makeorder',query:{goodsData: {id: goodsData.goods_info.id, num: nums, goods_sku_id: initial}}}">
           立即购买
           </router-link>
         </div>
@@ -233,13 +224,6 @@
         initial: [],//默认规格Id
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
-        show: false,
-        actions: [
-          { name: '选项' },
-          { name: '选项' },
-        ],
-        isactions: 'customer',
-        actionsName: '',
 
         msg: '商品详情',
         imgHeight: '',
@@ -459,28 +443,15 @@
         var anchor = this.$el.querySelector(selector);
         document.documentElement.scrollTop = anchor.offsetTop;
       },
-      onSelect(item,index) {
-        // 默认情况下点击选项时不会自动收起
-        // 可以通过 close-on-click-action 属性开启自动收起
-        this.actionsName = item.name;
-        if(item.name == '顾客购买'){
-          this.isactions = 'customer'
-        }else if(item.name == '会员购买'){
-          this.isactions = 'vip'
-        }
-        this.show = false;
-      },
 
       //商品信息
       getDATA () {
           let _id = this.$route.query.id;
-          let ad_data = {
-            method: 'get.goods.item',
-            goods_id: _id
-          };
+        //   console.log(_id)
+          let ad_data = {method: 'get.goods.item', goods_id: '3'};
           this.$post('/api/v1/goods', ad_data)
           .then((res) => {
-            console.log(res) 
+            console.log(res.data) 
             if(res.status == 200){
               this.goodsData = res.data;
               // console.log(this.goodsData);
@@ -492,46 +463,14 @@
                 this.initialName += list[i].spec_items[0].spec_value+'*' ;
               }
               // console.log(this.initial);
-              let actions = [];
-              for(let n in res.data.buy_array){
-                // console.log(res.data.buy_array[n]);
-                actions.push({
-                  name:res.data.buy_array[n]
-                })
-              }
-              this.actions = actions;
             }
           }).catch(function (error) {
               console.log(error);
           });
       },
 
-      //收藏商品
-      collection () { 
-        this.$store.commit("setLoading");
-        let _id = this.$route.query.id;
-        let ad_data = {
-          method: 'add.collect.goods.item',
-          goods_id: _id
-        };
-        this.$post('/api/v1/userCollectGoods', ad_data)
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$store.commit("setLoading");
-            this.$toast.success("收藏成功");
-          }else{
-            this.$store.commit("setLoading");
-            this.$toast.fail("收藏失败");
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-
       //添加购物车
       goodsCart () {
-        this.$store.commit("setLoading");
         let getCart = '';
         // for (var i in this.initial) {
         //   // getCart += this.initial[i];
@@ -551,17 +490,13 @@
           // console.log(res.status) 
           if (res.status == 200) {
             this.$toast.success("添加成功");
-            this.$store.commit("setLoading");
-          }else{
-            this.$store.commit("setLoading");
-            this.$toast.fail("添加失败");
           }
-        }).catch( (error) => {
+        }).catch(function (error) {
             console.log(error);
         });
       },
 
-      back () {
+      back: function () {
         if (window.history.length <= 1) {
           this.$router.push({path: '/'})
           return false
@@ -572,26 +507,11 @@
 
       // 关闭窗口
       handleClose(done) {
-        let list = this.goodsData.specData.spec_attr;
-        let initialName = '';
-        for (let i in list) {
-            // console.log(list[i].spec_items);
-            for (let n in list[i].spec_items){
-              if(this.initial[i] == list[i].spec_items[n].item_id){
-                // console.log(list[i].spec_items[n].spec_value);
-                initialName += list[i].spec_items[n].spec_value+'*';
-              }
-            }
-        }
-        this.initialName = initialName;
-        // console.log(this.initial)
-        // console.log(this.initialName)
         done();
       }
     },
 
     created () {
-      console.log(this.$route.query.id)
       this.getDATA();
     },
     updated () {
@@ -606,8 +526,7 @@
         this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
         // console.log(this.$refs.boxSize[0].offsetHeight)
       })
-    },
-  
+    }
   }
 </script>
 
@@ -963,18 +882,5 @@
         background-color: #009900;
       }
     }
-  }
-  .textLinefeed{
-    overflow:hidden; 
-    text-overflow:ellipsis;
-    display:-webkit-box; 
-    -webkit-box-orient:vertical;
-  }
-  .commodityName{
-    -webkit-line-clamp:2;
-  }
-  .SpecificationsName{
-    width: 70%;
-    -webkit-line-clamp:1;
   }
 </style>

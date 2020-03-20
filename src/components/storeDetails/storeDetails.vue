@@ -1,5 +1,5 @@
 <template>
-    <div class="storeDetails">
+    <div class="content storeDetails">
         <div class="heder">
             <div>
                 <div class="hederImg">
@@ -65,7 +65,7 @@
               <div style="color:#999;">暂无更多商品</div>
             </van-tab>
             <van-tab title="商品分类" :title-style="active==1?'color: #009900;':'color: #999999;'">
-                
+
             </van-tab>
             <van-tab title="店铺详情" :title-style="active==2?'color: #009900;':'color: #999999;'">
                 <!-- column -->
@@ -123,7 +123,7 @@
                 <div>
                     <waresCard></waresCard>
                 </div>
-                
+
             </div>
         </div>
         <!-- <div class="selectionBox">
@@ -155,10 +155,10 @@
 
   },
   computed: {
-    
+
   },
   watch: {
-    
+
   }
 }
 </script>
@@ -259,7 +259,7 @@
                     display: block;
                 }
             }
-            
+
         }
         .screen{
             img{
@@ -267,7 +267,7 @@
                 height: 0.2rem;
             }
         }
-        
+
     }
     .classification{
         flex: 1;

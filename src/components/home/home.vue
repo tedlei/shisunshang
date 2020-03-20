@@ -72,8 +72,8 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link v-for="(goods, goodsindex) in item.goods" :key="goods.id" :to="{path:'/goodsdetails',query:{id:goods.id}}">
-          <el-col :span="12" >
+        <router-link to="/goodsDATA">
+          <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
             <div class="item">
               <van-image
                 width="100%"
@@ -154,19 +154,19 @@
             opensearch: function () {
                 Bus.$emit('val', true)
             },
-            aaa: function () {
+            aaa:function () {
                 this.$router.push({path: '/author'})
             }
         },
-        created() {
-            setTimeout(() => {
+        created(){
+            setTimeout(()=>{
                 const mySwiper = new Swiper('.swiper-container', {
                     slidesPerView: 1.15,
                     observer: true,
                     slidesOffsetAfter: 15,
                     direction: 'horizontal',
-                    observe: true,
-                    observeParents: true,
+                    observe:true,
+                    observeParents:true,
                     spaceBetween: 20,
                     loop: true,
                     centeredSlides: true,
@@ -192,7 +192,7 @@
                         el: '.swiper-pagination',
                     },
                 });
-            }, 300)
+            },300)
         },
         mounted() {
             const ad_data = {method: 'get.ad.banner.list'},

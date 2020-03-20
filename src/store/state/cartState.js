@@ -1,6 +1,5 @@
 export default {
     state:{
-        isLoading: false,
         cartdata: [
             {
               storename: '富锦旗舰店',
@@ -32,7 +31,6 @@ export default {
             }
         ],
         getshops:{},
-        goodsData:{},
-        empty: false
+        goodsData:{}
     }
 }
