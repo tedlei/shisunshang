@@ -37,15 +37,16 @@
       <div class="news" :style="{'min-height':boxHeight}">
         <ul v-show="true">
           <li v-for="(item,index) in newslists" :key="index">
-            <div class="left_img"><img :src="require(`../../../assets/img/${item.headimg}.png`)"></div>
+            <div class="left_img"><img src="../../../assets/img/news_head.png"></div>
             <div class="right_msg">
               <div class="user">
-                <span class="name">{{item.name}}</span>
-                <span class="time">{{item.time}}</span>
+                <span class="name">{{item.title}}</span>
               </div>
-              <p>
-                <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}"></router-link>
-                {{item.text}}
+              <p class="add_time">
+                <span class="time">{{item.add_time}}</span>
+                <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}">
+                  查看详情
+                </router-link>
               </p>
             </div>
           </li>
@@ -111,8 +112,7 @@
                 //获取新闻列表
                 this.$post('/api/v1/news', news)
                     .then((response) => {
-                        console.log(response.data)
-                        this.news = response.data.items
+                        this.newslists = response.data.items
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -175,23 +175,25 @@
       li {
         display: flex;
         text-align: left;
-        align-items: center;
+
         position: relative;
-        padding: 10px 0;
+        padding: 0.1rem 0;
 
         .left_img {
-          width: 80px;
-          margin-right: 10px;
+          width: 0.8rem;
+          margin-right: 0.1rem;
         }
 
         .right_msg {
-          width: calc(100% - 90px);
+          width: calc(100% - 0.9rem);
           padding: 5px 0;
-
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           .user {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 0.1rem;
 
             .name {
               font-size: 0.16rem;
@@ -208,6 +210,8 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            display: flex;
+            justify-content: space-between;
           }
         }
       }
@@ -219,7 +223,7 @@
         position: absolute;
         width: 100%;
         bottom: 0;
-        right: -10px;
+        right: 0;
       }
     }
   }

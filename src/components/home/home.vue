@@ -222,6 +222,7 @@
     height: 0.55rem;
     display: flex;
     align-items: center;
+
     .sao, .news {
       min-width: 40px;
       text-align: center;
