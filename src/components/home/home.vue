@@ -2,7 +2,7 @@
   <div class="main_box">
     <!--  头部  -->
     <header>
-      <el-row type="flex" class="row-bg" justify="space-between" style="align-items: center">
+      <el-row type="flex" class="row-bg" justify="space-between" style="align-items: center;width: 100%">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             重庆<i class="el-icon-arrow-down el-icon--right"></i>
@@ -18,7 +18,7 @@
 
         <!--扫码-->
         <div class="sao">
-          <i class="el-icon-full-screen" @click="aaa"></i>
+          <i class="el-icon-full-screen"></i>
           <div>扫码</div>
         </div>
         <!--消息-->
@@ -44,7 +44,7 @@
     </div>
 
     <!--  分类按钮  -->
-    <div style="padding:10px">
+    <div style="padding:0.1rem">
       <el-row :gutter="20" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
@@ -59,9 +59,11 @@
     <!--  公告  -->
     <div class="notice">
       <img src="../../assets/img/icon1.png">
-      <el-carousel height="20px" direction="vertical" :autoplay="true">
+      <el-carousel height="0.2rem" direction="vertical" :autoplay="true">
         <el-carousel-item v-for="(item,items) in news" :key="items">
-          <h3 class="medium">{{ item.title }}</h3>
+          <router-link :to="{}">
+            <h3 class="medium">{{ item.title }}</h3>
+          </router-link>
         </el-carousel-item>
       </el-carousel>
       <span class="clo-g"><router-link to="/news">查看</router-link></span>
@@ -72,8 +74,9 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link v-for="(goods, index) in item.goods" :key="index" :to="{path:'/goodsdetails',query:{id:goods.id}}">
-          <el-col :span="12" >
+        <router-link v-for="(goods, goodsindex) in item.goods" :key="goods.id"
+                     :to="{path:'/goodsdetails',query:{id:goods.id}}">
+          <el-col :span="12">
             <div class="item">
               <van-image
                 width="100%"
@@ -118,9 +121,7 @@
                 name: ['顾客区', '会员区', '零售区', '商家区', '签到区', '顾客区', '会员区', '零售区', '商家区', '签到区',],
                 categorylist: [],
                 bannermsg: [],
-                lists: [
-                    // {goods: []}
-                ],
+                lists: [],
                 news: [],
             }
         },
@@ -128,9 +129,6 @@
             opensearch: function () {
                 Bus.$emit('val', true)
             },
-            aaa: function () {
-                this.$router.push({path: '/author'})
-            }
         },
         created() {
             setTimeout(() => {
@@ -193,9 +191,11 @@
             this.$post('/api/v1/ad', goods)
                 .then((response) => {
 
+                    for (let i in response.data) {
+                        response.data[i].goods = response.data[i].goods.slice(0, 10)
+                    }
                     this.lists = response.data;
-                    // this.lists.goods = response.data.goods.slice(0, 9);
-                    console.log(response.data.goods.slice(0, 9))
+                    console.log(this.lists)
                 }).catch(function (error) {
                 console.log(error);
             });
@@ -218,8 +218,10 @@
 
   header {
     text-align: left;
-    padding: 10px;
-
+    padding: 0 0.1rem;
+    height: 0.55rem;
+    display: flex;
+    align-items: center;
     .sao, .news {
       min-width: 40px;
       text-align: center;

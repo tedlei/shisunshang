@@ -139,6 +139,12 @@ export default new Router({
           meta: {title: '消息中心', showFooter: false, goods: false, news: true}
         },
         {
+          path: '/news/newsdetail',
+          name: 'newsdetail',
+          component: resolve => require(['@/components/children/news/newsdetail'], resolve),
+          meta: {title: '消息中心', showFooter: false, goods: false, news: true}
+        },
+        {
           path: '/mine/usermsg',
           name: 'usermsg',
           component: resolve => require(['@/components/children/usermsg/usermsg'], resolve),

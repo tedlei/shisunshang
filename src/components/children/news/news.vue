@@ -43,7 +43,10 @@
                 <span class="name">{{item.name}}</span>
                 <span class="time">{{item.time}}</span>
               </div>
-              <p>{{item.text}}</p>
+              <p>
+                <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}"></router-link>
+                {{item.text}}
+              </p>
             </div>
           </li>
         </ul>
@@ -51,63 +54,75 @@
           <img src="../../../assets/img/nonews.png" style="width: 40%;">
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-  import Headerback from "../../headerback/headerback";
-  import Header from "../../header/header";
+    import Headerback from "../../headerback/headerback";
+    import Header from "../../header/header";
 
-  export default {
-    name: "news",
-    components: {Header, Headerback},
-    data() {
-      return {
-        boxHeight: '',
-        flex:'flex',
-        center:'center',
-        newslists: [
-          {
-            headimg: 'news_head',
-            text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-            name: '小伙子',
-            time: '昨天',
-          },
-          {
-            headimg: 'news_head',
-            text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-            name: '小伙子',
-            time: '昨天',
-          },
-          {
-            headimg: 'news_head',
-            text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-            name: '小伙子',
-            time: '昨天',
-          },
-          {
-            headimg: 'news_head',
-            text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-            name: '小伙子',
-            time: '昨天',
-          },
-          {
-            headimg: 'news_head',
-            text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
-            name: '小伙子',
-            time: '昨天',
-          },
+    export default {
+        name: "news",
+        components: {Header, Headerback},
+        data() {
+            return {
+                boxHeight: '',
+                flex: 'flex',
+                center: 'center',
+                newslists: [
+                    {
+                        headimg: 'news_head',
+                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
+                        name: '小伙子',
+                        time: '昨天',
+                    },
+                    {
+                        headimg: 'news_head',
+                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
+                        name: '小伙子',
+                        time: '昨天',
+                    },
+                    {
+                        headimg: 'news_head',
+                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
+                        name: '小伙子',
+                        time: '昨天',
+                    },
+                    {
+                        headimg: 'news_head',
+                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
+                        name: '小伙子',
+                        time: '昨天',
+                    },
+                    {
+                        headimg: 'news_head',
+                        text: '亲爱的客户你好，你购买的商品已经发货你购买的商品已经发货',
+                        name: '小伙子',
+                        time: '昨天',
+                    },
 
-        ]
-      }
-    },
-    mounted() {
-
-      this.boxHeight = ((document.documentElement.clientHeight || document.body.clientHeight) - 161.5) + 'px';
+                ]
+            }
+        },
+        methods: {
+            getnews: function () {
+                let news = {method: 'get.news.list'};
+                //获取新闻列表
+                this.$post('/api/v1/news', news)
+                    .then((response) => {
+                        console.log(response.data)
+                        this.news = response.data.items
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        mounted() {
+            this.getnews()
+            this.boxHeight = ((document.documentElement.clientHeight || document.body.clientHeight) - 161.5) + 'px';
+        }
     }
-  }
 </script>
 
 <style scoped lang="scss">
@@ -115,6 +130,7 @@
     position: fixed;
     top: 43px;
     z-index: 9;
+
     ul {
       padding: 10px;
       background-color: #fff;
