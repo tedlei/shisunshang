@@ -10,7 +10,7 @@
           <i class="el-icon-location"></i>
           <span>
             <p>大哥&nbsp;15320495341</p>
-            <p>重庆市&nbsp;江北区&nbsp;五里店</p>
+            <p style="color:#999999">重庆市&nbsp;江北区&nbsp;五里店</p>
           </span>
         </div>
         <div class="right">
@@ -24,26 +24,35 @@
         <div class="left">
           <img src="../../../assets/img/stoe.png" style="width: 18px">
           <span>
-            <p>富锦旗舰店</p>
+            <p>{{orderData.shop.name}}</p>
           </span>
         </div>
         <div class="clo-g right">
-          待付款
+          {{orderData.status=='0'?'代付款':orderData.status=='1'?'代发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'未知'}}
         </div>
       </div>
-      <div class="common goods">
+      <div class="common goods" v-for="(item,index) of orderData.goods" :key="index">
         <div class="left_img"><img src="/static/img/c_goods.9079655.png"></div>
         <div class="center_text">
           <a href="/goodsdetails/order" class="link_div router-link-active">
-            <div>富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装</div>
-            <div style="color: rgb(153, 153, 153);"><span>规格:1000*10;</span> <span>数量:1</span></div>
+            <div class="fontWrap fontWrapTwo">
+              {{item.name}}
+            </div>
+            <div style="color: rgb(153, 153, 153);">
+              <span class="fontWrap fontWrapOne">规格:
+                {{item.sku}}
+              </span> 
+              <span>数量:
+                {{item.num}}
+              </span>
+            </div>
           </a>
           <div data-v-46727266="" class="right_price">
-            ￥268.00
+            ￥{{item.price}}
           </div>
         </div>
       </div>
-
+      
     </div>
     <div class="common_box">
       <div class="common">
@@ -60,22 +69,70 @@
         <div>发票信息</div>
         <div class="right">
           <span style="color: #ff0000;margin-right: 10px">系统识别显示不开或者开具</span>
-          <span>不开发票</span>
+          <span>
+            <!-- {{}} -->
+          </span>
         </div>
       </div>
     </div>
     <div class="common_box">
       <div class="common">
         <div class="left">
-          实际付款(含运费￥0.00)
+          商品总额
+        </div>
+        <div style="color:#009900;" class="right">
+          ￥
+          {{orderData.total_money}}
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          配送费
         </div>
         <div class="right">
-          ￥268.00
+          +￥
+          {{orderData.total_postage}}
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          签到金
+        </div>
+        <div class="right">
+          +￥
+          {{orderData.total_qd_money}}
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          充值金
+        </div>
+        <div class="right">
+          -￥
+          {{orderData.pay_cz_money}}
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          保价费
+        </div>
+        <div class="right">
+          +￥
+          {{orderData.total_offer_money}}
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          代付款金额
+        </div>
+        <div style="color:#009900" class="right">
+          ￥
+          {{orderData.pay_money}}
         </div>
       </div>
     </div>
 
-    <div class="common_box">
+    <!-- <div class="common_box">
       <div class="common service">
         <router-link to="">
           <i class="el-icon-service"></i>
@@ -86,12 +143,14 @@
           <span>拨打电话</span>
         </router-link>
       </div>
-    </div>
+    </div> -->
 
     <div class="common_box">
       <div class="common">
         <div class="left">
-          订单编号：<span>1244798214824823154</span>
+          订单编号：<span style="color:#999999; width: 60%" class="fontWrap fontWrapOne">
+            {{orderData.order}}
+          </span>...
         </div>
         <div class="clo-g right copy">
           复制
@@ -99,13 +158,31 @@
       </div>
       <div class="common">
         <div class="left">
-          创建时间：<span>2010.1.3</span>
+          创建时间：<span style="color:#999999">
+            <!-- {{}} -->
+          </span>
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          支付方式：<span style="color:#999999">
+            <!-- {{}} -->
+          </span>
+        </div>
+      </div>
+      <div class="common">
+        <div class="left">
+          买家留言：<span style="color:#999999">
+            <!-- {{}} -->
+          </span>
         </div>
       </div>
     </div>
+    
 <!--  删除  -->
     <div class="delet">
-      删除
+      <div @click="cancelOrder">取消订单</div>
+      <div @click="payment">付款</div>
     </div>
   </div>
 </template>
@@ -114,8 +191,89 @@
   export default {
     name: "Orderdetails",
     data() {
-      return {}
-    }
+      return {
+        orderData:{
+          goods:[],
+          shop: {}
+        }
+      }
+    },
+    methods: {
+      //获取订单数据
+      getData () {
+        let id = this.$route.query.id;
+        let ad_data = {
+          method: 'get.order.item',
+          order_id: id
+        };
+        this.$post('/api/v1/order', ad_data)
+        .then((res) => {
+          // console.log(res) 
+          this.orderData = res.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+
+      //取消订单
+      cancelOrder () {
+        let id = this.$route.query.id;
+        let ad_data = {
+          method: 'cancel.order.item',
+          order_id: id
+        };
+        this.$post('/api/v1/order', ad_data)
+        .then((res) => {
+          console.log(res) 
+          if(res.status==200){
+            this.$toast.success('订单已取消');
+            this.$router.push({path:'/goodsdetails/order',query: {id:'1'}});
+          }else{
+            this.$toast.success('取消失败');
+          }
+        }).catch(function (error) {
+            console.log(error);
+        });
+        
+      }, 
+
+      //支付
+      payment () {
+        let _id = this.$route.query.id;
+        let ad_data = {
+          method: 'continue.buy.order',
+          order_id: _id
+        }
+        this.$post('/api/v1/order', ad_data)
+        .then((res) => {
+          console.log(res);
+          if(res.data.pay_type == 1){
+          	//表明已完成交易，不需要调用支付，直接跳转至成功页面
+            return false;
+          }
+          if(res.data.is_wx_pay == 1){
+            console.log(res.data.payment)
+          	// jsApiParameters = res.data.payment;
+            // this.callpay();
+          }
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+      
+      //
+      callpay () {
+        console.log(1)
+      },
+    },
+    created () {
+      console.log(this.$route.query.id)
+      if(this.$route.query.id==undefined){
+        this.$router.push({path:'/'});
+        return;
+      }
+      this.getData();
+    },
   }
 </script>
 
@@ -128,15 +286,14 @@
 
     .common_box {
       text-align: left;
-      padding: 0px;
-
+      padding: 0.1rem 0;
       .common {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #f2f2f2;
+        padding: 0 0.1rem 0.05rem 0.1rem;
+        // border-bottom: 1px solid #f2f2f2;
       }
 
       .left {
@@ -173,9 +330,10 @@
       }
     }
     .copy{
-      padding: 5px 20px;
+      width: 0.5rem ;
+      text-align: center;
       border: 1px solid #009900;
-      border-radius: 5px;
+      border-radius: 0.05rem;
     }
 
     .goods {
@@ -203,13 +361,21 @@
       }
     }
     .delet{
+      width: 100%;
       position: fixed;
       bottom: 0;
-      left: 0;
-      right: 0;
-      line-height: 50px;
+      display: flex;
+      line-height: 0.45rem;
       color: #fff;
-      background-color: #333333;
+      >div{
+        width: 50%;
+      }
+      >div:first-child{
+        background-color: #333333;
+      }
+      >div:nth-child(2){
+        background-color: $sss-color;
+      }
     }
   }
 

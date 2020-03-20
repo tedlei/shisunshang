@@ -49,5 +49,15 @@ export default {
   },
   getGoodsData(state, data) {
     state.cart.goodsData = data;
+  },
+  setLoading (state, data) {
+    state.cart.isLoading = !state.cart.isLoading;
+    // console.log(state.cart.isLoading)
+  },
+  setEmpty (state, data) {
+      state.cart.empty = !state.cart.empty;
+  },
+  setEmptyNo (state, data) {
+      state.cart.empty = false;
   }
 }

@@ -74,7 +74,7 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link v-for="(goods, goodsindex) in item.goods" :key="goods.id"
+        <router-link v-for="(goods, index) in item.goods" :key="index"
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">
           <el-col :span="12">
             <div class="item">
