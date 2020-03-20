@@ -106,7 +106,7 @@
             },
         },
         mounted() {
-            
+
             setTimeout(() => {
                 this.getHeight();
             }, 100)
@@ -133,9 +133,9 @@
     background-color: #fff;
 
     .left li {
-      padding: 20px 0;
+      padding: 0.15rem 0;
       position: relative;
-      border-bottom: 1px solid #b4b4b4;
+      border-bottom: 1px solid #f2f2f2;
     }
 
     .left li.active {
@@ -146,7 +146,7 @@
     .left li.active:after {
       content: '';
       display: inline-block;
-      width: 5px;
+      width: 0.05rem;
       height: 100%;
       background-color: #009900;
       position: absolute;

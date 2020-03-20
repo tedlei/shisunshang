@@ -72,8 +72,8 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link to="/goodsDATA">
-          <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
+        <router-link v-for="(goods, goodsindex) in item.goods" :key="goods.id" :to="{path:'/goodsdetails',query:{id:goods.id}}">
+          <el-col :span="12" >
             <div class="item">
               <van-image
                 width="100%"
@@ -119,33 +119,7 @@
                 categorylist: [],
                 bannermsg: [],
                 lists: [
-                    {
-                        'topname': '新款商品',
-                        'ad': {},
-                        'goodsitem': [
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            },
-                            {
-                                'goodsname': '云阖·永川秀芽【炒青】100g',
-                                'goodsrice': '￥98.00',
-                                'goodsimg': 'goods_img'
-                            }
-                        ],
-                        'bannersrc': 'goods_banner'
-                    },
+                    // {goods: []}
                 ],
                 news: [],
             }
@@ -154,19 +128,19 @@
             opensearch: function () {
                 Bus.$emit('val', true)
             },
-            aaa:function () {
+            aaa: function () {
                 this.$router.push({path: '/author'})
             }
         },
-        created(){
-            setTimeout(()=>{
+        created() {
+            setTimeout(() => {
                 const mySwiper = new Swiper('.swiper-container', {
                     slidesPerView: 1.15,
                     observer: true,
                     slidesOffsetAfter: 15,
                     direction: 'horizontal',
-                    observe:true,
-                    observeParents:true,
+                    observe: true,
+                    observeParents: true,
                     spaceBetween: 20,
                     loop: true,
                     centeredSlides: true,
@@ -192,7 +166,7 @@
                         el: '.swiper-pagination',
                     },
                 });
-            },300)
+            }, 300)
         },
         mounted() {
             const ad_data = {method: 'get.ad.banner.list'},
@@ -218,8 +192,10 @@
             //获取首页商品
             this.$post('/api/v1/ad', goods)
                 .then((response) => {
-                    console.log(response.data)
-                    this.lists = response.data
+
+                    this.lists = response.data;
+                    // this.lists.goods = response.data.goods.slice(0, 9);
+                    console.log(response.data.goods.slice(0, 9))
                 }).catch(function (error) {
                 console.log(error);
             });
