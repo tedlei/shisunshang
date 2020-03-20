@@ -106,6 +106,7 @@
             },
         },
         mounted() {
+
             setTimeout(() => {
                 this.getHeight();
             }, 100)
