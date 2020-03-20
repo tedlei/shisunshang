@@ -4,11 +4,11 @@
           <div class="shopHederImg"></div>
           <div class="shopHederName">
             <p>
-                {{this.$store.state.cart.getshops.name}}
+                {{$store.state.cart.getshops.name}}
             </p>
-              <span @click="setCollection">综合评分</span>
+              <span>综合评分</span>
               <span class="shopHederNameS">
-                {{this.$store.state.cart.getshops.score_zh}}
+                {{$store.state.cart.getshops.score_zh}}
               </span>
           </div>
       </div>
@@ -21,35 +21,35 @@
               <div>
                   <span>描述相符</span>
                   <span class="shopHederNameS">
-                {{this.$store.state.cart.getshops.score_ms}}
+                {{$store.state.cart.getshops.score_ms}}
                   </span>
               </div>
               <div>
                   <span>服务态度</span>
                   <span class="shopHederNameS">
-                {{this.$store.state.cart.getshops.score_fw}}
+                {{$store.state.cart.getshops.score_fw}}
 
                   </span>
               </div>
               <div>
                   <span>发货速度</span>
                   <span class="shopHederNameS">
-                {{this.$store.state.cart.getshops.score_fh}}
+                {{$store.state.cart.getshops.score_fh}}
 
                   </span>
               </div>
           </div>
       </div>
       <div class="footer">
-            <div @click="isCollection=!isCollection">
+            <div @click="isCollectionAdd">
                 <div class="footerImg">
-                    <van-icon v-if="isCollection==true" name="like" />
+                    <van-icon v-if="isCollection" name="like" />
                     <van-icon v-else name="like-o" />
                 </div>
                 <div>收藏店铺</div>
             </div>
             <div>
-                <router-link :to="{path:'/storeDetails',query:{id:'1'}}">
+                <router-link :to="{path:'/storeDetails',query:{id:$store.state.cart.getshops.id}}">
                     <div class="storeDetails">
                         <div class="footerImgS">
                             <img class="footerImgShop" src="../../../assets/img/shop.png" alt="#">
@@ -76,13 +76,17 @@
     }
   },
   methods: {
-    setCollection () {
-        // console.log(this.$store.state.cart.getshops.name)
+    isCollectionAdd () {
+        if(!this.isCollection){
+            console.log(this.isCollection)
+            console.log('我是收藏')
+        }
+        this.isCollection = !this.isCollection;
     },
   },
   created () {
-        // console.log(this.$store.state)
-    //   this.shopsdata = this.shopinfo;
+        // console.log(this.$store.state.cart.getshops.is_follow)
+        this.isCollection = this.$store.state.cart.getshops.is_follow == 0 ? false:true; 
   },
   updated () {
   },
@@ -110,6 +114,13 @@
             }
             .shopHederName{
                 margin: 0 0.1rem;
+                >P:first-child{
+                    overflow:hidden; 
+                    text-overflow:ellipsis;
+                    display:-webkit-box; 
+                    -webkit-box-orient:vertical;
+                    -webkit-line-clamp:1;
+                }
                 span{
                     font-size: 0.12rem;
                     color:  #999;

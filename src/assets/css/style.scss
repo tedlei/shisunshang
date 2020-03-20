@@ -4,11 +4,9 @@
   font-weight: normal;
   font-style: normal;
 }
-
 html, body {
   font-family: myFont, sans-serif;
 }
-
 img {
   width: 100%;
   max-width: 100%;
@@ -17,10 +15,6 @@ img {
 
 .clo-g {
   color: #009900 !important;
-}
-
-.clo-9 {
-  color: #999999 !important;
 }
 
 a {
@@ -40,11 +34,7 @@ a {
 }
 
 .content {
-  padding-top: 43px;
-
-  /deep/ .van-field__label {
-    text-align: left;
-  }
+  padding-top: 0.43rem;
 }
 
 .bottom_fixed {
@@ -80,13 +70,7 @@ a {
     }
   }
 }
-.common_btn{
-  line-height: 0.4rem;
-  background-color: #009900;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-}
+
 //多选框修改样式
 .mycheck {
   /deep/ .el-checkbox__inner {
@@ -107,7 +91,7 @@ a {
     border-color: #009900;
   }
 
-  /deep/ .el-checkbox__inner:hover, /deep/ .el-radio__inner:hover {
+  /deep/ .el-checkbox__inner:hover, /deep/ .el-radio__inner:hover{
     border-color: #009900;
   }
 
@@ -148,15 +132,6 @@ a {
 
       div {
         padding: 5px;
-        .goodsdtt{
-          overflow:hidden;
-          text-overflow:ellipsis;
-          display:-webkit-box;
-          -webkit-box-orient:vertical;
-          -webkit-line-clamp:2;
-          padding: 0;
-          height: 0.34rem;
-        }
       }
     }
   }
@@ -172,4 +147,18 @@ a {
     width: 20%
   }
 
+}
+
+// 字体换行
+.fontWrap{
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+}
+.fontWrapOne{
+  -webkit-line-clamp:1;
+}
+.fontWrapTwo{
+  -webkit-line-clamp:2;
 }

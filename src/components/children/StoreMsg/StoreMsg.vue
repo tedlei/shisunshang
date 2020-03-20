@@ -45,7 +45,7 @@
     name: "StoreMsg",
     data() {
       return {
-        name: '重庆石笋山公司',
+        name: '重庆安利科技技术有限公司',
         starttime: '09:00',
         endtime: '18:00',
         adress: '重庆市江北区金渝大道168号'
