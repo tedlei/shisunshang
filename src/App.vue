@@ -3,17 +3,19 @@
 
     <Footer v-show="$route.meta.showFooter"></Footer>
     <router-view/>
-    <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
+    <loading v-show="$store.getters.getLoading"></loading>
+    <!-- <div style="height: 0.7rem"></div> -->
   </div>
 </template>
 
 <script>
     import Footer from './components/footer/footer.vue';
     import Header from "./components/header/header";
+    import loading from "./components/loading/loading";
 
     export default {
         name: 'App',
-        components: {Header, Footer},
+        components: {Header, Footer, loading},
         data() {
             return {
                 path: '',

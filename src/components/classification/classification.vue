@@ -1,11 +1,8 @@
 <template>
   <div class="main_box">
-    <header ref="headerh">
+    <header ref="header_h">
       <i class="el-icon-full-screen"></i>
-      <div @click="opensearch" style="width: 100%">
-        <search :dmsg='msg'></search>
-      </div>
-
+      <search :dmsg='msg'></search>
       <router-link to="/news">
         <i class="el-icon-chat-dot-round"></i>
       </router-link>
@@ -14,9 +11,8 @@
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
       <el-aside width="100px">
         <ul class="left">
-          <li v-for="(item,leftindex) in typelist" :key="item.id" :class="{active:num==leftindex}"
-              @click="getNum(leftindex)">
-            {{item.cate_name}}
+          <li v-for="(item,index) in leftlists" :key="item.id" :class="{active:num==index}" @click="getNum(index)">
+            {{item}}
           </li>
         </ul>
       </el-aside>
@@ -24,88 +20,134 @@
       <el-container>
         <el-main>
           <img src="../../assets/img/banner2.png">
-          <div class="" v-for="(item,index) in typelist[num].sub" :key="index">
-            <div class="ttl">{{item.cate_name}}</div>
+          <div class="" v-for="(item,index) in typelist" :key="index">
+            <div class="ttl">{{item.typename}}</div>
             <ul class="clearfix goodslist">
-              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(item.id)">
-                <van-image
-                  width="100%"
-                  height="0.71rem"
-                  fit="cover"
-                  :src="goodsitem.icon"
-                  style="margin-bottom: 0.1rem"
-                />
-                <div class="cate_name">{{goodsitem.cate_name}}</div>
+              <li v-for="(goodsitem,goodsindex) in item.goods" :key="goodsindex">
+                <img :src="require(`../../assets/img/${goodsitem.img}.png`)">
+                <div>{{goodsitem.goodsname}}</div>
               </li>
             </ul>
           </div>
         </el-main>
       </el-container>
     </el-container>
-    <searchResult></searchResult>
   </div>
 
 </template>
 
 <script>
-    import Axios from 'axios';
-    import Header from "../header/header";
-    import Search from "../search/search";
-    import Bus from "../../assets/js/bus";
-    import SearchResult from "../children/searchResult/searchResult";
-    export default {
-        name: "classification",
-        components: {SearchResult, Search, Header},
-        data() {
-            return {
-                msg: '分类',
-                height: '100px',
-                sss: 'sssss',
-                num: 0,
-                typelist: [
-                    {
-                        sub: []
-                    }
-                ],
-            }
-        },
-        methods: {
-            opensearch: function () {
-                Bus.$emit('val', true)
-            },
-            //    获取分类商品
-            getgoods: function () {
-                let _this = this;
-                let parms = {
-                    method: 'get.goods.category.list',
-                };
-                this.$post('/api/v1/goodsCategory', parms)
-                    .then((response) => {
-                        _this.typelist = response.data
-                    }).catch(function (error) {
-                    console.log(error);
-                })
-            },
-            //  切换商品
-            getNum: function (index) {
-                this.num = index;
-            },
-            //    跳转
-            todetile: function (e) {
-                this.$router.push({path: '/goodslist', query: {id: e}})
-                console.log(e)
-            }
+  import Axios from 'axios';
+  import Header from "../header/header";
+  import Search from "../search/search";
 
-        },
-        mounted() {
-            setTimeout(() => {
-                let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-                let topH = this.$refs.headerh.offsetHeight;
-                this.height = h - topH - 70 + 'px'
-            }, 100)
-            this.getgoods()
-        }
+  export default {
+    name: "classification",
+    components: {Search, Header},
+    data() {
+      return {
+        msg: '分类',
+        height: '100%',
+        sss: 'sssss',
+        num: 0,
+        leftlists: ['生活家居', '生活家居', '生活家居'],
+        typelist: [
+          {
+            typename: '烹饪锅具、用具',
+            goods: [{
+              img: 'goods',
+              goodsname: '不锈钢汤锅'
+            },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              }]
+          },
+          {
+            typename: '烹饪锅具、用具',
+            goods: [{
+              img: 'goods',
+              goodsname: '不锈钢汤锅'
+            },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              }]
+          },
+          {
+            typename: '烹饪锅具、用具',
+            goods: [{
+              img: 'goods',
+              goodsname: '不锈钢汤锅'
+            },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              },
+              {
+                img: 'goods',
+                goodsname: '不锈钢汤锅'
+              }]
+          }
+        ]
+      }
+    },
+    methods: {
+      getNum: function (index) {
+        this.num = index;
+      }
+    },
+    mounted() {
+      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+      let topH = this.$refs.header_h.offsetHeight;
+      this.height = h - topH - 67.8 + 'px'
+
     }
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -148,7 +190,6 @@
     }
   }
 
-
   section .el-main {
     padding: 10px;
 
@@ -166,17 +207,24 @@
 
     .goodslist li {
       float: left;
-      width: calc(33.3333% - 6.66666px);
+      width: calc(33.3333% - 10px);
       background-color: #fff;
       margin-bottom: 10px;
       font-weight: bold;
-      padding: 10px;
-      min-height: 14vh;
+      padding: 20px 10px;
+      min-height: 13vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
       margin-right: 10px;
+
+      div {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        left: 0;
+      }
     }
 
     .goodslist li:nth-child(3n+3) {

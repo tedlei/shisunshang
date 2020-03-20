@@ -8,17 +8,18 @@
             重庆<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-plus">重庆</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!--  搜索组件    -->
-        <div @click="opensearch" style="width: 100%">
-          <search :dmsg='msg'></search>
-        </div>
-
+        <search :dmsg='msg'></search>
         <!--扫码-->
         <div class="sao">
-          <i class="el-icon-full-screen" @click="aaa"></i>
+          <i class="el-icon-full-screen"></i>
           <div>扫码</div>
         </div>
         <!--消息-->
@@ -31,16 +32,8 @@
       </el-row>
     </header>
     <!--  轮播组件  -->
-
     <div class="banner">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="(item,index) in bannermsg" :key="index">
-            <img :src="item.img" style="border-radius: 5px">
-          </div>
-        </div>
-
-      </div>
+      <carousel :hmsg='msg' :bannerdata='bannermsg'></carousel>
     </div>
 
     <!--  分类按钮  -->
@@ -48,7 +41,7 @@
       <el-row :gutter="20" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
-            <router-link :to="{path:'/Special-area',query:{typeid:item.module}}">
+            <router-link :to="{path:'/classification',query:item.url}">
               <img :src="item.img">
               <p>{{item.cate_name}}</p>
             </router-link>
@@ -72,29 +65,23 @@
       <div class="top_name">{{item.module}}</div>
       <img :src="item.ad.img">
       <el-row class="goodslist">
-        <router-link to="/goodsDATA">
-          <el-col :span="12" v-for="(goods, goodsindex) in item.goods" :key="goods.id">
+          <el-col :span="12" v-for="goods in item.goods" :key="goods.id">
+            <router-link :to="{path:'/goodsDATA',query:{id:goods.id}}">
             <div class="item">
-              <van-image
-                width="100%"
-                height="1.92rem"
-                fit="cover"
-                :src="goods.imgsrc"
-              />
+              <img :src="goods.imgsrc">
               <div style="">
                 <div class="goodsdtt">{{goods.name}}</div>
                 <div class="goodsprice clo-g">{{goods.price}}</div>
               </div>
             </div>
+            </router-link>
           </el-col>
-        </router-link>
       </el-row>
     </div>
     <!--  -->
     <div>
       没得更多了
     </div>
-    <searchResult></searchResult>
   </div>
 
 
@@ -104,14 +91,11 @@
     //1.先使用import导入你要在该组件中使用的子组件
     import Carousel from '../carousel-cp/carousel';
     import Search from "../search/search";
-    import SearchResult from "../children/searchResult/searchResult";
-    import Bus from "../../assets/js/bus";
-    import Swiper from 'swiper';
 
     export default {
         name: "home",
         //2.然后,在components中写入子组件
-        components: {SearchResult, Search, Carousel},
+        components: {Search, Carousel},
         data() {
             return {
                 msg: '首页',
@@ -150,50 +134,7 @@
                 news: [],
             }
         },
-        methods: {
-            opensearch: function () {
-                Bus.$emit('val', true)
-            },
-            aaa:function () {
-                this.$router.push({path: '/author'})
-            }
-        },
-        created(){
-            setTimeout(()=>{
-                const mySwiper = new Swiper('.swiper-container', {
-                    slidesPerView: 1.15,
-                    observer: true,
-                    slidesOffsetAfter: 15,
-                    direction: 'horizontal',
-                    observe:true,
-                    observeParents:true,
-                    spaceBetween: 20,
-                    loop: true,
-                    centeredSlides: true,
-                    effect: "coverflow",
-                    grabCursor: true,
-                    watchSlidesProgress: true,
-                    loopedSlides: 5,
-                    autoplay: {
-                        delay: 3000,//自动播放速度
-                        disableOnInteraction: false//鼠标移上去时是否还继续播放
-                    },
-                    coverflowEffect: {
-                        rotate: 0,
-                        stretch: 0,
-                        depth: 30,
-                        modifier: 3,
-                        slideShadows: false
-                    },
-                    speed: 1000,
-                    initialSlide: 1,
-                    // lazy: {loadPrevNext: true,},
-                    pagination: {
-                        el: '.swiper-pagination',
-                    },
-                });
-            },300)
-        },
+        methods: {},
         mounted() {
             const ad_data = {method: 'get.ad.banner.list'},
                 category = {method: 'get.category.list'},
@@ -232,6 +173,14 @@
                 console.log(error);
             });
 
+            //获取新闻列表
+            this.$post('/api/v1/district', {method:'get.district.list'})
+                .then((response) => {
+                    console.log(response.data)
+                    // this.news = response.data.items
+                }).catch(function (error) {
+                console.log(error);
+            });
         }
 
     }
@@ -291,6 +240,18 @@
       width: 20px;
     }
   }
+
+  /*.banner /deep/ .el-carousel__item{*/
+
+  /*}*/
+
+  /*.banner /deep/ .el-carousel__item.is-active {*/
+  /*  transform:translateX(50%) scale(1.8) !important;*/
+  /*}*/
+
+  /*.banner .el-carousel--horizontal{*/
+  /*  overflow: visible;*/
+  /*}*/
 
   .el-carousel__indicators--vertical {
     display: none !important;

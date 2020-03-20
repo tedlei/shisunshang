@@ -3,9 +3,9 @@
   <div class="none_store" :style="{'height':height}">
     <div>
       <img src="../../../assets/img/nostore.png">
-      <p v-if="show1">{{text1}}</p>
-      <pre v-if="show2">{{text2}}</pre>
-      <div class="tolink" v-if="show3">
+      <p>{{text1}}</p>
+      <pre>{{text2}}</pre>
+      <div class="tolink">
         <router-link :to="{path:url,query:{addressid:urlcode}}">{{tolink}}</router-link>
       </div>
     </div>
@@ -30,14 +30,11 @@
                 tolink: '',
                 url: '',
                 urlcode: '',
-                addressid: '',
-                show1: true,
-                show2: true,
-                show3: true
+                addressid:'',
             }
         },
         mounted() {
-            console.log(this.isemptytype)
+            // console.log(this.isemptytype)
             let acsp = this.isemptytype
             switch (acsp) {
                 case 'address':
@@ -45,13 +42,8 @@
                     this.text2 = '您可以新增地址以方便收货'
                     this.tolink = '新增收货地址'
                     this.url = '/mine/Add-address'
-                    this.urlcode = 'add'
-                    this.addressid = 'id'
-                    break;
-                case 'record':
-                    this.text1 = '暂无相关记录'
-                    this.show2 = false
-                    this.show3 = false
+                    this.urlcode = 'add',
+                        this.addressid = 'id'
                     break;
             }
             this.height = ((document.documentElement.clientHeight || document.body.clientHeight) - 43) + 'px';
@@ -67,7 +59,7 @@
 
     img {
       width: 33.333%;
-      margin: 50px;
+      margin: 0.5rem;
     }
 
     pre {
@@ -76,8 +68,8 @@
     }
 
     .tolink {
-      line-height: 50px;
-      border-radius: 50px;
+      line-height: 0.5rem;
+      border-radius: 0.5rem;
       background-color: #009900;
       color: #fff;
       width: 40%;
