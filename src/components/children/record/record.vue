@@ -2,7 +2,7 @@
   <div>
     <div class="navigation" v-show="!this.$route.query.recordid">
       <ul class="clearfix">
-        <li v-for="(item,index) in navItems" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
+        <li v-for="(item,index) in navItems" :key="index" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
       </ul>
     </div>
     <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">

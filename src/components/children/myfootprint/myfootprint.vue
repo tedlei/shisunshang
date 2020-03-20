@@ -28,7 +28,7 @@
         <div class="mycheck left_check">
           <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
             style="margin-right: 0.1rem"></el-checkbox>
-          <span>已选择5件商品</span>
+          <span>全选</span>
         </div>
         <div class="right_delet" @click="deleteCollection">
           删除
@@ -71,7 +71,6 @@
                 <div class="left_g_msg">{{item.msg}}</div>
                 <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
               </router-link>
-
             </li>
             <li>
               <span>商家回复：</span>
@@ -197,7 +196,7 @@
             checked: false
           })
         }
-        console.log(this.goodslist)
+        // console.log(this.goodslist)
       },
       //获取数据
       getData () {
@@ -215,7 +214,7 @@
               console.log(error);
           });
         }else if(this.$route.query.printid==1){
-          console.log("收藏商家")
+          // console.log("收藏商家")
           let ad_data = {
             method: 'get.collect.shops.list'
           };
@@ -274,6 +273,8 @@
         }
         
       }
+
+      //取消关注店铺
     },
     created () {
       console.log(this.$route.query);

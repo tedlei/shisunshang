@@ -37,7 +37,7 @@
             }
         },
         mounted() {
-            console.log(this.isemptytype)
+            // console.log(this.isemptytype)
             let acsp = this.isemptytype
             switch (acsp) {
                 case 'address':

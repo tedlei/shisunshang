@@ -459,6 +459,7 @@ export default {
                 this.goodsObj[i].list.splice(n, 1);
                 this.cal(i);
                 this.isDellBatch = !this.isDellBatch;
+                this.getCart();
               }
             }).catch( (error) => {
               console.log(error);

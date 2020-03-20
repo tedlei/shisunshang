@@ -5,23 +5,18 @@
         <i class="el-icon-location-outline"></i>
         <span>重庆</span>
       </div>
-      <div @click="opensearch" style="width: 100%">
-        <search :dmsg='msg'></search>
-      </div>
+      <search :dmsg="msg"></search>
       <i class="el-icon-plus"></i>
     </header>
 
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
-      <el-aside width="100px">
+      <el-aside width="0.9rem">
         <ul class="left">
-          <li v-for="(item,index) in leftlists" :key="item.id" :class="{active:num==index && num !=0 ,'all':index==0}"
+          <li v-for="(item,index) in leftlists" :key="index" :class="num==index?'active':''"
               @click="getNum(index)">
-            <span>{{item}}</span>
-            <ul v-show="num == index && num !=0" class="erji">
-              <li>超市便利</li>
-              <li>超市便利</li>
-              <li>超市便利</li>
-              <li>超市便利</li>
+            <span>{{item.text}}</span>
+            <ul v-show=" index==num && isUlliTwo " :style="'margin-top:'+index*0.4+'rem'" class="erji">
+              <li v-for="(item1,index1) in item.children" :key="index1" @click="isUlliTwoAdd">{{item1.text}}</li>
             </ul>
           </li>
         </ul>
@@ -30,7 +25,7 @@
       <el-container>
         <el-main>
           <ul class="cpylist">
-            <li v-for="(item,index) in cpylist">
+            <li v-for="(item,index) in cpylist" :key="index">
               <div>
                 <img :src="require(`../../assets/img/${item.img}.png`)">
               </div>
@@ -49,147 +44,207 @@
         </el-main>
       </el-container>
     </el-container>
-    <searchResult></searchResult>
 
   </div>
-
 </template>
 
 <script>
-    import Axios from 'axios';
-    import Header from "../header/header";
-    import Search from "../search/search";
-    import Bus from "../../assets/js/bus";
-    import SearchResult from "../children/searchResult/searchResult";
+  import Axios from 'axios';
+  import Header from "../header/header";
+  import Search from "../search/search";
+  import clientW from "../../assets/js/conmon";
 
-    export default {
-        name: "business",
-        components: {SearchResult, Search, Header},
-        data() {
-            return {
-                msg: '附近商家',
-                height: '100px',
-                num: 0,
-                leftlists: ['全部', '品质购物', '品质购物'],
-                cpylist: [{
-                    img: 'company',
-                    title: '重庆石笋山公司',
-                    address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                    phone: '023-6345645',
-                    long: '3.14公里'
-                },
-                    {
-                        img: 'company',
-                        title: '重庆石笋山公司',
-                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                        phone: '023-6345645',
-                        long: '3.14公里'
-                    },
-                    {
-                        img: 'company',
-                        title: '重庆石笋山公司',
-                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                        phone: '023-6345645',
-                        long: '3.14公里'
-                    },
-                    {
-                        img: 'company',
-                        title: '重庆石笋山公司',
-                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                        phone: '023-6345645',
-                        long: '3.14公里'
-                    },
-                    {
-                        img: 'company',
-                        title: '重庆石笋山公司',
-                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                        phone: '023-6345645',
-                        long: '3.14公里'
-                    },
-                    {
-                        img: 'company',
-                        title: '重庆石笋山公司',
-                        address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-                        phone: '023-6345645',
-                        long: '3.14公里'
-                    },]
-            }
-        },
-        methods: {
-            opensearch: function () {
-                Bus.$emit('val', true)
-            },
-            getNum: function f(index) {
-                this.num = index;
-            }
-        },
-        mounted() {
-            let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-            let topH = this.$refs.header_h.offsetHeight;
-            this.height = h - topH - 67.8 + 'px'
-
-        }
+  export default {
+    name: "business",
+    components: {Search, Header},
+    data() {
+      return {
+        msg: '附近商家',
+        height: '1rem',
+        num: 0,
+        isUlliTwo: false,
+        leftlists: [
+          {
+            text: '全部',
+            children: [
+              // {
+              //   text: '温州',
+              //   // id，作为匹配选中状态的标识符
+              //   id: 1,
+              // },
+              // {
+              //   text: '内锅',
+              //   // id，作为匹配选中状态的标识符
+              //   id: 2,
+              // }
+            ]
+          },
+          {
+            text: '品质购物',
+            id: 1,
+            children: [
+              {
+                text: '温州',
+                // id，作为匹配选中状态的标识符
+                id: 1,
+              },
+              {
+                text: '内锅',
+                // id，作为匹配选中状态的标识符
+                id: 2,
+              }
+            ]
+          },
+          {
+            text: '狗蛋大妈',
+            id: 2,
+            children: [
+              {
+                text: '梅梅',
+                // id，作为匹配选中状态的标识符
+                id: 1,
+              },
+              {
+                text: '靓仔',
+                // id，作为匹配选中状态的标识符
+                id: 2,
+              }
+            ]
+          },
+        ],
+        cpylist: [{
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },
+          {
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },
+          {
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },
+          {
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },
+          {
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },
+          {
+            img: 'company',
+            title: '重庆安利科技技术有限公司',
+            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+            phone: '023-6345645',
+            long: '3.14公里'
+          },]
+      }
+    },
+    methods: {
+      getNum: function f(index) {
+        this.num = index;
+      },
+      getData () {
+        let ad_data = {
+          method: "get.shop.category.list"
+        };
+        this.$post('/api/v1/GoodsComCategory', ad_data)
+        .then((res) => {
+          console.log(res);
+         
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+      isUlliTwoAdd () {
+        
+      }
+    },
+    created () {
+      this.getData();
+    },
+    mounted() {
+      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+      let topH = this.$refs.header_h.offsetHeight;
+      this.height = (h - topH - 70*clientW/100)/clientW + 'rem'
     }
+  }
 </script>
 
 <style lang="scss" scoped>
   header {
     display: flex;
     align-items: center;
-    padding: 10px 0;
+    padding: 0.1rem 0;
     border-bottom: 1px solid #f2f2f2;
 
     .location {
-      min-width: 80px;
+      min-width: 0.8rem;
       font-weight: bold;
     }
 
     .el-icon-plus {
-      font-size: 18px;
+      font-size: 0.18rem;
       color: #999;
-      margin: 0 20px 0 8px;
+      margin: 0 0.2rem 0 0.08rem;
     }
   }
 
   aside {
     background-color: #fff;
     overflow: visible;
-
+    border-right: 1px solid rgb(202, 201, 201);
     .left {
       position: relative;
     }
 
-    .left li {
-      padding: 20px 0;
-      border-bottom: 1px solid #b4b4b4;
-
+    .left>li {
+      line-height: 0.4rem;
       .erji {
-        width: 100px;
+        border-left: 1px solid rgb(202, 201, 201);
+        border-right: 1px solid rgb(202, 201, 201);
+        color: #000;
+        width: 0.9rem;
         position: absolute;
         left: 100%;
         top: 0;
         background-color: #fff;
-
-        li {
-          border: none;
-          border-left: 1px solid #b4b4b4;
-          border-right: 1px solid #b4b4b4;
-        }
       }
     }
 
-    .left li.active span {
-      color: #42b983;
+    .left>li{
+      border-left: 3px solid #fff;
+    }
+    .active{
+      color: $sss-color;
+      background-color: #f2f2f2;
+      border-left: 3px solid $sss-color !important;
     }
 
-    .left li.all {
+    .left>li.all {
       position: relative;
     }
 
-    .left li.all:after {
+    .left>li.all:after {
       content: '';
       display: inline-block;
-      width: 5px;
+      width: 0.05rem;
       height: 100%;
       background-color: #009900;
       position: absolute;
@@ -199,27 +254,27 @@
   }
 
   section .el-main {
-    padding: 7px;
+    padding: 0.07rem;
 
     .cpylist li {
       display: flex;
       background-color: #fff;
-      padding: 10px;
-      margin-bottom: 10px;
+      padding: 0.1rem;
+      margin-bottom: 0.1rem;
       text-align: left;
 
       img {
-        width: 100px;
-        max-width: 100px;
+        width: 1rem;
+        max-width: 1rem;
       }
 
       .right_msg {
-        margin-left: 13px;
+        margin-left: 0.13rem;
 
         p {
           font-size: 0.12rem;
           color: #999;
-          margin: 5px 0;
+          margin: 0.05rem 0;
         }
 
         p.long {
