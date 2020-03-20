@@ -98,6 +98,7 @@
                 console.log(e)
             },
             getHeight: function () {
+
                 console.log(clientW)
                 let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
                 let topH = this.$refs.headerh.offsetHeight;
