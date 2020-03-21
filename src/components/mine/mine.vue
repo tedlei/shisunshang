@@ -86,9 +86,9 @@
 
       <ul class="order_lists clearfix">
         <li v-for="(item,index) in orderlists" :key="item.index">
-          <router-link :to="{path:'/goodsdetails/order', query:{orderid:index+1}}">
+          <router-link :to="{path: item.router, query:{orderid:index+1}}">
             <div style="margin-bottom: 10px">
-              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 24px">
+              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 0.24rem">
             </div>
             <div>{{item.name}}</div>
           </router-link>
@@ -211,23 +211,28 @@
                 orderlists: [
                     {
                         img: 'dfk',
-                        name: '待付款'
+                        name: '待付款',
+                        router: '/goodsdetails/order'
                     },
                     {
                         img: 'dfh',
-                        name: '待发货'
+                        name: '待发货',
+                        router: '/goodsdetails/order'
                     },
                     {
                         img: 'dsh',
-                        name: '待收货'
+                        name: '待收货',
+                        router: '/goodsdetails/order'
                     },
                     {
                         img: 'dpj',
-                        name: '待评价'
+                        name: '待评价',
+                        router: '/goodsdetails/order'
                     },
                     {
                         img: 'sh',
-                        name: '售后'
+                        name: '售后',
+                        router: '/goodsdetails/customerService'
                     }
                 ],
                 gjlists: [

@@ -41,8 +41,8 @@
                     <div class="goods_lists">
                         <router-link :to="{path:'/goodsDATA',query:{id:data.id}}">
                         <van-image
-                          width="1rem"
-                          height="1rem"
+                          width="0.8rem"
+                          height="0.8rem"
                           fit="cover"
                           src="https://img.yzcdn.cn/vant/cat.jpeg"
                         />
@@ -713,7 +713,7 @@ body, html {
 
           span {
             color: #009900;
-            font-size: 0.16rem;
+            font-size: 0.14rem;
             font-weight: bold;
           }
         }

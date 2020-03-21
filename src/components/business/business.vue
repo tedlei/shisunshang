@@ -13,28 +13,45 @@
       <el-aside width="0.9rem">
         <ul class="left">
           <li v-for="(item,index) in leftlists" :key="index" :class="num==index?'active':''"
-              @click="getNum(index)">
+              @click="getNum(index,item.children)">
             <span>{{item.text}}</span>
-            <ul v-show=" index==num && isUlliTwo " :style="'margin-top:'+index*0.4+'rem'" class="erji">
-              <li v-for="(item1,index1) in item.children" :key="index1" @click="isUlliTwoAdd">{{item1.text}}</li>
-            </ul>
+
           </li>
         </ul>
       </el-aside>
-
+      
       <el-container>
-        <el-main>
+        <el-main style="position: relative;">
+          <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.4+'rem'" class="erji">
+            <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">{{item1.cate_name}}</li>
+          </ul>
           <ul class="cpylist">
             <li v-for="(item,index) in cpylist" :key="index">
-              <div>
-                <img :src="require(`../../assets/img/${item.img}.png`)">
+              <div class="imgDiv">
+                <van-image
+                  width="0.78rem"
+                  height="0.78rem"
+                  fit="cover"
+                  src="https://img.yzcdn.cn/vant/cat.jpeg"
+                />
               </div>
-
               <div class="right_msg">
                 <router-link to="/business/storemsg">
-                  <h3>{{item.title}}</h3>
-                  <p>地址：{{item.address}}</p>
-                  <p>地址：{{item.phone}}</p>
+                  <p class="p1 fontWrap fontWrapOne">
+                    {{item.company}}
+                  </p>
+                  <div style="margin: 0.02rem 0;" class="address">
+                      <span style="width:56px">地址:</span>
+                      <span class="fontWrap fontWrapTwo">
+                        {{item.address}}
+                      </span>
+                  </div>
+                  <div class="address">
+                      <span>电话：</span>
+                      <span>
+                        {{item.phone}}
+                      </span>
+                  </div>
                   <p class="long">{{item.long}}</p>
                 </router-link>
 
@@ -49,7 +66,6 @@
 </template>
 
 <script>
-  import Axios from 'axios';
   import Header from "../header/header";
   import Search from "../search/search";
   import clientW from "../../assets/js/conmon";
@@ -62,118 +78,141 @@
         msg: '附近商家',
         height: '1rem',
         num: 0,
-        isUlliTwo: false,
+        isUlliTwo: true,
+        isUlliTwoHeight: 1, 
+        navChildren: [],
         leftlists: [
-          {
-            text: '全部',
-            children: [
-              // {
-              //   text: '温州',
-              //   // id，作为匹配选中状态的标识符
-              //   id: 1,
-              // },
-              // {
-              //   text: '内锅',
-              //   // id，作为匹配选中状态的标识符
-              //   id: 2,
-              // }
-            ]
-          },
-          {
-            text: '品质购物',
-            id: 1,
-            children: [
-              {
-                text: '温州',
-                // id，作为匹配选中状态的标识符
-                id: 1,
-              },
-              {
-                text: '内锅',
-                // id，作为匹配选中状态的标识符
-                id: 2,
-              }
-            ]
-          },
-          {
-            text: '狗蛋大妈',
-            id: 2,
-            children: [
-              {
-                text: '梅梅',
-                // id，作为匹配选中状态的标识符
-                id: 1,
-              },
-              {
-                text: '靓仔',
-                // id，作为匹配选中状态的标识符
-                id: 2,
-              }
-            ]
-          },
+          // {
+          //   text: '全部',
+          //   children: [
+          //     // {
+          //     //   text: '温州',
+          //     //   // id，作为匹配选中状态的标识符
+          //     //   id: 1,
+          //     // },
+          //     // {
+          //     //   text: '内锅',
+          //     //   // id，作为匹配选中状态的标识符
+          //     //   id: 2,
+          //     // }
+          //   ]
+          // },
+          // {
+          //   text: '品质购物',
+          //   id: 1,
+          //   children: [
+          //     {
+          //       text: '温州',
+          //       // id，作为匹配选中状态的标识符
+          //       id: 1,
+          //     },
+          //     {
+          //       text: '内锅',
+          //       // id，作为匹配选中状态的标识符
+          //       id: 2,
+          //     }
+          //   ]
+          // },
+          // {
+          //   text: '狗蛋大妈',
+          //   id: 2,
+          //   children: [
+          //     {
+          //       text: '梅梅',
+          //       // id，作为匹配选中状态的标识符
+          //       id: 1,
+          //     },
+          //     {
+          //       text: '靓仔',
+          //       // id，作为匹配选中状态的标识符
+          //       id: 2,
+          //     }
+          //   ]
+          // },
         ],
-        cpylist: [{
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },
-          {
-            img: 'company',
-            title: '重庆安利科技技术有限公司',
-            address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-            phone: '023-6345645',
-            long: '3.14公里'
-          },]
+        cpylist: [
+          // {
+          //   img: 'company',
+          //   title: '重庆安利科技技术有限公司',
+          //   address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+          //   phone: '023-6345645',
+          //   long: '3.14公里'
+          // },
+          
+        ]
       }
     },
     methods: {
-      getNum: function f(index) {
+      getNum: function f(index, children) {
         this.num = index;
+        this.navChildren = children;
+        this.isUlliTwoHeight = index;
+        this.isUlliTwo = true;
+      },
+
+      navPush (list){
+        for(var i in list){
+          this.leftlists.push({
+            id: list[i].id,
+            text: list[i].cate_name,
+            children: list[i].sub,
+          })
+        }
+        this.leftlists.unshift({
+          id: 0,
+          text: '全部',
+          children: [],
+        })
+        // console.log(this.leftlists)
       },
       getData () {
+        this.$store.commit("setLoading");
         let ad_data = {
           method: "get.shop.category.list"
         };
         this.$post('/api/v1/GoodsComCategory', ad_data)
         .then((res) => {
           console.log(res);
-         
+          if(res.status==200){
+            this.$store.commit("setLoading");
+            this.navPush(res.data);
+            this.getDataTwo();
+          }
         }).catch(function (error) {
             console.log(error);
         });
       },
-      isUlliTwoAdd () {
-        
+      getDataTwo ( id ) {
+        let ad_data = {};
+        if(id){
+          console.log("有Id")
+          ad_data = {
+            method: "get.shop.category.list",
+            cate_id: id,
+            page: 1,
+            page_size: 20
+          };
+        }else{
+          console.log("没得Id")
+          ad_data = {
+            method: "get.shop.category.list",
+            page: 1,
+            page_size: 20
+          };
+        }
+        this.$post('/api/v1/GoodsCom', ad_data)
+        .then((res) => {
+          console.log(res);
+          if(res.status==200){
+            this.cpylist = res.data;
+          }
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+      isUlliTwoAdd ( id ) {
+        this.isUlliTwo = false;
+        this.getDataTwo(id);
       }
     },
     created () {
@@ -209,27 +248,20 @@
   aside {
     background-color: #fff;
     overflow: visible;
-    border-right: 1px solid rgb(202, 201, 201);
+    border-right: 1px solid #f2f2f2;
     .left {
       position: relative;
     }
 
     .left>li {
       line-height: 0.4rem;
-      .erji {
-        border-left: 1px solid rgb(202, 201, 201);
-        border-right: 1px solid rgb(202, 201, 201);
-        color: #000;
-        width: 0.9rem;
-        position: absolute;
-        left: 100%;
-        top: 0;
-        background-color: #fff;
-      }
+      box-sizing: border-box;
+      
     }
-
+    
     .left>li{
       border-left: 3px solid #fff;
+      border-bottom: 1px solid #f2f2f2;
     }
     .active{
       color: $sss-color;
@@ -252,34 +284,50 @@
       left: 0;
     }
   }
-
+  .erji {
+    border-left: 1px solid #f2f2f2;
+    color: #000;
+    width: 0.9rem;
+    position: absolute;
+    top: 0;
+    left: -0.05rem;
+    z-index: 50;
+    background-color: #fff;
+    li{
+      border-bottom: 1px solid #f2f2f2;
+      line-height: 0.4rem;
+    }
+    li:active{
+      color: $sss-color !important;
+    }
+  }
+  
   section .el-main {
-    padding: 0.07rem;
+    padding: 0.05rem;
 
-    .cpylist li {
+    .cpylist>li {
       display: flex;
+      align-items: center;
       background-color: #fff;
-      padding: 0.1rem;
-      margin-bottom: 0.1rem;
+      padding: 0.05rem;
+      margin-bottom: 0.05rem;
       text-align: left;
-
-      img {
-        width: 1rem;
-        max-width: 1rem;
-      }
-
+      
       .right_msg {
-        margin-left: 0.13rem;
-
-        p {
-          font-size: 0.12rem;
-          color: #999;
-          margin: 0.05rem 0;
+        margin-left: 0.05rem;
+        .p1{
+          color: #000 !important;
+          font-size: 0.14rem;
         }
-
+        .address{
+          display: flex;
+          color: #999;
+          font-size: 0.12rem;
+        }
         p.long {
           text-align: right;
           color: #009900;
+          font-size: 0.12rem;
         }
       }
     }

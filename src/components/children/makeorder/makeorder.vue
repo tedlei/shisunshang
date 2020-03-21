@@ -24,7 +24,7 @@
       <!-- 店铺名称 -->
       <router-link to="business/storemsg" class="common m_b_10">
         <div class="left">
-          <img src="../../../assets/img/stoe.png" style="width: 18px">
+          <img src="../../../assets/img/stoe.png" style="width: 0.18rem">
           <span>
             <p style="width:70%" class="fontWrap fontWrapOne">
               {{orderData.shops['17'].shop_name}}

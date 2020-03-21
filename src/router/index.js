@@ -108,6 +108,24 @@ export default new Router({
           meta: {title: '我的订单', showFooter: false, goods: false}
         },
         {
+          path: '/goodsdetails/evaluate',
+          name: 'evaluate',
+          component: resolve => require(['@/components/children/evaluate/evaluate'], resolve),
+          meta: {title: '评价商品', showFooter: false, goods: false}
+        },
+        {
+          path: '/goodsdetails/customerService',
+          name: 'customerService',
+          component: resolve => require(['@/components/children/customerService/customerService'], resolve),
+          meta: {title: '售后', showFooter: false, goods: false}
+        },
+        {
+          path: '/goodsdetails/applicationcs',
+          name: 'applicationcs',
+          component: resolve => require(['@/components/children/applicationcs/applicationcs'], resolve),
+          meta: {title: '申请售后', showFooter: false, goods: false}
+        },
+        {
           path: '/goodsdetails/Orderdetails',
           name: 'Orderdetails',
           component: resolve => require(['@/components/children/Orderdetails/Orderdetails'], resolve),

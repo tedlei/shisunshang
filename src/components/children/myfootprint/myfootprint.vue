@@ -288,7 +288,6 @@
 
 <style scoped lang="scss">
 
-
   .common_box {
     padding: 0;
     padding-top: 43px;
