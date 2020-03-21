@@ -6,7 +6,7 @@
       <p v-if="show1">{{text1}}</p>
       <pre v-if="show2">{{text2}}</pre>
       <div class="tolink" v-if="show3">
-        <router-link :to="{path:url,query:{addressid:urlcode}}">{{tolink}}</router-link>
+        <router-link :to="{path:url,query:{querys}}">{{tolink}}</router-link>
       </div>
     </div>
   </div>
@@ -30,10 +30,10 @@
                 tolink: '',
                 url: '',
                 urlcode: '',
-                addressid: '',
                 show1: true,
                 show2: true,
-                show3: true
+                show3: true,
+                querys: '{addressid:add}',
             }
         },
         mounted() {
@@ -45,14 +45,22 @@
                     this.text2 = '您可以新增地址以方便收货'
                     this.tolink = '新增收货地址'
                     this.url = '/mine/Add-address'
-                    this.urlcode = 'add'
-                    this.addressid = 'id'
+                    this.querys = 'addressid:add'
+
                     break;
                 case 'record':
                     this.text1 = '暂无相关记录'
                     this.show2 = false
                     this.show3 = false
                     break;
+                case 'myinvoice':
+                    this.text1 = '暂无发票信息'
+                    this.text2 = '您可以新增发票信息已方便使用'
+                    this.tolink = '新增发票信息'
+                    this.url = '/mine/invoice'
+                    this.querys = 'state:' + 1
+                    break;
+
             }
             this.height = ((document.documentElement.clientHeight || document.body.clientHeight) - 43) + 'px';
         }

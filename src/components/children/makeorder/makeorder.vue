@@ -24,7 +24,7 @@
       <!-- 店铺名称 -->
       <router-link to="business/storemsg" class="common m_b_10">
         <div class="left">
-          <img src="../../../assets/img/stoe.png" style="width: 0.18rem">
+          <img src="../../../assets/img/stoe.png" style="width: 18px">
           <span>
             <p style="width:70%" class="fontWrap fontWrapOne">
               {{orderData.shops['17'].shop_name}}
@@ -68,12 +68,14 @@
       </div>
       <div class="common liuyan">
         <div style="width: max-content;min-width: 70px;">买家留言：</div>
-        <van-field v-model="input" placeholder="(选填)可输入20字买家留言" />
+        <van-field v-model="input" placeholder="(选填)可输入20字买家留言"/>
       </div>
-      <router-link :to="{path:'/mine/invoice',query:{id: goods_id, num: goods_num, goods_sku_id: goods_sku_id, buy_type: buy_type}}" class="common m_b_10">
+      <router-link
+        :to="{path:'/mine/invoice',query:{state:'0'}}"
+        class="common m_b_10">
         <div>发票信息</div>
         <div class="right">
-          <span>{{this.$route.query.information=='2'?'开具发票':'不开具发票'}}</span>
+          <span>{{information == false?'开具发票':'不开具发票'}}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </router-link>
@@ -91,7 +93,7 @@
           <span style="color:#999999;" class="Check">可使用充值金
             <!-- {{orderData.total_qd_price}} -->
             元</span>
-          <van-switch v-model="checked" size="0.2rem" active-color="#009900" inactive-color="#999999" />
+          <van-switch v-model="checked" size="0.2rem" active-color="#009900" inactive-color="#999999"/>
         </div>
       </router-link>
       <div class="price">
@@ -112,7 +114,7 @@
     <!--  底部提交  -->
     <div class="clearfix bot_submit">
       <div class="left_text">实付款：￥
-            {{orderData.order_pay_price}}
+        {{orderData.order_pay_price}}
       </div>
       <div class="right_btn" @click="uploadOrder">
         提交订单
@@ -123,139 +125,152 @@
 </template>
 
 <script>
-  import loading from "../../loading/loading";
-  export default {
-    name: "makeorder",
-    components: {
-      loading,
-    },
-    data(){
-      return{
-        isloading: false,
-        goods_id: '',
-        goods_num: '',
-        goods_sku_id: [],
-        buy_type: '',
+    import loading from "../../loading/loading";
+    import Bus from "../../../assets/js/bus";
 
-        isTips: true,
-        input:'',
-        checked: true,
-        orderData: {
-          shops:{
-            "17": {
-              goods: [
-                {
-                  id: '',
-                  name: '',
-                  goods_sku: {
-                    goods_attr:''
-                  }
-                },
-              ],
-            }
-          }
+    export default {
+        name: "makeorder",
+        components: {
+            loading,
         },
-      }
-    },
-    methods:{
-      //获取订单
-      getDATA () {
-        if(this.$route.query.id==undefined || this.$route.query.num==undefined || this.$route.query.goods_sku_id==undefined){
-          this.$dialog.alert({
-            title: '提交失败',
-            message: '请重新提交'
-          })
-          return;
-        }
-        let goods_id = this.$route.query.id;
-        let goods_num = this.$route.query.num;
-        let goods_sku_id = this.$route.query.goods_sku_id.join('_');
-        let buy_type = this.$route.query.buy_type;
-        let ad_data = {
-          method: 'get.buy.goods.now',
-          goods_id: goods_id,
-          goods_num: goods_num,
-          goods_sku_id: goods_sku_id,
-          buy_type: buy_type,
-        };
-        // console.log(ad_data)
-        this.$post('/api/v1/order', ad_data)
-        .then((res) => {
-          console.log(res) 
-          this.orderData = res.data;
-          // console.log(this.orderData.shops['17'].shop_name)
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
+        data() {
+            return {
+                isloading: false,
+                goods_id: '',
+                goods_num: '',
+                goods_sku_id: [],
+                buy_type: '',
+                information: true,
+                isTips: true,
+                input: '',
+                checked: true,
+                orderData: {
+                    shops: {
+                        "17": {
+                            goods: [
+                                {
+                                    id: '',
+                                    name: '',
+                                    goods_sku: {
+                                        goods_attr: ''
+                                    }
+                                },
+                            ],
+                        }
+                    }
+                },
+            }
+        },
+        methods: {
+            //获取订单
+            getDATA() {
+                // if (this.$route.query.id == undefined || this.$route.query.num == undefined || this.$route.query.goods_sku_id == undefined) {
+                //     this.$dialog.alert({
+                //         title: '提交失败',
+                //         message: '请重新提交'
+                //     })
+                //     return;
+                // }
+                let goods_id = this.$route.query.id;
+                let goods_num = this.$route.query.num;
+                let goods_sku_id = this.$route.query.goods_sku_id.join('_');
+                let buy_type = this.$route.query.buy_type;
+                let ad_data = {
+                    method: 'get.buy.goods.now',
+                    goods_id: goods_id,
+                    goods_num: goods_num,
+                    goods_sku_id: goods_sku_id,
+                    buy_type: buy_type,
+                };
+                // console.log(ad_data)
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res)
+                        this.orderData = res.data;
+                        // console.log(this.orderData.shops['17'].shop_name)
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
 
-      //提交订单
-      uploadOrder (){
-        let goods_id = this.$route.query.id;
-        let goods_num = this.$route.query.num;
-        let goods_sku_id = this.$route.query.goods_sku_id.join('_');
-        let buy_type = this.$route.query.buy_type;
-        let address_id = this.orderData.address_default.id;
-        let is_cz_price = this.checked?1:0;
-        // console.log(address_id);
-        let ad_data = {
-          method: "buy.goods.now",
-          goods_id: goods_id,
-          goods_num: goods_num,
-          goods_sku_id: goods_sku_id,
-          buy_type: buy_type,
-          address_id: address_id,
-          is_cz_price: is_cz_price
-        };
-        console.log(ad_data);
-        this.isloading = true;
-        this.$post('/api/v1/order', ad_data)
-        .then((res) => {
-          console.log(res) 
-          if(res.status == 200){
-            this.isloading = false;
-            this.$dialog.alert({
-              title: '提交成功',
-              message: '请在订单有效时间内前往订单详情页面付款'
-            }).then((res)=>{
-              if(res=='confirm'){
-                this.$router.push({path:'/goodsdetails/order',query: {id:'1'}});
-              }
+
+            //提交订单
+            uploadOrder() {
+                let goods_id = this.$route.query.id;
+                let goods_num = this.$route.query.num;
+                let goods_sku_id = this.$route.query.goods_sku_id.join('_');
+                let buy_type = this.$route.query.buy_type;
+                let address_id = this.orderData.address_default.id;
+                let is_cz_price = this.checked ? 1 : 0;
+                // console.log(address_id);
+                let ad_data = {
+                    method: "buy.goods.now",
+                    goods_id: goods_id,
+                    goods_num: goods_num,
+                    goods_sku_id: goods_sku_id,
+                    buy_type: buy_type,
+                    address_id: address_id,
+                    is_cz_price: is_cz_price
+                };
+                console.log(ad_data);
+                this.isloading = true;
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res)
+                        if (res.status == 200) {
+                            this.isloading = false;
+                            this.$dialog.alert({
+                                title: '提交成功',
+                                message: '请在订单有效时间内前往订单详情页面付款'
+                            }).then((res) => {
+                                if (res == 'confirm') {
+                                    this.$router.push({path: '/goodsdetails/order', query: {id: '1'}});
+                                }
+                            })
+                        } else {
+                            this.isloading = false;
+                            this.$dialog.alert({
+                                title: '提交失败',
+                                message: '请重新提交'
+                            })
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+        },
+        mounted() {
+            let _this = this
+            Bus.$on('info', (data) => {
+                _this.information = 2
+                console.log(_this.information)
+
             })
-          }else{
-            this.isloading = false;
-            this.$dialog.alert({
-              title: '提交失败',
-              message: '请重新提交'
-            })
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-    },
-    created () {
-      console.log(this.$route.query);
-      if(this.$route.query.id==undefined || this.$route.query.num==undefined || this.$route.query.goods_sku_id==undefined){
-        console.log(1)
-        this.$router.push({path:'/'});
-        return;
-      }
-      this.goods_id = this.$route.query.id;
-      this.goods_num = this.$route.query.num;
-      this.goods_sku_id = this.$route.query.goods_sku_id;
-      this.buy_type = this.$route.query.buy_type;
-      this.getDATA();
+        },
+        created() {
+            // if (this.$route.query.id == undefined || this.$route.query.num == undefined || this.$route.query.goods_sku_id == undefined) {
+            //     console.log(1)
+            //     this.$router.push({path: '/'});
+            //     return;
+            // }
+            this.goods_id = this.$route.query.id;
+            this.goods_num = this.$route.query.num;
+            this.goods_sku_id = this.$route.query.goods_sku_id;
+            this.buy_type = this.$route.query.buy_type;
+            this.getDATA();
+        },
+
     }
-  }
 </script>
 
 <style scoped lang="scss">
   .content {
     margin-bottom: 0.45rem;
+
     i {
       font-size: 0.18rem;
     }
+
     .tips {
       padding: 0 0.1rem;
       background-color: #ffebea;
@@ -263,6 +278,7 @@
       justify-content: space-between;
       /*align-items: center;*/
       line-height: 0.4rem;
+
       i {
         line-height: 0.4rem;
         color: #999999;
@@ -271,6 +287,7 @@
 
     .common_box {
       text-align: left;
+
       .common {
         width: 100%;
         display: flex;
@@ -297,12 +314,15 @@
         }
       }
     }
-    .liuyan .el-input /deep/ input{
-      background:none;
+
+    .liuyan .el-input /deep/ input {
+      background: none;
     }
-    .price{
+
+    .price {
       padding: 0.1rem 0;
-      .left,.right{
+
+      .left, .right {
         display: flex;
         justify-content: space-between;
       }
@@ -333,33 +353,38 @@
     }
 
   }
-  .card{
+
+  .card {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    .cardMsg{
+
+    .cardMsg {
       width: 70%;
       position: relative;
       margin-left: 0.05rem;
 
-      >span{
+      > span {
         display: block;
         margin: 0.05rem 0 0.13rem 0;
         color: #999999;
         font-size: 0.12rem;
       }
-      .cardMsgNum{
+
+      .cardMsgNum {
         position: absolute;
         right: 0;
         color: #999999;
         bottom: -0.07rem;
       }
-      >div:nth-child(3){
+
+      > div:nth-child(3) {
         color: $sss-color;
       }
     }
   }
-  .Check{
+
+  .Check {
     display: inline-block;
     font-size: 0.1rem;
     // transform: scale(0.95);

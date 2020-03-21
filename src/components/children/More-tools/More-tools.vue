@@ -45,7 +45,7 @@
                             {
                                 img: 'mgj4',
                                 text: '发票专区',
-                                linkto:''
+                                linkto:'/mine/myinvoice'
                             },
                             {
                                 img: 'mgj5',
@@ -60,7 +60,7 @@
                             {
                                 img: 'mgj7',
                                 text: '绑定银行卡',
-                                linkto:''
+                                linkto:'/set/Bank-card'
                             },
                             {
                                 img: 'mgj8',

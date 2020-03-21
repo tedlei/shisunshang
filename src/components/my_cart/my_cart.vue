@@ -16,7 +16,7 @@
     <!-- 有购物车 -->
     <div class="have_box" v-show="isCart">
       <div>
-	    	<div v-for="(item, index1) in goodsObj" :key="index1"> 
+	    	<div v-for="(item, index1) in goodsObj" :key="index1">
           <!-- 店铺详情 -->
           <div class="store_list" >
               <div class="store_top">
@@ -33,7 +33,7 @@
               </div>
               <div class="div1" v-for="(data, index) in item.list" :key="index">
                 <!-- 商品卡片 -->
-                
+
                 <div class="goods_bot" >
                     <div :class="data.checked ?'addRadioTwo':'addRadio'" @click="choose(index1, index)">
                         <van-icon name="success" color="#fff"/>
@@ -55,7 +55,7 @@
                             <div class="goodsprice">
                                 <span>￥{{data.price}}</span>
                                 <div class="progresses">
-                                  <div class="progressesBtn" :class="{ 'disable' : data.num==1 }" 
+                                  <div class="progressesBtn" :class="{ 'disable' : data.num==1 }"
                                   @click="numChange(index1, index, -1, data.id, data.goods_sku_id)">
                                     <img v-if="data.num==1" src="../../assets/img/jhh.png" alt="">
                                     <img v-else src="../../assets/img/jh.png" alt="">
@@ -176,11 +176,11 @@ export default {
             ],
           },
         ],
-        
+
         isCart: false,
         isDellBatch: false,
         goodsObj: [
-          
+
         ],
         totalMoney : 0,
         totalFare : 0,
@@ -263,7 +263,7 @@ export default {
       this.calTotalMoney();
       this.calTotalFare();
     },
- 
+
     // 每个店铺全选
     chooseShopGoods ( index) {
       var list = this.goodsObj[index]['list'],
@@ -278,13 +278,13 @@ export default {
         }
       }
       this.goodsObj[index]['checked'] = !this.goodsObj[index]['checked'];
- 
+
       // 判断是否选择所有商品的全选
       this.isChooseAll();
- 
+
       this.cal(index);
     },
- 
+
     // 单个选择
     choose ( index1, index) {
       var list = this.goodsObj[index1]['list'],
@@ -295,7 +295,7 @@ export default {
         list[index]['checked'] = !list[index]['checked'];
       } else {
         list[index]['checked'] = !list[index]['checked'];
- 
+
         // 判断是否选择当前店铺的全选
         var flag = true;
         for (var i = 0; i < len; i++ ) {
@@ -306,14 +306,14 @@ export default {
         }
         flag == true ? this.goodsObj[index1]['checked'] = true : this.goodsObj[index1]['checked'] = false;
       }
- 
+
       // 判断是否选择所有商品的全选
       this.isChooseAll();
       // console.log(index1)
       // console.log(index)
       this.cal(index1);
     },
- 
+
     // 判断是否选择所有商品的全选
     isChooseAll () {
       var flag1 = true;
@@ -325,7 +325,7 @@ export default {
       }
       flag1 == true ? this.allChecked = true : this.allChecked = false;
     },
- 
+
     // 商品数量控制
     numChange (index1, index, numChange, id, goods_sku_id) {
       console.log(id,goods_sku_id)
@@ -365,10 +365,10 @@ export default {
       }
 
     },
- 
+
     // 用户填写容错处理
-   
- 
+
+
     // 计算每个店铺的商品总额
     calEveryStore (index) {
       // console.log(2)
@@ -378,25 +378,25 @@ export default {
       var  list = this.goodsObj[index]['list'];
       // console.log(3)
       list.forEach(function(item, index, arr) {
-        if ( list[index]['checked'] ) { 
+        if ( list[index]['checked'] ) {
           everyStoreMoney += parseFloat(item.price) * parseFloat(item.num);
         }
       });
       return everyStoreMoney.toFixed(2);
     },
- 
+
     // 计算每个店铺的运费总额
     calEveryFare (index) {
       var everyStoreFare = 0,
         list = this.goodsObj[index]['list'];
       list.forEach(function(item, index, arr) {
-        if ( list[index]['checked'] ) { 
+        if ( list[index]['checked'] ) {
           everyStoreFare += parseFloat(item.fare) * parseFloat(item.num);
         }
       });
       return everyStoreFare.toFixed(2);
     },
- 
+
     // 计算商品总金额
     calTotalMoney  () {
       var oThis = this;
@@ -410,7 +410,7 @@ export default {
         });
       }
     },
- 
+
     // 计算商品总运费
     calTotalFare  () {
       var oThis = this;
@@ -424,7 +424,7 @@ export default {
         });
       }
     },
- 
+
     // 计算方法集合
     cal (index) {
       // console.log(1)
@@ -433,7 +433,7 @@ export default {
       this.calTotalMoney();
       this.calTotalFare();
     },
- 
+
     delGoods (index1, index) {
       //console.log(index1);
       //console.log(index);
@@ -464,13 +464,13 @@ export default {
             }).catch( (error) => {
               console.log(error);
             });
-            
+
 	  			}
         }
       }
 
 	  }
-     
+
   },
   created(){
     this.getCart();

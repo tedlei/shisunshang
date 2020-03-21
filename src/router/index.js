@@ -254,6 +254,12 @@ export default new Router({
           meta: {title: '添加收货地址', showFooter: false, goods: false,}
         },
         {
+          path: '/mine/myinvoice',
+          name: 'myinvoice',
+          component: resolve => require(['@/components/children/invoice/myinvoice'], resolve),
+          meta: {title: '我的发票', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/invoice',
           name: 'invoice',
           component: resolve => require(['@/components/children/invoice/invoice'], resolve),

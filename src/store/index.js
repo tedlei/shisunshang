@@ -15,6 +15,7 @@ const state = {
   bank: false,
   Rrecord: false,
   Wrecord:false,
+  Atcb:false,
   userinfo: sessionStorage.getItem('userinfo'),
   isLogin: sessionStorage.getItem('token')
 }

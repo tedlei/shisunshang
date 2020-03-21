@@ -108,7 +108,7 @@
           //   companynam: '黄州友商信息科技有限公司',
           //   checked: false
           // },
-          
+
         ],
         evaluation_lists: [
           {
@@ -169,7 +169,7 @@
         this.goodslist[index].checked = !this.goodslist[index].checked
         this.isChooseAll();
       },
-      
+
       myfootprintDataPush (data) {
         // console.log(data);
         for(var i in data){
@@ -226,7 +226,7 @@
               console.log(error);
           });
         }
-        
+
       },
 
       //删除收藏商品
@@ -271,7 +271,7 @@
               console.log(error);
           });
         }
-        
+
       }
 
       //取消关注店铺
@@ -398,7 +398,7 @@
         }
       }
     }
-  } 
+  }
   .addRadio,.addRadioTwo{
     width: 0.18rem;
     height: 0.18rem;

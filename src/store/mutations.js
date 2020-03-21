@@ -26,6 +26,10 @@ export default {
     state.Wrecord = res
   },
 
+  sendAtc(state, res){
+    state.Atcb = res
+  },
+
   userinfo(state, res) {
     state.userinfo = res
     sessionStorage.setItem('userinfo', res)

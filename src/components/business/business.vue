@@ -19,7 +19,7 @@
           </li>
         </ul>
       </el-aside>
-      
+
       <el-container>
         <el-main style="position: relative;">
           <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.4+'rem'" class="erji">
@@ -79,7 +79,7 @@
         height: '1rem',
         num: 0,
         isUlliTwo: true,
-        isUlliTwoHeight: 1, 
+        isUlliTwoHeight: 1,
         navChildren: [],
         leftlists: [
           // {
@@ -138,7 +138,7 @@
           //   phone: '023-6345645',
           //   long: '3.14公里'
           // },
-          
+
         ]
       }
     },
@@ -256,9 +256,9 @@
     .left>li {
       line-height: 0.4rem;
       box-sizing: border-box;
-      
+
     }
-    
+
     .left>li{
       border-left: 3px solid #fff;
       border-bottom: 1px solid #f2f2f2;
@@ -301,7 +301,7 @@
       color: $sss-color !important;
     }
   }
-  
+
   section .el-main {
     padding: 0.05rem;
 
@@ -312,7 +312,7 @@
       padding: 0.05rem;
       margin-bottom: 0.05rem;
       text-align: left;
-      
+
       .right_msg {
         margin-left: 0.05rem;
         .p1{

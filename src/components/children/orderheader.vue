@@ -24,6 +24,7 @@
       <span v-else-if="this.bank" @click="add_bank">添加</span>
       <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
       <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
+      <span v-else-if="this.Atc" @click='activeChild'>保存</span>
     </span>
   </header>
 </template>
@@ -53,7 +54,10 @@
             },
             Wrecord() {
                 return this.$store.state.Wrecord;
-            }
+            },
+            Atc() {
+                return this.$store.state.Atcb;
+            },
         },
         watch: {
             //监听属性，在computed计算属性更改之后会触发参数值的改变，所以能够监听到
@@ -84,6 +88,9 @@
                 this.$router.push({
                     path: '/Bank-card/add-bank-card'
                 });
+            },
+            activeChild:function () {
+                Bus.$emit('Atc', true)
             }
         },
         mounted() {
