@@ -226,7 +226,6 @@
         },
 
         mounted() {
-
             if (this.$route.query.addressid != 'add') {
                 this.getmsg()
             }

@@ -1,23 +1,34 @@
 <template>
   <div class="content">
-    <div class="myinvoice" v-if="!myinvoicelists">
+    <div class="myinvoice" v-if="myinvoicelists">
       <ul class="myinvoice_ul">
-        <li class="common_style">
+        <li class="common_style" v-for="(item,index) in myinvoicelists" :key="index">
           <mt-cell-swipe
-            :right="rightButtons"
-            title="中集天合（重庆）信息技术有限公司"
+            :right="[
+                {
+                    content: '设为默认',
+                    style: {'background-color': '#ccc', 'color': '#fff !important'}
+                },
+                {
+                    content: '删除',
+                    style: {'background-color': '#009900', 'color': '#fff !important'},
+                    handler: () => isdelet(item.id)
+                }]"
+            :title="item.title"
           >
-            <p class="section">asasa</p>
+            <p class="section">税号：{{item.number}}</p>
           </mt-cell-swipe>
 
         </li>
       </ul>
       <div class="common_style add_invoice">
-        <van-icon name="add"/>
-        <span>添加发票</span>
+        <router-link :to="{path:'/mine/invoice',query:{state:1}}">
+          <van-icon name="add"/>
+          <span>添加发票</span>
+        </router-link>
       </div>
     </div>
-    <empty :isemptytype="isemptytype" v-if="myinvoicelists"></empty>
+    <empty :isemptytype="isemptytype" v-if="!myinvoicelists"></empty>
   </div>
 </template>
 
@@ -38,23 +49,52 @@
                 rightButtons: [],
             }
         },
-        created() {
-            this.rightButtons = [
-                {
-                    content: '设为默认',
-                    style: {'background-color': '#ccc', 'color': '#fff !important'}
-                },
-                {
-                    content: '删除',
-                    style: {'background-color': '#009900', 'color': '#fff !important'},
-                    handler: () => this.$messagebox('delete')
-                }
-            ];
-        },
         methods: {
-            leftButtonHandler(evt) {
-                console.log(123);
+            //
+            getmsg: function () {
+                let parms = {
+                    method: 'get.invoice.list'
+                };
+                this.$post('/api/v1/invoice', parms)
+                    .then((res) => {
+                        this.myinvoicelists = res.data
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //是否删除
+            isdelet: function (e) {
+                this.$dialog.confirm({
+                    title: '温馨提示',
+                    message: '确定删除此发票吗？'
+                }).then(() => {
+                    this.delet(e)
+                }).catch(() => {
+
+                });
+            },
+            //删除选中发票信息
+            delet: function (e) {
+                let parms = {
+                    method: 'del.invoice.list',
+                    id: [e]
+                };
+                this.$post('/api/v1/Invoice', parms)
+                    .then((res) => {
+                        for (let i in this.myinvoicelists){
+                            if (this.myinvoicelists[i].id == e) {
+                                this.myinvoicelists.splice(i, 1)
+                            }
+                        }
+                        this.myinvoicelists = this.myinvoicelists.length == 0 ? null : this.addresslist
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(e)
             }
+        },
+        mounted() {
+            this.getmsg()
         }
     }
 </script>
@@ -73,10 +113,12 @@
           display: flex;
           height: 0.7rem;
           align-items: center;
+
           .mint-cell-wrapper {
             display: block;
             text-align: left;
             padding: 0 0.2rem;
+
             .mint-cell-title {
               font-size: 0.17rem;
               margin-bottom: 0.1rem;
@@ -84,11 +126,11 @@
           }
 
 
-            .mint-cell-swipe-button {
-              width: 0.7rem;
-              padding: 0;
-              line-height: 0.7rem;
-            }
+          .mint-cell-swipe-button {
+            width: 0.7rem;
+            padding: 0;
+            line-height: 0.7rem;
+          }
 
         }
 

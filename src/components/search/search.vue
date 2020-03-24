@@ -1,4 +1,5 @@
 <template>
+
   <van-search
     v-model="searchVal"
     shape="round"
@@ -8,46 +9,64 @@
     style="padding: 0;width: 100%"
     :readonly="readonly"
     :class="!tan ?'nobtn':''"
+    @input="searchValchange"
   >
     <div slot="action" @click="onSearch" v-show="tan">搜索</div>
   </van-search>
+
 </template>
 
 <script>
     export default {
         name: "search",
-        props: ['dmsg','tmsg'],
+        props: ['dmsg', 'tmsg', 'isempty'],
         data() {
             return {
                 placeholder: '',
-                searchVal: '',
-                readonly:true,
-                tan:false
+                readonly: true,
+                tan: false
+            }
+        },
+        computed: {
+            searchVal:{
+                get: function () {
+                    return this.$store.state.searchVal;
+                }
+            }
+        },
+        watch: {
+            searchVal: {
+                handler(newValue, oldValue) {
+                    if (newValue == '') {
+                        this.$store.commit('sendsearchVal', '')
+                    }
+                    console.log(newValue)
+                },
+                deep: true
             }
         },
         methods: {
-            //
-            // focus: function (e) {
-            //     let pros_data = this.dmsg
-            //     if (pros_data != true) {
-            //         this.$router.push({path: '/searchResult', query: {searchid: this.dmsg}});
-            //     }
-            // },
-            onEnterSearch: function (e, searchVal) {
-                console.log("search: " + this.searchVal);
+            //是否
+            isreadonly: function () {
+                let _this = this
+                if (_this.dmsg == true) {
+                    this.readonly = false
+                }
+                if (_this.tmsg == 'tan') {
+                    _this.tan = true
+                }
             },
+            //搜索传值
             onSearch: function () {
-
+                this.$store.commit('sendsearchVal', this.searchVal)
+            },
+            //监听输入是否为空
+            searchValchange: function () {
+                this.$store.commit('sendsearchVal', this.searchVal)
             }
         },
         mounted() {
-            let _this = this
-            if (_this.dmsg == true){
-                this.readonly = false
-            }
-            if (_this.tmsg == 'tan'){
-                _this.tan = true
-            }
+            this.isreadonly()
         }
     }
 </script>
@@ -65,7 +84,7 @@
     line-height: 35px;
   }
 
-  .nobtn .van-search__action{
+  .nobtn .van-search__action {
     display: none;
   }
 </style>

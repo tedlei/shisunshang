@@ -2,7 +2,7 @@
   <div class="content">
     <div class="contentRadio">
       <div v-show="this.$route.query.state == 0">
-        <van-radio-group v-model="radio">
+        <van-radio-group v-model="radio" @change="change">
           <div class="radios">
             <van-radio name="1" checked-color="#07c160">不开发票</van-radio>
           </div>
@@ -18,104 +18,108 @@
           </p>
         </div>
       </div>
+      <van-form @submit="onSubmit">
+        <div v-show="radio=='2'">
+          <div class="information">
+            <div class="informationType">
+              <div>
+                发票类型
+              </div>
+              <div>
+                <van-radio-group v-model="radioTwo" direction="horizontal">
+                  <van-radio name="1" checked-color="#07c160">单位</van-radio>
+                  <van-radio name="2" checked-color="#07c160">个人/非企业单位</van-radio>
+                </van-radio-group>
+              </div>
+            </div>
+          </div>
 
-      <div v-show="radio=='2'">
-        <div class="information">
-          <div class="informationType">
+          <div v-if="radioTwo=='1'">
             <div>
-              发票类型
+              <van-field
+                v-model="companyInput"
+                rows="1"
+                autosize
+                label="*公司抬头"
+                name="title"
+                type="textarea"
+                placeholder="请输入公司抬头名称"
+                input-align="right"
+              />
+              <van-field
+                v-model="companyInput2"
+                rows="1"
+                autosize
+                name="number"
+                label="*公司税号"
+                type="textarea"
+                placeholder="请输入公司税号"
+                input-align="right"
+              />
             </div>
+            <div style="height:0.1rem"></div>
             <div>
-              <van-radio-group v-model="radioTwo" direction="horizontal">
-                <van-radio name="1" checked-color="#07c160">单位</van-radio>
-                <van-radio name="2" checked-color="#07c160">个人/非企业单位</van-radio>
-              </van-radio-group>
+              <van-field
+                v-model="companyInput3"
+                rows="1"
+                autosize
+                label="公司地址"
+                name="company_address"
+                type="textarea"
+                placeholder="请输入公司地址"
+                input-align="right"
+              />
+              <van-field
+                v-model="companyInput4"
+                rows="1"
+                autosize
+                label="公司电话"
+                name="conpany_phone"
+                type="textarea"
+                placeholder="请输入公司电话"
+                input-align="right"
+              />
+              <van-field
+                v-model="companyInput6"
+                rows="1"
+                autosize
+                label="开户银行"
+                name="conpany_bank"
+                type="textarea"
+                placeholder="请输入开户银行名称"
+                input-align="right"
+              />
+              <van-field
+                v-model="companyInput7"
+                rows="1"
+                autosize
+                label="开户账号"
+                name="conpany_bank_number"
+                type="textarea"
+                placeholder="请输入开户银行账号"
+                input-align="right"
+              />
             </div>
           </div>
-          <div v-show="radioTwo=='1'">
-            <van-field
-              v-model="companyInput"
-              rows="1"
-              autosize
-              label="*公司抬头"
-              type="textarea"
-              placeholder="请输入公司抬头名称"
-              input-align="right"
-            />
-            <van-field
-              v-model="companyInput2"
-              rows="1"
-              autosize
-              label="*公司税号"
-              type="textarea"
-              placeholder="请输入公司税号"
-              input-align="right"
-            />
-          </div>
-          <div v-show="radioTwo=='2'">
+
+          <!--个人-->
+          <div v-if="radioTwo=='2'">
             <van-field
               v-model="personalInput"
               rows="1"
               autosize
               label="*抬头名称"
+              name="title"
               type="textarea"
               placeholder="建议填写个人姓名/店名"
               input-align="right"
             />
           </div>
         </div>
-        <div style="height:0.1rem" v-show="radioTwo=='1'"></div>
-        <div v-show="radioTwo=='1'">
-          <van-field
-            v-model="companyInput3"
-            rows="1"
-            autosize
-            label="公司地址"
-            type="textarea"
-            placeholder="请输入公司地址"
-            input-align="right"
-          />
-          <van-field
-            v-model="companyInput4"
-            rows="1"
-            autosize
-            label="公司电话"
-            type="textarea"
-            placeholder="请输入公司电话"
-            input-align="right"
-          />
-          <van-field
-            v-model="companyInput5"
-            rows="1"
-            autosize
-            label="公司地址"
-            type="textarea"
-            placeholder="请输入公司地址"
-            input-align="right"
-          />
-          <van-field
-            v-model="companyInput6"
-            rows="1"
-            autosize
-            label="开户银行"
-            type="textarea"
-            placeholder="请输入开户银行名称"
-            input-align="right"
-          />
-          <van-field
-            v-model="companyInput7"
-            rows="1"
-            autosize
-            label="开户账号"
-            type="textarea"
-            placeholder="请输入开户银行账号"
-            input-align="right"
-          />
+        <div class="primaryBtn">
+          <van-button type="primary" color="#009900" :block="true" native-type="submit">保存</van-button>
         </div>
-      </div>
-      <div class="primaryBtn">
-        <van-button type="primary" color="#009900" :block="true" @click="upload">保存</van-button>
-      </div>
+      </van-form>
     </div>
     <van-overlay :show="show">
       <div class="wrapper" @click.stop>
@@ -139,17 +143,12 @@
         components: {},
         data() {
             return {
-                goods_id: '',
-                goods_num: '',
-                goods_sku_id: [],
-                buy_type: '',
-                radio: '1',
+                radio: this.$route.query.state == 0 ? '1' : '2',
                 radioTwo: '1',
                 companyInput: '',
                 companyInput2: '',
                 companyInput3: '',
                 companyInput4: '',
-                companyInput5: '',
                 companyInput6: '',
                 companyInput7: '',
                 personalInput: '',
@@ -158,28 +157,43 @@
             }
         },
         methods: {
-            upload() {
-                Bus.$emit('info', this.radio == 1 ? true : false);
+            onSubmit(values) {
+                let parms = {
+                    method: 'add.invoice.item',
+                    type: Number(this.radio),
+                    is_default: 1
+                };
+                values = Object.assign(parms, values)
+                this.$post('/api/v1/Invoice', values)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            this.$toast('添加成功')
+                            setTimeout(() => {
+                                this.$router.back(-1);
+                            }, 2000)
+
+                        } else {
+                            this.$toast(res.message)
+                        }
+
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+
                 //调用router回退页面
-                // this.$router.back(-1);
+
+            },
+            change: function (e) {
+                console.log(e)
+                Bus.$emit('info', Number(e));
             }
         },
-        created() {
-            // if (this.$route.query.id == undefined || this.$route.query.num == undefined || this.$route.query.goods_sku_id == undefined) {
-            //     console.log(1)
-            //     this.$router.push({path: '/'});
-            //     return;
-            // }
-            this.goods_id = this.$route.query.id;
-            this.goods_num = this.$route.query.num;
-            this.goods_sku_id = this.$route.query.goods_sku_id;
-            this.buy_type = this.$route.query.buy_type;
-        },
-        mounted(){
-
+        mounted() {
+            this.$route.query.state == 1 ? this.$store.commit('sendIvc', true) : this.$store.commit('sendIvc', false)
         },
         destroyed() {
             Bus.$off();
+            this.$store.commit('sendIvc', false)
         },
         computed: {},
         watch: {}

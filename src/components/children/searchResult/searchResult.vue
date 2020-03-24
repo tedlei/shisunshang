@@ -11,24 +11,18 @@
       </header>
 
       <!--   搜索前   -->
-      <div class="search_record" v-show="true">
+      <div class="search_record" v-show="!this.gainsearchVal">
         <div class="search_box">
           <p><i></i>热门搜索</p>
           <ul class="hot_list clearfix">
-            <li>热门搜索</li>
-            <li>热门搜索</li>
-            <li>热门搜索</li>
-            <li>热门搜索</li>
+            <li v-for="(item,index) in hotlist" :key="index" @click="boxsearch(item.name)">{{item.name}}</li>
           </ul>
         </div>
 
         <div class="search_box">
           <p><i></i>搜索历史</p>
           <ul class="history_list clearfix">
-            <li>搜索历史</li>
-            <li>搜索历史</li>
-            <li>搜索历史</li>
-            <li>搜索历史</li>
+            <li v-for="(item,index) in hotlist" :key="index">搜索历史</li>
           </ul>
         </div>
 
@@ -37,11 +31,11 @@
           <span>清空历史搜索</span>
         </div>
       </div>
-      <!--   搜索结果   -->
-      <!--      <div class="search_result">-->
-      <!--        <goodslist></goodslist>-->
-      <!--      </div>-->
-      <!--   搜索空   -->
+      <!--      搜索结果-->
+      <div class="search_result" v-if="this.gainsearchVal">
+        <goodslist :gainsearchVal="gainsearchVal"></goodslist>
+      </div>
+      <!--      搜索空-->
       <div class="none" v-show="false">
         <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">
       </div>
@@ -63,16 +57,37 @@
                 num: 0,
                 tan: 'tan',
                 tans: false,
+                hotlist: [],
+                historylist: [],
             }
         },
+        computed: {
+            gainsearchVal: function () {
+                return this.$store.state.searchVal;
+            }
+        },
+
         methods: {
             //弹窗消失
             Popup: function () {
-                this.tans = false
-
+                this.tans = false;
+                this.$store.commit('sendsearchVal', '');
             },
-            getNum: function (index) {
-                this.num = index;
+            //获取热门
+            getHot: function () {
+                let _this = this,
+                    parms = {
+                        method: 'get.hot.goods.keywords.list',
+                    };
+                this.$post('/api/v1/GoodsSeach', parms)
+                    .then((response) => {
+                        _this.hotlist = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            boxsearch: function (e) {
+                this.$store.commit('sendsearchVal', e);
             }
         },
         mounted() {
@@ -80,7 +95,8 @@
                 if (data == true) {
                     this.tans = true
                 }
-            })
+            });
+            this.getHot();
         }
     }
 </script>
