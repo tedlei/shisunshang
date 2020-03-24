@@ -116,28 +116,28 @@
       </ul>
     </div>
     <!--  游戏互动  -->
-    <div class="m_b_10 conmon_box my_game">
-      <div class="conmon_deader">
-        <span class="left_text">游戏互动</span>
-        <span class="right_link">
-          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>
-        </span>
-      </div>
+<!--    <div class="m_b_10 conmon_box my_game">-->
+<!--      <div class="conmon_deader">-->
+<!--        <span class="left_text">游戏互动</span>-->
+<!--        <span class="right_link">-->
+<!--          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>-->
+<!--        </span>-->
+<!--      </div>-->
 
-      <ul class="gj_lists clearfix">
-        <li v-for="(item,index) in gamelists" :key="item.index">
-          <router-link :to="{path:item.linkto}">
-            <div style="margin-bottom: 10px">
-              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">
-            </div>
-            <div>
-              <div>{{item.name}}</div>
-              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>
-            </div>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+<!--      <ul class="gj_lists clearfix">-->
+<!--        <li v-for="(item,index) in gamelists" :key="item.index">-->
+<!--          <router-link :to="{path:item.linkto}">-->
+<!--            <div style="margin-bottom: 10px">-->
+<!--              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <div>{{item.name}}</div>-->
+<!--              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>-->
+<!--            </div>-->
+<!--          </router-link>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
     <!--  退出登录  -->
     <div class="loginout">
       退出登录

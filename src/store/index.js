@@ -16,6 +16,8 @@ const state = {
   Rrecord: false,
   Wrecord:false,
   Atcb:false,
+  ivcb:false,
+  searchVal:'',
   userinfo: sessionStorage.getItem('userinfo'),
   isLogin: sessionStorage.getItem('token')
 }

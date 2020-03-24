@@ -75,7 +75,8 @@
         class="common m_b_10">
         <div>发票信息</div>
         <div class="right">
-          <span>{{information == false?'开具发票':'不开具发票'}}</span>
+          <span v-if="this.infor == 1">不开具发票</span>
+          <span v-else>开具发票</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </router-link>
@@ -139,8 +140,8 @@
                 goods_id: '',
                 goods_num: '',
                 goods_sku_id: [],
+                infor: 2,
                 buy_type: '',
-                information: true,
                 isTips: true,
                 input: '',
                 checked: true,
@@ -161,16 +162,10 @@
                 },
             }
         },
+        computed: {},
         methods: {
             //获取订单
             getDATA() {
-                // if (this.$route.query.id == undefined || this.$route.query.num == undefined || this.$route.query.goods_sku_id == undefined) {
-                //     this.$dialog.alert({
-                //         title: '提交失败',
-                //         message: '请重新提交'
-                //     })
-                //     return;
-                // }
                 let goods_id = this.$route.query.id;
                 let goods_num = this.$route.query.num;
                 let goods_sku_id = this.$route.query.goods_sku_id.join('_');
@@ -182,18 +177,14 @@
                     goods_sku_id: goods_sku_id,
                     buy_type: buy_type,
                 };
-                // console.log(ad_data)
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
                         console.log(res)
                         this.orderData = res.data;
-                        // console.log(this.orderData.shops['17'].shop_name)
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
-
-
             //提交订单
             uploadOrder() {
                 let goods_id = this.$route.query.id;
@@ -240,24 +231,18 @@
             },
         },
         mounted() {
-            let _this = this
-            Bus.$on('info', (data) => {
-                _this.information = 2
-                console.log(_this.information)
-
-            })
-        },
-        created() {
-            // if (this.$route.query.id == undefined || this.$route.query.num == undefined || this.$route.query.goods_sku_id == undefined) {
-            //     console.log(1)
-            //     this.$router.push({path: '/'});
-            //     return;
-            // }
             this.goods_id = this.$route.query.id;
             this.goods_num = this.$route.query.num;
             this.goods_sku_id = this.$route.query.goods_sku_id;
             this.buy_type = this.$route.query.buy_type;
             this.getDATA();
+            // Bus.$on('info', (data) => {
+            //     this.infor = Number(data)
+            //     console.log(this.infor)
+            // })
+        },
+        created() {
+
         },
 
     }

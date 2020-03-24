@@ -1,4 +1,3 @@
-
 export default {
   user_address_msg: (state, user_address_msg) => {
     state.user_address_msg = user_address_msg
@@ -26,8 +25,15 @@ export default {
     state.Wrecord = res
   },
 
-  sendAtc(state, res){
+  sendAtc(state, res) {
     state.Atcb = res
+  },
+  sendIvc(state, res) {
+    state.ivcb = res
+  },
+
+  sendsearchVal(state, res) {
+    state.searchVal = res
   },
 
   userinfo(state, res) {
@@ -54,14 +60,14 @@ export default {
   getGoodsData(state, data) {
     state.cart.goodsData = data;
   },
-  setLoading (state, data) {
+  setLoading(state, data) {
     state.cart.isLoading = !state.cart.isLoading;
     // console.log(state.cart.isLoading)
   },
-  setEmpty (state, data) {
-      state.cart.empty = !state.cart.empty;
+  setEmpty(state, data) {
+    state.cart.empty = !state.cart.empty;
   },
-  setEmptyNo (state, data) {
-      state.cart.empty = false;
+  setEmptyNo(state, data) {
+    state.cart.empty = false;
   }
 }

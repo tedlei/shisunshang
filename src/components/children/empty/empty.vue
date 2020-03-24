@@ -5,8 +5,9 @@
       <img src="../../../assets/img/nostore.png">
       <p v-if="show1">{{text1}}</p>
       <pre v-if="show2">{{text2}}</pre>
-      <div class="tolink" v-if="show3">
-        <router-link :to="{path:url,query:{querys}}">{{tolink}}</router-link>
+      <div class="tolink">
+        <router-link v-if="showaddress" :to="{path:url,query:{addressid:'add'}}">{{tolink}}</router-link>
+        <router-link v-if="showinvoice" :to="{path:url,query:{state:1}}">{{tolink}}</router-link>
       </div>
     </div>
   </div>
@@ -32,7 +33,8 @@
                 urlcode: '',
                 show1: true,
                 show2: true,
-                show3: true,
+                showaddress: false,
+                showinvoice:false,
                 querys: '{addressid:add}',
             }
         },
@@ -45,20 +47,18 @@
                     this.text2 = '您可以新增地址以方便收货'
                     this.tolink = '新增收货地址'
                     this.url = '/mine/Add-address'
-                    this.querys = 'addressid:add'
-
+                    this.showaddress = true
                     break;
                 case 'record':
                     this.text1 = '暂无相关记录'
                     this.show2 = false
-                    this.show3 = false
                     break;
                 case 'myinvoice':
                     this.text1 = '暂无发票信息'
                     this.text2 = '您可以新增发票信息已方便使用'
                     this.tolink = '新增发票信息'
                     this.url = '/mine/invoice'
-                    this.querys = 'state:' + 1
+                    this.showinvoice = true
                     break;
 
             }
