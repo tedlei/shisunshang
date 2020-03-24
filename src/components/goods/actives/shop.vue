@@ -4,7 +4,7 @@
           <div class="shopHederImg"></div>
           <div class="shopHederName">
             <p>
-                {{$store.state.cart.getshops.name}}
+                {{$store.state.cart.getshops.shop_name}}
             </p>
               <span>综合评分</span>
               <span class="shopHederNameS">

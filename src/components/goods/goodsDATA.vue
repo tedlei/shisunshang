@@ -11,11 +11,16 @@
         <div class="Last"></div>
       </div>
       <div id="allmerchandise" class="">
-        <el-carousel :height="imgHeight+'px'">
-          <el-carousel-item v-for="(item,index) in bannerlists" :key="index">
-            <img :src="require(`../../assets/img/${item}.png`)" ref="imgSize">
+        <!-- <el-carousel :height="imgHeight+'px'">
+          <el-carousel-item v-for="(item,index) in imglist" :key="index">
+            <img :src="item" ref="imgSize">
           </el-carousel-item>
-        </el-carousel>
+        </el-carousel> -->
+        <van-swipe :autoplay="3000">
+          <van-swipe-item v-for="(item,index) in imglist" :key="index">
+            <img :src="item" ref="imgSize">
+          </van-swipe-item>
+        </van-swipe>
       </div>
       <!-- 1 -->
       <div  class="m_b_10 conmo_box box_one">
@@ -43,16 +48,15 @@
         </div>
       </div>
       <!-- 2 -->
-      <div class="m_b_10 conmo_box box_two" @click="drawer = true">
+      <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
         <span class="left">选择</span>
         <div class="right">
           <span class="textLinefeed SpecificationsName">已选择：
             {{initialName}}
-          <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
           </span>
           <i class="el-icon-arrow-right"></i>
         </div>
-      </div>
+      </div> -->
       <!--   3   -->
       <div class="m_b_10 conmo_box box_three">
         <span class="left">送至</span>
@@ -91,7 +95,7 @@
       <!-- <shop :is_follow=""></shop> -->
       </div>
       <!--   商品评价   -->
-      <div class="m_b_10 conmo_box goods_evaluate">
+      <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
         <div class="head">商品评价（23）</div>
         <ul class="goods_evaluate_list clearfix">
           <li>全部(23)</li>
@@ -118,27 +122,27 @@
         <title style="display: block;">
           <el-divider>猜你喜欢</el-divider>
         </title>
-        <!--  轮播组件  -->
-        <el-carousel :height="boxHeight+'px'">
-          <el-carousel-item v-for="(item,index) in slidelists" :key="index">
-            <div class="list" ref="boxSize">
-              <el-row class="goodslist">
-                <el-col :span="12" v-for="(goods, goodsindex) in item.goodsitem" :key="goodsindex">
-                  <div class="item">
-                    <img :src="require(`../../assets/img/${goods.goodsimg}.png`)">
-                    <div style="">
-                      <div class="goodsdtt">{{goods.goodsname}}</div>
-                      <div class="goodsprice clo-g">
-                        <span>{{goods.goodsrice}}</span>
-                        <i class="el-icon-circle-plus-outline"></i>
-                      </div>
-                    </div>
-                  </div>
-                </el-col>
-              </el-row>
+        <!--  推荐列表  -->
+         <el-row class="goodslist RecommendBac">
+          <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
+            <div @click="recommendAdd(goods.id)" class="item Recommend">
+              <van-image
+                width="100%"
+                height="1.8rem"
+                fit="cover"
+                :src="goods.goodsimg"
+              />
+              <div>
+                <p class="fontWrap fontWrapTwo">
+                  {{goods.goodsname}}
+                  <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
+                </p>
+                <div class="Sold">已售：{{goods.Sold}}</div>
+                <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+              </div>
             </div>
-          </el-carousel-item>
-        </el-carousel>
+          </el-col>
+        </el-row>
       </div>
       <div id="commoditDetails"></div>
       <div class="conmo_box bot_img_box">
@@ -176,7 +180,7 @@
       </div>
     </div>
     <!-- 规格选择 -->
-    <el-drawer
+    <!-- <el-drawer
       title=""
       :visible.sync="drawer"
       :before-close="handleClose"
@@ -198,7 +202,6 @@
       </div>
       <div class="Specifications_select" v-for="(item,n) of goodsData.specData.spec_attr" :key="n">
         <p>{{item.group_name}}</p>
-        <!-- <actives :activeList="item.spec_items" :initial="item.group_id"></actives> -->
         <actives :activeList="item.spec_items" :listIndex="n" :initial="initial" ></actives>
       </div>
       <div class="num_box">
@@ -213,7 +216,7 @@
           </router-link>
         </div>
       </div>
-    </el-drawer>
+    </el-drawer> -->
   </div>
 </template>
 
@@ -234,6 +237,7 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
+        imglist: [], //轮播数组
         actions: [
           { name: '选项' },
           { name: '选项' },
@@ -248,57 +252,15 @@
         direction: 'btt',
         nums: 1,//添加购物车的商品数量
         name: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-        bannerlists: ['banner', 'banner', 'banner', 'banner'],
-        slidelists: [
-          {
-            'goodsitem': [
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              }
-            ],
-          },
-          {
-            'goodsitem': [
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'goodsimg': 'goods_img'
-              }
-            ],
-          }
+        goodsitem: [
+          // {
+          //   'goodsname': '云阖·永川秀芽【炒青】100g',
+          //   'goodsrice': '￥98.00',
+          //   'goodsimg': 'goods_img'
+          // },
+          
         ],
+          
         goodsData: {
             "goods_info": {
 		    	"id": "",
@@ -462,6 +424,7 @@
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
         // 可以通过 close-on-click-action 属性开启自动收起
+        console.log(item)
         this.actionsName = item.name;
         if(item.name == '顾客购买'){
           this.isactions = 'customer'
@@ -471,9 +434,41 @@
         this.show = false;
       },
 
+      //获取推荐列表、
+      getRecommend () {
+        let ad_data = {method: 'get.goods.recommend.list'};
+        this.$post('/api/v1/goods', ad_data)
+        .then((res) => {
+          // console.log(res);
+          this.goodsitem = [];
+          for(let i in res.data){
+            this.goodsitem.push({
+              id: res.data[i].id,
+              goodsname: res.data[i].name,
+              goodsrice: res.data[i].price,
+              Sold: res.data[i].xiaoliang,
+              goodsimg: res.data[i].imgsrc,
+            })
+          }
+         
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      
+      //
+      recommendAdd ( id ) {
+        console.log(id)
+        this.getDATA(id);
+        this.goAnchor('#allmerchandise',0);
+      },
       //商品信息
-      getDATA () {
+      getDATA ( id ) {
           let _id = this.$route.query.id;
+          if(id){
+            _id = id;
+          }
+          console.log(_id)
           let ad_data = {
             method: 'get.goods.item',
             goods_id: _id
@@ -486,11 +481,24 @@
               // console.log(this.goodsData);
               this.$store.commit('getGoodsData',res.data);
               this.$store.commit('getshopsData',res.data.shopinfo);
-              let list = res.data.specData.spec_attr;
-              for (var i in list) {
-                this.initial.push( list[i].spec_items[0].item_id );
-                this.initialName += list[i].spec_items[0].spec_value+'*' ;
+              // let list = res.data.specData.spec_attr;
+              if(res.data.goods_info.imgsrc1){
+                this.imglist.push(res.data.goods_info.imgsrc1);
               }
+              if(res.data.goods_info.imgsrc2){
+                this.imglist.push(res.data.goods_info.imgsrc2);
+              }
+              if(res.data.goods_info.imgsrc3){
+                this.imglist.push(res.data.goods_info.imgsrc3);
+              }
+              if(res.data.goods_info.imgsrc4){
+                this.imglist.push(res.data.goods_info.imgsrc4);
+              }
+              //规格循环
+              // for (var i in list) {
+              //   this.initial.push( list[i].spec_items[0].item_id );
+              //   this.initialName += list[i].spec_items[0].spec_value+'*' ;
+              // }
               // console.log(this.initial);
               let actions = [];
               for(let n in res.data.buy_array){
@@ -504,6 +512,7 @@
           }).catch(function (error) {
               console.log(error);
           });
+          this.getRecommend();
       },
 
       //收藏商品
@@ -542,10 +551,10 @@
           method: 'add.goods.cart.item',
           goods_id: this.goodsData.goods_info.id,
           goods_num: this.nums,
-          goods_sku_id: getCart,
+          // goods_sku_id: getCart,
           buy_type: 'customer'
         };
-        console.log(ad_data);
+        // console.log(ad_data);
         this.$post('/api/v1/goodsCart', ad_data)
         .then((res) => {
           // console.log(res.status) 
@@ -599,13 +608,13 @@
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
-      setTimeout(() => {
-        this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
-      }, 1000);
-      this.$nextTick(() => {
-        this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
-        // console.log(this.$refs.boxSize[0].offsetHeight)
-      })
+      // setTimeout(() => {
+      //   this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
+      // }, 1000);
+      // this.$nextTick(() => {
+      //   this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
+      //   // console.log(this.$refs.boxSize[0].offsetHeight)
+      // })
     },
   
   }
@@ -641,7 +650,7 @@
     
     .conmo_box {
       background-color: #fff;
-      padding: 10px;
+      padding: 0.1rem 0.05rem;
       text-align: left;
     }
 
@@ -976,5 +985,34 @@
   .SpecificationsName{
     width: 70%;
     -webkit-line-clamp:1;
+  }
+  .goodslist {
+    background: none;
+    padding: 0;
+  }
+  .Recommend{
+    margin:0 0.05rem 0.1rem 0.05rem;
+    padding: 0.05rem;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e1e1e1;
+    >div:nth-child(2){
+      p{
+        text-align: left;
+        height: 0.4rem;
+      }
+      >div:nth-child(3){
+        text-align: left;
+      }
+    }
+  }
+  .Sold {
+    text-align: right;
+    color: #999;
+  }
+  .goodsprice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

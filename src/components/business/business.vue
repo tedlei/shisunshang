@@ -1,10 +1,11 @@
 <template>
   <div class="main_box">
     <header ref="header_h">
-      <div class="clo-g location">
+      <!-- <div class="clo-g location">
         <i class="el-icon-location-outline"></i>
         <span>重庆</span>
-      </div>
+      </div> -->
+      <div style="margin-right:0.1rem"></div>
       <search :dmsg="msg"></search>
       <i class="el-icon-plus"></i>
     </header>
@@ -138,7 +139,6 @@
           //   phone: '023-6345645',
           //   long: '3.14公里'
           // },
-
         ]
       }
     },
@@ -196,6 +196,7 @@
           console.log("没得Id")
           ad_data = {
             method: "get.shop.category.list",
+            cate_id: '',
             page: 1,
             page_size: 20
           };

@@ -216,7 +216,12 @@ export default new Router({
           component: resolve => require(['@/components/children/Recharge/Recharge'], resolve),
           meta: {title: '充值活动', showFooter: false, goods: false,}
         },
-
+        {
+          path: '/mine/recommendedShop',
+          name: 'recommendedShop',
+          component: resolve => require(['@/components/children/recommendedShop/recommendedShop'], resolve),
+          meta: {title: '申请推荐开店', showFooter: false, goods: false,}
+        },
         {
           path: '/mine/ad',
           name: 'ad',

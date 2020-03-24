@@ -87,13 +87,16 @@
     <div class="cart_rmd">
       <img src="../../assets/img/tj.png" style="margin-bottom: 0.2rem">
       <!--  商品列表  -->
-      <div class="list" v-for="(item,index) in lists" :key="index">
-        <!-- <router-link :to="{path:'/goodsDATA',query:{id:data.id}}"> -->
-        <router-link class="" :to="{path:'/goodsDATA'}">
         <el-row class="goodslist">
-          <el-col :span="12" v-for="(goods, goodsindex) in item.goodsitem" :key="goodsindex">
-            <div class="item">
-              <img :src="require(`../../assets/img/${goods.goodsimg}.png`)">
+          <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
+            <router-link :to="{path:'/goodsdetails',query:{id:goods.id}}">
+            <div class="item Recommend">
+              <van-image
+                width="100%"
+                height="1.8rem"
+                fit="cover"
+                :src="goods.goodsimg"
+              />
               <div>
                 <p class="fontWrap fontWrapTwo">
                   {{goods.goodsname}}
@@ -103,10 +106,9 @@
                 <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
               </div>
             </div>
+            </router-link>
           </el-col>
         </el-row>
-        </router-link>
-      </div>
     </div>
     <!--  有购物车结算  -->
     <div class="settlement" v-show="true">
@@ -146,35 +148,14 @@ export default {
         checkAll: false,
         total:0,
         num: 1,
-        lists: [
-          {
-            'goodsitem': [
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'Sold': '123件',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'Sold': '123件',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'Sold': '123件',
-                'goodsimg': 'goods_img'
-              },
-              {
-                'goodsname': '云阖·永川秀芽【炒青】100g',
-                'goodsrice': '￥98.00',
-                'Sold': '123件',
-                'goodsimg': 'goods_img'
-              }
-            ],
-          },
+        goodsitem: [
+          // {
+          //   'goodsname': '云阖·永川秀芽【炒青】100g',
+          //   'goodsrice': '￥98.00',
+          //   'Sold': '123件',
+          //   'goodsimg': 'goods_img'
+          // }
+          
         ],
 
         isCart: false,
@@ -199,13 +180,33 @@ export default {
         this.checkAll = checkedCount === this.cities.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
       },
+    //获取推荐列表、
+    getRecommend () {
+      let ad_data = {method: 'get.goods.recommend.list'};
+      this.$post('/api/v1/goods', ad_data)
+      .then((res) => {
+        // console.log(res);
+        for(let i in res.data){
+          this.goodsitem.push({
+            id: res.data[i].id,
+            goodsname: res.data[i].name,
+            goodsrice: res.data[i].price,
+            Sold: res.data[i].xiaoliang,
+            goodsimg: res.data[i].imgsrc,
+          })
+        }
+       
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
 
     //遍历筛选购物车数据
     cartDataPush (data) {
       for (let i in data.shops){
         let obj = {
-          name: data.shops[i].total_money,
-          shop_id: data.shops[i].shop_id,
+          name: data.shops[i].shop.shop_name,
+          shop_id: data.shops[i].shop.id,
           checked: false,
           list: []
         };
@@ -213,16 +214,16 @@ export default {
         let _i = key-1;
         let list = data.shops[i].goods;
         for (let n=0; n<list.length; n++){
-          // console.log(this.goodsObj[_i])
           let listObj = {
             checked : false,
             id: list[n].id,
             name: list[n].name,
             price: list[n].price,
             num: list[n].total_num,
-            goods_attr: list[n].goods_sku.goods_attr,
-            goods_sku_id: list[n].goods_sku.spec_sku_id,
+            // goods_attr: list[n].goods_sku.goods_attr,
+            // goods_sku_id: list[n].goods_sku.spec_sku_id,
           };
+          // console.log(listObj)
           this.goodsObj[_i].list.push(listObj);
         }
         // console.log(this.goodsObj);
@@ -231,19 +232,24 @@ export default {
 
     //获取购物车数据
     getCart () {
-      let ad_data = {method: 'get.goods.cart.list'};
+      let ad_data = {
+        method: 'get.goods.cart.list'
+      };
       this.$post('/api/v1/goodsCart', ad_data)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         this.cartData = res.data;
-        // if(res.data.shops!=undefined && res.data.shops.length!=0){
-        if(res.data.shops!=undefined){
+        if(res.data.shops!=undefined && res.data.shops.length!=0){
+        // if(res.data.shops!=undefined){
           this.isCart = true;
           this.cartDataPush(res.data);
+        }else{
+          this.isCart = false;
         }
       }).catch(function (error) {
         console.log(error);
       });
+      this.getRecommend();
     },
 
     // 全部商品全选
@@ -343,7 +349,7 @@ export default {
         let ad_data = {
           method: method,
           goods_id: id,
-          goods_sku_id: goods_sku_id
+          // goods_sku_id: goods_sku_id
         };
         this.$post('/api/v1/goodsCart', ad_data)
         .then((res) => {
@@ -790,7 +796,7 @@ body, html {
 
   /* 推荐 */
   .cart_rmd {
-    padding: 0.1rem 0.1rem 1.1rem 0.1rem;
+    padding: 0.1rem 0.05rem 1.1rem 0.05rem;
 
     .list .goodslist {
       background: none;
@@ -873,6 +879,20 @@ body, html {
     justify-content: center;
     height: 100%;
   }
-
+  .Recommend{
+    margin:0 0.05rem 0.1rem 0.05rem;
+    padding: 0.05rem;
+    background-color: #fff;
+    border-radius: 5px;
+    >div:nth-child(2){
+      p{
+        text-align: left;
+        height: 0.4rem;
+      }
+      >div:nth-child(3){
+        text-align: left;
+      }
+    }
+  }
 
 </style>

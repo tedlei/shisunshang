@@ -14,7 +14,7 @@
             <router-link to="">
               <img src="../../../assets/img/stoe.png" style="width: 0.18rem">
               <span class="storename">
-                {{item.shop.name}}
+                {{item.shop.shop_name}}
               </span>
             </router-link>
           </div>
@@ -62,11 +62,11 @@
 
         </div>
         <div class="clearfix submit_box">
-          <div class="left_dtime" v-show="num==1">
+          <!-- <div class="left_dtime" v-show="num==1">
             剩
-            <!-- {{}} -->
+            {{}}
             自动关闭
-          </div>
+          </div> -->
           <div class="left_dtime" v-show="isshouhou">
             <span>正在办理退款</span>
             <span>退款金额￥268.00</span>
@@ -198,6 +198,7 @@
       getNum (index) {
         this.num = index;
         this.numBoder = index;
+
         this.getOderData(index);
       },
       getOderData (index) {
@@ -254,7 +255,11 @@
       this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
       this.isshouhou = this.$route.query.orderid == 4 ? true : false;
       this.shouhou = this.$route.query.orderid == 4 ? '43px' : '101px';
-      this.num = this.$route.query.orderid
+      if(this.$route.query.orderid == 'evaluate'){
+        this.getNum(4);
+      }else{
+        this.getNum(this.$route.query.orderid);
+      }
     }
   }
 </script>

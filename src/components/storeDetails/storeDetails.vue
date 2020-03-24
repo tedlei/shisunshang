@@ -154,6 +154,20 @@
   methods: {
 
   },
+  created () {
+        let _id =  this.$route.query.id;
+        let ad_data = {
+            method: 'get.goods.shop.item',
+            shop_id: _id
+        };
+        this.$post('/api/v1/GoodsCom', ad_data)
+        .then((res) => {
+          console.log(res);
+          
+        }).catch(function (error) {
+          console.log(error);
+        });
+  },
   computed: {
 
   },
