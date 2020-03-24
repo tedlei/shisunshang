@@ -24,6 +24,7 @@
         beforeUpdate() {
             this.path = this.$route.path
         },
+
         mounted() {
             this.path = this.$route.path
         },

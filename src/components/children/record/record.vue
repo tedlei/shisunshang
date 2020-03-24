@@ -99,8 +99,8 @@
   .navigation {
     overflow-x: scroll;
     background-color: #fff;
-    top: 43px;
-    padding: 0 10px;
+    top: 0.43rem;
+    padding: 0 0.1rem;
     border-bottom: 1px solid #f2f2f2;
 
     ul {
@@ -108,7 +108,7 @@
       border: none;
 
       li {
-        padding: 18px 10px;
+        padding: 0.18rem 0.1rem;
         width: auto;
       }
     }
@@ -116,7 +116,7 @@
 
   .moneybox {
     position: absolute;
-    top: 104px;
+    top: 1.04rem;
     left: 0;
     right: 0;
 
@@ -124,14 +124,12 @@
       div.van-cell__value {
         display: flex;
         justify-content: space-between;
-
         span {
           width: 40%;
 
           div {
             padding: 5px 0;
           }
-
         }
 
         span.last {

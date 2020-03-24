@@ -35,8 +35,8 @@ a {
 
 .common_box {
   background-color: #fff;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 0.1rem;
+  margin-bottom: 0.1rem;
 }
 
 .content {
@@ -57,7 +57,7 @@ a {
 
 .navigation {
   position: fixed;
-  top: 41px;
+  top: 0.41rem;
   color: #999999;
   width: 100%;
   z-index: 9;
@@ -70,7 +70,7 @@ a {
       float: left;
       border-bottom: 1px solid rgba(0, 0, 0, 0);
       width: 20%;
-      padding: 18px 0;
+      padding: 0.18rem 0;
       font-size: 0.16rem;
     }
 
@@ -91,13 +91,13 @@ a {
 .mycheck {
   /deep/ .el-checkbox__inner {
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 0.2rem;
+    height: 0.2rem;
     background: none;
   }
 
   /deep/ .el-checkbox__inner::after {
-    height: 11px;
+    height: 0.11rem;
     left: 6px;
     width: 5px;
   }
@@ -119,18 +119,18 @@ a {
 /* 商品列表  */
 
 .list {
-  padding: 0 10px 10px 10px;
+  padding: 0 0.1rem 0.1rem 0.1rem;
 
   .goodslist {
     text-align: left;
     background-color: #f9f9f9;
-    margin: 0 -10px;
-    padding: 10px 10px 0 10px;
+    margin: 0 -0.1rem;
+    padding: 0.1rem 0.1rem 0 0.1rem;
     font-size: 0.12rem;
 
     .el-col {
-      padding-bottom: 10px;
-      padding-right: 10px;
+      padding-bottom: 0.1rem;
+      padding-right: 0.1rem;
     }
 
     .el-col:nth-child(2n) {

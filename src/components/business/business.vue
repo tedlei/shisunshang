@@ -24,7 +24,9 @@
       <el-container>
         <el-main style="position: relative;">
           <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.4+'rem'" class="erji">
-            <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">{{item1.cate_name}}</li>
+            <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">
+              {{item1.cate_name}}
+            </li>
           </ul>
           <ul class="cpylist">
             <li v-for="(item,index) in cpylist" :key="index">
@@ -42,14 +44,14 @@
                     {{item.company}}
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
-                      <span style="width:56px">地址:</span>
-                      <span class="fontWrap fontWrapTwo">
+                    <span style="width:56px">地址:</span>
+                    <span class="fontWrap fontWrapTwo">
                         {{item.address}}
                       </span>
                   </div>
                   <div class="address">
-                      <span>电话：</span>
-                      <span>
+                    <span>电话：</span>
+                    <span>
                         {{item.phone}}
                       </span>
                   </div>
@@ -67,164 +69,163 @@
 </template>
 
 <script>
-  import Header from "../header/header";
-  import Search from "../search/search";
-  import clientW from "../../assets/js/conmon";
+    import Header from "../header/header";
+    import Search from "../search/search";
+    import clientW from "../../assets/js/conmon";
 
-  export default {
-    name: "business",
-    components: {Search, Header},
-    data() {
-      return {
-        msg: '附近商家',
-        height: '1rem',
-        num: 0,
-        isUlliTwo: true,
-        isUlliTwoHeight: 1,
-        navChildren: [],
-        leftlists: [
-          // {
-          //   text: '全部',
-          //   children: [
-          //     // {
-          //     //   text: '温州',
-          //     //   // id，作为匹配选中状态的标识符
-          //     //   id: 1,
-          //     // },
-          //     // {
-          //     //   text: '内锅',
-          //     //   // id，作为匹配选中状态的标识符
-          //     //   id: 2,
-          //     // }
-          //   ]
-          // },
-          // {
-          //   text: '品质购物',
-          //   id: 1,
-          //   children: [
-          //     {
-          //       text: '温州',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 1,
-          //     },
-          //     {
-          //       text: '内锅',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 2,
-          //     }
-          //   ]
-          // },
-          // {
-          //   text: '狗蛋大妈',
-          //   id: 2,
-          //   children: [
-          //     {
-          //       text: '梅梅',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 1,
-          //     },
-          //     {
-          //       text: '靓仔',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 2,
-          //     }
-          //   ]
-          // },
-        ],
-        cpylist: [
-          // {
-          //   img: 'company',
-          //   title: '重庆安利科技技术有限公司',
-          //   address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-          //   phone: '023-6345645',
-          //   long: '3.14公里'
-          // },
-        ]
-      }
-    },
-    methods: {
-      getNum: function f(index, children) {
-        this.num = index;
-        this.navChildren = children;
-        this.isUlliTwoHeight = index;
-        this.isUlliTwo = true;
-      },
+    export default {
+        name: "business",
+        components: {Search, Header},
+        data() {
+            return {
+                msg: '附近商家',
+                height: '1rem',
+                num: 0,
+                isUlliTwo: true,
+                isUlliTwoHeight: 1,
+                navChildren: [],
+                leftlists: [
+                    // {
+                    //   text: '全部',
+                    //   children: [
+                    //     // {
+                    //     //   text: '温州',
+                    //     //   // id，作为匹配选中状态的标识符
+                    //     //   id: 1,
+                    //     // },
+                    //     // {
+                    //     //   text: '内锅',
+                    //     //   // id，作为匹配选中状态的标识符
+                    //     //   id: 2,
+                    //     // }
+                    //   ]
+                    // },
+                    // {
+                    //   text: '品质购物',
+                    //   id: 1,
+                    //   children: [
+                    //     {
+                    //       text: '温州',
+                    //       // id，作为匹配选中状态的标识符
+                    //       id: 1,
+                    //     },
+                    //     {
+                    //       text: '内锅',
+                    //       // id，作为匹配选中状态的标识符
+                    //       id: 2,
+                    //     }
+                    //   ]
+                    // },
+                    // {
+                    //   text: '狗蛋大妈',
+                    //   id: 2,
+                    //   children: [
+                    //     {
+                    //       text: '梅梅',
+                    //       // id，作为匹配选中状态的标识符
+                    //       id: 1,
+                    //     },
+                    //     {
+                    //       text: '靓仔',
+                    //       // id，作为匹配选中状态的标识符
+                    //       id: 2,
+                    //     }
+                    //   ]
+                    // },
+                ],
+                cpylist: [
+                    // {
+                    //   img: 'company',
+                    //   title: '重庆安利科技技术有限公司',
+                    //   address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
+                    //   phone: '023-6345645',
+                    //   long: '3.14公里'
+                    // },
+                ]
+            }
+        },
+        methods: {
+            getNum: function f(index, children) {
+                this.num = index;
+                this.navChildren = children;
+                this.isUlliTwoHeight = index;
+                this.isUlliTwo = true;
+            },
 
-      navPush (list){
-        for(var i in list){
-          this.leftlists.push({
-            id: list[i].id,
-            text: list[i].cate_name,
-            children: list[i].sub,
-          })
+            navPush(list) {
+                for (var i in list) {
+                    this.leftlists.push({
+                        id: list[i].id,
+                        text: list[i].cate_name,
+                        children: list[i].sub,
+                    })
+                }
+                this.leftlists.unshift({
+                    id: 0,
+                    text: '全部',
+                    children: [],
+                })
+                // console.log(this.leftlists)
+            },
+            getData() {
+
+                let ad_data = {
+                    method: "get.shop.category.list"
+                };
+                this.$post('/api/v1/GoodsComCategory', ad_data)
+                    .then((response) => {
+                        console.log(response);
+                        if (response.status == 200) {
+                            this.navPush(response.data);
+                            this.getDataTwo();
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getDataTwo(id) {
+                let ad_data = {};
+                if (id) {
+                    console.log("有Id")
+                    ad_data = {
+                        method: "get.shop.category.list",
+                        cate_id: id,
+                        page: 1,
+                        page_size: 20
+                    };
+                } else {
+                    console.log("没得Id")
+                    ad_data = {
+                        method: "get.shop.category.list",
+                        cate_id: '',
+                        page: 1,
+                        page_size: 20
+                    };
+                }
+                this.$post('/api/v1/GoodsCom', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            this.cpylist = res.data;
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            isUlliTwoAdd(id) {
+                this.isUlliTwo = false;
+                this.getDataTwo(id);
+            }
+        },
+        created() {
+            this.getData();
+        },
+        mounted() {
+            let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+            let topH = this.$refs.header_h.offsetHeight;
+            this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem'
         }
-        this.leftlists.unshift({
-          id: 0,
-          text: '全部',
-          children: [],
-        })
-        // console.log(this.leftlists)
-      },
-      getData () {
-        this.$store.commit("setLoading");
-        let ad_data = {
-          method: "get.shop.category.list"
-        };
-        this.$post('/api/v1/GoodsComCategory', ad_data)
-        .then((res) => {
-          console.log(res);
-          if(res.status==200){
-            this.$store.commit("setLoading");
-            this.navPush(res.data);
-            this.getDataTwo();
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      getDataTwo ( id ) {
-        let ad_data = {};
-        if(id){
-          console.log("有Id")
-          ad_data = {
-            method: "get.shop.category.list",
-            cate_id: id,
-            page: 1,
-            page_size: 20
-          };
-        }else{
-          console.log("没得Id")
-          ad_data = {
-            method: "get.shop.category.list",
-            cate_id: '',
-            page: 1,
-            page_size: 20
-          };
-        }
-        this.$post('/api/v1/GoodsCom', ad_data)
-        .then((res) => {
-          console.log(res);
-          if(res.status==200){
-            this.cpylist = res.data;
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      isUlliTwoAdd ( id ) {
-        this.isUlliTwo = false;
-        this.getDataTwo(id);
-      }
-    },
-    created () {
-      this.getData();
-    },
-    mounted() {
-      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-      let topH = this.$refs.header_h.offsetHeight;
-      this.height = (h - topH - 70*clientW/100)/clientW + 'rem'
     }
-  }
 </script>
 
 <style lang="scss" scoped>
@@ -250,31 +251,33 @@
     background-color: #fff;
     overflow: visible;
     border-right: 1px solid #f2f2f2;
+
     .left {
       position: relative;
     }
 
-    .left>li {
+    .left > li {
       line-height: 0.4rem;
       box-sizing: border-box;
 
     }
 
-    .left>li{
+    .left > li {
       border-left: 3px solid #fff;
       border-bottom: 1px solid #f2f2f2;
     }
-    .active{
+
+    .active {
       color: $sss-color;
       background-color: #f2f2f2;
       border-left: 3px solid $sss-color !important;
     }
 
-    .left>li.all {
+    .left > li.all {
       position: relative;
     }
 
-    .left>li.all:after {
+    .left > li.all:after {
       content: '';
       display: inline-block;
       width: 0.05rem;
@@ -285,6 +288,7 @@
       left: 0;
     }
   }
+
   .erji {
     border-left: 1px solid #f2f2f2;
     color: #000;
@@ -294,11 +298,13 @@
     left: -0.05rem;
     z-index: 50;
     background-color: #fff;
-    li{
+
+    li {
       border-bottom: 1px solid #f2f2f2;
       line-height: 0.4rem;
     }
-    li:active{
+
+    li:active {
       color: $sss-color !important;
     }
   }
@@ -306,7 +312,7 @@
   section .el-main {
     padding: 0.05rem;
 
-    .cpylist>li {
+    .cpylist > li {
       display: flex;
       align-items: center;
       background-color: #fff;
@@ -316,15 +322,18 @@
 
       .right_msg {
         margin-left: 0.05rem;
-        .p1{
+
+        .p1 {
           color: #000 !important;
           font-size: 0.14rem;
         }
-        .address{
+
+        .address {
           display: flex;
           color: #999;
           font-size: 0.12rem;
         }
+
         p.long {
           text-align: right;
           color: #009900;

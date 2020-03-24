@@ -81,6 +81,19 @@ export default new Router({
           }
         },
         {
+          path: '/uploadpic',
+          name: 'uploadpic',
+          component: resolve => require(['@/components/children/uploadpic/uploadpic'], resolve),
+          meta: {title: '拍照上传', showFooter: false, goods: false}
+        },
+        {
+          path: '/Luckdraw',
+          name: 'Luckdraw',
+          component: resolve => require(['@/components/children/Luckdraw/Luckdraw'], resolve),
+          meta: {title: '抽奖', showFooter: false, goods: false}
+        },
+
+        {
           path: '/storeDetails',
           name: 'storeDetails',
           component: storeDetails,
@@ -326,7 +339,6 @@ export default new Router({
           component: resolve => require(['@/components/children/More-tools/certification/certification'], resolve),
           meta: {title: '实名认证', showFooter: false, goods: false,}
         },
-
 
 
       ],

@@ -32,8 +32,15 @@ export default {
     state.ivcb = res
   },
 
+  sendIvcMsg(state, res) {
+    state.IvcMsg = res
+  },
+
   sendsearchVal(state, res) {
     state.searchVal = res
+  },
+  sendVal(state, res) {
+    state.Val = res
   },
 
   userinfo(state, res) {

@@ -50,7 +50,7 @@
             }
         },
         methods: {
-            //
+            //获取列表
             getmsg: function () {
                 let parms = {
                     method: 'get.invoice.list'
@@ -81,7 +81,7 @@
                 };
                 this.$post('/api/v1/Invoice', parms)
                     .then((res) => {
-                        for (let i in this.myinvoicelists){
+                        for (let i in this.myinvoicelists) {
                             if (this.myinvoicelists[i].id == e) {
                                 this.myinvoicelists.splice(i, 1)
                             }
@@ -91,7 +91,8 @@
                     console.log(error);
                 });
                 console.log(e)
-            }
+            },
+            //    设为默认
         },
         mounted() {
             this.getmsg()

@@ -14,18 +14,18 @@ const state = {
   addressid: sessionStorage.getItem('addressid'),
   bank: false,
   Rrecord: false,
-  Wrecord:false,
-  Atcb:false,
-  ivcb:false,
-  searchVal:'',
+  Wrecord: false,
+  Atcb: false,
+  ivcb: false,
+  IvcMsg: 1,
+  searchVal: '',
+  Val:'',
   userinfo: sessionStorage.getItem('userinfo'),
   isLogin: sessionStorage.getItem('token')
 }
 // getters 只会依赖 state 中的成员去更新
 
-const actions = {
-
-}
+const actions = {}
 const store = new Vuex.Store({
   actions,
   mutations,

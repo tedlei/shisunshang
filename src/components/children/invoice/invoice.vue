@@ -143,7 +143,7 @@
         components: {},
         data() {
             return {
-                radio: this.$route.query.state == 0 ? '1' : '2',
+                radio: '',
                 radioTwo: '1',
                 companyInput: '',
                 companyInput2: '',
@@ -171,7 +171,6 @@
                             setTimeout(() => {
                                 this.$router.back(-1);
                             }, 2000)
-
                         } else {
                             this.$toast(res.message)
                         }
@@ -184,12 +183,13 @@
 
             },
             change: function (e) {
-                console.log(e)
-                Bus.$emit('info', Number(e));
+                this.$store.commit('sendIvcMsg', Number(e))
             }
         },
         mounted() {
-            this.$route.query.state == 1 ? this.$store.commit('sendIvc', true) : this.$store.commit('sendIvc', false)
+            this.$route.query.state == 1 ? this.$store.commit('sendIvc', true) : this.$store.commit('sendIvc', false);
+            console.log(this.$store.state.IvcMsg.toString())
+            this.radio = this.$route.query.state == 0 ? this.$store.state.IvcMsg.toString() : '2'
         },
         destroyed() {
             Bus.$off();

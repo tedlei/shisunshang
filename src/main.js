@@ -17,6 +17,7 @@ import qs from 'qs'
 import {post, fetch, patch, put} from './api/https'
 import tokens from './api/https'
 import 'mint-ui/lib/style.css'
+
 //定义全局变量
 Vue.prototype.$post = post;
 Vue.prototype.$fetch = fetch;
