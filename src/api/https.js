@@ -3,9 +3,9 @@ import Qs from 'qs'
 import {Message} from 'element-ui';
 
 // let tokens = sessionStorage.getItem('token');
-let tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODUxMDM5MjYsIm5iZiI6MTU4NDQ5OTEyNiwiaWF0IjoxNTg0NDk5MTI2LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.-znJrXAbHSKuWMVb5lIhOgY39Al1QEhWnRXzOmWks58';
+let tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
 
-const baseURL = 'http://user.wjeys.com';
+const baseURL = 'http://test.gj.wjeys.com';
 export default {baseURL, tokens};
 
 axios.defaults.timeout = 5000;

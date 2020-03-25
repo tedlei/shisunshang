@@ -33,25 +33,24 @@
               </div>
               <div class="div1" v-for="(data, index) in item.list" :key="index">
                 <!-- 商品卡片 -->
-
                 <div class="goods_bot" >
                     <div :class="data.checked ?'addRadioTwo':'addRadio'" @click="choose(index1, index)">
                         <van-icon name="success" color="#fff"/>
                     </div>
                     <div class="goods_lists">
-                        <router-link :to="{path:'/goodsDATA',query:{id:data.id}}">
+                        <router-link :to="{path:'/goodsdetails',query:{id:data.id}}">
                         <van-image
                           width="0.8rem"
                           height="0.8rem"
                           fit="cover"
-                          src="https://img.yzcdn.cn/vant/cat.jpeg"
+                          :src="data.imgsrc"
                         />
                         </router-link>
                         <div class="left_msg">
-                            <router-link :to="{path:'/goodsDATA',query:{id:data.id}}">
+                            <router-link :to="{path:'/goodsdetails',query:{id:data.id}}">
                             <div>{{data.name}}</div>
-                            </router-link>
                             <div class="goodsspecs">规格：{{data.goods_attr}}</div>
+                            </router-link>
                             <div class="goodsprice">
                                 <span>￥{{data.price}}</span>
                                 <div class="progresses">
@@ -122,7 +121,7 @@
           合计：￥{{totalMoney.toFixed(2)}}
         </div>
       </div>
-      <div v-show="!isDellBatch" class="right_js">
+      <div @click="payment" v-show="!isDellBatch" class="right_js">
         去结算
       </div>
       <!-- 购物车删除按钮 -->
@@ -220,6 +219,7 @@ export default {
             name: list[n].name,
             price: list[n].price,
             num: list[n].total_num,
+            imgsrc: list[n].imgsrc,
             // goods_attr: list[n].goods_sku.goods_attr,
             // goods_sku_id: list[n].goods_sku.spec_sku_id,
           };
@@ -475,8 +475,25 @@ export default {
         }
       }
 
-	  }
+	  },
 
+    //去结算
+    payment () {
+      let idlist = [];
+      for ( var i in this.goodsObj){
+	  		let shop = this.goodsObj[i];
+        for(var n=shop.list.length-1; n>-1; n--){
+          if(shop.list[n].checked){
+            // console.log(shop.list[n].id)
+            idlist.push(shop.list[n].id);
+	  			}
+        }
+      }
+      // console.log(idlist)
+      if(idlist.length>0){
+        this.$router.push({path: '/goodsdetails/makeorder', query: {id: idlist, iscart: 1}});
+      }
+    }
   },
   created(){
     this.getCart();

@@ -2,12 +2,12 @@
   <div class="main_box">
     <header ref="headerh">
       <!--扫码-->
-      <div class="sao">
+      <!-- <div class="sao">
         <i class="el-icon-full-screen"></i>
 
-      </div>
+      </div> -->
 
-      <div @click="opensearch" style="width: 100%">
+      <div @click="opensearch" style="width: 100%;margin-left:0.1rem">
         <search :dmsg='msg'></search>
       </div>
 
@@ -36,7 +36,7 @@
           <div class="" v-for="(item,index) in typelist[num].sub" :key="index">
             <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
-              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(item.id)">
+              <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(goodsitem.id)">
                 <van-image
                   width="100%"
                   height="0.71rem"

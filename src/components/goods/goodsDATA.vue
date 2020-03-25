@@ -91,19 +91,19 @@
       </div>
       <!-- 店铺详情 -->
       <div id="commoditEvaluate">
-      <shop></shop>
+      <shop :is_follow='is_follow'></shop>
       <!-- <shop :is_follow=""></shop> -->
       </div>
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
         <div class="head">商品评价（23）</div>
-        <ul class="goods_evaluate_list clearfix">
+        <!-- <ul class="goods_evaluate_list clearfix">
           <li>全部(23)</li>
           <li>好评(23)</li>
           <li>有图(23)</li>
           <li>中评(0)</li>
           <li>差评(0)</li>
-        </ul>
+        </ul> -->
         <div class="user_evaluate">
           <div class="evaluate_head">
             <div class="user">
@@ -243,7 +243,7 @@
           { name: '选项' },
         ],
         isactions: 'customer',
-        actionsName: '',
+        actionsName: '顾客购买',
 
         msg: '商品详情',
         imgHeight: '',
@@ -411,7 +411,7 @@
           score_fh: ''
         }
         },
-        
+        is_follow: 0
       }
     },
 
@@ -424,7 +424,6 @@
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
         // 可以通过 close-on-click-action 属性开启自动收起
-        console.log(item)
         this.actionsName = item.name;
         if(item.name == '顾客购买'){
           this.isactions = 'customer'
@@ -478,10 +477,13 @@
             console.log(res) 
             if(res.status == 200){
               this.goodsData = res.data;
+              this.is_follow = res.data.shopinfo.is_follow;
+              // console.log(this.is_follow)
               // console.log(this.goodsData);
               this.$store.commit('getGoodsData',res.data);
               this.$store.commit('getshopsData',res.data.shopinfo);
               // let list = res.data.specData.spec_attr;
+              this.imglist = [];
               if(res.data.goods_info.imgsrc1){
                 this.imglist.push(res.data.goods_info.imgsrc1);
               }
@@ -600,7 +602,7 @@
     },
 
     created () {
-      console.log(this.$route.query.id)
+      // console.log(this.$route.query.id)
       this.getDATA();
     },
     updated () {
@@ -726,10 +728,10 @@
     }
 
     .goods_evaluate {
-      font-size: 0.16rem;
+      font-size: 0.15rem;
 
       .head {
-        font-size: 0.18rem;
+        font-size: 0.15rem;
         margin-bottom: 0.2rem;
       }
 

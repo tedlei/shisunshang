@@ -77,7 +77,7 @@
                 <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
                     <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                 </router-link>
-                <van-button type="primary" size="small" color="#009900">付款</van-button>
+                <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">付款</van-button>
               </div>
               <div v-show="num==2">
                 <!-- <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(item.id)">取消订单</van-button> -->
@@ -125,7 +125,9 @@
         num: 0,
         numBoder: 0,
         isNoorder: false,
+        jsApiParameters: {},
         is: 'num',
+        jsApiParameters:{},
         shouhou: '',
         isshouhou: false,
         navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
@@ -247,6 +249,53 @@
             console.log(error);
         });
      },
+     //支付
+      payment ( id ) {
+        let _id = id;
+        let ad_data = {
+          method: 'continue.buy.order',
+          order_id: _id
+        }
+        this.$post('/api/v1/order', ad_data)
+        .then((res) => {
+          console.log(res);
+          if(res.data.is_wx_pay == 1){
+            console.log(res.data.payment)
+          	this.jsApiParameters = res.data.payment;
+            this.callpay();
+          }
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+      
+      jsApiCall(){
+	      WeixinJSBridge.invoke(
+	      	'getBrandWCPayRequest',
+	      	this.jsApiParameters,
+	      	function(res){
+	      		if(  res.err_msg.indexOf(":ok")>0 ){
+	      			//跳转到支付成功页面
+	      			
+	      		}else{
+              //取消付款跳转
+            }
+	      	}
+	      );
+	    },
+
+	    callpay(){
+		        if (typeof WeixinJSBridge == "undefined"){
+		            if( document.addEventListener ){
+		                document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+		            }else if (document.attachEvent){
+		                document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		                document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+		            }
+		        }else{
+		            this.jsApiCall();
+		        }
+	    },
     },
     created () {
       this.getOderData();
@@ -259,6 +308,7 @@
         this.getNum(4);
       }else{
         this.getNum(this.$route.query.orderid);
+        console.log(this.$route.query.orderid)
       }
     }
   }

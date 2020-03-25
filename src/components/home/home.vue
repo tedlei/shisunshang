@@ -17,10 +17,10 @@
         </div>
 
         <!--扫码-->
-        <div class="sao">
+        <!-- <div class="sao">
           <i class="el-icon-full-screen"></i>
           <div>扫码</div>
-        </div>
+        </div> -->
         <!--消息-->
         <div class="news">
           <router-link to="/news">
@@ -49,7 +49,7 @@
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item">
             <router-link :to="{path:'/Special-area',query:{typeid:item.module}}">
-              <img :src="item.img">
+              <img :src="item.icon">
               <p>{{item.cate_name}}</p>
             </router-link>
           </div>

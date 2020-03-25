@@ -1,20 +1,27 @@
 <template>
     <div>
+        <router-link :to="{path:'/goodsdetails',query:{id: cardData.id}}">
         <div class="commodities">
             <div class="commoditiesImg">
                 <van-image
                   width="0.8rem"
                   height="0.8rem"
                   fit="cover"
-                  src="https://img.yzcdn.cn/vant/cat.jpeg"
+                  :src="cardData.imgsrc"
                 />
             </div>
             <div class="commoditiesContent">
-                <div>瀑布流滚动加载，用于展示长列表，当11111列表即将滚动到底部时，会触发事件并加载更多列表项。</div>
+                <div>
+                    {{cardData.name}}
+                </div>
                 <div>
                     <div>
-                        <span class="commoditiesMsg">￥9.90</span>
-                        <span class='commoditiesMsgs'>￥15.87</span>
+                        <span class="commoditiesMsg">￥
+                            {{cardData.price}}
+                        </span>
+                        <!-- <span class='commoditiesMsgs'>￥
+                            {{cardData.line_price}}
+                        </span> -->
                     </div>
                     <!-- <div class="commoditiesStepper">
                         <van-icon name="plus" />
@@ -24,12 +31,16 @@
         </div>
         <!-- 分割线 -->
         <van-divider />
+        </router-link>
     </div>
 </template>
 
 <script>
   export default {
   components: {},
+  props:[
+      "cardData"
+  ],
   data () {
     return {
       
@@ -55,6 +66,7 @@
         .commoditiesContent{
             margin-left: 0.1rem;
             >div:first-child{
+                text-align: left;
                 margin-bottom: 0.1rem;
                 overflow:hidden; 
                 text-overflow:ellipsis;

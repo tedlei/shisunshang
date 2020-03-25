@@ -33,13 +33,13 @@
                   width="0.78rem"
                   height="0.78rem"
                   fit="cover"
-                  src="https://img.yzcdn.cn/vant/cat.jpeg"
+                  :src="item.imgurl"
                 />
               </div>
               <div class="right_msg">
                 <router-link to="/business/storemsg">
                   <p class="p1 fontWrap fontWrapOne">
-                    {{item.company}}
+                    {{item.name}}
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
                       <span style="width:56px">地址:</span>
@@ -50,10 +50,10 @@
                   <div class="address">
                       <span>电话：</span>
                       <span>
-                        {{item.phone}}
+                        {{item.mobile}}
                       </span>
                   </div>
-                  <p class="long">{{item.long}}</p>
+                  <!-- <p class="long">{{item.long}}</p> -->
                 </router-link>
 
               </div>
@@ -143,13 +143,15 @@
       }
     },
     methods: {
-      getNum: function f(index, children) {
+      getNum  (index, children) {
         this.num = index;
         this.navChildren = children;
         this.isUlliTwoHeight = index;
         this.isUlliTwo = true;
+        if(index==0){
+          this.getDataTwo();
+        }
       },
-
       navPush (list){
         for(var i in list){
           this.leftlists.push({
@@ -166,15 +168,15 @@
         // console.log(this.leftlists)
       },
       getData () {
-        this.$store.commit("setLoading");
+        // this.$store.commit("setLoading");
         let ad_data = {
-          method: "get.shop.category.list"
+          method: "get.user.strre.category.list"
         };
-        this.$post('/api/v1/GoodsComCategory', ad_data)
+        this.$post('/api/v1/UserStoreCategory', ad_data)
         .then((res) => {
           console.log(res);
           if(res.status==200){
-            this.$store.commit("setLoading");
+            // this.$store.commit("setLoading");
             this.navPush(res.data);
             this.getDataTwo();
           }
@@ -185,23 +187,23 @@
       getDataTwo ( id ) {
         let ad_data = {};
         if(id){
-          console.log("有Id")
+          // console.log("有Id")
           ad_data = {
-            method: "get.shop.category.list",
+            method: "get.user.store.list",
             cate_id: id,
-            page: 1,
+            page: 0,
             page_size: 20
           };
         }else{
-          console.log("没得Id")
+          // console.log("没得Id")
           ad_data = {
-            method: "get.shop.category.list",
-            cate_id: '',
-            page: 1,
+            method: "get.user.store.list",
+            cate_id: 0,
+            page: 0,
             page_size: 20
           };
         }
-        this.$post('/api/v1/GoodsCom', ad_data)
+        this.$post('/api/v1/userStore', ad_data)
         .then((res) => {
           console.log(res);
           if(res.status==200){

@@ -9,14 +9,18 @@
                       width="0.5rem"
                       height="0.5rem"
                       fit="cover"
-                      src="https://img.yzcdn.cn/vant/cat.jpeg"
+                      :src="shopData.thumb"
                     />
                 </div>
                 <div class="hederMin">
-                    <p>中级天合（重庆）信息</p>
+                    <p>
+                        {{shopData.shop_name}}
+                    </p>
                     <div>
                         <span>公告</span>
-                        <span>专营电器的物美价廉111111111</span>
+                        <span>
+                            {{shopData.summary}}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -27,7 +31,7 @@
                 <div class="hederMsgIco">
                     <img src="" alt="">
                 </div>
-                <div @click="isCollection=!isCollection">
+                <div @click="isCollectionAdd">
                     <van-icon v-if="isCollection==true" name="like" />
                     <van-icon v-else name="like-o" />
                     <span :class="isCollection?'isCollection':''">{{isCollection==true?'已收藏':'收藏店铺'}}</span>
@@ -35,9 +39,9 @@
             </div>
         </div>
         <!-- Tab -->
-        <van-tabs v-model="active" color="#009900" line-width="0.9rem">
+        <van-tabs v-model="active" color="#009900" line-width="0.9rem" @click="onClick">
             <van-tab title="全部商品" :title-style="active==0?'color: #009900;':'color: #999999;'">
-              <div class="sort">
+              <!-- <div class="sort">
                 <div>
                     <span>综合</span>
                     <img src="../../assets/img/xsj.png" alt="">
@@ -60,8 +64,8 @@
                     <span>筛选</span>
                     <img src="../../assets/img/sx.png" alt="">
                 </div>
-              </div>
-              <waresCard></waresCard>
+              </div> -->
+                <waresCard :cardData="item" v-for="(item,index) of wholelist" :key="index"></waresCard>
               <div style="color:#999;">暂无更多商品</div>
             </van-tab>
             <van-tab title="商品分类" :title-style="active==1?'color: #009900;':'color: #999999;'">
@@ -72,31 +76,47 @@
                     <div class="column">
                     <div>
                         <span>掌柜名</span>
-                        <span>美的旗舰店</span>
+                        <span>
+                            {{shopData.name1}}
+                        </span>
                     </div>
                     <div>
                         <span>服务电话</span>
-                        <span>400-8888-8888</span>
+                        <span>
+                            {{shopData.phone1}}
+                        </span>
                     </div>
                     <div>
-                        <span>开店事件</span>
-                        <span>3年 3月 3天</span>
+                        <span>开店时间</span>
+                        <span>
+                            {{shopData.add_time}}
+                        </span>
                     </div>
                     <div>
                         <span>店铺地址</span>
-                        <span>重庆市 巴南区 南泉路</span>
+                        <span>
+                            {{shopData.address}}
+                        </span>
                     </div>
                     <div class="columnFoter">
                     <div>
-                        <p>5.00</p>
+                        <p>
+                            {{shopData.score_ms}}
+                        </p>
                         <span>描述相符</span>
                     </div>
                      <div>
-                        <p>5.00</p>
+                        <p>
+                            {{shopData.score_fw}}
+
+                        </p>
                         <span>服务态度</span>
                     </div>
                      <div>
-                        <p>5.00</p>
+                        <p>
+                            {{shopData.score_fh}}
+
+                        </p>
                         <span>发货速度</span>
                     </div>
                     </div>
@@ -106,11 +126,15 @@
         <!-- 商品分类 -->
         <div class="classification" v-show='active==1'>
             <div>
-                <sidebars></sidebars>
+                <!-- <sidebars></sidebars> -->
+                <div class="sidebar">
+                    <div :class="isBoder==n?'sidebarBoder':''" v-for="(item,n) of classlist" :key="n"
+                    @click="addSidebar(n , item.id)">{{item.cate_name}}</div>
+                </div>
             </div>
             <div>
                 <div class="sorting">
-                    <div :class="sortingColor==0?'sortingColor':''" @click="sortingColor = 0">综合排序</div>
+                    <!-- <div :class="sortingColor==0?'sortingColor':''" @click="sortingColor = 0">综合排序</div>
                     <div :class="sortingColor==1?'sortingColor':''" @click="sortingColor = 1">销量排序</div>
                     <div :class="sortingColor==2?'sortingColor':''" @click="sortingColor = 2">
                         <span>价格排序</span>
@@ -118,12 +142,11 @@
                             <img src="../../assets/img/ssj.png" alt="">
                             <img src="../../assets/img/xsj.png" alt="">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div>
-                    <waresCard></waresCard>
+                    <waresCard :cardData="item" v-for="(item,index) of classcard" :key="index"></waresCard>
                 </div>
-
             </div>
         </div>
         <!-- <div class="selectionBox">
@@ -138,35 +161,162 @@
 
 <script>
     import waresCard from './card/card'
-    import sidebars from './sidebar/sidebar'
+    // import sidebars from './sidebar/sidebar'
   export default {
   components: {
       'waresCard': waresCard,
-      'sidebars': sidebars
+    //   'sidebars': sidebars
   },
   data () {
     return {
       isCollection: false,
-      active: 1,
-      sortingColor: 0
+      active: 0,
+      sortingColor: 0,
+      shopData: {},
+      wholelist: [],
+      isBoder: 0,
+      classlist: [
+          {
+              cate_name: '全部商品'
+          }
+      ],
+      classcard: []
     }
   },
   methods: {
+        getData() {
+            let _id =  this.$route.query.id;
+            let ad_data = {
+                method: 'get.goods.shop.item',
+                shop_id: _id
+            };
+            this.$post('/api/v1/GoodsCom', ad_data)
+            .then((res) => {
+                console.log(res);
+                this.shopData = res.data;
+                this.isCollection = res.data.is_follow==1?true:false;
+            }).catch(function (error) {
+              console.log(error);
+            });
+        },
+        
+        //收藏店铺
+        isCollectionAdd ( ) {
+            this.$store.commit('setLoading');
+            let _id = this.$route.query.id;
+            let list = [];
+            list.push(_id);
+            if(!this.isCollection){
+                console.log("我是收藏")
+                let ad_data = {
+                method: 'add.collect.shops.item',
+                shop_id: _id
+                };
+                this.$post('/api/v1/userCollectShops', ad_data)
+                .then((res) => {
+                  console.log(res)
+                  if(res.status==200){
+                    this.$store.commit('setLoading');
+                  }else{
+                    this.$store.commit('setLoading');
+                    this.$toast.fail('关注失败');
+                  }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }else{
+                console.log("我是取消收藏")
+                let ad_data = {
+                method: 'del.collect.shops.list',
+                id: list
+                };
+                this.$post('/api/v1/userCollectShops', ad_data)
+                .then((res) => {
+                    console.log(res)
+                    if(res.status==200){
+                        this.$store.commit('setLoading');
+                    }
+                  
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            // this.$store.commit('setLoading');
+            this.isCollection = !this.isCollection;
+        },
 
+        onClick(name, title){
+            // console.log(title)
+            if(title=="商品分类"){
+                this.getDataClass();
+                this.getDataList(0);
+            }
+        },
+
+        //全部商品
+        getDataTwo () {
+            let _id =  this.$route.query.id;
+            let ad_data = {
+                method: 'get.shop.goods.list',
+                shop_id: _id,
+                cate_id: '0'
+            };
+            this.$post('/api/v1/goods', ad_data)
+            .then((res) => {
+            //   console.log(res);
+                this.wholelist = res.data;
+            }).catch(function (error) {
+              console.log(error);
+            });
+        },
+        //分类
+        getDataClass () {
+            let _id =  this.$route.query.id;
+            let ad_data = {
+                method: 'get.shop.goods.category.list',
+                shop_id: _id
+            };
+            this.$post('/api/v1/GoodsCategory', ad_data)
+            .then((res) => {
+              console.log(res);
+                this.classlist = [{cate_name: '全部商品'}];
+                for(var i in res.data){
+                    this.classlist.push({
+                        cate_name: res.data[i].cate_name,
+                        id: res.data[i].id,
+                    })
+                }
+            }).catch(function (error) {
+              console.log(error);
+            });
+        },
+        addSidebar (n, id){
+            this.isBoder = n;
+            this.getDataList(id);
+        },
+        
+        //分类列表
+        getDataList (classid) {
+            let _id =  this.$route.query.id;
+            let ad_data = {
+                method: 'get.shop.goods.list',
+                shop_id: _id,
+                cate_id: classid,
+                page: 0,
+                page_size: 10
+            };
+            this.$post('/api/v1/Goods', ad_data)
+            .then((res) => {
+              console.log(res);
+                this.classcard = res.data;
+            }).catch(function (error) {
+              console.log(error);
+            });
+        },
   },
   created () {
-        let _id =  this.$route.query.id;
-        let ad_data = {
-            method: 'get.goods.shop.item',
-            shop_id: _id
-        };
-        this.$post('/api/v1/GoodsCom', ad_data)
-        .then((res) => {
-          console.log(res);
-          
-        }).catch(function (error) {
-          console.log(error);
-        });
+        this.getData();
+        this.getDataTwo();
   },
   computed: {
 
@@ -366,6 +516,22 @@
             line-height: 0.7rem;
             background: #e6e6e6;
             width: 1.2rem;
+        }
+    }
+    .sidebar{
+        height: 100%;
+        line-height: 0.45rem;
+        background-color: #f2f2f2;
+        font-size: 0.13rem;
+        >div{
+            padding: 0 0.1rem;
+            border-bottom: 1px solid #cccccc;
+            border-left: 3px solid #f2f2f2;
+            box-sizing: border-box;
+        }
+        .sidebarBoder{
+            border-left: 3px solid $sss-color;
+            color: $sss-color;
         }
     }
 </style>

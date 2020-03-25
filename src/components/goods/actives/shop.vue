@@ -1,7 +1,14 @@
 <template>
   <div class="shop">
       <div class="shopHeder">
-          <div class="shopHederImg"></div>
+          <div class="shopHederImg">
+              <van-image
+                width="1rem"
+                height="0.5rem"
+                fit="cover"
+                :src="$store.state.cart.getshops.thumb"
+              />
+          </div>
           <div class="shopHederName">
             <p>
                 {{$store.state.cart.getshops.shop_name}}
@@ -13,9 +20,17 @@
           </div>
       </div>
       <div class="min">
-          <div class="minOne" v-for="(item,n) of minlist" :key="n">
-              <p>{{item.num}}</p>
-              <p>{{item.tiele}}</p>
+          <div class="minOne">
+                <p>
+                  {{$store.state.cart.getshops.goods_num}}
+                </p>
+                <p>全部商品</p>
+          </div>
+          <div class="minOne">
+                <p>
+                  <!-- {{item.num}} -->
+                </p>
+              <p>关注人数</p>
           </div>
           <div class="msg">
               <div>
@@ -34,8 +49,7 @@
               <div>
                   <span>发货速度</span>
                   <span class="shopHederNameS">
-                {{$store.state.cart.getshops.score_fh}}
-
+                    {{$store.state.cart.getshops.score_fh}}
                   </span>
               </div>
           </div>
@@ -68,10 +82,10 @@
       
   },
   props: [
+      'is_follow'
   ],
   data () {
     return {
-      minlist: [ {num: "32", tiele: "全部商品"}, {num: "41", tiele: "关注人数"}],
       isCollection: false,
     }
   },
@@ -121,16 +135,27 @@
     },
   },
   created () {
-        // console.log(this.$store.state.cart.getshops.is_follow)
-        this.isCollection = this.$store.state.cart.getshops.is_follow == 0 ? false:true; 
+        console.log(this.$store.state.cart.getshops)
+        // this.isCollection = 0 == 0 ? true:false; 
+        // console.log(this.isCollection)
+        
+  },
+  mounted ( ) {
+        // console.log(this.is_follow)
   },
   updated () {
+
   },
   computed: {
     
   },
   watch: {
-    
+    is_follow(newVal){
+        this.is_follow = newVal;
+        // console.log(this.is_follow)
+        this.isCollection = this.is_follow==1?true:false;
+        // console.log(this.isCollection);
+    }
   }
 }
 </script>

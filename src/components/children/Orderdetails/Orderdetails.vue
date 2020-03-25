@@ -22,9 +22,9 @@
     <div class="common_box">
       <div to="" class="common m_b_10">
         <div class="left">
-          <img src="../../../assets/img/stoe.png" style="width: 18px">
+          <img src="../../../assets/img/stoe.png" style="width: 0.18rem">
           <span>
-            <p>{{orderData.shop.name}}</p>
+            <p>{{orderData.shop.shop_name}}</p>
           </span>
         </div>
         <div class="clo-g right">
@@ -32,7 +32,14 @@
         </div>
       </div>
       <div class="common goods" v-for="(item,index) of orderData.goods" :key="index">
-        <div class="left_img"><img src="/static/img/c_goods.9079655.png"></div>
+        <div class="left_img">
+          <van-image
+            width="0.8rem"
+            height="0.8rem"
+            fit="cover"
+            :src="item.thumb"
+          />
+        </div>
         <div class="center_text">
           <a href="/goodsdetails/order" class="link_div router-link-active">
             <div class="fontWrap fontWrapTwo">
@@ -40,7 +47,7 @@
             </div>
             <div style="color: rgb(153, 153, 153);">
               <span class="fontWrap fontWrapOne">规格:
-                {{item.sku}}
+                <!-- {{item.sku}} -->
               </span> 
               <span>数量:
                 {{item.num}}
@@ -68,7 +75,7 @@
       <div class="common m_b_10">
         <div>发票信息</div>
         <div class="right">
-          <span style="color: #ff0000;margin-right: 10px">系统识别显示不开或者开具</span>
+          <span style="color: #ff0000;margin-right: 10px">{{orderData.is_invoice==0?'未开具发票':orderData.invoice_detail.title}}</span>
           <span>
             <!-- {{}} -->
           </span>
@@ -159,21 +166,21 @@
       <div class="common">
         <div class="left">
           创建时间：<span style="color:#999999">
-            <!-- {{}} -->
+            {{orderData.add_time}}
           </span>
         </div>
       </div>
       <div class="common">
         <div class="left">
           支付方式：<span style="color:#999999">
-            <!-- {{}} -->
+            {{orderData.paytype}}
           </span>
         </div>
       </div>
       <div class="common">
         <div class="left">
           买家留言：<span style="color:#999999">
-            <!-- {{}} -->
+            {{orderData.remark}}
           </span>
         </div>
       </div>
@@ -192,7 +199,11 @@
     name: "Orderdetails",
     data() {
       return {
+        jsApiParameters: {},
         orderData:{
+          invoice_detail: {
+            title: ''
+          },
           goods:[],
           shop: {}
         }
@@ -200,15 +211,15 @@
     },
     methods: {
       //获取订单数据
-      getData () {
-        let id = this.$route.query.id;
+      getData ( ) {
+        let _id = this.$route.query.id;
         let ad_data = {
           method: 'get.order.item',
-          order_id: id
+          order_id: _id
         };
         this.$post('/api/v1/order', ad_data)
         .then((res) => {
-          // console.log(res) 
+          console.log(res) 
           this.orderData = res.data;
         }).catch(function (error) {
             console.log(error);
@@ -227,7 +238,7 @@
           console.log(res) 
           if(res.status==200){
             this.$toast.success('订单已取消');
-            this.$router.push({path:'/goodsdetails/order',query: {id:'1'}});
+            // this.getData(1);
           }else{
             this.$toast.success('取消失败');
           }
@@ -247,24 +258,44 @@
         this.$post('/api/v1/order', ad_data)
         .then((res) => {
           console.log(res);
-          if(res.data.pay_type == 1){
-          	//表明已完成交易，不需要调用支付，直接跳转至成功页面
-            return false;
-          }
+          
           if(res.data.is_wx_pay == 1){
             console.log(res.data.payment)
-          	// jsApiParameters = res.data.payment;
-            // this.callpay();
+          	this.jsApiParameters = res.data.payment;
+            this.callpay();
           }
         }).catch(function (error) {
             console.log(error);
         });
       },
       
-      //
-      callpay () {
-        console.log(1)
-      },
+      jsApiCall(){
+	      WeixinJSBridge.invoke(
+	      	'getBrandWCPayRequest',
+	      	this.jsApiParameters,
+	      	function(res){
+	      		if(  res.err_msg.indexOf(":ok")>0 ){
+	      			//跳转到支付成功页面
+	      			
+	      		}else{
+              //取消付款跳转
+            }
+	      	}
+	      );
+	    },
+
+	    callpay(){
+		        if (typeof WeixinJSBridge == "undefined"){
+		            if( document.addEventListener ){
+		                document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+		            }else if (document.attachEvent){
+		                document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		                document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+		            }
+		        }else{
+		            this.jsApiCall();
+		        }
+	    },
     },
     created () {
       console.log(this.$route.query.id)

@@ -20,14 +20,15 @@
       </router-link>
     </div>
 
-    <div class="common_box allmsg">
+    <!-- 商品详情 -->
+    <div class="common_box allmsg" v-for="(shop,index) in orderData.shops" :key="index">
       <!-- 店铺名称 -->
       <router-link to="business/storemsg" class="common m_b_10">
         <div class="left">
           <img src="../../../assets/img/stoe.png" style="width: 18px">
           <span>
-            <p style="width:70%" class="fontWrap fontWrapOne">
-              {{orderData.shops['17'].shop_name}}
+            <p class="fontWrap fontWrapOne">
+              {{shop.shop.shop_name}}
             </p>
           </span>
         </div>
@@ -36,28 +37,30 @@
         </div>
       </router-link>
       <!-- 商品卡片 -->
-      <div class="card">
+      <div class="card" v-for="(goods,index1) of shop.goods" :key="index1">
         <van-image
           width="1rem"
           height="1rem"
           fit="cover"
-          :src="orderData.shops['17'].goods[0].imgsrc"
+          :src="goods.imgsrc"
         />
         <div class="cardMsg">
           <p class="fontWrap fontWrapTwo">
-            {{orderData.shops['17'].goods[0].name}}
+            {{goods.name}}
           </p>
           <span class="fontWrap fontWrapOne">规格：
-            {{orderData.shops['17'].goods[0].goods_sku.goods_attr}}
+            {{goods.goods_attr}}
           </span>
           <div>￥
-            {{orderData.shops['17'].goods[0].price}}
+            {{goods.price}}
           </div>
           <div class="cardMsgNum">X
-            {{orderData.shops['17'].goods[0].total_num}}
+            {{goods.total_num}}
           </div>
         </div>
       </div>
+    </div>
+    <div  class="common_box allmsg">
       <div class="common delivery">
         <div class="left">
           配速方式
@@ -88,20 +91,20 @@
             元</span>
         </div>
       </router-link>
-      <router-link to="" class="common m_b_10">
+      <a class="common m_b_10">
         <div>充值金</div>
         <div class="right">
           <span style="color:#999999;" class="Check">可使用充值金
-            <!-- {{orderData.total_qd_price}} -->
+            {{orderData.user_qd_money}}
             元</span>
           <van-switch v-model="checked" size="0.2rem" active-color="#009900" inactive-color="#999999"/>
         </div>
-      </router-link>
+      </a>
       <div class="price">
         <div class="left">
           <span>商品金额</span>
           <span class="clo-g">￥
-            <!-- {{}} -->
+            {{orderData.total_price}}
           </span>
         </div>
         <div class="right">
@@ -146,8 +149,8 @@
                 input: '',
                 checked: true,
                 orderData: {
-                    shops: {
-                        "17": {
+                    shops: [
+                         {  total_num:'',
                             goods: [
                                 {
                                     id: '',
@@ -157,89 +160,242 @@
                                     }
                                 },
                             ],
+                            shop: {
+                              shop_name: ''
+                            }
                         }
-                    }
+                    ]
                 },
             }
         },
         computed: {},
         methods: {
-            //获取订单
-            getDATA() {
+          //获取订单
+          getDATA() {
+              let goods_id = this.$route.query.id;
+              let goods_num = this.$route.query.num;
+              // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
+              let buy_type = this.$route.query.buy_type;
+              let ad_data = {
+                  method: 'get.buy.goods.now',
+                  goods_id: goods_id,
+                  goods_num: goods_num,
+                  // goods_sku_id: goods_sku_id,
+                  buy_type: buy_type,
+              };
+              this.$post('/api/v1/order', ad_data)
+              .then((res) => {
+                console.log(res);
+                // return false;
+                if(res.status==200){
+                  this.orderData = res.data;
+                }else{
+                  this.$router.back(-1);
+                  this.$toast(res.message);
+                }
+              }).catch(function (error) {
+                console.log(error);
+              });
+          },
+
+          //购物车入口跳转获取订单
+          getDataTwo () {
+              let list = this.$route.query.id
+              let ad_data = {
+                  method: 'get.buy.goods.cart',
+                  goods: list,
+              };
+              // console.log(ad_data)
+              this.$post('/api/v1/order', ad_data)
+              .then((res) => {
+                  console.log(res);
+                  if(res.status==200){
+                    this.orderData = res.data;
+                    console.log(this.orderData)
+                  }else{
+                    this.$router.back(-1);
+                    this.$toast(res.message);
+                  }
+              }).catch(function (error) {
+                console.log(error);
+              });
+          },
+
+          //提交订单
+          uploadOrder() {
+            if(this.$route.query.iscart == 1) {
+              this.ploadOrderTwo();
+            }else{
                 let goods_id = this.$route.query.id;
                 let goods_num = this.$route.query.num;
-                let goods_sku_id = this.$route.query.goods_sku_id.join('_');
-                let buy_type = this.$route.query.buy_type;
-                let ad_data = {
-                    method: 'get.buy.goods.now',
-                    goods_id: goods_id,
-                    goods_num: goods_num,
-                    goods_sku_id: goods_sku_id,
-                    buy_type: buy_type,
-                };
-                this.$post('/api/v1/order', ad_data)
-                    .then((res) => {
-                        console.log(res)
-                        this.orderData = res.data;
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-            //提交订单
-            uploadOrder() {
-                let goods_id = this.$route.query.id;
-                let goods_num = this.$route.query.num;
-                let goods_sku_id = this.$route.query.goods_sku_id.join('_');
+                // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
                 let buy_type = this.$route.query.buy_type;
                 let address_id = this.orderData.address_default.id;
                 let is_cz_price = this.checked ? 1 : 0;
                 // console.log(address_id);
+                //发票信息
+                let invoice_detail = [];
+                    invoice_detail['type'] = '1';
+                    invoice_detail['title'] = '啊啊';
+                    invoice_detail['number'] = '2321321';
+                    invoice_detail['company_address'] = '重庆';
+                    invoice_detail['conpany_phone'] = '1354578452';
+                    invoice_detail['conpany_bank'] = '农业';
+                    invoice_detail['conpany_bank_number'] = '重庆';
                 let ad_data = {
                     method: "buy.goods.now",
                     goods_id: goods_id,
                     goods_num: goods_num,
-                    goods_sku_id: goods_sku_id,
+                    // goods_sku_id: goods_sku_id,
                     buy_type: buy_type,
                     address_id: address_id,
-                    is_cz_price: is_cz_price
+                    is_cz_price: is_cz_price,
+                    remark: this.input,
+                    is_invoice: '1',  //发票信息0不要
+                    invoice_detail: invoice_detail
                 };
-                console.log(ad_data);
+                // console.log(ad_data);
                 this.isloading = true;
                 this.$post('/api/v1/order', ad_data)
-                    .then((res) => {
-                        console.log(res)
-                        if (res.status == 200) {
-                            this.isloading = false;
-                            this.$dialog.alert({
-                                title: '提交成功',
-                                message: '请在订单有效时间内前往订单详情页面付款'
-                            }).then((res) => {
-                                if (res == 'confirm') {
-                                    this.$router.push({path: '/goodsdetails/order', query: {id: '1'}});
-                                }
-                            })
-                        } else {
-                            this.isloading = false;
-                            this.$dialog.alert({
-                                title: '提交失败',
-                                message: '请重新提交'
-                            })
+                .then((res) => {
+                  console.log(res)
+                  if (res.status == 200 && res.data.is_wx_pay == 1) {
+                    this.isloading = false;
+                    if(res.data.is_wx_pay == 1){
+                      console.log(res.data.payment)
+                    	this.jsApiParameters = res.data.payment;
+                      this.callpay();
+                    }
+                  } else if (res.status == 200 && res.data.is_wx_pay == 0){
+                    this.isloading = false;
+                    this.$dialog.alert({
+                        title: '付款成功',
+                        message: '使用充值金付款成功'
+                    }).then((res) => {
+                        if (res == 'confirm') {
+                          this.$router.push({path: '/goodsdetails/order', query: {id: '2'}});
                         }
-                    }).catch(function (error) {
-                    console.log(error);
+                    })
+                  }else{
+                    this.isloading = false;
+                    this.$dialog.alert({
+                        title: '提交失败',
+                        message: '请重新提交'
+                    })
+                  }
+                }).catch(function (error) {
+                  console.log(error);
                 });
-            },
+            }
+          },
+
+          //购物车提交
+          ploadOrderTwo() {
+            let is_cz_price = this.checked ? 1 : 0;
+            let address_id = this.orderData.address_default.id;
+            let invoice_detail = [];
+                invoice_detail['type'] = '1';
+                invoice_detail['title'] = '啊啊';
+                invoice_detail['number'] = '2321321';
+                invoice_detail['company_address'] = '重庆';
+                invoice_detail['conpany_phone'] = '1354578452';
+                invoice_detail['conpany_bank'] = '农业';
+                invoice_detail['conpany_bank_number'] = '重庆';
+            let ad_data = {
+                method: "buy.goods.cart",
+                goods: this.$route.query.id,
+                address_id: address_id,
+                is_cz_price: is_cz_price,
+                remark: this.input,
+                is_invoice: '1',  //发票信息0不要
+                invoice_detail: invoice_detail
+            };
+            console.log(ad_data)
+            this.$post('/api/v1/order', ad_data)
+            .then((res) => {
+                console.log(res);
+                if (res.status == 200 && res.data.is_wx_pay == 1) {
+                    this.isloading = false;
+                    if(res.data.is_wx_pay == 1){
+                      console.log(res.data.payment)
+                    	this.jsApiParameters = res.data.payment;
+                      this.callpay();
+                    }
+                  } else if (res.status == 200 && res.data.is_wx_pay == 0){
+                    this.isloading = false;
+                    this.$dialog.alert({
+                        title: '付款成功',
+                        message: '使用充值金付款成功'
+                    }).then((res) => {
+                        if (res == 'confirm') {
+                          this.$router.push({path: '/goodsdetails/order', query: {id: '2'}});
+                        }
+                    })
+                  }else{
+                    this.isloading = false;
+                    this.$dialog.alert({
+                        title: '提交失败',
+                        message: '请重新提交'
+                    })
+                  }
+            }).catch(function (error) {
+              console.log(error);
+            });
+          },
+
+          jsApiCall(){
+	          	WeixinJSBridge.invoke(
+	          		'getBrandWCPayRequest',
+	          		this.jsApiParameters,
+	          		function(res){
+	          			if(  res.err_msg.indexOf(":ok")>0 ){
+	          				//跳转到支付成功页面
+	          				// this.$dialog.alert({
+                    //     title: '提交成功',
+                    //     message: '请在订单有效时间内前往订单详情页面付款'
+                    // }).then((res) => {
+                    //     if (res == 'confirm') {
+                    //         this.$router.push({path: '/goodsdetails/order', query: {id: '1'}});
+                    //     }
+                    // })
+	          			}else{
+
+                  }
+	          		
+	          		}
+	          	);
+	        },
+
+	        callpay(){
+		        if (typeof WeixinJSBridge == "undefined"){
+		            if( document.addEventListener ){
+		                document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+		            }else if (document.attachEvent){
+		                document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		                document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+		            }
+		        }else{
+		            this.jsApiCall();
+		        }
+	        },
         },
         mounted() {
+          // console.log(this.$route.query.id)
+          // console.log(this.$route.query.buy_type)
+          if(this.$route.query.buy_type){
             this.goods_id = this.$route.query.id;
             this.goods_num = this.$route.query.num;
-            this.goods_sku_id = this.$route.query.goods_sku_id;
+            // this.goods_sku_id = this.$route.query.goods_sku_id;
             this.buy_type = this.$route.query.buy_type;
             this.getDATA();
             // Bus.$on('info', (data) => {
             //     this.infor = Number(data)
             //     console.log(this.infor)
             // })
+          }else{
+            this.getDataTwo();
+            console.log('购物车')
+          }
         },
         created() {
 
@@ -371,7 +527,7 @@
 
   .Check {
     display: inline-block;
-    font-size: 0.1rem;
+    font-size: 0.14rem;
     // transform: scale(0.95);
   }
 
