@@ -206,7 +206,7 @@
       getOderData (index) {
         let ad_data = {
           method: 'get.order.list',
-          // type: 
+          // type:
         };
         if(index != undefined && index != 0){
           ad_data = {
@@ -238,7 +238,7 @@
         console.log(ad_data)
         this.$post('/api/v1/order', ad_data)
         .then((res) => {
-          console.log(res) 
+          console.log(res)
           if(res.status==200){
             this.$toast.success('订单已取消');
             this.getOderData(2);
@@ -303,7 +303,7 @@
     mounted() {
       this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
       this.isshouhou = this.$route.query.orderid == 4 ? true : false;
-      this.shouhou = this.$route.query.orderid == 4 ? '43px' : '101px';
+      this.shouhou = this.$route.query.orderid == 4 ? '0.43rem' : '1.01rem';
       if(this.$route.query.orderid == 'evaluate'){
         this.getNum(4);
       }else{
@@ -344,9 +344,9 @@
           .goodsItemName{
             text-align: left;
             width: 70%;
-            overflow:hidden; 
+            overflow:hidden;
             text-overflow:ellipsis;
-            display:-webkit-box; 
+            display:-webkit-box;
             -webkit-box-orient:vertical;
             -webkit-line-clamp:2; //超出几行显示
             margin-bottom: 0.4rem;
@@ -354,12 +354,11 @@
         }
         .Specifications{
           display: flex;
-          // justify-content: space-between;
           >span:first-child{
             width: 70%;
-            overflow:hidden; 
+            overflow:hidden;
             text-overflow:ellipsis;
-            display:-webkit-box; 
+            display:-webkit-box;
             -webkit-box-orient:vertical;
             -webkit-line-clamp:1; //超出几行显示
           }
@@ -368,7 +367,7 @@
     }
 
     .total_box {
-      margin: 10px 0;
+      margin: 0.1rem 0;
 
       .add_time {
         float: left;
@@ -380,7 +379,7 @@
     }
 
     .submit_box {
-      line-height: 40px;
+      line-height: 0.4rem;
 
       .left_dtime {
         color: #009900;

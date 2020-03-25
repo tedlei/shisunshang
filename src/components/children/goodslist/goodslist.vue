@@ -34,6 +34,7 @@
 
 <script>
     import Empty from "../empty/empty";
+    import Bus from "../../../assets/js/bus";
 
     export default {
         name: "goodslist",
@@ -51,11 +52,14 @@
                 goods_list: []
             }
         },
+        computed: {
+            gainVal: function () {
+                return this.$store.state.searchVal;
+            }
+        },
         watch: {
-            gainsearchVal: {
+            gainVal: {
                 handler(newValue, oldValue) {
-                    console.log(newValue)
-
                     this.getlist();
                 },
                 deep: true
@@ -63,6 +67,7 @@
         },
         methods: {
             async getlist() {
+                console.log(this.gainsearchVal)
                 let _this = this,
                     parms = {
                         method: 'get.goods.category.list',
@@ -106,7 +111,6 @@
         mounted() {
             this.getlist();
             this.gainsearchVal ? this.issearch = true : this.issearch = false
-
         }
     }
 </script>

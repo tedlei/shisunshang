@@ -44,18 +44,17 @@
     <!--   累计   -->
     <div class="leiji m_b_10">
       <ul class="leiji_list clearfix">
-
         <li>
-          <div>10/190</div>
+          <div>{{day_money}}/{{total_money}}</div>
           <div>今日/累计收入</div>
         </li>
         <li>
-          <div>0</div>
+          <div>{{use_money}}</div>
           <div>累计消费</div>
         </li>
         <li>
-          <div>0</div>
-          <div>累计体现</div>
+          <div>{{cashed_money}}</div>
+          <div>累计提现</div>
         </li>
       </ul>
     </div>
@@ -68,7 +67,7 @@
       <ul class="zc_lists clearfix">
         <li v-for="(item,index) in zclists" :key="index">
           <router-link :to="{path:'/mine/record',query:{recordid:index+1}}">
-            <div style="margin-bottom: 10px">{{ item.num | moneyFormat}}</div>
+            <div style="margin-bottom: 0.1rem">{{ item.num | moneyFormat}}</div>
             <div>{{item.name}}</div>
           </router-link>
         </li>
@@ -80,14 +79,15 @@
       <div class="conmon_deader">
         <span class="left_text">我的订单</span>
         <span class="right_link">
-          <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<i class="el-icon-arrow-right"></i></router-link>
+          <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<i
+            class="el-icon-arrow-right"></i></router-link>
         </span>
       </div>
 
       <ul class="order_lists clearfix">
         <li v-for="(item,index) in orderlists" :key="index">
           <router-link :to="{path: item.router, query:{orderid:item.orderid}}">
-            <div style="margin-bottom: 10px">
+            <div style="margin-bottom: 0.1rem">
               <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 0.24rem">
             </div>
             <div>{{item.name}}</div>
@@ -107,8 +107,8 @@
       <ul class="gj_lists clearfix">
         <li v-for="(item,index) in gjlists" :key="item.index">
           <router-link :to="{path:item.linkto}">
-            <div style="margin-bottom: 10px">
-              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">
+            <div style="margin-bottom: 0.1rem">
+              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 0.34rem">
             </div>
             <div>{{item.name}}</div>
           </router-link>
@@ -116,32 +116,29 @@
       </ul>
     </div>
     <!--  游戏互动  -->
-<!--    <div class="m_b_10 conmon_box my_game">-->
-<!--      <div class="conmon_deader">-->
-<!--        <span class="left_text">游戏互动</span>-->
-<!--        <span class="right_link">-->
-<!--          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>-->
-<!--        </span>-->
-<!--      </div>-->
+    <!--    <div class="m_b_10 conmon_box my_game">-->
+    <!--      <div class="conmon_deader">-->
+    <!--        <span class="left_text">游戏互动</span>-->
+    <!--        <span class="right_link">-->
+    <!--          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>-->
+    <!--        </span>-->
+    <!--      </div>-->
 
-<!--      <ul class="gj_lists clearfix">-->
-<!--        <li v-for="(item,index) in gamelists" :key="item.index">-->
-<!--          <router-link :to="{path:item.linkto}">-->
-<!--            <div style="margin-bottom: 10px">-->
-<!--              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <div>{{item.name}}</div>-->
-<!--              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>-->
-<!--            </div>-->
-<!--          </router-link>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-    <!--  退出登录  -->
-    <div class="loginout">
-      退出登录
-    </div>
+    <!--      <ul class="gj_lists clearfix">-->
+    <!--        <li v-for="(item,index) in gamelists" :key="item.index">-->
+    <!--          <router-link :to="{path:item.linkto}">-->
+    <!--            <div style="margin-bottom: 10px">-->
+    <!--              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">-->
+    <!--            </div>-->
+    <!--            <div>-->
+    <!--              <div>{{item.name}}</div>-->
+    <!--              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>-->
+    <!--            </div>-->
+    <!--          </router-link>-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </div>-->
+
   </div>
 
 </template>
@@ -160,7 +157,10 @@
                 username: '',
                 phone: '',
                 level_name: '',
-
+                day_money:0,
+                total_money:0,
+                use_money:0,
+                cashed_money:0,
                 headerlists: [
                     {
                         num: 0,
@@ -245,78 +245,72 @@
                     {
                         img: 'gj1',
                         name: '营销广告',
-                        linkto:'/mine/ad'
+                        linkto: '/mine/ad'
                     },
                     {
                         img: 'gj2',
                         name: '我的分享',
-                        linkto:'/mine/ad'
+                        linkto: '/mine/ad'
                     },
                     {
                         img: 'gj3',
                         name: '商品分享',
-                        linkto:'/mine/share'
+                        linkto: '/mine/share'
                     },
                     {
                         img: 'gj4',
                         name: '收货地址',
-                        linkto:'/mine/Address'
+                        linkto: '/mine/Address'
                     },
                     {
                         img: 'gj5',
                         name: '个人信息',
-                        linkto:'/mine/usermsg'
+                        linkto: '/mine/usermsg'
                     },
                     {
                         img: 'gj6',
                         name: '我的团队',
-                        linkto:'/mine/Myteam'
+                        linkto: '/mine/Myteam'
                     },
                     {
                         img: 'gj7',
                         name: '财务记录',
-                        linkto:'/mine/record'
+                        linkto: '/mine/record'
                     },
                     {
                         img: 'gj8',
                         name: '关于我们',
-                        linkto:'/mine/ad'
+                        linkto: '/mine/ad'
                     }],
                 gamelists: [
                     {
                         img: 'gj1',
                         name: 'QQ飞车',
                         text: '0元领一箱水果',
-                        linkto:''
+                        linkto: ''
                     },
                     {
                         img: 'gj1',
                         name: 'QQ飞车',
                         text: '0元领一箱水果',
-                        linkto:''
+                        linkto: ''
                     },
                     {
                         img: 'gj1',
                         name: 'QQ飞车',
                         text: '0元领一箱水果',
-                        linkto:''
+                        linkto: ''
                     },
                     {
                         img: 'gj1',
                         name: 'QQ飞车',
                         text: '0元领一箱水果',
-                        linkto:''
+                        linkto: ''
                     },
                 ]
             }
         },
-
-        // 监听,当路由发生变化的时候执行
-        watch: {
-            '$route': 'getPath'
-        },
         methods: {
-
             //获取用户信息并存储
             getuserinfo: function () {
                 let _this = this;
@@ -331,30 +325,48 @@
                         _this.username = response.data.name;
                         _this.phone = response.data.phone;
                         _this.level_name = response.data.level_name;
-                        _this.$store.commit('userinfo',JSON.stringify(response.data))
+                        _this.$store.commit('userinfo', JSON.stringify(response.data))
                         console.log(response)
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
-            //充值活动
-            Recharge:function(){
-              this.$router.push({
-                  path:'/mine/Recharge'
-              })
+            //获取收藏数量，累计
+            getuserindex: function () {
+                let _this = this;
+                let userindex = {
+                    method: 'get.user.index.data'
+                }
+                this.$post('/api/v1/user', userindex)
+                    .then((response) => {
+                        _this.headerlists[0].num = response.data.collect_goods_num
+                        _this.headerlists[1].num = response.data.collect_shops_num
+                        _this.headerlists[2].num = response.data.footprint_num
+                        _this.headerlists[3].num = response.data.comment_num
+                        _this.day_money = response.data.day_money
+                        _this.total_money = response.data.total_money
+                        _this.use_money = response.data.use_money
+                        _this.cashed_money = response.data.cashed_money
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
-            //在线升级
-            upgrade:function(){
+            //充值活动
+            Recharge: function () {
                 this.$router.push({
-                    path:'/mine/upgrade'
+                    path: '/mine/Recharge'
                 })
             },
-            getPath() {
-                console.log(this.$route.path);
-            }
+            //在线升级
+            upgrade: function () {
+                this.$router.push({
+                    path: '/mine/upgrade'
+                })
+            },
         },
         mounted() {
             this.getuserinfo();
+            this.getuserindex();
         }
     }
 </script>
@@ -363,7 +375,7 @@
 
 
   header {
-    padding: 10px;
+    padding: 0.1rem;
     background-color: #009900;
     color: #fff;
 
@@ -375,14 +387,15 @@
     .user {
       display: flex;
       justify-content: space-between;
+
       .user_header {
         overflow: hidden;
         border-radius: 50%;
         padding: 1px;
         background-color: #fff;
-        width: 60px;
-        height: 60px;
-        margin-right: 20px;
+        width: 0.6rem;
+        height: 0.6rem;
+        margin-right: 0.2rem;
 
         img {
           border-radius: 50%;
@@ -397,29 +410,32 @@
         }
 
         .vip_lv span {
-          width: 70px;
+          width: 0.7rem;
           text-align: center;
           display: inline-block;
           background-color: rgba(0, 0, 0, 0.2);
-          line-height: 20px;
-          border-radius: 20px;
+          line-height: 0.2rem;
+          border-radius: 0.2rem;
           font-size: 0.12rem;
         }
       }
 
       .user_up {
-        margin-top: 30px;
-        .Recharge,.shengji{
+        margin-top: 0.3rem;
+
+        .Recharge, .shengji {
           line-height: 0.18rem;
           border-radius: 0.18rem;
           padding: 0 0.1rem;
           font-size: 0.12rem;
         }
-        .Recharge{
+
+        .Recharge {
           background-color: red;
           margin-bottom: 5px;
         }
-        .shengji{
+
+        .shengji {
           background-color: #235f23;
         }
       }
@@ -437,7 +453,7 @@
     color: #fff;
 
     .leiji_list {
-      padding: 10px;
+      padding: 0.1rem;
       background-color: #235f23;
 
       li {
@@ -451,11 +467,11 @@
   /*  */
   .conmon_box {
     background-color: #fff;
-    padding: 0 10px;
+    padding: 0 0.1rem;
   }
 
   .conmon_deader {
-    padding: 15px 0;
+    padding: 0.15rem 0;
     display: flex;
     justify-content: space-between;
 
@@ -468,7 +484,7 @@
   .zc_lists li, .gj_lists li {
     float: left;
     width: 25%;
-    padding: 15px 0;
+    padding: 0.15rem 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -477,19 +493,12 @@
   .order_lists li {
     float: left;
     width: 20%;
-    padding: 15px 0;
+    padding: 0.15rem 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
   /*  */
-  .loginout {
-    font-size: 0.18rem;
-    color: #009900;
-    line-height: 40px;
-    margin: 40px 10px;
-    background-color: #fff;
-    border-radius: 4px;
-  }
+
 </style>

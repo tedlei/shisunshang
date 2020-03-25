@@ -24,7 +24,9 @@
       <el-container>
         <el-main style="position: relative;">
           <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.4+'rem'" class="erji">
-            <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">{{item1.cate_name}}</li>
+            <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">
+              {{item1.cate_name}}
+            </li>
           </ul>
           <ul class="cpylist">
             <li v-for="(item,index) in cpylist" :key="index">
@@ -42,8 +44,8 @@
                     {{item.name}}
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
-                      <span style="width:56px">地址:</span>
-                      <span class="fontWrap fontWrapTwo">
+                    <span style="width:56px">地址:</span>
+                    <span class="fontWrap fontWrapTwo">
                         {{item.address}}
                       </span>
                   </div>
@@ -67,9 +69,9 @@
 </template>
 
 <script>
-  import Header from "../header/header";
-  import Search from "../search/search";
-  import clientW from "../../assets/js/conmon";
+    import Header from "../header/header";
+    import Search from "../search/search";
+    import clientW from "../../assets/js/conmon";
 
   export default {
     name: "business",
@@ -224,7 +226,7 @@
     mounted() {
       let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
       let topH = this.$refs.header_h.offsetHeight;
-      this.height = (h - topH - 70*clientW/100)/clientW + 'rem'
+      this.height = (h - topH - 70*clientW/100)/clientW + 'rem';
     }
   }
 </script>
@@ -252,31 +254,33 @@
     background-color: #fff;
     overflow: visible;
     border-right: 1px solid #f2f2f2;
+
     .left {
       position: relative;
     }
 
-    .left>li {
+    .left > li {
       line-height: 0.4rem;
       box-sizing: border-box;
 
     }
 
-    .left>li{
+    .left > li {
       border-left: 3px solid #fff;
       border-bottom: 1px solid #f2f2f2;
     }
-    .active{
+
+    .active {
       color: $sss-color;
       background-color: #f2f2f2;
       border-left: 3px solid $sss-color !important;
     }
 
-    .left>li.all {
+    .left > li.all {
       position: relative;
     }
 
-    .left>li.all:after {
+    .left > li.all:after {
       content: '';
       display: inline-block;
       width: 0.05rem;
@@ -287,6 +291,7 @@
       left: 0;
     }
   }
+
   .erji {
     border-left: 1px solid #f2f2f2;
     color: #000;
@@ -296,11 +301,13 @@
     left: -0.05rem;
     z-index: 50;
     background-color: #fff;
-    li{
+
+    li {
       border-bottom: 1px solid #f2f2f2;
       line-height: 0.4rem;
     }
-    li:active{
+
+    li:active {
       color: $sss-color !important;
     }
   }
@@ -308,7 +315,7 @@
   section .el-main {
     padding: 0.05rem;
 
-    .cpylist>li {
+    .cpylist > li {
       display: flex;
       align-items: center;
       background-color: #fff;
@@ -318,15 +325,18 @@
 
       .right_msg {
         margin-left: 0.05rem;
-        .p1{
+
+        .p1 {
           color: #000 !important;
           font-size: 0.14rem;
         }
-        .address{
+
+        .address {
           display: flex;
           color: #999;
           font-size: 0.12rem;
         }
+
         p.long {
           text-align: right;
           color: #009900;

@@ -143,7 +143,7 @@
                 goods_id: '',
                 goods_num: '',
                 goods_sku_id: [],
-                infor: 2,
+                infor: this.$store.state.IvcMsg,
                 buy_type: '',
                 isTips: true,
                 input: '',
@@ -388,6 +388,7 @@
             // this.goods_sku_id = this.$route.query.goods_sku_id;
             this.buy_type = this.$route.query.buy_type;
             this.getDATA();
+
             // Bus.$on('info', (data) => {
             //     this.infor = Number(data)
             //     console.log(this.infor)

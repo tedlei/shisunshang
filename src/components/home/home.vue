@@ -55,6 +55,14 @@
           </div>
         </el-col>
       </el-row>
+      <div>
+        <router-link to="/uploadpic">拍照上传</router-link>
+      </div>
+      <div>
+        <router-link to="/Luckdraw">抽奖</router-link>
+      </div>
+
+
     </div>
     <!--  公告  -->
     <div class="notice">
@@ -100,6 +108,8 @@
     <div>
       没得更多了
     </div>
+    <!--    <signin></signin>-->
+
     <searchResult></searchResult>
   </div>
 
@@ -113,11 +123,12 @@
     import SearchResult from "../children/searchResult/searchResult";
     import Bus from "../../assets/js/bus";
     import Swiper from 'swiper';
+    import Signin from "../Signin/Signin";
 
     export default {
         name: "home",
         //2.然后,在components中写入子组件
-        components: {SearchResult, Search, Carousel},
+        components: {Signin, SearchResult, Search, Carousel},
         data() {
             return {
                 msg: '首页',
