@@ -126,7 +126,7 @@
 
 <style scoped lang="scss">
   .nav {
-    top: 55px;
+    top: 0.55rem;
 
     /deep/ .van-tabs__wrap {
       position: fixed;

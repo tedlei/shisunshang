@@ -61,7 +61,9 @@
       <div>
         <router-link to="/Luckdraw">抽奖</router-link>
       </div>
-
+      <div @click="signtans">
+        签到
+      </div>
 
     </div>
     <!--  公告  -->
@@ -108,9 +110,8 @@
     <div>
       没得更多了
     </div>
-    <!--    <signin></signin>-->
+    <signin></signin>
 
-    <searchResult></searchResult>
   </div>
 
 
@@ -120,7 +121,6 @@
     //1.先使用import导入你要在该组件中使用的子组件
     import Carousel from '../carousel-cp/carousel';
     import Search from "../search/search";
-    import SearchResult from "../children/searchResult/searchResult";
     import Bus from "../../assets/js/bus";
     import Swiper from 'swiper';
     import Signin from "../Signin/Signin";
@@ -128,7 +128,7 @@
     export default {
         name: "home",
         //2.然后,在components中写入子组件
-        components: {Signin, SearchResult, Search, Carousel},
+        components: {Signin, Search, Carousel},
         data() {
             return {
                 msg: '首页',
@@ -140,9 +140,58 @@
             }
         },
         methods: {
+            //获取首页
+            getHomeMsg: function () {
+                const ad_data = {method: 'get.ad.banner.list'},
+                    category = {method: 'get.category.list'},
+                    goods = {method: 'get.ad.goods.list'},
+                    news = {method: 'get.news.list'};
+                //获取banner
+                this.$post('/api/v1/ad', ad_data)
+                    .then((response) => {
+                        console.log(response.data)
+                        this.bannermsg = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                //获取模块列表
+                this.$post('/api/v1/category', category)
+                    .then((response) => {
+                        console.log(response.data)
+                        this.categorylist = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                //获取首页商品
+                this.$post('/api/v1/ad', goods)
+                    .then((response) => {
+
+                        for (let i in response.data) {
+                            response.data[i].goods = response.data[i].goods.slice(0, 10)
+                        }
+                        this.lists = response.data;
+                        console.log(this.lists)
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                //获取新闻列表
+                this.$post('/api/v1/news', news)
+                    .then((response) => {
+                        console.log(response.data)
+                        this.news = response.data.items
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //搜索
             opensearch: function () {
                 Bus.$emit('val', true)
             },
+            // 签到
+            signtans: function () {
+                Bus.$emit('signtans', true)
+            }
+
         },
         created() {
             setTimeout(() => {
@@ -181,46 +230,7 @@
             }, 300)
         },
         mounted() {
-            const ad_data = {method: 'get.ad.banner.list'},
-                category = {method: 'get.category.list'},
-                goods = {method: 'get.ad.goods.list'},
-                news = {method: 'get.news.list'};
-            //获取banner
-            this.$post('/api/v1/ad', ad_data)
-                .then((response) => {
-                    console.log(response.data)
-                    this.bannermsg = response.data
-                }).catch(function (error) {
-                console.log(error);
-            });
-            //获取模块列表
-            this.$post('/api/v1/category', category)
-                .then((response) => {
-                    console.log(response.data)
-                    this.categorylist = response.data
-                }).catch(function (error) {
-                console.log(error);
-            });
-            //获取首页商品
-            this.$post('/api/v1/ad', goods)
-                .then((response) => {
-
-                    for (let i in response.data) {
-                        response.data[i].goods = response.data[i].goods.slice(0, 10)
-                    }
-                    this.lists = response.data;
-                    console.log(this.lists)
-                }).catch(function (error) {
-                console.log(error);
-            });
-            //获取新闻列表
-            this.$post('/api/v1/news', news)
-                .then((response) => {
-                    console.log(response.data)
-                    this.news = response.data.items
-                }).catch(function (error) {
-                console.log(error);
-            });
+            this.getHomeMsg()
 
         }
 
@@ -258,7 +268,7 @@
   /* 分类按钮 */
 
   .f-nav div img {
-    width: 100%;
+    width: 70%;
   }
 
 
@@ -288,6 +298,4 @@
   .el-carousel__indicators--vertical {
     display: none !important;
   }
-
-
 </style>

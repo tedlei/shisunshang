@@ -3,7 +3,7 @@ import Qs from 'qs'
 import {Toast} from "vant";
 import store from "../store";
 // let tokens = sessionStorage.getItem('token');
-let tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
+let tokens = store.state.isLogin;
 
 const baseURL = 'http://test.gj.wjeys.com';
 

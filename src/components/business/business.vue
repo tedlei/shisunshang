@@ -1,12 +1,10 @@
 <template>
   <div class="main_box">
     <header ref="header_h">
-      <!-- <div class="clo-g location">
-        <i class="el-icon-location-outline"></i>
-        <span>重庆</span>
-      </div> -->
-      <div style="margin-right:0.1rem"></div>
-      <search :dmsg="msg"></search>
+      <div @click="opensearch" style="width: 100%;margin-left:0.1rem">
+        <search :dmsg="msg"></search>
+      </div>
+
       <i class="el-icon-plus"></i>
     </header>
 
@@ -50,8 +48,8 @@
                       </span>
                   </div>
                   <div class="address">
-                      <span>电话：</span>
-                      <span>
+                    <span>电话：</span>
+                    <span>
                         {{item.mobile}}
                       </span>
                   </div>
@@ -64,7 +62,6 @@
         </el-main>
       </el-container>
     </el-container>
-
   </div>
 </template>
 
@@ -72,163 +69,111 @@
     import Header from "../header/header";
     import Search from "../search/search";
     import clientW from "../../assets/js/conmon";
-
-  export default {
-    name: "business",
-    components: {Search, Header},
-    data() {
-      return {
-        msg: '附近商家',
-        height: '1rem',
-        num: 0,
-        isUlliTwo: true,
-        isUlliTwoHeight: 1,
-        navChildren: [],
-        leftlists: [
-          // {
-          //   text: '全部',
-          //   children: [
-          //     // {
-          //     //   text: '温州',
-          //     //   // id，作为匹配选中状态的标识符
-          //     //   id: 1,
-          //     // },
-          //     // {
-          //     //   text: '内锅',
-          //     //   // id，作为匹配选中状态的标识符
-          //     //   id: 2,
-          //     // }
-          //   ]
-          // },
-          // {
-          //   text: '品质购物',
-          //   id: 1,
-          //   children: [
-          //     {
-          //       text: '温州',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 1,
-          //     },
-          //     {
-          //       text: '内锅',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 2,
-          //     }
-          //   ]
-          // },
-          // {
-          //   text: '狗蛋大妈',
-          //   id: 2,
-          //   children: [
-          //     {
-          //       text: '梅梅',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 1,
-          //     },
-          //     {
-          //       text: '靓仔',
-          //       // id，作为匹配选中状态的标识符
-          //       id: 2,
-          //     }
-          //   ]
-          // },
-        ],
-        cpylist: [
-          // {
-          //   img: 'company',
-          //   title: '重庆安利科技技术有限公司',
-          //   address: '重庆市渝北加工区七路与金渝大道交叉口北100米',
-          //   phone: '023-6345645',
-          //   long: '3.14公里'
-          // },
-        ]
-      }
-    },
-    methods: {
-      getNum  (index, children) {
-        this.num = index;
-        this.navChildren = children;
-        this.isUlliTwoHeight = index;
-        this.isUlliTwo = true;
-        if(index==0){
-          this.getDataTwo();
+    import Bus from "../../assets/js/bus";
+    export default {
+        name: "business",
+        components: {Search, Header},
+        data() {
+            return {
+                msg: '附近商家',
+                height: '1rem',
+                num: 0,
+                isUlliTwo: true,
+                isUlliTwoHeight: 1,
+                navChildren: [],
+                leftlists: [],
+                cpylist: []
+            }
+        },
+        methods: {
+            //搜索
+            opensearch: function () {
+                Bus.$emit('val', true)
+            },
+            getNum(index, children) {
+                this.num = index;
+                this.navChildren = children;
+                this.isUlliTwoHeight = index;
+                this.isUlliTwo = true;
+                if (index == 0) {
+                    this.getDataTwo();
+                }
+            },
+            navPush(list) {
+                for (var i in list) {
+                    this.leftlists.push({
+                        id: list[i].id,
+                        text: list[i].cate_name,
+                        children: list[i].sub,
+                    })
+                }
+                this.leftlists.unshift({
+                    id: 0,
+                    text: '全部',
+                    children: [],
+                })
+                // console.log(this.leftlists)
+            },
+            getData() {
+                // this.$store.commit("setLoading");
+                let ad_data = {
+                    method: "get.user.strre.category.list"
+                };
+                this.$post('/api/v1/UserStoreCategory', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            // this.$store.commit("setLoading");
+                            this.navPush(res.data);
+                            this.getDataTwo();
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getDataTwo(id) {
+                let ad_data = {};
+                if (id) {
+                    // console.log("有Id")
+                    ad_data = {
+                        method: "get.user.store.list",
+                        cate_id: id,
+                        page: 0,
+                        page_size: 20
+                    };
+                } else {
+                    // console.log("没得Id")
+                    ad_data = {
+                        method: "get.user.store.list",
+                        cate_id: 0,
+                        page: 0,
+                        page_size: 20
+                    };
+                }
+                this.$post('/api/v1/userStore', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            this.cpylist = res.data;
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            isUlliTwoAdd(id) {
+                this.isUlliTwo = false;
+                this.getDataTwo(id);
+            }
+        },
+        created() {
+            this.getData();
+        },
+        mounted() {
+            let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+            let topH = this.$refs.header_h.offsetHeight;
+            this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem';
         }
-      },
-      navPush (list){
-        for(var i in list){
-          this.leftlists.push({
-            id: list[i].id,
-            text: list[i].cate_name,
-            children: list[i].sub,
-          })
-        }
-        this.leftlists.unshift({
-          id: 0,
-          text: '全部',
-          children: [],
-        })
-        // console.log(this.leftlists)
-      },
-      getData () {
-        // this.$store.commit("setLoading");
-        let ad_data = {
-          method: "get.user.strre.category.list"
-        };
-        this.$post('/api/v1/UserStoreCategory', ad_data)
-        .then((res) => {
-          console.log(res);
-          if(res.status==200){
-            // this.$store.commit("setLoading");
-            this.navPush(res.data);
-            this.getDataTwo();
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      getDataTwo ( id ) {
-        let ad_data = {};
-        if(id){
-          // console.log("有Id")
-          ad_data = {
-            method: "get.user.store.list",
-            cate_id: id,
-            page: 0,
-            page_size: 20
-          };
-        }else{
-          // console.log("没得Id")
-          ad_data = {
-            method: "get.user.store.list",
-            cate_id: 0,
-            page: 0,
-            page_size: 20
-          };
-        }
-        this.$post('/api/v1/userStore', ad_data)
-        .then((res) => {
-          console.log(res);
-          if(res.status==200){
-            this.cpylist = res.data;
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      isUlliTwoAdd ( id ) {
-        this.isUlliTwo = false;
-        this.getDataTwo(id);
-      }
-    },
-    created () {
-      this.getData();
-    },
-    mounted() {
-      let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-      let topH = this.$refs.header_h.offsetHeight;
-      this.height = (h - topH - 70*clientW/100)/clientW + 'rem';
     }
-  }
 </script>
 
 <style lang="scss" scoped>

@@ -5,6 +5,7 @@
     <router-view/>
     <loading v-show="$store.getters.getLoading"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
+    <search-result></search-result>
   </div>
 </template>
 
@@ -12,10 +13,10 @@
     import Footer from './components/footer/footer.vue';
     import Header from "./components/header/header";
     import loading from "./components/loading/loading";
-
+    import SearchResult from "./components/children/searchResult/searchResult";
     export default {
         name: 'App',
-        components: {Header, Footer, loading},
+        components: {SearchResult, Header, Footer, loading},
         data() {
             return {
                 path: '',
