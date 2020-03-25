@@ -44,7 +44,7 @@
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
                 />
-                <div class="cate_name">{{goodsitem.cate_name}}</div>
+                <div class="cate_name" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
               </li>
             </ul>
           </div>
