@@ -28,7 +28,7 @@
           </div>
           <div class="minOne">
                 <p>
-                  <!-- {{item.num}} -->
+                  {{$store.state.cart.getshops.follow_num}}
                 </p>
               <p>关注人数</p>
           </div>

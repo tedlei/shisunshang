@@ -33,6 +33,8 @@ export default {
         ],
         getshops:{},
         goodsData:{},
-        empty: false
+        invoice: {},
+        receivingAddress: {},
+        empty: false,
     }
 }

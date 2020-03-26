@@ -76,5 +76,11 @@ export default {
   },
   setEmptyNo(state, data) {
     state.cart.empty = false;
+  },
+  setinvoice(state, data){
+    state.cart.invoice = data;
+  },
+  setreceivingAddress(state, data){
+    state.cart.receivingAddress = data;
   }
 }

@@ -2,13 +2,13 @@
   <div class="content" :style="addresslist== null ? {paddingBottom:0}:''">
     <ul class="address_list" v-show="addresslist != null">
       <li class="common_box" v-for="(item, index) in addresslist" :key="item.id">
-        <div class="top">
+        <div @click="rouMake(item)" class="top">
           <div>
             <span>{{item.name}}</span>
             <span>{{item.phone}}</span>
           </div>
           <div class="adress">
-            {{item.province}}&nbsp;{{item.city}}&nbsp;{{item.area}}
+            {{item.province}}&nbsp;{{item.city}}&nbsp;{{item.area}}&nbsp;{{item.address}}
           </div>
         </div>
         <div class="bottom">
@@ -135,8 +135,14 @@
                     }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            //订单入口选择收货地址
+            rouMake( data ) {
+              if(this.$route.query.id == 'makeorder'){
+                this.$store.commit('setreceivingAddress',data);
+                this.$router.back(-1);
+              }
             }
-
         },
         mounted() {
             this.getaddress()

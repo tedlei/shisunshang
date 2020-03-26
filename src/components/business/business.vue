@@ -9,14 +9,12 @@
       <search :dmsg="msg"></search>
       <i class="el-icon-plus"></i>
     </header>
-
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
       <el-aside width="0.9rem">
         <ul class="left">
           <li v-for="(item,index) in leftlists" :key="index" :class="num==index?'active':''"
               @click="getNum(index,item.children)">
             <span>{{item.text}}</span>
-
           </li>
         </ul>
       </el-aside>
@@ -39,7 +37,7 @@
                 />
               </div>
               <div class="right_msg">
-                <router-link to="/business/storemsg">
+                <router-link :to="{path:'/business/storemsg',query:{id: item.id}}">
                   <p class="p1 fontWrap fontWrapOne">
                     {{item.name}}
                   </p>

@@ -236,6 +236,12 @@ export default new Router({
           meta: {title: '申请推荐开店', showFooter: false, goods: false,}
         },
         {
+          path: '/mine/merchantApplication',
+          name: 'merchantApplication',
+          component: resolve => require(['@/components/children/merchantApplication/merchantApplication'], resolve),
+          meta: {title: '商家入驻', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/ad',
           name: 'ad',
           component: resolve => require(['@/components/children/ad/ad'], resolve),

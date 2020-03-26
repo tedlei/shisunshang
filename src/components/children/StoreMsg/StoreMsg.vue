@@ -1,28 +1,33 @@
 <template>
   <div class="content">
     <div class="store_banner">
-      <img src="../../../assets/img/storebanner.png">
+      <van-image
+        width="100%"
+        height="3rem"
+        fit="fill"
+        :src="shops.imgurl"
+      />
     </div>
     <div class="common_box store_msg">
       <div class="name">
-        {{name}}
+        {{shops.name}}
       </div>
       <div class="time">
-        营业时间：{{starttime}} - {{endtime}}
+        营业时间：{{shops.bus_hours}}
       </div>
       <div class="adress">
-        <div>地址：{{adress}}</div>
-        <div class="clo-g juli">距你步行3.63公里</div>
+        <div>地址：{{shops.address}}</div>
+        <!-- <div class="clo-g juli">距你步行3.63公里</div> -->
       </div>
     </div>
 
     <div class="common_box introduce">
-      <p>经营范围：食品销售经营、巴马水专营、日用百货、食品销售经营、巴马水专营、
-        日用百货、食品销售经营、巴马水专营、日用百货、食品销售经营、巴马水专营、
-        日用百货、</p>
+      <p>
+        {{shops.bus_scope}}
+      </p>
       <el-row class="introduce_img" :gutter="20">
-        <el-col v-for="(item,index) in 3" :key="index" :span="8" >
-          <div class="grid-content bg-purple"><img src="../../../assets/img/company1.png"></div>
+        <el-col v-for="(item,index) in shops.album" :key="index" :span="8" >
+          <div class="grid-content bg-purple"><img :src="item"></div>
         </el-col>
       </el-row>
 
@@ -45,17 +50,39 @@
     name: "StoreMsg",
     data() {
       return {
+        shops: {},
         name: '重庆石笋山公司',
         starttime: '09:00',
         endtime: '18:00',
         adress: '重庆市江北区金渝大道168号'
       }
+    },
+    methods:{
+      getData () {
+        let ad_data = {
+          method: 'get.user.store.item',
+          id: this.$route.query.id
+        };
+        this.$post('/api/v1/userStore', ad_data)
+        .then((res) => {
+          console.log(res);
+          this.shops = res.data;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+    mounted () {
+      this.getData();
     }
   }
 </script>
 
 <style scoped lang="scss">
   .content {
+    .store_banner{
+      background-color: #fff;
+    }
     .store_msg {
       text-align: left;
       padding: 15px;

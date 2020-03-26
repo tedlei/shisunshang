@@ -20,6 +20,7 @@
           <div>
             <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
             <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
+            <!-- <span class="" v-show="$route.query.printid == 2">{{item.companynam}}</span> -->
             <!-- <i class="el-icon-delete"></i> -->
           </div>
         </div>
@@ -171,7 +172,7 @@
       },
 
       myfootprintDataPush (data) {
-        // console.log(data);
+        console.log(data);
         for(var i in data){
           if(data[i].goods !=undefined && data[i].goods != null){
             this.goodslist.push({
@@ -192,12 +193,25 @@
           this.goodslist.push({
             id: data[i].id,
             name: data[i].company,
-            imgsrc: data[i].imgsrc,
+            imgsrc: data[i].thumb,
             checked: false
           })
         }
         // console.log(this.goodslist)
       },
+
+      footprintPush (data) {
+        for(var i in data){
+          this.goodslist.push({
+            id: data[i].id,
+            name: data[i].goods.name,
+            imgsrc: data[i].goods.imgsrc,
+            price: data[i].goods.price,
+            checked: false
+          })
+        }
+      },
+
       //获取数据
       getData () {
         if(this.$route.query.printid==0){
@@ -222,6 +236,17 @@
           .then((res) => {
             console.log(res)
             this.collectionShop(res.data.items);
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }else if(this.$route.query.printid==2){
+          let ad_data = {
+            method: 'get.user.footprint.list'
+          };
+          this.$post('/api/v1/UserFootprint', ad_data)
+          .then((res) => {
+            console.log(res)
+            this.footprintPush(res.data.items);
           }).catch(function (error) {
               console.log(error);
           });
@@ -266,6 +291,23 @@
             console.log(res);
             if(res.status == 200){
               this.$store.commit("setLoading");
+              this.getData();
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }else if(this.$route.query.printid==2){
+          let ad_data = {
+            method: "del.cuser.footprint.list",
+            id: _id
+          };
+          // console.log(ad_data);
+          this.$post('/api/v1/UserFootprint', ad_data)
+          .then((res) => {
+            console.log(res);
+            if(res.status == 200){
+              this.$store.commit("setLoading");
+              this.getData();
             }
           }).catch(function (error) {
               console.log(error);

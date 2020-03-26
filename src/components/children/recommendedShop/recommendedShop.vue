@@ -6,7 +6,7 @@
             <div class="address" @click="show=true">
                 <div>
                     <span>所属区域：</span>
-                    <span>选择省/市/区</span>
+                    <span>{{province}}/{{city}}/{{county}}</span>
                 </div>
                 <van-icon name="arrow" color='#9d9f9f'/>
             </div>
@@ -20,7 +20,7 @@
                     :after-read="afterRead" 
                     v-model="fileList" 
                     multiple 
-                    :max-count="4"
+                    :max-count="2"
                 />
             </div>
             <div class="hrDiv"></div>
@@ -53,6 +53,9 @@
   data () {
     return {
         areaList: Area,
+        province: '选择省',
+        city: '市',
+        county: '（区/县）',
         show: false,
         input: '',
         input1: '',
@@ -63,7 +66,11 @@
     }
   },
   methods: {
-      confirm () {
+      confirm ( e ) {
+        //   console.log(e);
+          this.province = e[0].name;
+          this.city = e[1].name;
+          this.county = e[2].name;
           this.show = false;
       },
         afterRead (file) {

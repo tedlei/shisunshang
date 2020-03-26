@@ -77,7 +77,7 @@
     },
     OSS ( token, domain ) {
       const qiniu = require('qiniu-js');
-      const postfix = this.imgList[0].name.substring(this.imgList[0].name.lastIndexOf('.'), this.imgList[0].name.length);
+      let postfix = this.imgList[0].name.substring(this.imgList[0].name.lastIndexOf('.'), this.imgList[0].name.length);
       let name = new Date().getTime() + Math.ceil(Math.random()*100)+postfix;
       // console.log(name)
       const putExtra = {

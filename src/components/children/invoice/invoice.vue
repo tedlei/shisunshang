@@ -158,6 +158,21 @@
         },
         methods: {
             onSubmit(values) {
+                let invoice = {
+                  type: this.radioTwo,
+                  title: this.companyInput,
+                  number: this.companyInput2,
+                  company_address: this.companyInput3,
+                  conpany_phone: this.companyInput4,
+                  conpany_bank: this.companyInput6,
+                  conpany_bank_number: this.companyInput7,
+                }
+                if(this.radioTwo=='2'){
+                  invoice = {
+                    type: this.radioTwo,
+                    title: this.personalInput
+                  }
+                }
                 let parms = {
                     method: 'add.invoice.item',
                     type: Number(this.radio),
@@ -167,10 +182,9 @@
                 this.$post('/api/v1/Invoice', values)
                     .then((res) => {
                         if (res.status == 200) {
+                          this.$store.commit('setinvoice',invoice);
                             this.$toast('添加成功')
-                            setTimeout(() => {
-                                this.$router.back(-1);
-                            }, 2000)
+                            this.$router.back(-1);
                         } else {
                             this.$toast(res.message)
                         }

@@ -6,12 +6,20 @@
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
     <div class="common_box adress">
-      <router-link to="/mine/Address" class="common">
+      <router-link :to="{path:'/mine/Address',query:{id: 'makeorder'}}" class="common">
         <div class="left">
           <i class="el-icon-location"></i>
           <span>
-            <p>大哥&nbsp;15320495341</p>
-            <p class="fontWrap fontWrapOne">重庆市&nbsp;江北区&nbsp;五里店</p>
+            <p>
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.name:orderData.address_default.name}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.phone:orderData.address_default.phone}}
+            </p>
+            <p class="fontWrap fontWrapOne">
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.province:orderData.address_default.province}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.city:orderData.address_default.city}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.area:orderData.address_default.area}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.address:orderData.address_default.address}}
+            </p>
           </span>
         </div>
         <div class="right">
@@ -149,6 +157,9 @@
                 input: '',
                 checked: true,
                 orderData: {
+                    address_default: {
+
+                    },
                     shops: [
                          {  total_num:'',
                             goods: [
@@ -230,18 +241,24 @@
                 let goods_num = this.$route.query.num;
                 // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
                 let buy_type = this.$route.query.buy_type;
-                let address_id = this.orderData.address_default.id;
+                let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
                 let is_cz_price = this.checked ? 1 : 0;
                 // console.log(address_id);
                 //发票信息
+                let invoice = this.$store.getters.getinvoice;
                 let invoice_detail = [];
-                    invoice_detail['type'] = '1';
-                    invoice_detail['title'] = '啊啊';
-                    invoice_detail['number'] = '2321321';
-                    invoice_detail['company_address'] = '重庆';
-                    invoice_detail['conpany_phone'] = '1354578452';
-                    invoice_detail['conpany_bank'] = '农业';
-                    invoice_detail['conpany_bank_number'] = '重庆';
+                if(invoice.type=='2'){
+                  invoice_detail['type'] = invoice.type;
+                  invoice_detail['title'] = invoice.title;
+                }else{
+                  invoice_detail['type'] = invoice.type;
+                  invoice_detail['title'] = invoice.title;
+                  invoice_detail['number'] = invoice.number;
+                  invoice_detail['company_address'] = invoice.company_address;
+                  invoice_detail['conpany_phone'] = invoice.conpany_phone;
+                  invoice_detail['conpany_bank'] = invoice.conpany_bank;
+                  invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
+                }
                 let ad_data = {
                     method: "buy.goods.now",
                     goods_id: goods_id,
@@ -251,7 +268,7 @@
                     address_id: address_id,
                     is_cz_price: is_cz_price,
                     remark: this.input,
-                    is_invoice: '1',  //发票信息0不要
+                    is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
                     invoice_detail: invoice_detail
                 };
                 // console.log(ad_data);
@@ -292,22 +309,27 @@
           //购物车提交
           ploadOrderTwo() {
             let is_cz_price = this.checked ? 1 : 0;
-            let address_id = this.orderData.address_default.id;
+            let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
             let invoice_detail = [];
-                invoice_detail['type'] = '1';
-                invoice_detail['title'] = '啊啊';
-                invoice_detail['number'] = '2321321';
-                invoice_detail['company_address'] = '重庆';
-                invoice_detail['conpany_phone'] = '1354578452';
-                invoice_detail['conpany_bank'] = '农业';
-                invoice_detail['conpany_bank_number'] = '重庆';
+            if(invoice.type=='2'){
+              invoice_detail['type'] = invoice.type;
+              invoice_detail['title'] = invoice.title;
+            }else{
+              invoice_detail['type'] = invoice.type;
+              invoice_detail['title'] = invoice.title;
+              invoice_detail['number'] = invoice.number;
+              invoice_detail['company_address'] = invoice.company_address;
+              invoice_detail['conpany_phone'] = invoice.conpany_phone;
+              invoice_detail['conpany_bank'] = invoice.conpany_bank;
+              invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
+            }
             let ad_data = {
                 method: "buy.goods.cart",
                 goods: this.$route.query.id,
                 address_id: address_id,
                 is_cz_price: is_cz_price,
                 remark: this.input,
-                is_invoice: '1',  //发票信息0不要
+                is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
                 invoice_detail: invoice_detail
             };
             console.log(ad_data)
@@ -399,7 +421,8 @@
           }
         },
         created() {
-
+          // console.log(this.$store.state.IvcMsg);
+          // console.log(this.$store.getters.getreceivingAddress.id)
         },
 
     }

@@ -54,5 +54,11 @@ export default {
   },
   getEmpty (state) {
       return state.cart.empty;
+  },
+  getinvoice (state) {
+    return state.cart.invoice;
+  },
+  getreceivingAddress (state) {
+    return state.cart.receivingAddress;
   }
 }

@@ -1,9 +1,14 @@
 <template>
   <div>
     <div class="navigation" v-show="!this.$route.query.recordid">
-      <ul class="clearfix">
+      <!-- <ul class="clearfix">
         <li v-for="(item,index) in navItems" :key="index" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
-      </ul>
+      </ul> -->
+      <van-tabs v-model="active" @click="onClick">
+        <van-tab v-for="(item,index) in navItems" :key="index" :title="item" >
+          <!-- 内容 {{ item }} -->
+        </van-tab>
+      </van-tabs>
     </div>
     <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">
       <van-list
@@ -39,6 +44,7 @@
         name: "record",
         data() {
             return {
+                active:0,
                 num: 0,
                 navItems: ['全部', '充值账户', '补贴账户', '推广账户', '代理账户', '签到现金'],
                 list: [],
@@ -63,6 +69,7 @@
                     .then((response) => {
                         this.list = this.list.concat(response.data.items)
                         // 加载状态结束
+                        console.log(this.list)
                         this.loading = false;
                         this.pages += response.data.items.length;
                         // 数据全部加载完成
@@ -83,14 +90,32 @@
             //切换
             getNum: function (index) {
                 this.num = index;
-            }
+            },
+            getData () {
+              let ad_data = {
+                method: 'get.money.list',
+                page: 0,
+                page_size: 10,
+                type: this.active
+              };
+              this.$post('/api/v1/userMoney', ad_data)
+              .then((res) => {
+                console.log(res)
+                this.list = res.data.items;
+              }).catch(function (error) {
+                  console.log(error);
+              });
+            },
+            onClick ( ) {
+              this.getData();
+            },
         },
         updated() {
             // this.onLoad()
         },
         mounted() {
-
-            this.getMoney()
+          // this.getData();
+          this.getMoney();
         }
     }
 </script>

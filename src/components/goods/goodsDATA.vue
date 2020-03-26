@@ -258,7 +258,6 @@
           //   'goodsrice': '￥98.00',
           //   'goodsimg': 'goods_img'
           // },
-          
         ],
           
         goodsData: {
@@ -517,6 +516,21 @@
           this.getRecommend();
       },
 
+      //添加足迹
+      Addfootprints () {
+        let ad_data = {
+          method: 'add.user.footprint.item',
+          goods_id: this.$route.query.id
+        };
+        this.$post('/api/v1/UserFootprint', ad_data)
+        .then((res) => {
+          // console.log(res)
+          
+        }).catch(function (error) {
+            console.log(error);
+        });
+      },
+
       //收藏商品
       collection () { 
         this.$store.commit("setLoading");
@@ -580,7 +594,6 @@
           this.$router.go(-1)
         }
       },
-
       // 关闭窗口
       handleClose(done) {
         let list = this.goodsData.specData.spec_attr;
@@ -604,19 +617,14 @@
     created () {
       // console.log(this.$route.query.id)
       this.getDATA();
+      this.Addfootprints();
     },
     updated () {
       
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
-      // setTimeout(() => {
-      //   this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
-      // }, 1000);
-      // this.$nextTick(() => {
-      //   this.boxHeight = this.$refs.boxSize[0].offsetHeight + 20;
-      //   // console.log(this.$refs.boxSize[0].offsetHeight)
-      // })
+      
     },
   
   }
