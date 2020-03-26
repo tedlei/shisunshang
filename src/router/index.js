@@ -12,6 +12,7 @@ import author from '../components/author'
 
 import goodsDATA from '../components/goods/goodsDATA'
 import storeDetails from '../components/storeDetails/storeDetails'
+import articles from '../components/children/ad/articles'
 // const order = resolve => require(['@/components/order/order'], resolve)
 
 Vue.use(Router)
@@ -252,7 +253,7 @@ export default new Router({
         {
           path: '/mine/ad/articles',
           name: 'articles',
-          component: resolve => require(['@/components/children/ad/articles'], resolve),
+          component: articles,
           meta: {title: '发布文章', showFooter: false, goods: false,}
         },
         {

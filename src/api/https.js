@@ -3,13 +3,18 @@ import Qs from 'qs'
 import {Toast} from "vant";
 import store from "../store";
 
-let i = 1;
+
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-  tokens = store.state.isLogin;
-  console.log(store.state.isLogin)
-  console.log(i+=1)
+  if (!tokens) {
+    setTimeout(() => {
+      tokens = store.state.isLogin;
+    }, 1000)
+  } else {
+    tokens = store.state.isLogin;
+  }
+
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
 }
@@ -26,11 +31,11 @@ axios.interceptors.request.use(
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      'token': store.state.isLogin || '',
+      // 'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
-    if (tokens) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.token = tokens;
-    }
+
     return config;
   },
   err => {
@@ -102,9 +107,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     //如果token值发生改变的时候，替换token值
-    if (response.headers.token) {
-      store.commit('isLogin', response.headers.token);
-    }
+    // if (response.headers.token) {
+    //   store.commit('isLogin', response.headers.token);
+    // }
     return response;
   },
   error => {

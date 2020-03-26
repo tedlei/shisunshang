@@ -17,7 +17,7 @@
               </span>
             </div>
           </div>
-          <img :src="require('../../../assets/img/recharge_btn'+(Number(index)+1)+'.png')" class="icon3"
+          <img src="../../../assets/img/recharge_btn1.png" class="icon3"
                @click="pay(index)">
         </li>
       </ul>

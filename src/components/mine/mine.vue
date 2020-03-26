@@ -315,23 +315,14 @@
             //获取用户信息并存储
             getuserinfo: function () {
                 let _this = this;
-                let userinfo = {
-                    method: 'get.user.info'
+                let data = JSON.parse(this.$store.getters.getuserinfo);
+                for (let i in _this.zclists) {
+                    _this.zclists[i].num = Number(data['money' + (Number(i) + 1)])
                 }
-                this.$post('/api/v1/user', userinfo)
-                    .then((response) => {
-                        for (var i in _this.zclists) {
-                            _this.zclists[i].num = Number(response.data['money' + (Number(i) + 1)])
-                        }
-                        _this.portrait = response.data.portrait
-                        _this.username = response.data.name;
-                        _this.phone = response.data.phone;
-                        _this.level_name = response.data.level_name;
-                        _this.$store.commit('userinfo', JSON.stringify(response.data))
-                        console.log(response)
-                    }).catch(function (error) {
-                    console.log(error);
-                });
+                _this.portrait = data.portrait
+                _this.username = data.name;
+                _this.phone = data.phone;
+                _this.level_name = data.level_name;
             },
             //获取收藏数量，累计
             getuserindex: function () {
