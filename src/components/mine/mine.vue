@@ -8,7 +8,7 @@
         <div style="display: flex">
           <div class="user_header">
             <router-link to="/mine/usermsg">
-              <img src="../../assets/img/company.png" class="">
+              <img :src="portrait" class="">
             </router-link>
           </div>
           <div class="user_msg">
@@ -155,6 +155,7 @@
             return {
                 msg: '我的',
                 username: '',
+                portrait:'',
                 phone: '',
                 level_name: '',
                 day_money:0,
@@ -322,6 +323,7 @@
                         for (var i in _this.zclists) {
                             _this.zclists[i].num = Number(response.data['money' + (Number(i) + 1)])
                         }
+                        _this.portrait = response.data.portrait
                         _this.username = response.data.name;
                         _this.phone = response.data.phone;
                         _this.level_name = response.data.level_name;

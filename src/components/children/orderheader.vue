@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :style="{height:this.$route.name == 'Special-area'?'0.55rem':''}">
     <i class="el-icon-arrow-left back" @click="nobackss" style="left: 5px;" v-show="!noback"></i>
     <i class="el-icon-arrow-left back" @click="$router.back(-1)" style="left: 5px;" v-show="noback"></i>
     <div class="center_name" v-show="this.$route.name != 'Special-area'">

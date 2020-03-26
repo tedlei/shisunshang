@@ -44,14 +44,13 @@
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
                 />
-                <div class="cate_name">{{goodsitem.cate_name}}</div>
+                <div class="cate_name" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
               </li>
             </ul>
           </div>
         </el-main>
       </el-container>
     </el-container>
-    <searchResult></searchResult>
   </div>
 
 </template>
@@ -61,12 +60,11 @@
     import Header from "../header/header";
     import Search from "../search/search";
     import Bus from "../../assets/js/bus";
-    import SearchResult from "../children/searchResult/searchResult";
     import clientW from '../../assets/js/conmon'
 
     export default {
         name: "classification",
-        components: {SearchResult, Search, Header},
+        components: { Search, Header},
         data() {
             return {
                 msg: '分类',

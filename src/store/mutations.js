@@ -49,7 +49,7 @@ export default {
   },
   isLogin(state, token) {
     state.isLogin = token;
-    sessionStorage.setItem('isLogin', token)
+    localStorage.setItem('isLogin', token)
   },
   LoginOut(state) {
     localStorage.clear();

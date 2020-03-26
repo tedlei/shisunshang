@@ -110,7 +110,7 @@
         </el-row>
     </div>
     <!--  有购物车结算  -->
-    <div class="settlement" v-show="true">
+    <div class="settlement" v-show="isCart">
       <div class="left_check">
         <div :class="allChecked ?'allElection':'allElectionShow'" @click="chooseAllGoods($event)">
             <div v-show="allChecked">
@@ -154,7 +154,7 @@ export default {
           //   'Sold': '123件',
           //   'goodsimg': 'goods_img'
           // }
-          
+
         ],
 
         isCart: false,
@@ -194,7 +194,7 @@ export default {
             goodsimg: res.data[i].imgsrc,
           })
         }
-       
+
       }).catch(function (error) {
         console.log(error);
       });
