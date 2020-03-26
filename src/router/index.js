@@ -238,6 +238,12 @@ export default new Router({
           meta: {title: '微信营销广告', showFooter: false, goods: false,}
         },
         {
+          path: '/mine/myShare',
+          name: 'myShare',
+          component: resolve => require(['@/components/mine/myShare/myShare'], resolve),
+          meta: {title: '我的分享', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/ad/addetails',
           name: 'addetails',
           component: resolve => require(['@/components/children/ad/addetails'], resolve),

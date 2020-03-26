@@ -17,6 +17,7 @@
     "jquery": "^3.4.1",
     "mint-ui": "^2.2.13",
     "qiniu-js": "^2.5.5",
+    "qrcodejs2": "0.0.2",
     "qs": "^6.9.1",
     "sass-resources-loader": "^2.0.1",
     "swiper": "^4.5.0",
