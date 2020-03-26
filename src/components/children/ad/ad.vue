@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <ul class="ad_list">
-      <li v-for="(item,index) in adlists">
+      <li v-for="(item,index) in adlists" :key="index">
         <router-link :to="{path:'/mine/ad/addetails',query:{id:item.id}}">
           <div class="left_img">
             <img :src="item.img">
