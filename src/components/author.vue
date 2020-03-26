@@ -10,12 +10,14 @@
         data() {
             return {}
         },
-        async created() {
+
+        created() {
             // 如果连接中有微信返回的 code，则用此 code 调用后端接口，向微信服务器请求用户信息
             // 如果不是从微信重定向过来的，没有带着微信的 code，则直接进入首页
             if (this.$route.query.code) {
-                var code = this.getUrlParam('code');
-                var state = this.getUrlParam('state');
+                let code = this.getUrlParam('code');
+                let state = this.getUrlParam('state');
+                localStorage.setItem('code', code);
                 let msg = {
                     method: 'login.wechat.oauth2.step2',
                     code: code,
@@ -26,8 +28,9 @@
                         if (response.status == 200) {
                             this.$store.commit('isLogin', response.data.token);
                             setTimeout(() => {
+                                console.log(1111111111111111111111)
                                 this.$router.push({
-                                    path:'/'
+                                    path: '/'
                                 })
                             }, 2000)
                         }

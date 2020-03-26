@@ -2,8 +2,17 @@ import axios from 'axios';
 import Qs from 'qs'
 import {Toast} from "vant";
 import store from "../store";
-// let tokens = sessionStorage.getItem('token');
-let tokens = store.state.isLogin;
+
+let i = 1;
+let tokens = '';
+let ua = window.navigator.userAgent.toLocaleLowerCase();
+if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+  tokens = store.state.isLogin;
+  console.log(store.state.isLogin)
+  console.log(i+=1)
+} else {
+  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
+}
 
 const baseURL = 'http://test.gj.wjeys.com';
 
@@ -17,15 +26,11 @@ axios.interceptors.request.use(
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      // 'Authorization': tokens
       // 'Content-Type': 'multipart/form-data'
     };
-    // if (tokens) {
-    //   config.headers.Authorization = tokens
-    // }
-    // if(tokens){
-    //   config.params = {'token':tokens}
-    // }
+    if (tokens) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers.token = tokens;
+    }
     return config;
   },
   err => {
@@ -96,11 +101,9 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    if (response.data.errCode == 2) {
-      this.$router.push({
-        path: "/login",
-        query: {redirect: this.$router.currentRoute.fullPath}//从哪个页面跳转
-      })
+    //如果token值发生改变的时候，替换token值
+    if (response.headers.token) {
+      store.commit('isLogin', response.headers.token);
     }
     return response;
   },
@@ -164,7 +167,7 @@ export function fetch(url, params = {}) {
  * @returns {Promise}
  */
 export function post(url, params,) {
-  params.token = tokens;
+  params.token1 = 'code';
   return new Promise((resolve, reject) => {
     axios.post(url, Qs.stringify(params),)
       .then(response => {

@@ -20,7 +20,7 @@ const state = {
   IvcMsg: 1,
   searchVal: '',
   Val:'',
-  userinfo: sessionStorage.getItem('userinfo'),
+  userinfo: localStorage.getItem('userinfo'),
   isLogin: localStorage.getItem('isLogin')
 }
 // getters 只会依赖 state 中的成员去更新

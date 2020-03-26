@@ -47,23 +47,13 @@
     <div style="padding:0.1rem">
       <el-row :gutter="0" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
-          <div class="item">
-            <router-link :to="{path:'/Special-area',query:{typeid:item.module}}">
-              <img :src="item.icon">
-              <p>{{item.cate_name}}</p>
-            </router-link>
+          <div class="item" @click="doting(item.id,item.module)">
+            <img :src="item.icon">
+            <p>{{item.cate_name}}</p>
           </div>
         </el-col>
       </el-row>
-      <div>
-        <router-link to="/uploadpic">拍照上传</router-link>
-      </div>
-      <div>
-        <router-link to="/Luckdraw">抽奖</router-link>
-      </div>
-      <div @click="signtans">
-        签到
-      </div>
+
 
     </div>
     <!--  公告  -->
@@ -165,10 +155,6 @@
                 //获取首页商品
                 this.$post('/api/v1/ad', goods)
                     .then((response) => {
-
-                        for (let i in response.data) {
-                            response.data[i].goods = response.data[i].goods.slice(0, 10)
-                        }
                         this.lists = response.data;
                         console.log(this.lists)
                     }).catch(function (error) {
@@ -183,14 +169,32 @@
                     console.log(error);
                 });
             },
+            //分类按钮
+            doting: function (e, m) {
+
+                if (e == 5) {
+                    this.$router.push({
+                        path: '/Luckdraw'
+                    })
+                } else if (e == 7) {
+                    Bus.$emit('signtans', true)
+                } else if (e == 8) {
+                    this.$router.push({
+                        path: '/uploadpic'
+                    })
+                } else {
+                    this.$router.push({
+                        path: '/Special-area',
+                        query: {typeid: m}
+                    })
+
+                }
+
+            },
             //搜索
             opensearch: function () {
                 Bus.$emit('val', true)
             },
-            // 签到
-            signtans: function () {
-                Bus.$emit('signtans', true)
-            }
 
         },
         created() {

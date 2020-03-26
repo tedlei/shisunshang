@@ -45,12 +45,13 @@ export default {
 
   userinfo(state, res) {
     state.userinfo = res
-    sessionStorage.setItem('userinfo', res)
+    localStorage.setItem('userinfo', res)
   },
   isLogin(state, token) {
     state.isLogin = token;
     localStorage.setItem('isLogin', token)
   },
+
   LoginOut(state) {
     localStorage.clear();
     state.user_name = '';

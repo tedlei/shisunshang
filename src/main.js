@@ -30,18 +30,38 @@ Vue.use(Vant);
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
-  let tokens = store.state.isLogin;
-  if (!tokens) {
-    store.commit('isLogin', '');
-    //请求微信授权,并跳转到 /WxAuth 路由
-    let appId = 'wxf730b0b04586d06f'
-    let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
-    setTimeout(()=>{
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
-    },1000)
+  //===== 判断是否为微信浏览器 =====
+  let ua = window.navigator.userAgent.toLocaleLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+    if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
+      let tokens = store.state.isLogin;
+      let phone = getUrlParam('state') || '';
+      if (!tokens) {
+        //请求微信授权,并跳转到 /WxAuth 路由
+        let appId = 'wxf730b0b04586d06f';
+        let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
+        setTimeout(() => {
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${phone}#wechat_redirect`
+        }, 1000)
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
   } else {
     next();
+  };
+
+// 解析url参数并获取code
+  function getUrlParam(name) {   //name为要获取的参数名
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var rrr = decodeURIComponent(window.location.search);
+    var r = rrr.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
   }
+
 
   window.scrollTo(0, 0);
   /*路由发生改变修改页面的title */

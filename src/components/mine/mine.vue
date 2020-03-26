@@ -155,13 +155,13 @@
             return {
                 msg: '我的',
                 username: '',
-                portrait:'',
+                portrait: '',
                 phone: '',
                 level_name: '',
-                day_money:0,
-                total_money:0,
-                use_money:0,
-                cashed_money:0,
+                day_money: 0,
+                total_money: 0,
+                use_money: 0,
+                cashed_money: 0,
                 headerlists: [
                     {
                         num: 0,
@@ -251,7 +251,7 @@
                     {
                         img: 'gj2',
                         name: '我的分享',
-                        linkto: '/mine/ad'
+                        linkto: '/mine/myShare'
                     },
                     {
                         img: 'gj3',
