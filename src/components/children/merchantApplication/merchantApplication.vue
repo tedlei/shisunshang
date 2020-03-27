@@ -109,6 +109,7 @@
         input3: '',
         fileList: [],
         fileListTwo:[],
+        upfileListTwo:[],
         imgurls:[],
     }
   },
@@ -158,7 +159,7 @@
                   let list = this.classArr[i].children;
                   for(var n in list){
                       if(list[n].text==e[1]){
-                          this.upclassId = list[n].id;
+                        this.upclassId = list[n].id;
                       }
                   }
               }
@@ -195,7 +196,7 @@
             .then((res) => {
               console.log(res);
               if(res.status==200){
-                  this.$router.push({path: '/business'});
+                  this.$router.push({path: '/mine/nearby'});
               }else{
                   this.$toast(res.message);
               }
@@ -203,65 +204,122 @@
                 console.log(error);
             }); 
       },
-    uploadImg() {
-      // console.log(this.imgList)
-      let ad_data={
-        method: 'get.qiniu.upload.token'
-      };
-      this.$post('/api/v1/uploads', ad_data)
-      .then((res) => {
-        console.log(res)
-        this.OSS(res.data.token, res.data.domain);
-      }).catch(function (error) {
-          console.log(error);
-      });
-    },
-    OSS ( token, domain ) {
-        let imgList = [...this.fileList,...this.fileListTwo];
-        for(let i in imgList){
-            // console.log(imgList[i].file.name)
-            const qiniu = require('qiniu-js');
-            let postfix = imgList[i].file.name.substring(imgList[i].file.name.lastIndexOf('.'), imgList[i].file.name.length);
-            let name = new Date().getTime() + Math.ceil(Math.random()*100)+postfix;
-            // console.log(name)
-            const putExtra = {
-              fname: imgList[i].file.name,
-              params: {},
-              mimeType: ["image/png", "image/jpeg", "image/jpg"]
-            }
-            const config = {
-              useCdnDomain: true
-            }
-            let observable = qiniu.upload(imgList[i].file, name, token, putExtra, config);
-            // let subscription = observable.subscribe(observer) // 上传开始
-            observable.subscribe({
-              next: (result) => {
-              // 主要用来展示进度
-                // console.log(result)
-              },
-              error: (errResult) => {
-              // 失败报错信息
-                console.log(errResult)
-              },
-              complete: (result) => {
-              // 接收成功后返回的信息
-                console.log(result)
-                let add = domain+result.key;
-                this.imgurls.push(add);
-                if(this.imgurls.length==imgList.length){
-                    console.log(1)
-                    this.upData();
+        uploadImg() {
+            // console.log(this.imgList)
+            let ad_data={
+              method: 'get.qiniu.upload.token'
+            };
+            this.$post('/api/v1/uploads', ad_data)
+            .then((res) => {
+              console.log(res)
+              this.OSS(res.data.token, res.data.domain);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        OSS ( token, domain ) {
+            let imgList = [...this.fileList,...this.upfileListTwo];
+            for(let i in imgList){
+                const qiniu = require('qiniu-js');
+                let postfix = imgList[i].file.name.substring(imgList[i].file.name.lastIndexOf('.'), imgList[i].file.name.length);
+                let name = new Date().getTime() + Math.ceil(Math.random()*100)+postfix;
+                const putExtra = {
+                  fname: imgList[i].file.name,
+                  params: {},
+                  mimeType: ["image/png", "image/jpeg", "image/jpg"]
                 }
-              }
-            })
-        }
-    },
+                const config = {
+                  useCdnDomain: true
+                }
+                let observable = qiniu.upload(imgList[i].file, name, token, putExtra, config);
+                observable.subscribe({
+                  next: (result) => {
+                  },
+                  error: (errResult) => {
+                    console.log(errResult)
+                  },
+                  complete: (result) => {
+                    console.log(result)
+                    let add = domain+result.key;
+                    this.imgurls.push(add);
+                    if(this.imgurls.length==imgList.length){
+                        console.log(1)
+                        this.upData();
+                    }
+                  }
+                })
+            }
+        },
         afterRead (file) {
             // console.log(file);
-            
+            this.createImage(file.file, 'afterRead');
         },
         afterReadTwo (file) {
         //   console.log(file);
+            this.createImage(file.file, 'afterReadTwo');
+        },
+        createImage(file , after) {
+            console.log(file);
+            let reader = new FileReader();
+            let self = this;
+            reader.onload = e => {
+                let result = e.target.result;
+                let img = new Image();
+                img.src = result;
+                if(result.length/1024 > 50){
+                    img.onload = function() {
+                       this.firImg = self.compress(img, 0.7)
+                        let imgTwo = self.base64UrlToBlob(this.firImg);
+                        if(after=='afterRead'){
+                            self.fileList = [];
+                            self.fileList.push({
+                                file: imgTwo,
+                                content: this.firImg
+                            });
+                            console.log(self.fileList);
+                        }else{
+                            self.upfileListTwo.push({
+                                file: imgTwo,
+                                content: this.firImg
+                            });
+                            console.log(self.upfileListTwo);
+                        }
+                    }
+                }else{
+                    this.firImg = result
+                }
+            };
+            // 读取图像
+            reader.readAsDataURL(file);
+        },
+        // 压缩图片
+        compress(img, size) {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            let initSize = img.src.length;
+            let width = img.width;
+            let height = img.height;
+            canvas.width = width;
+            canvas.height = height;
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, width, height);
+            let ndata = canvas.toDataURL('image/jpeg', size);
+            return ndata;
+        },
+        // 图片格式转换
+        base64UrlToBlob (urlData) {
+            let arr = urlData.split(','),
+              mime = arr[0].match(/:(.*?);/)[1], // 去掉url的头，并转化为byte
+              bstr = atob(arr[1]), // 处理异常,将ascii码小于0的转换为大于0
+              n = bstr.length,
+              u8arr = new Uint8Array(n)
+            while (n--) {
+              u8arr[n] = bstr.charCodeAt(n)
+            }
+            //   return new Blob([u8arr], {type: mime})
+            let filename = Date.parse(new Date())  + '.jpg';
+            return new File([u8arr], filename, {type: mime})
         },
   },
   created () {

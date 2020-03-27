@@ -232,6 +232,12 @@ export default new Router({
           meta: {title: '申请推荐开店', showFooter: false, goods: false,}
         },
         {
+          path: '/mine/nearby',
+          name: 'nearby',
+          component: resolve => require(['@/components/children/nearby/nearby'], resolve),
+          meta: {title: '我的入驻', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/merchantApplication',
           name: 'merchantApplication',
           component: resolve => require(['@/components/children/merchantApplication/merchantApplication'], resolve),

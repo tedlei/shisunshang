@@ -60,6 +60,11 @@
         </el-main>
       </el-container>
     </el-container>
+    <router-link to="/mine/nearby">
+    <div class='iconDiv'>
+      <img src="../../assets/img/fjsj.png" alt="">
+    </div>
+    </router-link>
   </div>
 </template>
 
@@ -289,5 +294,16 @@
     }
 
 
+  }
+  .iconDiv{
+    position: fixed;
+    bottom: 0.9rem;
+    right: 0.15rem;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
+    >img{
+      width: 0.45rem;
+      height: 0.45rem;
+    }
   }
 </style>
