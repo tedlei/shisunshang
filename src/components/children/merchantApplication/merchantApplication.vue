@@ -49,12 +49,16 @@
                 <p>上传商家展示宣传照：</p>
                 <van-uploader 
                     :after-read="afterReadTwo" 
+                    :before-delete="beforeDelete"
                     v-model="fileListTwo" 
                     multiple 
                     :max-count="3"
                 />
             </div>
-            <div class="btn" @click="uploadImg">提交申请</div>
+            <div>
+                <imgOSSuploader></imgOSSuploader>
+            </div>
+            <div class="btn" @click="uploadImgToken">提交申请</div>
         </div>
         <van-overlay :show="show">
             <div class="Mask">
@@ -78,8 +82,11 @@
 
 <script>
     import {Area} from '../../../assets/js/Area.js'
+    import imgOSSuploader from '../../children/imgOSS/uploader'
   export default {
-  components: {},
+  components: {
+      imgOSSuploader,
+  },
   data () {
     return {
         areaList: Area,
@@ -204,7 +211,7 @@
                 console.log(error);
             }); 
       },
-        uploadImg() {
+        uploadImgToken() {
             // console.log(this.imgList)
             let ad_data={
               method: 'get.qiniu.upload.token'
@@ -257,6 +264,9 @@
         afterReadTwo (file) {
         //   console.log(file);
             this.createImage(file.file, 'afterReadTwo');
+        },
+        beforeDelete( e ) {
+            console.log(e)
         },
         createImage(file , after) {
             console.log(file);

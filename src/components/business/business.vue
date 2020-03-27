@@ -1,11 +1,11 @@
 <template>
   <div class="main_box">
     <header ref="header_h">
-      <div @click="opensearch" style="width: 100%;margin-left:0.1rem">
+      <div @click="opensearch" style="width: 100%;margin:0 0.1rem">
         <search :dmsg="msg"></search>
       </div>
 
-      <i class="el-icon-plus"></i>
+      <!-- <i class="el-icon-plus"></i> -->
     </header>
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
       <el-aside width="0.9rem">
