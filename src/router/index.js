@@ -12,12 +12,14 @@ import author from '../components/author'
 
 import goodsDATA from '../components/goods/goodsDATA'
 import storeDetails from '../components/storeDetails/storeDetails'
+import applicationcs from '../components/children/applicationcs/applicationcs'
 import articles from '../components/children/ad/articles'
-// const order = resolve => require(['@/components/order/order'], resolve)
+
+const myad = r => require.ensure([], () => r(require('@/components/children/ad/myad')), 'myad')
 
 Vue.use(Router)
 
-export default new Router({
+const $router = new Router({
   mode: 'history',  //去掉url中的#
   routes: [
     {
@@ -132,7 +134,7 @@ export default new Router({
         {
           path: '/goodsdetails/applicationcs',
           name: 'applicationcs',
-          component: resolve => require(['@/components/children/applicationcs/applicationcs'], resolve),
+          component: applicationcs,
           meta: {title: '申请售后', showFooter: false, goods: false}
         },
         {
@@ -271,7 +273,7 @@ export default new Router({
         {
           path: '/mine/ad/myad',
           name: 'myad',
-          component: resolve => require(['@/components/children/ad/myad'], resolve),
+          component: myad,
           meta: {title: '我的发布', showFooter: false, goods: false,}
         },
         {
@@ -360,7 +362,20 @@ export default new Router({
       meta: {title: '商品详情', showFooter: false}
     },
   ]
-})
+});
+
+
+// 解决Loading chunk (\d)+ failed问题
+$router.onError((error) => {
+  const pattern = /Loading chunk (\d)+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  const targetPath = $router.history.pending.fullPath;
+  if (isChunkLoadFailed) {
+    $router.replace(targetPath);
+  }
+});
+export default $router
+
 
 
 
