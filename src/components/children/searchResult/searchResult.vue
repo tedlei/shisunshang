@@ -96,7 +96,7 @@
             }
         },
         mounted() {
-            Bus.$on('val', (data) => {
+            Bus.$on('searchval', (data) => {
                 if (data == true) {
                     this.tans = true
                 }

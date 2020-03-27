@@ -91,7 +91,7 @@
         methods: {
             //搜索
             opensearch: function () {
-                Bus.$emit('val', true)
+                Bus.$emit('searchval', true)
             },
             getNum(index, children) {
                 this.num = index;

@@ -77,15 +77,25 @@
                             path: '/set/Bank-card',
                         })
                         break;
+                    case '实名认证':
+                        this.$router.push({
+                            path: '/mine/certification',
+                        })
+                        break;
                     case '设置支付密码':
                         this.$router.push({
                             path: '/set/set-pay-password',
                         })
                         break;
                     case '绑定手机':
-                        this.$router.push({
-                            path: '/set/set-phone',
-                        })
+                        if (!JSON.parse(this.$store.getters.getuserinfo).phone) {
+                            this.$router.push({
+                                path: '/set/set-phone',
+                            })
+                        } else {
+                            return
+                        }
+
                         break;
                     case '地址管理':
                         this.$router.push({

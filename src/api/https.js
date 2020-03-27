@@ -1,8 +1,11 @@
+import Vue from 'vue'
+import { Toast } from 'vant';
 import axios from 'axios';
 import Qs from 'qs'
-import {Toast} from "vant";
 import store from "../store";
+import router from "../router"
 
+Vue.use(Toast);
 
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
@@ -106,14 +109,28 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    //如果token值发生改变的时候，替换token值
-    // if (response.headers.token) {
-    //   store.commit('isLogin', response.headers.token);
-    // }
+    if (response.data.status === 200) {
+
+    } else if (response.data.status === 401 || response.data.status === 403) {
+      window.localStorage.clear();
+      Toast('会话已过期正在重新连接');
+    } else if (response.data.status === 500) {
+      Toast('数据错误');
+    }
     return response;
   },
   error => {
-    return Promise.reject(error)
+    if (error.response.status == 401 || error.response.status === 403) {
+      window.localStorage.clear();
+      router.push({
+        path: '/',
+      }).catch(data => {
+      })
+    } else if (error.response.status === 500) {
+      // 服务器错误
+      // do something
+      return Promise.resolve(error)
+    }
   }
 )
 

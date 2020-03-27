@@ -2,7 +2,7 @@
   <!--  空  -->
   <div class="none_store" :style="{'height':height}">
     <div>
-      <img src="../../../assets/img/nostore.png">
+      <img src="http://imgs.wjeys.com/src/assets/img/nostore.png">
       <p v-if="show1">{{text1}}</p>
       <pre v-if="show2">{{text2}}</pre>
       <div class="tolink">

@@ -10,15 +10,23 @@
         <div class="left">
           <i class="el-icon-location"></i>
           <span>
-            <p>
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.name:orderData.address_default.name}}&nbsp;
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.phone:orderData.address_default.phone}}
+            <!-- {{$store.getters.getreceivingAddress.name?'有':orderData.address_default}} -->
+            <p v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
+            <p v-else-if="orderData.address_default!=''">
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.name:
+              orderData==''?'':orderData.address_default.name}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.phone:
+              orderData==''?'':orderData.address_default.phone}}
             </p>
-            <p class="fontWrap fontWrapOne">
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.province:orderData.address_default.province}}&nbsp;
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.city:orderData.address_default.city}}&nbsp;
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.area:orderData.address_default.area}}&nbsp;
-              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.address:orderData.address_default.address}}
+            <p v-if="orderData.address_default!=''" class="fontWrap fontWrapOne">
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.province:
+              orderData==''?'':orderData.address_default.province}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.city:
+              orderData==''?'':orderData.address_default.city}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.area:
+              orderData==''?'':orderData.address_default.area}}&nbsp;
+              {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.address:
+              orderData==''?'':orderData.address_default.address}}
             </p>
           </span>
         </div>
@@ -158,7 +166,7 @@
                 checked: true,
                 orderData: {
                     address_default: {
-
+                      name:''
                     },
                     shops: [
                          {  total_num:'',
@@ -200,6 +208,8 @@
                 // return false;
                 if(res.status==200){
                   this.orderData = res.data;
+                  if(res.data.address_default==null||res.data.address_default==undefined||res.data.address_default==''){
+                  }
                 }else{
                   this.$router.back(-1);
                   this.$toast(res.message);
