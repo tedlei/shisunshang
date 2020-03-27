@@ -28,7 +28,6 @@
                         if (response.status == 200) {
                             this.$store.commit('isLogin', response.data.token);
                             setTimeout(() => {
-                                console.log(1111111111111111111111)
                                 this.$router.push({
                                     path: '/'
                                 })

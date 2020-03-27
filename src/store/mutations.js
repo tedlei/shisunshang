@@ -48,8 +48,8 @@ export default {
     localStorage.setItem('userinfo', res)
   },
   isLogin(state, token) {
+    localStorage.setItem('isLogin', token);
     state.isLogin = token;
-    localStorage.setItem('isLogin', token)
   },
 
   LoginOut(state) {

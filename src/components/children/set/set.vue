@@ -5,7 +5,7 @@
         <li v-for="(item,index) in msglists" :key="index" @click="set(item.left)">
           <div class="left">{{item.left}}</div>
           <div class="right">
-            <img :src="require(`../../../assets/img/${item.right}.png`)" v-if="index==0">
+            <img :src="item.right" v-if="index==0">
             <span v-else>{{item.right}}</span>
             <i class="el-icon-arrow-right" v-show="index!=1"></i>
           </div>
@@ -24,7 +24,7 @@
                 msglists: [
                     {
                         left: '头像',
-                        right: 'news_head'
+                        right: JSON.parse(this.$store.getters.getuserinfo).portrait,
                     },
                     {
                         left: '用户名',
@@ -33,7 +33,7 @@
 
                     {
                         left: '实名认证',
-                        right: '15320495341'
+                        right: ''
                     },
                     {
                         left: '地址管理',
@@ -92,10 +92,16 @@
                             path: '/mine/Address',
                         })
                         break;
+                    case '清除缓存':
+                        window.localStorage.clear();
+                        this.$toast({
+                            message: '清除成功',
+                        })
+                        break;
                     default:
                         this.$toast({
-                                message: '数据错误',
-                            })
+                            message: '数据错误',
+                        })
                 }
 
             }

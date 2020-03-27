@@ -15,7 +15,7 @@
             <div>累计签到/天</div>
           </li>
           <li>
-            <div class="lei_num">{{qd_money | moneyFormat}}</div>
+            <div class="lei_num">{{qd_money || '' | moneyFormat}}</div>
             <div><img src="../.././assets/img/jinbi.png" style="width: 0.24rem"></div>
           </li>
         </ul>
@@ -133,7 +133,6 @@
                         this.arrDate = response.data.list.map(Number);
                         this.total_day = response.data.total_day;
                         this.qd_money = response.data.qd_money;
-                        this.show = this.arrDate.indexOf(this.istoday) == -1 ? true : false;
                         this.isshow = this.arrDate.indexOf(this.istoday) == -1 ? true : false;
                         this.initData(null);
                     }).catch(function (error) {
