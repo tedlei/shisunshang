@@ -2,7 +2,7 @@
   <div id="app" :class="{app:$route.meta.showFooter}">
 
     <Footer v-show="$route.meta.showFooter"></Footer>
-    <router-view/>
+    <router-view v-if="isRouterAlive"></router-view>
     <loading v-show="$store.getters.getLoading"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
     <search-result></search-result>
@@ -14,18 +14,32 @@
     import Header from "./components/header/header";
     import loading from "./components/loading/loading";
     import SearchResult from "./components/children/searchResult/searchResult";
+
     export default {
         name: 'App',
         components: {SearchResult, Header, Footer, loading},
+        provide(){
+            return{
+                reload:this.reload
+            }
+        },
         data() {
             return {
                 path: '',
+                isRouterAlive: true
             }
         },
         beforeUpdate() {
             this.path = this.$route.path
         },
-
+        methods: {
+            reload () {
+                this.isRouterAlive = false;            //先关闭，
+                this.$nextTick(function () {
+                    this.isRouterAlive = true;         //再打开
+                })
+            }
+        },
         mounted() {
             this.path = this.$route.path;
         },

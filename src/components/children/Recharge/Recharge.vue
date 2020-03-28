@@ -3,7 +3,8 @@
     <div class="Recharge_box">
       <ul>
         <li v-for="(item,index) in lists" :key="index">
-          <img :src="require('../../../assets/img/recharge_icon'+(Number(index)+1)+'.png')" class="icon">
+
+          <img src="'http://imgs.wjeys.com/src/assets/img/recharge_icon1.png" class="icon">
           <div class="Recharge_msg">
             <div class="text1">
               <strong>充值￥{{item.money}}</strong>
@@ -73,11 +74,11 @@
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest',
                         jsApiParameters,
-                        function(res){
-                            if(res.err_msg="get_brand_wcpay_request:ok"){
+                        function (res) {
+                            if (res.err_msg = "get_brand_wcpay_request:ok") {
                                 //跳转到支付成功页面
                                 alert("支付成功");
-                            }else if (res.err_msg="get_brand_wcpay_request:fail"){
+                            } else if (res.err_msg = "get_brand_wcpay_request:fail") {
                                 alert("支付失败");
                             }
 

@@ -80,7 +80,7 @@
         },
         methods: {
             opensearch: function () {
-                Bus.$emit('val', true)
+                Bus.$emit('searchval', true)
             },
             //    获取分类商品
             getgoods: function () {

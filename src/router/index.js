@@ -14,8 +14,27 @@ import goodsDATA from '../components/goods/goodsDATA'
 import storeDetails from '../components/storeDetails/storeDetails'
 import applicationcs from '../components/children/applicationcs/applicationcs'
 import articles from '../components/children/ad/articles'
-
-const myad = r => require.ensure([], () => r(require('@/components/children/ad/myad')), 'myad')
+import myad from '@/components/children/ad/myad'
+import certification from '@/components/children/More-tools/certification/certification'
+import Trans from '@/components/children/More-tools/Trans/Trans'
+import withdrawRecord from '@/components/children/More-tools/Cash-withdrawal/withdrawRecord'
+import Cashwithdrawal from '@/components/children/More-tools/Cash-withdrawal/Cash-withdrawal'
+import Rrecord from '@/components/children/More-tools/Rechargemoney/R-record'
+import Rechargemoney from '@/components/children/More-tools/Rechargemoney/Rechargemoney'
+import invoice from '@/components/children/invoice/invoice'
+import Addaddress from '@/components/children/Add-address/Add-address'
+import Address from '@/components/children/Address/Address'
+import addetails from '@/components/children/ad/addetails'
+import merchantApplication from '@/components/children/merchantApplication/merchantApplication'
+import nearby from '@/components/children/nearby/nearby'
+import recommendedShop from '@/components/children/recommendedShop/recommendedShop'
+import setphone from '@/components/children/set/set-phone'
+import setpaypassword from '@/components/children/set/set-pay-password'
+import addbankcard from '@/components/children/set/add-bank-card'
+import Bankcard from '@/components/children/set/Bank-card'
+import Orderdetails from '@/components/children/Orderdetails/Orderdetails'
+import evaluate from '@/components/children/evaluate/evaluate'
+import myinvoice from '@/components/children/invoice/myinvoice'
 
 Vue.use(Router)
 
@@ -122,7 +141,7 @@ const $router = new Router({
         {
           path: '/goodsdetails/evaluate',
           name: 'evaluate',
-          component: resolve => require(['@/components/children/evaluate/evaluate'], resolve),
+          component: evaluate,
           meta: {title: '评价商品', showFooter: false, goods: false}
         },
         {
@@ -140,7 +159,7 @@ const $router = new Router({
         {
           path: '/goodsdetails/Orderdetails',
           name: 'Orderdetails',
-          component: resolve => require(['@/components/children/Orderdetails/Orderdetails'], resolve),
+          component: Orderdetails,
           meta: {title: '订单详情', showFooter: false, goods: false}
         },
         {
@@ -195,25 +214,25 @@ const $router = new Router({
         {
           path: '/set/Bank-card',
           name: 'Bank-card',
-          component: resolve => require(['@/components/children/set/Bank-card'], resolve),
+          component: Bankcard,
           meta: {title: '绑定银行卡', showFooter: false, goods: false,},
         },
         {
           path: '/Bank-card/add-bank-card',
           name: 'add-bank-card',
-          component: resolve => require(['@/components/children/set/add-bank-card'], resolve),
+          component: addbankcard,
           meta: {title: '添加银行卡', showFooter: false, goods: false,},
         },
         {
           path: '/set/set-pay-password',
           name: 'set-pay-password',
-          component: resolve => require(['@/components/children/set/set-pay-password'], resolve),
+          component: setpaypassword,
           meta: {title: '设置支付密码', showFooter: false, goods: false,},
         },
         {
           path: '/set/set-phone',
           name: 'set-phone',
-          component: resolve => require(['@/components/children/set/set-phone'], resolve),
+          component: setphone,
           meta: {title: '绑定手机号', showFooter: false, goods: false,},
         },
         {
@@ -231,19 +250,19 @@ const $router = new Router({
         {
           path: '/mine/recommendedShop',
           name: 'recommendedShop',
-          component: resolve => require(['@/components/children/recommendedShop/recommendedShop'], resolve),
+          component: recommendedShop,
           meta: {title: '申请推荐开店', showFooter: false, goods: false,}
         },
         {
           path: '/mine/nearby',
           name: 'nearby',
-          component: resolve => require(['@/components/children/nearby/nearby'], resolve),
+          component: nearby,
           meta: {title: '我的入驻', showFooter: false, goods: false,}
         },
         {
           path: '/mine/merchantApplication',
           name: 'merchantApplication',
-          component: resolve => require(['@/components/children/merchantApplication/merchantApplication'], resolve),
+          component: merchantApplication,
           meta: {title: '商家入驻', showFooter: false, goods: false,}
         },
         {
@@ -261,7 +280,7 @@ const $router = new Router({
         {
           path: '/mine/ad/addetails',
           name: 'addetails',
-          component: resolve => require(['@/components/children/ad/addetails'], resolve),
+          component: addetails,
           meta: {title: '广告详情', showFooter: false, goods: false,}
         },
         {
@@ -279,25 +298,25 @@ const $router = new Router({
         {
           path: '/mine/Address',
           name: 'Address',
-          component: resolve => require(['@/components/children/Address/Address'], resolve),
+          component: Address,
           meta: {title: '地址管理', showFooter: false, goods: false,}
         },
         {
           path: '/mine/Add-address',
           name: 'Add-address',
-          component: resolve => require(['@/components/children/Add-address/Add-address'], resolve),
+          component: Addaddress,
           meta: {title: '添加收货地址', showFooter: false, goods: false,}
         },
         {
           path: '/mine/myinvoice',
           name: 'myinvoice',
-          component: resolve => require(['@/components/children/invoice/myinvoice'], resolve),
+          component: myinvoice,
           meta: {title: '我的发票', showFooter: false, goods: false,}
         },
         {
           path: '/mine/invoice',
           name: 'invoice',
-          component: resolve => require(['@/components/children/invoice/invoice'], resolve),
+          component: invoice,
           meta: {title: '发票信息', showFooter: false, goods: false,}
         },
         {
@@ -321,39 +340,39 @@ const $router = new Router({
         {
           path: '/mine/Rechargemoney',
           name: 'Rechargemoney',
-          component: resolve => require(['@/components/children/More-tools/Rechargemoney/Rechargemoney'], resolve),
+          component: Rechargemoney,
           meta: {title: '在线充值', showFooter: false, goods: false,}
         },
         {
           path: '/mine/R-record',
           name: 'R-record',
-          component: resolve => require(['@/components/children/More-tools/Rechargemoney/R-record'], resolve),
+          component: Rrecord,
           meta: {title: '充值记录', showFooter: false, goods: false,}
         },
         {
           path: '/mine/Cash-withdrawal',
           name: 'Cash-withdrawal',
-          component: resolve => require(['@/components/children/More-tools/Cash-withdrawal/Cash-withdrawal'], resolve),
+          component: Cashwithdrawal,
           meta: {title: '申请提现', showFooter: false, goods: false,}
         },
 
         {
           path: '/mine/withdrawRecord',
           name: 'withdrawRecord',
-          component: resolve => require(['@/components/children/More-tools/Cash-withdrawal/withdrawRecord'], resolve),
+          component: withdrawRecord,
           meta: {title: '提现记录', showFooter: false, goods: false,}
         },
 
         {
           path: '/mine/Trans',
           name: 'Trans',
-          component: resolve => require(['@/components/children/More-tools/Trans/Trans'], resolve),
+          component: Trans,
           meta: {title: '账户互转', showFooter: false, goods: false,}
         },
         {
           path: '/mine/certification',
           name: 'certification',
-          component: resolve => require(['@/components/children/More-tools/certification/certification'], resolve),
+          component: certification,
           meta: {title: '实名认证', showFooter: false, goods: false,}
         },
 

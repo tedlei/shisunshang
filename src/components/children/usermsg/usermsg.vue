@@ -5,7 +5,7 @@
         <li v-for="(item,index) in msglists" :key="index">
           <div class="left">{{item.left}}</div>
           <div class="right">
-            <img :src="require(`../../../assets/img/${item.right}.png`)" v-if="index==0">
+            <img :src="item.right" v-if="index==0">
             <span v-else>{{item.right}}</span>
 
           </div>
@@ -27,43 +27,27 @@
                 msglists: [
                     {
                         left: '头像',
-                        right: 'news_head'
+                        right: JSON.parse(this.$store.getters.getuserinfo).portrait,
                     },
                     {
                         left: '用户名',
-                        right: '15320495341'
-                    },
-                    {
-                        left: '用户姓名',
-                        right: '陈俊余'
+                        right: JSON.parse(this.$store.getters.getuserinfo).name,
                     },
                     {
                         left: '用户等级',
-                        right: '黑钻'
+                        right: JSON.parse(this.$store.getters.getuserinfo).level_name,
                     },
                     {
                         left: '联系电话',
-                        right: '15320495341'
-                    },
-                    {
-                        left: '性别',
-                        right: '男'
-                    },
-                    {
-                        left: '出生日期',
-                        right: '2022-1-1'
+                        right: JSON.parse(this.$store.getters.getuserinfo).phone == '' ? '未绑定手机号码' : JSON.parse(this.$store.getters.getuserinfo).phone
                     },
                     {
                         left: '实名认证',
-                        right: '已认证'
+                        right: '未认证'
                     },
                     {
                         left: '注册时间',
-                        right: '2022-2-2'
-                    },
-                    {
-                        left: '注册IP',
-                        right: '123.456.54.64'
+                        right: JSON.parse(this.$store.getters.getuserinfo).add_time || ''
                     },
 
                 ]
@@ -75,6 +59,7 @@
 <style scoped lang="scss">
   .list_box {
     padding-top: 43px;
+
     .userinfo {
       li {
         display: flex;
