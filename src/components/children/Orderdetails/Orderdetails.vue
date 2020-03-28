@@ -2,7 +2,9 @@
   <div class="content">
     <div style="position: relative;color: #fff">
       <img src="../../../assets/img/icon3.png">
-      <span style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%">待付款</span>
+      <span style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%">
+        {{orderData.status=='0'?'待付款':orderData.status=='1'?'待发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'已取消'}}
+      </span>
     </div>
     <div class="common_box adress">
       <router-link to="" class="common">
@@ -28,7 +30,7 @@
           </span>
         </div>
         <div class="clo-g right">
-          {{orderData.status=='0'?'代付款':orderData.status=='1'?'代发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'未知'}}
+          {{orderData.status=='0'?'待付款':orderData.status=='1'?'待发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'已取消'}}
         </div>
       </div>
       <div class="common goods" v-for="(item,index) of orderData.goods" :key="index">
@@ -46,7 +48,7 @@
               {{item.name}}
             </div>
             <div style="color: rgb(153, 153, 153);">
-              <span class="fontWrap fontWrapOne">规格:
+              <span class="fontWrap fontWrapOne">规格：默认
                 <!-- {{item.sku}} -->
               </span> 
               <span>数量:
@@ -89,7 +91,7 @@
         </div>
         <div style="color:#009900;" class="right">
           ￥
-          {{orderData.total_money}}
+          {{orderData.total_goods_money}}
         </div>
       </div>
       <div class="common">
@@ -103,11 +105,11 @@
       </div>
       <div class="common">
         <div class="left">
-          签到金
+          保价费
         </div>
         <div class="right">
           +￥
-          {{orderData.total_qd_money}}
+          {{orderData.total_offer_money}}
         </div>
       </div>
       <div class="common">
@@ -121,20 +123,20 @@
       </div>
       <div class="common">
         <div class="left">
-          保价费
+          待付款金额
         </div>
-        <div class="right">
-          +￥
-          {{orderData.total_offer_money}}
+        <div style="color:#009900" class="right">
+          ￥
+          {{orderData.total_money}}
         </div>
       </div>
       <div class="common">
         <div class="left">
-          代付款金额
+          签到金
         </div>
-        <div style="color:#009900" class="right">
+        <div class="right">
           ￥
-          {{orderData.pay_money}}
+          {{orderData.total_qd_money}}
         </div>
       </div>
     </div>
@@ -187,7 +189,7 @@
     </div>
     
 <!--  删除  -->
-    <div class="delet">
+    <div class="delet" v-if="orderData.status=='0'">
       <div @click="cancelOrder">取消订单</div>
       <div @click="payment">付款</div>
     </div>
@@ -239,6 +241,7 @@
           if(res.status==200){
             this.$toast.success('订单已取消');
             // this.getData(1);
+            this.$router.back(-1)
           }else{
             this.$toast.success('取消失败');
           }

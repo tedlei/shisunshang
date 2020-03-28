@@ -158,6 +158,11 @@
         },
         methods: {
             onSubmit(values) {
+              if(this.radio=='1'){
+                console.log("返回")
+                this.$router.back(-1)
+                return;
+              }
                 let invoice = {
                   type: this.radioTwo,
                   title: this.companyInput,

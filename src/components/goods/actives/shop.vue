@@ -106,6 +106,7 @@
               console.log(res)
               if(res.status==200){
                 this.$store.commit('setLoading');
+                this.$toast.success("收藏成功");
               }else{
                 this.$store.commit('setLoading');
                 this.$toast.fail('关注失败');
@@ -175,6 +176,7 @@
             }
             .shopHederName{
                 margin: 0 0.1rem;
+                text-align: left;
                 >P:first-child{
                     overflow:hidden; 
                     text-overflow:ellipsis;

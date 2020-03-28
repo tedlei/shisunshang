@@ -93,6 +93,7 @@
     components: {Empty},
     data() {
       return {
+        titlelist: ['我的收藏','我的关注','我的足迹','我的评价'],
         checkAll: false,
         goodslist: [
           // {
@@ -201,6 +202,7 @@
       },
 
       footprintPush (data) {
+        this.goodslist = [];
         for(var i in data){
           this.goodslist.push({
             id: data[i].id,
@@ -246,6 +248,7 @@
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
             console.log(res)
+            
             this.footprintPush(res.data.items);
           }).catch(function (error) {
               console.log(error);
@@ -320,6 +323,8 @@
     },
     created () {
       console.log(this.$route.query);
+      let index = this.$route.query.printid;
+      document.title = this.titlelist[index];
       this.getData();
     },
     mounted() {

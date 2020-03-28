@@ -27,7 +27,7 @@
         },
 
         mounted() {
-            this.path = this.$route.path
+            this.path = this.$route.path;
         },
         watch: {
             $router(to, from) {

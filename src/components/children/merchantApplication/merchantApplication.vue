@@ -56,7 +56,7 @@
                 />
             </div>
             <div>
-                <imgOSSuploader></imgOSSuploader>
+                <imgOSSuploader @imgUpData='imgUpData'></imgOSSuploader>
             </div>
             <div class="btn" @click="uploadImgToken">提交申请</div>
         </div>
@@ -212,7 +212,7 @@
             }); 
       },
         uploadImgToken() {
-            // console.log(this.imgList)
+            console.log(this.imgList)
             let ad_data={
               method: 'get.qiniu.upload.token'
             };
@@ -331,6 +331,9 @@
             let filename = Date.parse(new Date())  + '.jpg';
             return new File([u8arr], filename, {type: mime})
         },
+        imgUpData ( data ) {
+            console.log(data);
+        }
   },
   created () {
       this.getClassArr();

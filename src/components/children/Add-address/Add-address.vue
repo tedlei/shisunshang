@@ -187,13 +187,13 @@
                         let newaddress = Object.assign(address, _this.chooseAreasCode)
                         _this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                _this.$message({
-                                    message: '添加成功!',
-                                    type: 'warning',
-                                    onClose: function () {
-                                        _this.$router.back(-1);
-                                    }
-                                });
+                                _this.$router.back(-1);
+                                // _this.$message({
+                                //     message: '添加成功!',
+                                //     type: 'warning',
+                                //     onClose: function () {
+                                //     }
+                                // });
                             }).catch(function (error) {
                             console.log(error);
                         });

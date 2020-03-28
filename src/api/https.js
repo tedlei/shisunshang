@@ -31,8 +31,8 @@ axios.interceptors.request.use(
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      'token': store.state.isLogin || '',
-      // 'token': tokens,
+      // 'token': store.state.isLogin || '',
+      'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU5ODA2MjAsIm5iZiI6MTU4NTM3NTgyMCwiaWF0IjoxNTg1Mzc1ODIwLCJjbGllbnRfaWQiOjE3NTIsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.OmjcehdHVNlABTtf_af69VbSjvsBsCBEjkzA2iUDklE',
       // 'Content-Type': 'multipart/form-data'
     };
 

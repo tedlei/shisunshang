@@ -62,9 +62,19 @@ router.beforeEach((to, from, next) => {
 
   window.scrollTo(0, 0);
   /*路由发生改变修改页面的title */
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
+  if (to.meta.title=='首页') {
+    // console.log(post)
+    let ad_data = {method: 'get.web.info'};
+    post('/api/v1/sets', ad_data)
+    .then((res) => {
+        console.log(res);
+        document.title = res.data.webtitle;
+    }).catch(function (error) {
+        console.log(error);
+    });
+  }else if(to.meta.title){
+    document.title = to.meta.title;
+  } 
   next();
 });
 

@@ -99,6 +99,7 @@ export default {
                 };
                 // 读取图像
                 reader.readAsDataURL(file);
+                this.$emit('imgUpData', this.fileList);
             }
             
         },

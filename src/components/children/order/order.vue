@@ -19,10 +19,10 @@
             </router-link>
           </div>
           <span class="state">
-            {{item.status==0?'代付款':item.status==1?'代发货':item.status==2?'待收货':item.status==3?'待评价':''}}
+            {{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==3?'待评价':'已取消'}}
             </span>
         </div>
-        <div v-for="(goodsItem,index1) in item.goods" :key="index1">
+        <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}" v-for="(goodsItem,index1) in item.goods" :key="index1">
           <!--商品 卡片 -->
           <div class="goods">
             <div class="left_img">
@@ -44,12 +44,14 @@
                 </div>
               </div>
               <div class="Specifications" style="color: #999999">
-                <span>规格:{{goodsItem.sku}};</span>
+                <span>规格：默认
+                  <!-- {{goodsItem.sku}} -->
+                </span>
                 <span>数量:{{goodsItem.num}}</span>
               </div>
             </div>
           </div>
-        </div>
+        </router-link>
         <!-- 店铺合计 -->
         <div class="clearfix total_box">
           <div class="add_time" v-show="numBoder==1">
@@ -354,6 +356,7 @@
         }
         .Specifications{
           display: flex;
+          text-align: left;
           >span:first-child{
             width: 70%;
             overflow:hidden;

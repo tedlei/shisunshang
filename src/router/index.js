@@ -75,7 +75,7 @@ const $router = new Router({
           name: 'goodsDATA',
           component: goodsDATA,
           meta: {
-            title: 'goodsDATA',
+            title: '',
             goods: true
           }
         },
@@ -304,7 +304,7 @@ const $router = new Router({
           path: '/mine/record',
           name: 'record',
           component: resolve => require(['@/components/children/record/record'], resolve),
-          meta: {title: 'record', showFooter: false, goods: false}
+          meta: {title: '财务记录', showFooter: false, goods: false}
         },
         {
           path: '/mine/Myteam',

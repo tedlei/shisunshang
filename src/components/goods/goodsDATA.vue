@@ -17,7 +17,7 @@
           </el-carousel-item>
         </el-carousel> -->
         <van-swipe :autoplay="3000">
-          <van-swipe-item v-for="(item,index) in imglist" :key="index">
+          <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
             <img :src="item" ref="imgSize">
           </van-swipe-item>
         </van-swipe>
@@ -123,6 +123,7 @@
           <el-divider>猜你喜欢</el-divider>
         </title>
         <!--  推荐列表  -->
+        <van-skeleton :loading='loading' :row="2">
          <el-row class="goodslist RecommendBac">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
             <div @click="recommendAdd(goods.id)" class="item Recommend">
@@ -142,7 +143,8 @@
               </div>
             </div>
           </el-col>
-        </el-row>
+         </el-row>
+        </van-skeleton>
       </div>
       <div id="commoditDetails"></div>
       <div class="conmo_box bot_img_box">
@@ -237,14 +239,14 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
-        imglist: [], //轮播数组
+        // imglist: [], //轮播数组
         actions: [
           { name: '选项' },
           { name: '选项' },
         ],
         isactions: 'customer',
         actionsName: '顾客购买',
-
+        loading: true,
         msg: '商品详情',
         imgHeight: '',
         boxHeight: '',
@@ -448,6 +450,7 @@
               goodsimg: res.data[i].imgsrc,
             })
           }
+          this.loading = false;
          
         }).catch(function (error) {
           console.log(error);
@@ -475,6 +478,8 @@
           .then((res) => {
             console.log(res) 
             if(res.status == 200){
+              // console.log(this.$route.meta);
+              document.title = res.data.goods_info.name;
               this.goodsData = res.data;
               this.is_follow = res.data.shopinfo.is_follow;
               // console.log(this.is_follow)
@@ -482,19 +487,7 @@
               this.$store.commit('getGoodsData',res.data);
               this.$store.commit('getshopsData',res.data.shopinfo);
               // let list = res.data.specData.spec_attr;
-              this.imglist = [];
-              if(res.data.goods_info.imgsrc1){
-                this.imglist.push(res.data.goods_info.imgsrc1);
-              }
-              if(res.data.goods_info.imgsrc2){
-                this.imglist.push(res.data.goods_info.imgsrc2);
-              }
-              if(res.data.goods_info.imgsrc3){
-                this.imglist.push(res.data.goods_info.imgsrc3);
-              }
-              if(res.data.goods_info.imgsrc4){
-                this.imglist.push(res.data.goods_info.imgsrc4);
-              }
+              
               //规格循环
               // for (var i in list) {
               //   this.initial.push( list[i].spec_items[0].item_id );
