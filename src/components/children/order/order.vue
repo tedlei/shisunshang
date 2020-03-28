@@ -300,7 +300,7 @@
 	    },
     },
     created () {
-      this.getOderData();
+      // this.getOderData();
     },
     mounted() {
       this.is = this.$route.query.orderid == 4 ? 'index' : 'num';

@@ -31,7 +31,7 @@
           </span>
           <span class="last">
             <div>{{moneytext[item.money_type_id - 1]}}</div>
-            <div class="clo-9">￥4</div>
+            <div class="clo-9">￥{{item.money}}</div>
           </span>
         </van-cell>
       </van-list>

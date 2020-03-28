@@ -116,7 +116,8 @@
                                         message: '发布成功',
                                     });
                                     //刷新页面
-                                    this.reload();
+                                    this.$router.push({path: '/mine/ad/myad'});
+                                    // this.reload();
                                 }
                             }).catch(function (error) {
                             console.log(error);

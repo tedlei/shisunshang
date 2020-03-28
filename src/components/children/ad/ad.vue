@@ -4,7 +4,13 @@
       <li v-for="(item,index) in adlists" :key="index">
         <router-link :to="{path:'/mine/ad/addetails',query:{id:item.id}}">
           <div class="left_img">
-            <img :src="item.img">
+            <van-image
+              width="0.8rem"
+              height="0.8rem"
+              fit="contain"
+              :src="item.img"
+            />
+            <!-- <img :src="item.img"> -->
           </div>
           <div class="right_msg">
             <div class="name">

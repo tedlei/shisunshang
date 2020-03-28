@@ -55,9 +55,9 @@
                     :max-count="3"
                 />
             </div>
-            <div>
+            <!-- <div>
                 <imgOSSuploader @imgUpData='imgUpData'></imgOSSuploader>
-            </div>
+            </div> -->
             <div class="btn" @click="uploadImgToken">提交申请</div>
         </div>
         <van-overlay :show="show">
