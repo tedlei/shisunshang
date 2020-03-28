@@ -35,12 +35,14 @@ import Bankcard from '@/components/children/set/Bank-card'
 import Orderdetails from '@/components/children/Orderdetails/Orderdetails'
 import evaluate from '@/components/children/evaluate/evaluate'
 import myinvoice from '@/components/children/invoice/myinvoice'
+import store from "../store";
 
 Vue.use(Router)
 
 const $router = new Router({
   mode: 'history',  //去掉url中的#
   routes: [
+
     {
       path: '/author',
       name: 'author',
@@ -51,7 +53,7 @@ const $router = new Router({
       path: '/',
       name: 'home',
       component: home,
-      meta: {title: '首页', showFooter: true}
+      meta: {title: '首页', showFooter: true, allowShare: true}
     },
     {
       path: '/classification',

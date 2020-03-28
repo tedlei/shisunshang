@@ -97,6 +97,7 @@
 <script>
     import Header from "../header/header";
     import Bus from "../../assets/js/bus";
+    import wechatAuth from "../../assets/js/wechatConfig";
 
     export default {
         name: "Signin",
@@ -141,21 +142,24 @@
             },
             //点击分享签到
             myshare: function (e) {
-                let msg = {
-                    method: 'add.sign.share.item',
-                    id:this.log_id
-                };
-                this.$post('/api/v1/userSign', msg)
-                    .then((response) => {
-                        if (response.status == 200){
-                            this.$toast('分享成功');
-                            this.show = false;
-                            this.shareshow = false;
-
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
+                let shareConfig = {};
+                let authUrl = {urlparam: authUrl};
+                wechatAuth(authUrl, shareConfig)
+                // let msg = {
+                //     method: 'add.sign.share.item',
+                //     id: this.log_id
+                // };
+                // this.$post('/api/v1/userSign', msg)
+                //     .then((response) => {
+                //         if (response.status == 200) {
+                //             this.$toast('分享成功');
+                //             this.show = false;
+                //             this.shareshow = false;
+                //
+                //         }
+                //     }).catch(function (error) {
+                //     console.log(error);
+                // });
 
             },
             //提交签到

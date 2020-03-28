@@ -48,7 +48,7 @@ export default {
     localStorage.setItem('userinfo', res)
   },
   isLogin(state, token) {
-    localStorage.setItem('isLogin', token);
+    localStorage.setItem('token', token);
     state.isLogin = token;
   },
 

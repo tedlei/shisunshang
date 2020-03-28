@@ -3,14 +3,14 @@
     <div class="Recharge_box">
       <ul>
         <li v-for="(item,index) in lists" :key="index">
-
-          <img src="'http://imgs.wjeys.com/src/assets/img/recharge_icon1.png" class="icon">
+          <img :src="require('../../../assets/img/recharge_icon'+(Number(index)+1)+'.png')" class="icon">
           <div class="Recharge_msg">
             <div class="text1">
               <strong>充值￥{{item.money}}</strong>
               <span :class="'clo' + index">限充{{item.xc_num}}次</span>
             </div>
             <div class="text2">
+
               <img :src="require('../../../assets/img/recharge_z'+(Number(index)+1)+'.png')" class="icon2">
               <span>
                 <div>送{{item.give_money}}元，签到金实际到账{{item.money+item.give_money}}元</div>
@@ -18,7 +18,8 @@
               </span>
             </div>
           </div>
-          <img src="../../../assets/img/recharge_btn1.png" class="icon3"
+
+          <img src="http://imgs.wjeys.com/src/assets/img/recharge_btn1.png" class="icon3"
                @click="pay(index)">
         </li>
       </ul>
@@ -74,11 +75,11 @@
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest',
                         jsApiParameters,
-                        function (res) {
-                            if (res.err_msg = "get_brand_wcpay_request:ok") {
+                        function(res){
+                            if(res.err_msg="get_brand_wcpay_request:ok"){
                                 //跳转到支付成功页面
                                 alert("支付成功");
-                            } else if (res.err_msg = "get_brand_wcpay_request:fail") {
+                            }else if (res.err_msg="get_brand_wcpay_request:fail"){
                                 alert("支付失败");
                             }
 

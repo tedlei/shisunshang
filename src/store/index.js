@@ -21,7 +21,7 @@ const state = {
   searchVal: '',
   Val:'',
   userinfo: localStorage.getItem('userinfo'),
-  isLogin: localStorage.getItem('isLogin')
+  isLogin: localStorage.getItem('token'),
 }
 // getters 只会依赖 state 中的成员去更新
 

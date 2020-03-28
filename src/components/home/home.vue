@@ -47,13 +47,12 @@
     <div style="padding:0.1rem">
       <el-row :gutter="0" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
-          <div class="item" @click="doting(item.id,item.module)">
+          <div class="item" @click="doting(item.id,item.module)" style="margin-bottom: 0.1rem">
             <img :src="item.icon">
             <p>{{item.cate_name}}</p>
           </div>
         </el-col>
       </el-row>
-
 
     </div>
     <!--  公告  -->
@@ -62,7 +61,7 @@
       <el-carousel height="0.2rem" direction="vertical" :autoplay="true">
         <el-carousel-item v-for="(item,items) in news" :key="items">
           <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}">
-            <h3 class="medium">{{ item.title }}</h3>
+            {{ item.title }}
           </router-link>
         </el-carousel-item>
       </el-carousel>
@@ -139,7 +138,6 @@
                 //获取banner
                 this.$post('/api/v1/ad', ad_data)
                     .then((response) => {
-                        console.log(response.data)
                         this.bannermsg = response.data
                     }).catch(function (error) {
                     console.log(error);
@@ -147,7 +145,6 @@
                 //获取模块列表
                 this.$post('/api/v1/category', category)
                     .then((response) => {
-                        console.log(response.data)
                         this.categorylist = response.data
                     }).catch(function (error) {
                     console.log(error);
@@ -156,14 +153,12 @@
                 this.$post('/api/v1/ad', goods)
                     .then((response) => {
                         this.lists = response.data;
-                        console.log(this.lists)
                     }).catch(function (error) {
                     console.log(error);
                 });
                 //获取新闻列表
                 this.$post('/api/v1/news', news)
                     .then((response) => {
-                        console.log(response.data)
                         this.news = response.data.items
                     }).catch(function (error) {
                     console.log(error);
