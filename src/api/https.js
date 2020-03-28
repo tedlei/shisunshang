@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Toast } from 'vant';
+import {Toast} from 'vant';
 import axios from 'axios';
 import Qs from 'qs'
 import store from "../store";
@@ -34,8 +34,8 @@ axios.interceptors.request.use(
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      // 'token': store.state.isLogin || '',
-      'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU5ODA2MjAsIm5iZiI6MTU4NTM3NTgyMCwiaWF0IjoxNTg1Mzc1ODIwLCJjbGllbnRfaWQiOjE3NTIsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.OmjcehdHVNlABTtf_af69VbSjvsBsCBEjkzA2iUDklE',
+      // 'token': store.state.isLogin,
+      'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
 
@@ -112,16 +112,19 @@ axios.interceptors.response.use(
     if (response.data.status === 200) {
 
     } else if (response.data.status === 401 || response.data.status === 403) {
-      window.localStorage.clear();
+
+      localStorage.removeItem('token');
+
       Toast('会话已过期正在重新连接');
+
     } else if (response.data.status === 500) {
-      Toast('数据错误');
+      Toast('请求成功返回状态500');
     }
     return response;
   },
   error => {
     if (error.response.status == 401 || error.response.status === 403) {
-      window.localStorage.clear();
+      localStorage.removeItem('token');
       router.push({
         path: '/',
       }).catch(data => {
@@ -167,13 +170,11 @@ axios.interceptors.response.use(
  * @returns {Promise}
  */
 
-export function fetch(url, params = {}) {
+export function get(url, params = {}) {
   return new Promise((resolve, reject) => {
-    axios.get(url, {
-      params: params
-    })
+    axios.get(url, params)
       .then(response => {
-        resolve(response.data);
+        resolve(response);
       })
       .catch(err => {
         reject(err)
@@ -188,7 +189,7 @@ export function fetch(url, params = {}) {
  * @param data
  * @returns {Promise}
  */
-export function post(url, params,) {
+export function post(url, params = {},) {
   params.token1 = 'code';
   return new Promise((resolve, reject) => {
     axios.post(url, Qs.stringify(params),)

@@ -101,7 +101,11 @@
                     this.tans = true
                 }
             });
-            this.getHot();
+            let token = localStorage.getItem('token');
+            if (token){
+                this.getHot();
+            }
+
         }
     }
 </script>
@@ -133,6 +137,7 @@
     left: 0;
     right: 0;
     overflow-y: auto;
+
     .search_record {
       margin-top: 20px;
       padding: 0 10px;

@@ -109,9 +109,7 @@
                         })
                         break;
                     default:
-                        this.$toast({
-                            message: '数据错误',
-                        })
+
                 }
 
             }

@@ -8,7 +8,7 @@
       <!-- <i class="el-icon-plus"></i> -->
     </header>
     <el-container :style="{'height': height,'backgroundColor':'#f2f2f2'}">
-      <el-aside width="0.9rem">
+      <el-aside width="1rem">
         <ul class="left">
           <li v-for="(item,index) in leftlists" :key="index" :class="num==index?'active':''"
               @click="getNum(index,item.children)">

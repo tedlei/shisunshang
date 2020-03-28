@@ -14,7 +14,7 @@ import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.min.css';
 import axios from 'axios'
 import qs from 'qs'
-import {post, fetch, patch, put} from './api/https'
+import {post, patch, put} from './api/https'
 import 'mint-ui/lib/style.css'
 
 //定义全局变量
@@ -34,12 +34,13 @@ router.beforeEach((to, from, next) => {
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
       let tokens = store.state.isLogin;
-      let phone = getUrlParam('state') || '';
       if (!tokens) {
+        let phone = getUrlParam('state') || '';
         //请求微信授权,并跳转到 /WxAuth 路由
         let appId = 'wxf730b0b04586d06f'
         let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${phone}#wechat_redirect`
+        return
       } else {
         next();
       }
