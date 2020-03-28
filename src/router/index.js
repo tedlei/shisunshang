@@ -133,6 +133,12 @@ const $router = new Router({
           meta: {title: '确认订单', showFooter: false, goods: false}
         },
         {
+          path: '/goodsdetails/successfulPayment',
+          name: 'successfulPayment',
+          component: resolve => require(['@/components/children/successfulPayment/successfulPayment'], resolve),
+          meta: {title: '支付成功', showFooter: false, goods: false}
+        },
+        {
           path: '/goodsdetails/order',
           name: 'order',
           component: resolve => require(['@/components/children/order/order'], resolve),
