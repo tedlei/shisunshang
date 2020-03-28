@@ -142,8 +142,15 @@
             },
             //点击分享签到
             myshare: function (e) {
-                let shareConfig = {};
-                let authUrl = {urlparam: authUrl};
+                console.log(window.location.href.split('#')[0]);
+
+                let shareConfig = {
+                    title: '签到',
+                    desc: '签到',
+                    link: window.location.href.split('#')[0],
+                    imgUrl: 'http://imgs.wjeys.com/src/assets/img/nostore.png',
+                };
+                let authUrl = {urlparam: window.location.href.split('#')[0]};
                 wechatAuth(authUrl, shareConfig)
                 // let msg = {
                 //     method: 'add.sign.share.item',
