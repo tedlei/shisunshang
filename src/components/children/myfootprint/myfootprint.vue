@@ -2,7 +2,7 @@
 
   <div class="common_box">
     <!--  足迹，收藏，店铺  -->
-    <div v-show="$route.query.printid != 3 && goodslist.length != 0">
+    <div v-show="$route.query.printid != 3 && isData">
       <div class="footprint" v-for="(item,index) in goodslist" :key="index">
         <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index)">
             <van-icon name="success" color="#fff"/>
@@ -37,30 +37,38 @@
       </div>
     </div>
     <!--  空  -->
-    <empty v-show="goodslist.length == 0"></empty>
+    <empty v-show="isEmpty"></empty>
 
     <!-- 评价   -->
-    <div v-show="$route.query.printid == 3">
+    <div v-show="$route.query.printid == 3 && isData">
       <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
         <div class="left_img">
-          <img src="../../../assets/img/news_head.png">
+          <!-- <img :src="item.goods.imgsrc"> -->
+          <van-image
+            width="0.5rem"
+            height="0.5rem"
+            fit="cover"
+            :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
+          />
         </div>
         <div class="right_msg">
           <ul>
             <li>
               <div class="one">
-                <p>{{item.storename}}</p>
+                <p>{{item.goods==undefined||item.goods==null?'':item.goods.name}}</p>
                 <span>{{item.add_time}}</span>
-                <i class="el-icon-delete"></i>
+                <div class="evaluationicon" @click="deleteCollection(item.id)">
+                  <i class="el-icon-delete"></i>
+                </div>
               </div>
               <div>
-                <span>评价：{{item.pj}}</span>
-                <span>符合度：{{item.fhd}}</span>
+                <span>评价：{{item.content}}</span>
+                <!-- <span>符合度：{{item.fhd}}</span>
                 <span>态度：{{item.td}}</span>
-                <span>物流：{{item.wl}}</span>
+                <span>物流：{{item.wl}}</span> -->
               </div>
             </li>
-            <li>
+            <!-- <li>
               <p>{{item.liuyan}}</p>
               <div class="pei">
                 <img v-for="(imgitem,index) in item.imglist" :src="require(`../../../assets/img/${imgitem}.png`)" :key="index">
@@ -76,7 +84,7 @@
             <li>
               <span>商家回复：</span>
               {{item.huifu}}
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -94,6 +102,8 @@
     data() {
       return {
         titlelist: ['我的收藏','我的关注','我的足迹','我的评价'],
+        isEmpty: false,
+        isData: false,
         checkAll: false,
         goodslist: [
           // {
@@ -113,32 +123,32 @@
 
         ],
         evaluation_lists: [
-          {
-            storename: '乡村基',
-            add_time: '2020年1月17日',
-            pj: '2星',
-            fhd: '2星',
-            td: '2星',
-            wl: '2星',
-            liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
-            imglist: [],
-            goods: 'banner',
-            msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
-            huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
-          },
-          {
-            storename: '乡村基',
-            add_time: '2020年1月17日',
-            pj: '2星',
-            fhd: '2星',
-            td: '2星',
-            wl: '2星',
-            liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
-            imglist: ['pei1', 'pei2', 'pei3'],
-            goods: 'banner',
-            msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
-            huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
-          }
+          // {
+          //   storename: '乡村基',
+          //   add_time: '2020年1月17日',
+          //   pj: '2星',
+          //   fhd: '2星',
+          //   td: '2星',
+          //   wl: '2星',
+          //   liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
+          //   imglist: [],
+          //   goods: 'banner',
+          //   msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
+          //   huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
+          // },
+          // {
+          //   storename: '乡村基',
+          //   add_time: '2020年1月17日',
+          //   pj: '2星',
+          //   fhd: '2星',
+          //   td: '2星',
+          //   wl: '2星',
+          //   liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
+          //   imglist: ['pei1', 'pei2', 'pei3'],
+          //   goods: 'banner',
+          //   msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
+          //   huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
+          // }
         ],
         page: 0,
       }
@@ -173,7 +183,7 @@
       },
 
       myfootprintDataPush (data) {
-        console.log(data);
+        // console.log(data);
         for(var i in data){
           if(data[i].goods !=undefined && data[i].goods != null){
             this.goodslist.push({
@@ -225,7 +235,12 @@
           this.$post('/api/v1/userCollectGoods', ad_data)
           .then((res) => {
             console.log(res)
-            this.myfootprintDataPush(res.data.items);
+            if(res.data.items.length!=0){
+              this.isData = true;
+              this.myfootprintDataPush(res.data.items);
+            }else{
+              this.isEmpty = true;
+            }
           }).catch(function (error) {
               console.log(error);
           });
@@ -237,7 +252,12 @@
           this.$post('/api/v1/userCollectShops', ad_data)
           .then((res) => {
             console.log(res)
-            this.collectionShop(res.data.items);
+            if(res.data.items.length!=0){
+              this.isData = true;
+              this.collectionShop(res.data.items);
+            }else{
+              this.isEmpty = true;
+            }
           }).catch(function (error) {
               console.log(error);
           });
@@ -248,8 +268,31 @@
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
             console.log(res)
-            
-            this.footprintPush(res.data.items);
+            if(res.data.items.length!=0){
+              this.isData = true;
+              this.footprintPush(res.data.items);
+            }else{
+              this.isEmpty = true;
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }else if(this.$route.query.printid==3){
+          let ad_data = {
+            method: 'get.user.comment.list',
+            page: 0,
+            page_size: 10
+          };
+          this.$post('/api/v1/GoodsComment', ad_data)
+          .then((res) => {
+            console.log(res)
+            if(res.data.length!=0){
+              this.isData = true;
+              this.evaluation_lists = res.data;
+              // console.log(this.evaluation_lists[0].goods.name)
+            }else{
+              this.isEmpty = true;
+            }
           }).catch(function (error) {
               console.log(error);
           });
@@ -258,14 +301,18 @@
       },
 
       //删除收藏商品
-      deleteCollection () {
+      deleteCollection ( evaluationid ) {
         this.$store.commit("setLoading");
         let _id = [];
-        for(var i in this.goodslist){
-          if(this.goodslist[i].checked){
-            _id.push(this.goodslist[i].id)
-          }
-        };
+        if(evaluationid != undefined || evaluationid != '' || evaluationid != null){
+            _id = evaluationid;
+        }else{
+          for(var i in this.goodslist){
+            if(this.goodslist[i].checked){
+              _id.push(this.goodslist[i].id)
+            }
+          };
+        }
         // console.log(_id)
         if(this.$route.query.printid==0){
           let ad_data = {
@@ -315,6 +362,21 @@
           }).catch(function (error) {
               console.log(error);
           });
+        }else if(this.$route.query.printid==3){
+          let ad_data = {
+            method: "del.goods.comment.list",
+            id: _id
+          };
+          this.$post('/api/v1/goodsComment', ad_data)
+          .then((res) => {
+            console.log(res);
+            if(res.status == 200){
+              this.$store.commit("setLoading");
+              this.getData();
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
         }
 
       }
@@ -339,7 +401,8 @@
     padding: 0;
     padding-top: 43px;
     margin-bottom: 0;
-
+    // height: 100%;
+    // background-color: #fff;
     .footprint {
       display: flex;
       align-items: center;
@@ -398,12 +461,9 @@
       display: flex;
       padding: 10px;
       border-bottom: 1px solid #f2f2f2;
-
       .left_img {
-        width: 80px;
-        margin-right: 10px;
+        margin-right: 0.1rem;
       }
-
       .right_msg {
         width: calc(100% - 90px);
 
@@ -455,5 +515,8 @@
   .addRadioTwo{
     background-color: $sss-color;
   }
-
+  .evaluationicon{
+    width: 0.4rem;
+    height: 0.4rem;
+  }
 </style>

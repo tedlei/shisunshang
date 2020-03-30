@@ -6,7 +6,7 @@
       <!-- <i class="el-icon-chat-dot-round"></i> -->
     </header>
     <!--  空购物车  -->
-    <div v-show="!isCart" class="empty_box">
+    <div v-show="isKcart" class="empty_box">
       <img src="../../assets/img/empty.png" style="width:30%">
       <div class="tips">您还未挑选商品哦</div>
       <div class="to_shopping">
@@ -84,7 +84,7 @@
     <loading v-show="isloading"></loading>
     <!--  推荐  -->
     <div class="cart_rmd">
-      <img src="../../assets/img/tj.png" style="margin-bottom: 0.2rem">
+      <img v-show="isCart" src="../../assets/img/tj.png" style="margin-bottom: 0.1rem">
       <!--  商品列表  -->
         <el-row class="goodslist">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
@@ -156,7 +156,7 @@ export default {
           // }
 
         ],
-
+        isKcart: false,
         isCart: false,
         isDellBatch: false,
         goodsObj: [
@@ -244,7 +244,7 @@ export default {
           this.isCart = true;
           this.cartDataPush(res.data);
         }else{
-          this.isCart = false;
+          this.isKcart = true;
         }
       }).catch(function (error) {
         console.log(error);
@@ -578,12 +578,10 @@ body, html {
 
   /* 有购物车  */
   .have_box {
-    .store_list {
-      background-color: #fff;
-    }
+    
     .store_list {
         background-color: #fff;
-        padding-left: 0.1rem;
+        padding:0 0.1rem;
     }
     label {
       margin: 0 0.1rem;
@@ -638,7 +636,7 @@ body, html {
           align-items: center;
           .progresses{
             position: absolute;
-            right: 0.1rem;
+            right: 0;
             display: flex;
             .progressesBtn{
               width: 0.23rem;
@@ -813,8 +811,7 @@ body, html {
 
   /* 推荐 */
   .cart_rmd {
-    padding: 0.1rem 0.05rem 1.1rem 0.05rem;
-
+    padding: 0.1rem 0.05rem 0.7rem 0.05rem;
     .list .goodslist {
       background: none;
       padding: 0;
@@ -832,7 +829,7 @@ body, html {
     position: fixed;
     width: 100%;
     bottom: 0.678rem;
-    font-size: 0.18rem;
+    font-size: 0.16rem;
     color: #fff;
     display: flex;
     .left_check {

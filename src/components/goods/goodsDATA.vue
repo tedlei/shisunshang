@@ -10,16 +10,24 @@
         </a>
         <div class="Last"></div>
       </div>
-      <div id="allmerchandise" class="">
-        <!-- <el-carousel :height="imgHeight+'px'">
-          <el-carousel-item v-for="(item,index) in imglist" :key="index">
-            <img :src="item" ref="imgSize">
-          </el-carousel-item>
-        </el-carousel> -->
-        <van-swipe :autoplay="3000">
+      <div id="allmerchandise">
+        <van-swipe :autoplay="3000" @change="onChange" ref="imgCheckbox">
           <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
-            <img :src="item" ref="imgSize">
+            <img class="swipeImgs" :src="item">
+            <!-- <van-image
+              width="100%"
+              height="3.5rem"
+              fit="cover"
+              :src="item"
+            /> -->
           </van-swipe-item>
+           <template #indicator>
+            <div class="indicator">
+              <div class="custom-indicator" :class="customIndicator==index?'custom-indicator2':''" 
+              v-for="(item,index) in goodsData.goods_info.album" :key="index"
+              @click="swipeCustomIndicator(index)"></div>
+            </div>
+          </template>
         </van-swipe>
       </div>
       <!-- 1 -->
@@ -96,7 +104,7 @@
       </div>
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
-        <div class="head">商品评价（23）</div>
+        <div class="head">商品评价（）</div>
         <!-- <ul class="goods_evaluate_list clearfix">
           <li>全部(23)</li>
           <li>好评(23)</li>
@@ -104,19 +112,23 @@
           <li>中评(0)</li>
           <li>差评(0)</li>
         </ul> -->
-        <div class="user_evaluate">
+        <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
           <div class="evaluate_head">
             <div class="user">
-              <img src="../../assets/img/store_head.png" style="width: 24px">
-              <span>153******1344</span>
+              <img :src="item.users!=undefined&&item.users!=null&&item.users!=''?item.users.portrait:''" style="width: 24px">
+              <span>
+                {{item.users!=undefined&&item.users!=null&&item.users!=''?item.users.weixinname:''}}
+              </span>
             </div>
-            <div class="add_time">2020.1.09</div>
+            <div class="add_time">
+              {{item.add_time}}
+            </div>
           </div>
           <p class="text_p">
-            产品好得很！
+            {{item.content}}
           </p>
-          <div class="watch_all"><span>查看全部评价</span></div>
         </div>
+        <div class="watch_all"><span>查看全部评价</span></div>
       </div>
       <div class="conmo_box tuijian_slide">
         <title style="display: block;">
@@ -126,7 +138,8 @@
         <van-skeleton :loading='loading' :row="2">
          <el-row class="goodslist RecommendBac">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
-            <div @click="recommendAdd(goods.id)" class="item Recommend">
+            <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">
+            <div class="item Recommend">
               <van-image
                 width="100%"
                 height="1.8rem"
@@ -142,13 +155,14 @@
                 <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
               </div>
             </div>
+            </router-link>
           </el-col>
          </el-row>
         </van-skeleton>
       </div>
       <div id="commoditDetails"></div>
       <div class="conmo_box bot_img_box">
-        <img src="../../assets/img/banner.png">
+        <img :src="goodsData.goods_info.imgsrc">
       </div>
     </div>
 
@@ -235,6 +249,7 @@
       return {
         active: 0,
         sImgs: [],//轮播图
+        customIndicator: 0,//轮播图指示器颜色
         initial: [],//默认规格Id
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
@@ -244,6 +259,7 @@
           { name: '选项' },
           { name: '选项' },
         ],
+        evaluatelist: [],
         isactions: 'customer',
         actionsName: '顾客购买',
         loading: true,
@@ -264,159 +280,170 @@
           
         goodsData: {
             "goods_info": {
-		    	"id": "",
-		    	"name": "",
-		    	"proportion": "",
-		    	"price": "",
-		    	"imgsrc": "",
-		    	"ip": "",
-		    	"merchants_id": "",
-		    	"type_id": "",
-		    	"content": "",
-		    	"click_times": "",
-		    	"imgsrc1": "",
-		    	"imgsrc2": "",
-		    	"imgsrc3": "",
-		    	"imgsrc4": "",
-		    	"limitcount": "",
-		    	"limitdan": "",
-		    	"type": "",
-		    	"money_level1": "",
-		    	"money_level2": "",
-		    	"money_level3": "",
-		    	"money_level4": "",
-		    	"money_level5": "",
-		    	"money_level6": "",
-		    	"money_level7": "",
-		    	"money_level8": "",
-		    	"money_level9": "",
-		    	"money_level10": "",
-		    	"chengben": "",
-		    	"kuchun": "",
-		    	"xiaoliang": "",
-		    	"danliang": "",
-		    	"admin_id": "",
-		    	"pay_type": "",
-		    	"postage": "",
-		    	"chengben_postage": "",
-		    	"trading_type": "",
-		    	"trading_proportion": "",
-		    	"product_code": "",
-		    	"product_class": "",
-		    	"is_tejia": "",
-		    	"is_hot": "",
-		    	"is_top": "",
-		    	"is_new": "",
-		    	"category_id": "",
-		    	"is_map_customer": "",
-		    	"is_map_vip": "",
-		    	"is_map_retail": "",
-		    	"is_map_shop": "",
-		    	"spec": [
-		    		{
-		    			"goods_spec_id": "",
-		    			"goods_id": "",
-		    			"goods_no": "",
-		    			"goods_price": "",
-		    			"integral_price": "",
-		    			"give_integral": "",
-		    			"line_price": "",
-		    			"stock_num": "",
-		    			"goods_sales": "",
-		    			"goods_weight": "",
-		    			"wxapp_id": "",
-		    			"spec_sku_id": "",
-		    			"create_time": "",
-		    			"update_time": ""
-		    		}
-		    	],
-		    	"spec_rel": [
-		    		{
-		    			"spec_value_id": "",
-		    			"spec_value": "",
-		    			"spec_id": "",
-		    			"wxapp_id": "",
-		    			"create_time": "",
-		    			"spec": {
-		    				"spec_id": "",
-		    				"spec_name": "",
-		    				"wxapp_id": "",
-		    				"create_time": ""
-		    			},
-		    			"pivot": {
-		    				"id": "",
-		    				"goods_id": "",
-		    				"spec_id": "",
-		    				"spec_value_id": "",
-		    				"wxapp_id": "",
-		    				"create_time": ""
-		    			}
-		    		}
-		    	]
-		    },
-		    "buy_array": {
-		    	"customer": "",
-		    	"vip": ""
-		    },
-		    "money_array": {
-		    	"customer": {
-		    		"module": "",
-		    		"id": "",
-		    		"goods_id": "",
-		    		"qd_money_rate": "",
-		    		"money_rate": ""
-		    	},
-		    	"vip": {
-		    		"module": "",
-		    		"id": "",
-		    		"goods_id": "",
-		    		"qd_money_rate": "",
-		    		"money_rate": ""
-		    	}
-		    },
-		    "specData": {
-		    	"spec_attr": [
-		    		{
-		    			"group_id": "",
-		    			"group_name": "",
-		    			"spec_items": [
-		    				{
-		    					"item_id": "",
-		    					"spec_value": ""
-		    				}
-		    			]
-		    		}
-		    	],
-		    	"spec_list": [
-		    		{
-		    			"goods_spec_id": "",
-		    			"spec_sku_id": "",
-		    			"rows": "",
-		    			"form": {
-		    				"goods_no": "",
-		    				"goods_price": "",
-		    				"goods_weight": "",
-		    				"line_price": "",
-		    				"stock_num": "",
-		    				"give_integral": ""
-		    			}
-		    		}
-		    	]
-        },
-        "shopinfo": {
-          id: '',
-          name: '',
-          score_zh: '',
-          score_ms: '',
-          score_fw: '',
-          score_fh: ''
-        }
+              album: [
+                ''
+              ],
+		    	    "id": "",
+		    	    "name": "",
+		    	    "proportion": "",
+		    	    "price": "",
+		    	    "imgsrc": "",
+		    	    "ip": "",
+		    	    "merchants_id": "",
+		    	    "type_id": "",
+		    	    "content": "",
+		    	    "click_times": "",
+		    	    "imgsrc1": "",
+		    	    "imgsrc2": "",
+		    	    "imgsrc3": "",
+		    	    "imgsrc4": "",
+		    	    "limitcount": "",
+		    	    "limitdan": "",
+		    	    "type": "",
+		    	    "money_level1": "",
+		    	    "money_level2": "",
+		    	    "money_level3": "",
+		    	    "money_level4": "",
+		    	    "money_level5": "",
+		    	    "money_level6": "",
+		    	    "money_level7": "",
+		    	    "money_level8": "",
+		    	    "money_level9": "",
+		    	    "money_level10": "",
+		    	    "chengben": "",
+		    	    "kuchun": "",
+		    	    "xiaoliang": "",
+		    	    "danliang": "",
+		    	    "admin_id": "",
+		    	    "pay_type": "",
+		    	    "postage": "",
+		    	    "chengben_postage": "",
+		    	    "trading_type": "",
+		    	    "trading_proportion": "",
+		    	    "product_code": "",
+		    	    "product_class": "",
+		    	    "is_tejia": "",
+		    	    "is_hot": "",
+		    	    "is_top": "",
+		    	    "is_new": "",
+		    	    "category_id": "",
+		    	    "is_map_customer": "",
+		    	    "is_map_vip": "",
+		    	    "is_map_retail": "",
+		    	    "is_map_shop": "",
+		    	    "spec": [
+		    		    {
+		    		    	"goods_spec_id": "",
+		    		    	"goods_id": "",
+		    		    	"goods_no": "",
+		    		    	"goods_price": "",
+		    		    	"integral_price": "",
+		    		    	"give_integral": "",
+		    		    	"line_price": "",
+		    		    	"stock_num": "",
+		    		    	"goods_sales": "",
+		    		    	"goods_weight": "",
+		    		    	"wxapp_id": "",
+		    		    	"spec_sku_id": "",
+		    		    	"create_time": "",
+		    		    	"update_time": ""
+		    		    }
+		    	    ],
+		    	    "spec_rel": [
+		    	    	{
+		    	    		"spec_value_id": "",
+		    	    		"spec_value": "",
+		    	    		"spec_id": "",
+		    	    		"wxapp_id": "",
+		    	    		"create_time": "",
+		    	    		"spec": {
+		    	    			"spec_id": "",
+		    	    			"spec_name": "",
+		    	    			"wxapp_id": "",
+		    	    			"create_time": ""
+		    	    		},
+		    	    		"pivot": {
+		    	    			"id": "",
+		    	    			"goods_id": "",
+		    	    			"spec_id": "",
+		    	    			"spec_value_id": "",
+		    	    			"wxapp_id": "",
+		    	    			"create_time": ""
+		    	    		}
+		    	    	}
+		    	    ]
+		        },
+		        "buy_array": {
+		        	"customer": "",
+		        	"vip": ""
+		        },
+		        "money_array": {
+		        	"customer": {
+		    		  "module": "",
+		    		  "id": "",
+		    		  "goods_id": "",
+		    		  "qd_money_rate": "",
+		    		  "money_rate": ""
+		        	},
+		        	"vip": {
+		    		  "module": "",
+		    		  "id": "",
+		    		  "goods_id": "",
+		    		  "qd_money_rate": "",
+		    		  "money_rate": ""
+		        	}
+		        },
+		        "specData": {
+		      	  "spec_attr": [
+		      	  	{
+		      	  		"group_id": "",
+		      	  		"group_name": "",
+		      	  		"spec_items": [
+		      	  			{
+		      	  				"item_id": "",
+		      	  				"spec_value": ""
+		      	  			}
+		      	  		]
+		      	  	}
+		      	  ],
+		      	  "spec_list": [
+		      	  	{
+		      	  		"goods_spec_id": "",
+		      	  		"spec_sku_id": "",
+		      	  		"rows": "",
+		      	  		"form": {
+		      	  			"goods_no": "",
+		      	  			"goods_price": "",
+		      	  			"goods_weight": "",
+		      	  			"line_price": "",
+		      	  			"stock_num": "",
+		      	  			"give_integral": ""
+		      	  		}
+		      	  	}
+		      	  ]
+            },
+            "shopinfo": {
+              id: '',
+              name: '',
+              score_zh: '',
+              score_ms: '',
+              score_fw: '',
+              score_fh: ''
+            }
         },
         is_follow: 0
       }
     },
 
     methods: {
+      onChange (index) {
+        
+        this.customIndicator = index;
+      }, 
+      swipeCustomIndicator ( index ) {
+        // console.log(this.$refs.imgCheckbox)
+        this.$refs.imgCheckbox.swipeTo(index);
+      },
       goAnchor (selector, n) {
         this.active = n;
         var anchor = this.$el.querySelector(selector);
@@ -457,14 +484,9 @@
         });
       },
       
-      //
-      recommendAdd ( id ) {
-        console.log(id)
-        this.getDATA(id);
-        this.goAnchor('#allmerchandise',0);
-      },
       //商品信息
       getDATA ( id ) {
+          this.$store.commit("setLoading");
           let _id = this.$route.query.id;
           if(id){
             _id = id;
@@ -494,6 +516,12 @@
               //   this.initialName += list[i].spec_items[0].spec_value+'*' ;
               // }
               // console.log(this.initial);
+              //评价循环
+              for(var n in res.data.goods_info.comment){
+                if(n<11){
+                  this.evaluatelist.push(res.data.goods_info.comment[n]);
+                }
+              }
               let actions = [];
               for(let n in res.data.buy_array){
                 // console.log(res.data.buy_array[n]);
@@ -502,15 +530,19 @@
                 })
               }
               this.actions = actions;
+              this.$store.commit("setLoading");
+              this.getRecommend();
+            }else{
+
             }
           }).catch(function (error) {
               console.log(error);
           });
-          this.getRecommend();
       },
 
       //添加足迹
       Addfootprints () {
+        
         let ad_data = {
           method: 'add.user.footprint.item',
           goods_id: this.$route.query.id
@@ -624,9 +656,29 @@
 </script>
 
 <style scoped lang="scss">
-
+  .swipeImgs{
+    width: 100%;
+    height: 3.5rem;
+  }
+  .indicator{
+    position: absolute;
+    width: 100%;
+    bottom: 5px;
+    display: flex;
+    justify-content: center;
+  }
+  .custom-indicator {
+    padding: 2px 5px;
+    margin: 0 0.03rem;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .custom-indicator2 {
+    
+    background: $sss-color !important;
+  }
   .main {
     padding-top: 0.54rem;
+    padding-bottom: 0.45rem;
     .Anchor{
       width: 100%;
       position: fixed;
@@ -762,7 +814,8 @@
           margin: 20px 0;
         }
 
-        .watch_all {
+      }
+      .watch_all {
           text-align: center;
 
           span {
@@ -774,9 +827,6 @@
             color: #fff;
           }
         }
-
-
-      }
     }
   }
 

@@ -56,6 +56,11 @@ export default {
                 reader.readAsDataURL(file);
             }
             this.$emit('imgUpData', this.fileList);
+            let obj = {
+                index: this.index,
+                fileList: this.fileList
+            }
+            this.$store.commit('setloopUpimgs',obj);
         },
         // 压缩图片
         compress(img, size) {
@@ -93,6 +98,11 @@ export default {
     updated() {
         // console.log(this.fileList);
         this.$emit('imgUpData', this.fileList);
+        let obj = {
+            index: this.index,
+            fileList: this.fileList
+        }
+        this.$store.commit('setloopUpimgs',obj);
     },
     computed: {
     

@@ -209,6 +209,7 @@
             this.$route.query.state == 1 ? this.$store.commit('sendIvc', true) : this.$store.commit('sendIvc', false);
             console.log(this.$store.state.IvcMsg.toString())
             this.radio = this.$route.query.state == 0 ? this.$store.state.IvcMsg.toString() : '2'
+            console.log(this.radio)
         },
         destroyed() {
             Bus.$off();

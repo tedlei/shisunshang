@@ -6,7 +6,7 @@
       </ul>
     </div>
 
-    <div class="content" :style="{'padding-top':shouhou}">
+    <div v-show="isNoorder" class="content" :style="{'padding-top':shouhou}">
       <div class="common_box item" v-for="(item,index) in wholeData" :key="index">
         <!-- 店铺标题 -->
         <div class="title">
@@ -104,10 +104,10 @@
         </div>
       </div>
     </div>
-    <div v-show="isNoorder">
+    <div class="EmptyDiv" v-show="isKnoorder">
       <Empty></Empty>
     </div>
-    <div v-show="!isNoorder">
+    <div v-show="isNoorder">
       没有更多订单了
     </div>
   </div>
@@ -126,6 +126,7 @@
       return {
         num: 0,
         numBoder: 0,
+        isKnoorder: false,
         isNoorder: false,
         jsApiParameters: {},
         is: 'num',
@@ -223,16 +224,16 @@
           // console.log(res)
           console.log(res.data)
           if(res.data.length==0){
-            this.isNoorder = true;
+            this.isKnoorder = true;
           }else{
-            this.isNoorder = false;
+            this.isNoorder = true;
           }
           this.wholeData = res.data;
         }).catch(function (error) {
             console.log(error);
         });
-     },
-     cancelOrder (id) {
+      },
+      cancelOrder (id) {
         let ad_data = {
           method: 'cancel.order.item',
           order_id: id
@@ -250,7 +251,7 @@
         }).catch(function (error) {
             console.log(error);
         });
-     },
+      },
      //支付
       payment ( id ) {
         let _id = id;
@@ -358,6 +359,7 @@
           display: flex;
           text-align: left;
           >span:first-child{
+            margin-left: 0.1rem;
             width: 70%;
             overflow:hidden;
             text-overflow:ellipsis;
@@ -405,5 +407,9 @@
         }
       }
     }
+  }
+  .EmptyDiv{
+    background-color: #fff;
+    min-height: 100vh;
   }
 </style>

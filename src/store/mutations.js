@@ -83,5 +83,9 @@ export default {
   },
   setreceivingAddress(state, data){
     state.cart.receivingAddress = data;
-  }
+  },
+  setloopUpimgs(state, data){
+    state.cart.loopUpimgs[data.index] = data.fileList;
+    // console.log(state.cart.loopUpimgs)
+  },
 }

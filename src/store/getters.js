@@ -60,5 +60,8 @@ export default {
   },
   getreceivingAddress (state) {
     return state.cart.receivingAddress;
+  },
+  getloopUpimgs (state) {
+    return state.cart.loopUpimgs;
   }
 }

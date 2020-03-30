@@ -36,5 +36,6 @@ export default {
         invoice: {},
         receivingAddress: {},
         empty: false,
+        loopUpimgs: [],
     }
 }

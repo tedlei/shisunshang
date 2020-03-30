@@ -119,9 +119,15 @@
         <div>充值金</div>
         <div class="right">
           <span style="color:#999999;" class="Check">可使用充值金
-            {{orderData.user_qd_money}}
-            元</span>
-          <van-switch v-model="checked" size="0.2rem" active-color="#009900" inactive-color="#999999"/>
+            {{orderData.user_money}}
+            <!-- {{orderData.user_money='0.00'?'我是0':'bushi'}} -->
+            元
+          </span>
+          <van-switch v-show="orderData.user_money>0?true:false"
+          v-model="checked" 
+          size="0.2rem" 
+          active-color="#009900" 
+          inactive-color="#999999"/>
         </div>
       </a>
       <div class="price">
@@ -177,7 +183,7 @@
                 buy_type: '',
                 isTips: true,
                 input: '',
-                checked: true,
+                checked: false,
                 orderData: {
                     address_default: {
                       name:''
@@ -199,6 +205,7 @@
                         }
                     ]
                 },
+                oderPay: '',
             }
         },
         computed: {},
@@ -218,12 +225,13 @@
               };
               this.$post('/api/v1/order', ad_data)
               .then((res) => {
-                console.log(res);
+                // console.log(res);
                 // return false;
                 if(res.status==200){
                   this.orderData = res.data;
-                  if(res.data.address_default==null||res.data.address_default==undefined||res.data.address_default==''){
-                  }
+                  // if(res.data.address_default==null||res.data.address_default==undefined||res.data.address_default==''){
+
+                  // }
                 }else{
                   this.$router.back(-1);
                   this.$toast(res.message);
@@ -246,7 +254,7 @@
                   console.log(res);
                   if(res.status==200){
                     this.orderData = res.data;
-                    console.log(this.orderData)
+                    // console.log(this.orderData)
                   }else{
                     this.$router.back(-1);
                     this.$toast(res.message);
@@ -304,7 +312,8 @@
                     this.isloading = false;
                     if(res.data.is_wx_pay == 1){
                       console.log(res.data.payment)
-                    	this.jsApiParameters = res.data.payment;
+                      this.jsApiParameters = res.data.payment;
+                      this.oderPay = res.data.pay_no;
                       this.callpay();
                     }
                   } else if (res.status == 200 && res.data.is_wx_pay == 0){
@@ -335,6 +344,8 @@
             let is_cz_price = this.checked ? 1 : 0;
             let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
             let invoice_detail = [];
+            let invoice = this.$store.getters.getinvoice;
+            // console.log(invoice);
             if(invoice.type=='2'){
               invoice_detail['type'] = invoice.type;
               invoice_detail['title'] = invoice.title;
@@ -396,14 +407,7 @@
 	          		function(res){
 	          			if(  res.err_msg.indexOf(":ok")>0 ){
 	          				//跳转到支付成功页面
-	          				// this.$dialog.alert({
-                    //     title: '提交成功',
-                    //     message: '请在订单有效时间内前往订单详情页面付款'
-                    // }).then((res) => {
-                    //     if (res == 'confirm') {
-                    //         this.$router.push({path: '/goodsdetails/order', query: {id: '1'}});
-                    //     }
-                    // })
+                    this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
 	          			}else{
 
                   }

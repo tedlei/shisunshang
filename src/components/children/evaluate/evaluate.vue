@@ -1,60 +1,130 @@
 <template>
   <div class="content">
-      <div class="evalua">
+      <div class="evalua" v-for="(item,index) in evaluate.goods" :key="index">
           <div class="goodsImg">
             <van-image
               width="0.4rem"
               height="0.4rem"
               fit="cover"
-              src="https://img.yzcdn.cn/vant/cat.jpeg"
+              :src="item.thumb"
             />
-            <span style="width:85%" class="fontWrap fontWrapOne">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</span>
+            <span style="width:85%;text-align: left;" class="fontWrap fontWrapOne">
+              {{item.name}}
+            </span>
           </div>
           <div class="evaluaInput">
             <van-cell>
                 <van-field 
-                    v-model="value" 
-                    placeholder="宝贝瞒住你的期待吗？说说它美中不住的地方吧" 
-                    :border="false"
-                    autosize
-                    rows="3"
-                    type="textarea"
-                    maxlength="200"
-                    show-word-limit
+                  v-model="value[index]" 
+                  placeholder="宝贝瞒住你的期待吗？说说它美中不住的地方吧" 
+                  :border="false"
+                  autosize
+                  rows="3"
+                  type="textarea"
+                  show-word-limit
                 />
                 <div class="uploaderImgs">
-                    <van-uploader 
-                        :after-read="afterRead" 
-                        v-model="fileList" 
-                        multiple 
-                        :max-count="4"
-                    />
+                    <imgOSSuploader :index='index' :maxCount='4'></imgOSSuploader>
                 </div>
             </van-cell>
           </div>
+      </div>
+      <div class="btn">
+        <van-button type="primary" block @click="Submission">提交</van-button>
       </div>
   </div>
 </template>
 
 <script>
+import imgOSSuploader from "../imgOSS/uploaderTwo"
+import imgUpload from '../../../api/imgUpload'
   export default {
-  components: {},
+  components: {
+    imgOSSuploader,
+  },
   data () {
     return {
-      value: '',
-      fileList: [
-        // { url: '' },
-        // Uploader 根据文件后缀来判断是否为图片文件
-        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-        // { url: 'https://cloud-image', isImage: true }
-      ]
+      value: [],
+      evaluate: {},
     }
   },
   methods: {
     afterRead (file) {
-      // 此时可以自行将文件上传至服务器
-      console.log(file);
+      // console.log(file);
     },
+    getData () {
+      let _id = this.$route.query.id;
+      let ad_data = {
+        method: 'get.order.item',
+        order_id: _id
+      };
+      this.$post('/api/v1/order', ad_data)
+      .then((res) => {
+        console.log(res);
+        this.evaluate = res.data;
+
+      }).catch(function (error) {
+          console.log(error);
+      });
+    },
+    setData ( ad_data ) {
+      this.$post('/api/v1/GoodsComment', ad_data)
+      .then((res) => {
+        console.log(res);
+
+      }).catch(function (error) {
+          console.log(error);
+      });
+    },
+    Submission () {
+      let upimglist = [];
+      let imglist = this.$store.getters.getloopUpimgs;
+      if(imglist.length==0){
+        let goodslist = this.evaluate.goods;
+        for(let i in goodslist){
+          upimglist.push({
+            product_id: goodslist[i].goods_id,//商品id
+            order_id: goodslist[i].id,//订单Id
+            imgarr: [],//url数组
+            content: this.value[i],//评论内容
+          });
+          if(upimglist.length == goodslist.length){
+            let ad_data = {
+              method: 'add.goods.comment.list',
+              list: upimglist,
+              order_id: this.evaluate.id
+            };
+            this.setData(ad_data);
+          }
+        }
+      }else{
+        for(let i in imglist){
+          imgUpload(imglist[i]).then( res => {
+            console.log(res);
+            // console.log(this.evaluate.goods[i].goods_id)
+            upimglist.push({
+              product_id: this.evaluate.goods[i].goods_id,//商品id
+              order_id: this.evaluate.id,//订单Id
+              imgarr: res,//url数组
+              content: this.value[i],//评论内容
+            });
+            if(upimglist.length == imglist.length){
+              let ad_data = {
+                method: 'add.goods.comment.list',
+                list: upimglist,
+                order_id: this.evaluate.id
+              };
+              this.setData(ad_data);
+            }
+
+          })
+        }
+      }
+      
+    }
+  },
+  mounted () {
+    this.getData();
   },
   computed: {
     
@@ -79,11 +149,18 @@
             }
             .uploaderImgs{
                 margin: 0.1rem 0;
+                
             }
         }
         
     }
     .van-cell{
         padding: 0 !important;
+    }
+    .hrDiv{
+      height: 0.1rem;
+    }
+    .btn{
+      padding: 0.2rem 0.1rem;
     }
 </style>
