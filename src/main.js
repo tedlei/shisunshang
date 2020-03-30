@@ -33,12 +33,12 @@ router.beforeEach((to, from, next) => {
   let ua = window.navigator.userAgent.toLocaleLowerCase();
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
-      let tokens = store.state.isLogin;
+      let tokens = store.getters.isLogin;
       if (!tokens) {
         let phone = getUrlParam('state') || '';
         //请求微信授权,并跳转到 /WxAuth 路由
         let appId = 'wxf730b0b04586d06f'
-        let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
+        let redirectUrl = encodeURIComponent('https://m.wjeys.com/author');
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${phone}#wechat_redirect`
         return
       } else {
@@ -75,7 +75,8 @@ router.beforeEach((to, from, next) => {
     });
   }else if(to.meta.title){
     document.title = to.meta.title;
-  } 
+  }
+
   next();
 });
 

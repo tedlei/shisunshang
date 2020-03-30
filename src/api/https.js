@@ -22,7 +22,7 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
 }
 
-const baseURL = 'http://test.gj.wjeys.com';
+const baseURL = 'https://test.gj.wjeys.com';
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;
@@ -34,8 +34,8 @@ axios.interceptors.request.use(
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      // 'token': store.state.isLogin,
-      'token': tokens,
+      'token': store.getters.isLogin,
+      // 'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
 
@@ -114,8 +114,11 @@ axios.interceptors.response.use(
     } else if (response.data.status === 401 || response.data.status === 403) {
 
       localStorage.removeItem('token');
-
       Toast('会话已过期正在重新连接');
+      router.push({
+        path: '/',
+      }).catch(data => {
+      })
 
     } else if (response.data.status === 500) {
       Toast('请求成功返回状态500');
