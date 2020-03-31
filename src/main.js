@@ -30,7 +30,7 @@ Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
   //===== 判断是否为微信浏览器 =====
-  console.log(to)
+  // console.log(to)
   let ua = window.navigator.userAgent.toLocaleLowerCase();
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 

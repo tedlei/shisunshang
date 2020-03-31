@@ -44,7 +44,7 @@
         mounted() {
             this.path = this.$route.path;
             let phone = JSON.parse(this.$store.getters.getuserinfo);
-            console.log(phone)
+            // console.log(phone)
             if (phone) {
                 let sourceUrl = localStorage.getItem('sourceUrl');
                 let shareConfig = {

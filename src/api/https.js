@@ -11,7 +11,7 @@ let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
-  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
+  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
 }
 
 const baseURL = 'http://test.gj.wjeys.com';

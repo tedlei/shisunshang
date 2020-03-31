@@ -55,7 +55,7 @@
           <ul>
             <li>
               <div class="one">
-                <p>{{item.goods==undefined||item.goods==null?'':item.goods.name}}</p>
+                <p class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</p>
                 <span>{{item.add_time}}</span>
                 <div class="evaluationicon" @click="deleteCollection(item.id)">
                   <i class="el-icon-delete"></i>
@@ -417,7 +417,7 @@
       .right_msg {
         text-align: left;
         width: calc(100% - 115px);
-
+        
         div {
           margin-top: 5px;
           display: flex;

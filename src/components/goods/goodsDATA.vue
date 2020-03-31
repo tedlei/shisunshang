@@ -13,7 +13,9 @@
       <div id="allmerchandise">
         <van-swipe :autoplay="3000" @change="onChange" ref="imgCheckbox">
           <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
-            <img class="swipeImgs" :src="item">
+            <img v-show="item!='' && item!=undefined && item != null" class="swipeImgs" :src="item">
+            <img v-show="item==''||item==undefined||item==null" class="swipeImgs" src="../../assets/img/mrtp.png">
+            <!-- <img class="swipeImgs" :src="item"> -->
             <!-- <van-image
               width="100%"
               height="3.5rem"
@@ -138,8 +140,7 @@
         <van-skeleton :loading='loading' :row="2">
          <el-row class="goodslist RecommendBac">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
-<!--            <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
-
+            <!--<router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
             <div class="item Recommend" @click="lajibushuaxin(goods.id)">
               <van-image
                 width="100%"
@@ -156,7 +157,7 @@
                 <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
               </div>
             </div>
-<!--            </router-link>-->
+            <!--</router-link>-->
           </el-col>
          </el-row>
         </van-skeleton>
@@ -282,7 +283,7 @@
         goodsData: {
             "goods_info": {
               album: [
-                ''
+                require('../../assets/img/mrtp.png')
               ],
 		    	    "id": "",
 		    	    "name": "",
@@ -484,21 +485,19 @@
           console.log(error);
         });
       },
-
-        //
-        lajibushuaxin(id) {
-            this.getDATA(id);
-        },
-
+      lajibushuaxin(id) {
+          this.$router.push({path:'/goodsdetails',query:{id: id}});
+          // this.$route.query.id = id;
+          // this.getDATA(id);
+      },
 
       //商品信息
       getDATA ( id ) {
-          this.$store.commit("setLoading");
           let _id = this.$route.query.id;
           if(id){
             _id = id;
           }
-          console.log(_id)
+          // console.log(_id)
           let ad_data = {
             method: 'get.goods.item',
             goods_id: _id
@@ -516,7 +515,9 @@
               this.$store.commit('getGoodsData',res.data);
               this.$store.commit('getshopsData',res.data.shopinfo);
               // let list = res.data.specData.spec_attr;
-
+              this.goodsData.goods_info.album.unshift(
+                res.data.goods_info.imgsrc
+              )
               //规格循环
               // for (var i in list) {
               //   this.initial.push( list[i].spec_items[0].item_id );
@@ -537,7 +538,6 @@
                 })
               }
               this.actions = actions;
-              this.$store.commit("setLoading");
               this.getRecommend();
             }else{
 
@@ -652,12 +652,21 @@
       this.Addfootprints();
     },
     updated () {
-
+      
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
 
     },
+    watch:{
+      '$route' (to, from) {
+        // console.log(to.query.id)
+        this.getDATA(to.query.id);
+        // console.log(this.$route.query.id)
+        this.Addfootprints();
+      },
+     
+    }
 
   }
 </script>

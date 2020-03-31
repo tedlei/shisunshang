@@ -63,6 +63,7 @@
                 radio: '1',
                 dang: '',
                 show: false,
+                jsApiParameters: {}
             }
         },
         methods: {
@@ -78,13 +79,45 @@
                     money: this.dang
                 }
                 this.$post('/api/v1/UserRecharge', parms)
-                    .then((response) => {
-
-                    }).catch(function (error) {
-                    console.log(error);
+                .then((response) => {
+                  if(res.data.is_wx_pay == 1){
+                    this.jsApiParameters = res.data.payment;
+                    this.callpay();
+                  }
+                  
+                }).catch(function (error) {
+                console.log(error);
                 })
             },
-            // 键盘
+
+
+            jsApiCall(){
+	          	WeixinJSBridge.invoke(
+	          		'getBrandWCPayRequest',
+	          		this.jsApiParameters,
+	          		function(res){
+	          			if(  res.err_msg.indexOf(":ok")>0 ){
+	          				//跳转到支付成功页面
+                    this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+	          			}else{
+
+                  }
+	          		
+	          		}
+	          	);
+	          },
+	          callpay(){
+		          if (typeof WeixinJSBridge == "undefined"){
+		              if( document.addEventListener ){
+		                  document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+		              }else if (document.attachEvent){
+		                  document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		                  document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+		              }
+		          }else{
+		              this.jsApiCall();
+		          }
+	          },
 
         },
         mounted() {

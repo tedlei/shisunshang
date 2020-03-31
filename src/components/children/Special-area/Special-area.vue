@@ -17,7 +17,7 @@
                 <div class="grid-content bg-purple" @click="gotodetail(item.id)">
                   <van-image
                     width="100%"
-                    height="1.92rem"
+                    height="1.8rem"
                     fit="cover"
                     :src="item.imgsrc"
                   />
@@ -171,13 +171,12 @@
           text-align: left;
 
           .text {
-            font-size: 0.16rem;
-
+            font-size: 0.14rem;
             .vip {
               background-color: #009900;
               color: #fff;
               display: inline-block;
-              line-height: 16px;
+              line-height: 14px;
               border-radius: 5px;
               padding: 4px;
             }
@@ -186,7 +185,7 @@
           .yishou {
             font-size: 0.12rem;
             color: #999999;
-            margin: 10px 0;
+            margin: 0.05rem 0;
             text-align: right;
           }
 
