@@ -60,7 +60,7 @@
     import Header from "../header/header";
     import Search from "../search/search";
     import Bus from "../../assets/js/bus";
-    import clientW from '../../assets/js/conmon'
+    import clientWw from '../../assets/js/conmon'
 
     export default {
         name: "classification",
@@ -105,7 +105,7 @@
                 console.log(e)
             },
             getHeight: function () {
-                console.log(clientW)
+                let clientW = clientWw.clientWw()
                 let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
                 let topH = this.$refs.headerh.offsetHeight;
                 this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem'
@@ -143,7 +143,7 @@
     background-color: #fff;
 
     .left li {
-      padding: 0.15rem 0;
+      line-height: 0.5rem;
       position: relative;
       border-bottom: 1px solid #f2f2f2;
     }
@@ -175,10 +175,6 @@
       font-size: 0.18rem;
       font-weight: bold;
       color: #0f0f0f;
-    }
-
-    .goodslist {
-
     }
 
     .goodslist li {

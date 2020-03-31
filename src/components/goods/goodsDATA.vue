@@ -23,7 +23,7 @@
           </van-swipe-item>
            <template #indicator>
             <div class="indicator">
-              <div class="custom-indicator" :class="customIndicator==index?'custom-indicator2':''" 
+              <div class="custom-indicator" :class="customIndicator==index?'custom-indicator2':''"
               v-for="(item,index) in goodsData.goods_info.album" :key="index"
               @click="swipeCustomIndicator(index)"></div>
             </div>
@@ -138,8 +138,9 @@
         <van-skeleton :loading='loading' :row="2">
          <el-row class="goodslist RecommendBac">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
-            <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">
-            <div class="item Recommend">
+<!--            <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
+
+            <div class="item Recommend" @click="lajibushuaxin(goods.id)">
               <van-image
                 width="100%"
                 height="1.8rem"
@@ -155,7 +156,7 @@
                 <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
               </div>
             </div>
-            </router-link>
+<!--            </router-link>-->
           </el-col>
          </el-row>
         </van-skeleton>
@@ -277,7 +278,7 @@
           //   'goodsimg': 'goods_img'
           // },
         ],
-          
+
         goodsData: {
             "goods_info": {
               album: [
@@ -437,9 +438,9 @@
 
     methods: {
       onChange (index) {
-        
+
         this.customIndicator = index;
-      }, 
+      },
       swipeCustomIndicator ( index ) {
         // console.log(this.$refs.imgCheckbox)
         this.$refs.imgCheckbox.swipeTo(index);
@@ -478,12 +479,18 @@
             })
           }
           this.loading = false;
-         
+
         }).catch(function (error) {
           console.log(error);
         });
       },
-      
+
+        //
+        lajibushuaxin(id) {
+            this.getDATA(id);
+        },
+
+
       //商品信息
       getDATA ( id ) {
           this.$store.commit("setLoading");
@@ -498,7 +505,7 @@
           };
           this.$post('/api/v1/goods', ad_data)
           .then((res) => {
-            console.log(res) 
+            console.log(res)
             if(res.status == 200){
               // console.log(this.$route.meta);
               document.title = res.data.goods_info.name;
@@ -509,7 +516,7 @@
               this.$store.commit('getGoodsData',res.data);
               this.$store.commit('getshopsData',res.data.shopinfo);
               // let list = res.data.specData.spec_attr;
-              
+
               //规格循环
               // for (var i in list) {
               //   this.initial.push( list[i].spec_items[0].item_id );
@@ -542,7 +549,7 @@
 
       //添加足迹
       Addfootprints () {
-        
+
         let ad_data = {
           method: 'add.user.footprint.item',
           goods_id: this.$route.query.id
@@ -550,14 +557,14 @@
         this.$post('/api/v1/UserFootprint', ad_data)
         .then((res) => {
           // console.log(res)
-          
+
         }).catch(function (error) {
             console.log(error);
         });
       },
 
       //收藏商品
-      collection () { 
+      collection () {
         this.$store.commit("setLoading");
         let _id = this.$route.query.id;
         let ad_data = {
@@ -598,7 +605,7 @@
         // console.log(ad_data);
         this.$post('/api/v1/goodsCart', ad_data)
         .then((res) => {
-          // console.log(res.status) 
+          // console.log(res.status)
           if (res.status == 200) {
             this.$toast.success("添加成功");
             this.$store.commit("setLoading");
@@ -645,13 +652,13 @@
       this.Addfootprints();
     },
     updated () {
-      
+
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
-      
+
     },
-  
+
   }
 </script>
 
@@ -673,7 +680,7 @@
     background: rgba(0, 0, 0, 0.3);
   }
   .custom-indicator2 {
-    
+
     background: $sss-color !important;
   }
   .main {
@@ -702,7 +709,7 @@
         border-bottom: 3px solid #009900;
       }
     }
-    
+
     .conmo_box {
       background-color: #fff;
       padding: 0.1rem 0.05rem;
@@ -1027,9 +1034,9 @@
     }
   }
   .textLinefeed{
-    overflow:hidden; 
+    overflow:hidden;
     text-overflow:ellipsis;
-    display:-webkit-box; 
+    display:-webkit-box;
     -webkit-box-orient:vertical;
   }
   .commodityName{

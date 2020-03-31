@@ -15,31 +15,36 @@ const wechatAuth = async function (authUrl, shareConfig) {
             timestamp: authRes.timestamp,
             nonceStr: authRes.nonceStr,
             signature: authRes.signature,
-            jsApiList: ["updateAppMessageShareData", "updateTimelineShareData"]
+            jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"]
           });
         }
       }).catch(function (error) {
       console.log(error);
     });
+
     wx.ready(() => {
-      wx.updateAppMessageShareData({
+      wx.onMenuShareTimeline({
         title: shareConfig.title,
-        desc: shareConfig.desc,
+        // desc: shareConfig.desc,
         link: shareConfig.link,
         imgUrl: shareConfig.imgUrl,
         success: function () {//设置成功
-          console.log(123)
+          console.log("分享成功");
+        },
+        cancel: function () {
+          console.log("取消分享");
+        }
+      });
+      wx.onMenuShareAppMessage({
+        title: shareConfig.title,
+        // desc: shareConfig.desc,
+        link: shareConfig.link,
+        imgUrl: shareConfig.imgUrl,
+        success: function () {//设置成功
           //shareSuccessCallback();
         },
-
-      });
-      wx.updateTimelineShareData({
-        title: shareConfig.title,
-        desc: shareConfig.desc,
-        link: shareConfig.link,
-        imgUrl: shareConfig.imgUrl,
-        success: function () {//设置成功
-          //shareSuccessCallback();
+        cancel: function () {
+          console.log("取消分享");
         }
       });
 

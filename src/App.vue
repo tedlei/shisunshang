@@ -14,13 +14,14 @@
     import Header from "./components/header/header";
     import loading from "./components/loading/loading";
     import SearchResult from "./components/children/searchResult/searchResult";
+    import wechatAuth from "./assets/js/wechatConfig";
 
     export default {
         name: 'App',
         components: {SearchResult, Header, Footer, loading},
-        provide(){
-            return{
-                reload:this.reload
+        provide() {
+            return {
+                reload: this.reload
             }
         },
         data() {
@@ -33,7 +34,7 @@
             this.path = this.$route.path
         },
         methods: {
-            reload () {
+            reload() {
                 this.isRouterAlive = false;            //先关闭，
                 this.$nextTick(function () {
                     this.isRouterAlive = true;         //再打开
@@ -42,6 +43,19 @@
         },
         mounted() {
             this.path = this.$route.path;
+            let phone = JSON.parse(this.$store.getters.getuserinfo);
+            console.log(phone)
+            if (phone) {
+                let sourceUrl = localStorage.getItem('sourceUrl');
+                let shareConfig = {
+                    title: this.$router.name,
+                    desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
+                    link: window.location.host + sourceUrl + '?state=' + phone.phone,
+                    imgUrl: '',
+                };
+                wechatAuth(shareConfig)
+            }
+
         },
         watch: {
             $router(to, from) {

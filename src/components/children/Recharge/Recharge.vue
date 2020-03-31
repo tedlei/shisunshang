@@ -18,8 +18,7 @@
               </span>
             </div>
           </div>
-
-          <img src="http://imgs.wjeys.com/src/assets/img/recharge_btn1.png" class="icon3"
+          <img :src="item.rechargebtn" class="icon3"
                @click="pay(index)">
         </li>
       </ul>
@@ -32,7 +31,11 @@
         name: "Recharge",
         data() {
             return {
-                lists: []
+                lists: [
+                    {
+                        rechargebtn: ''
+                    }
+                ],
             }
         },
         methods: {
@@ -43,8 +46,12 @@
                 }
                 this.$post('/api/v1/UserRecharge', msg)
                     .then((response) => {
-                        _this.lists = response.data
-                        console.log(response)
+                        for (let i in response.data) {
+                            response.data[i].rechargebtn = require('../../../assets/img/recharge_btn' + (Number(i) + 1) + '.png')
+                        }
+                        console.log(response.data)
+                        _this.lists = response.data;
+
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -75,11 +82,11 @@
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest',
                         jsApiParameters,
-                        function(res){
-                            if(res.err_msg="get_brand_wcpay_request:ok"){
+                        function (res) {
+                            if (res.err_msg = "get_brand_wcpay_request:ok") {
                                 //跳转到支付成功页面
                                 alert("支付成功");
-                            }else if (res.err_msg="get_brand_wcpay_request:fail"){
+                            } else if (res.err_msg = "get_brand_wcpay_request:fail") {
                                 alert("支付失败");
                             }
 

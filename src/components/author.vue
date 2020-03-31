@@ -28,11 +28,13 @@
                         .then((response) => {
                             if (response.status == 200) {
                                 this.$store.commit('isLogin', response.data.token);
+                                let sourceUrl = localStorage.getItem('sourceUrl')
                                 setTimeout(() => {
                                     this.$router.push({
-                                        path: '/'
+                                        path: sourceUrl
                                     })
-                                }, 2000)
+                                }, 2000);
+
                             }
                         }).catch(function (error) {
                         console.log(error);

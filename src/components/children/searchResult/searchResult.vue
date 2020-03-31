@@ -101,11 +101,10 @@
                     this.tans = true
                 }
             });
-            let token = localStorage.getItem('token');
-            if (token){
+            let token = this.$store.getters.isLogin;
+            if (token) {
                 this.getHot();
             }
-
         }
     }
 </script>

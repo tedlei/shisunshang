@@ -1,87 +1,92 @@
 <template>
-  <van-popup
-    v-model="show"
-    :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2' }"
-  >
-    <header>
-      <div class="top">
-        <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
-        <div>签到</div>
-      </div>
-      <div>
-        <ul class="leiji_ul clearfix">
-          <li>
-            <div class="lei_num">{{total_day}}</div>
-            <div>累计签到/天</div>
-          </li>
-          <li>
-            <div class="lei_num">{{qd_money || '' | moneyFormat}}</div>
-            <div><img src="../.././assets/img/jinbi.png" style="width: 0.24rem"></div>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <div id="calendar">
-      <!-- 年份 月份 -->
-      <div class="month">
-        <ul>
-          <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
-          <li class="arrow">❮</li>
-          <li class="year-month">
-            <span class="choose-year">{{ currentYear }}</span>/
-            <span class="choose-month">{{ currentMonth }}月</span>
-          </li>
-          <li class="arrow">❯</li>
-        </ul>
-      </div>
-      <!-- 星期 -->
-      <ul class="weekdays">
-        <li>一</li>
-        <li>二</li>
-        <li>三</li>
-        <li>四</li>
-        <li>五</li>
-        <li style="color:red">六</li>
-        <li style="color:red">日</li>
-      </ul>
-      <!-- 日期 -->
-      <ul class="days">
-        <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
-        <li v-for="dayobject in days">
-          <!--本月-->
-          <!--如果不是本月  改变类名加灰色-->
+  <div>
 
-          <span v-if="dayobject.day.getMonth()+1 != currentMonth"
-                class="other-month">{{ dayobject.day.getDate() }}</span>
-          <span v-else>
+
+    <van-popup
+      v-model="show"
+      :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2' }"
+    >
+      <header>
+        <div class="top">
+          <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
+          <div>签到</div>
+        </div>
+        <div>
+          <ul class="leiji_ul clearfix">
+            <li>
+              <div class="lei_num">{{total_day}}</div>
+              <div>累计签到/天</div>
+            </li>
+            <li>
+              <div class="lei_num">{{qd_money || '' | moneyFormat}}</div>
+              <div><img src="../.././assets/img/jinbi.png" style="width: 0.24rem"></div>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <div id="calendar">
+        <!-- 年份 月份 -->
+        <div class="month">
+          <ul>
+            <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
+            <li class="arrow">❮</li>
+            <li class="year-month">
+              <span class="choose-year">{{ currentYear }}</span>/
+              <span class="choose-month">{{ currentMonth }}月</span>
+            </li>
+            <li class="arrow">❯</li>
+          </ul>
+        </div>
+        <!-- 星期 -->
+        <ul class="weekdays">
+          <li>一</li>
+          <li>二</li>
+          <li>三</li>
+          <li>四</li>
+          <li>五</li>
+          <li style="color:red">六</li>
+          <li style="color:red">日</li>
+        </ul>
+        <!-- 日期 -->
+        <ul class="days">
+          <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
+          <li v-for="dayobject in days">
+            <!--本月-->
+            <!--如果不是本月  改变类名加灰色-->
+
+            <span v-if="dayobject.day.getMonth()+1 != currentMonth"
+                  class="other-month">{{ dayobject.day.getDate() }}</span>
+            <span v-else>
               <span v-if="dayobject.isSign===true" class="active">{{ dayobject.day.getDate() }}</span>
               <span v-else-if="dayobject.todaysigin === istoday" class="todaysigin">{{ dayobject.day.getDate() }}</span>
               <span v-else>{{ dayobject.day.getDate() }}</span>
           </span>
 
-        </li>
-      </ul>
-      <div class="share">
-        <div class="left">
+          </li>
+        </ul>
+        <div class="share">
+          <div class="left">
           <span class="yqd">
             <i style="color: #33a6ff;">●</i>
             <span>已签到</span>
           </span>
-          <!--          <span>-->
-          <!--            <i>●</i>-->
-          <!--            <span>未签到</span>-->
-          <!--          </span>-->
-          <span class="jinri">
+            <!--          <span>-->
+            <!--            <i>●</i>-->
+            <!--            <span>未签到</span>-->
+            <!--          </span>-->
+            <span class="jinri">
             <i style="color: #ff6a69;">○</i>
             <span>今日</span>
           </span>
-        </div>
-        <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false" v-show="!isshow">分享签到
+          </div>
+          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false" v-show="!isshow">分享签到
+          </div>
         </div>
       </div>
-    </div>
-    <div class="submitsign" v-if="isshow" @click="submitsign">我要签到</div>
-    <div class="submitsign" v-else style="background-color: #eca69f">今日已签到</div>
+      <div class="submitsign" v-if="isshow" @click="submitsign">我要签到</div>
+      <div class="submitsign" v-else style="background-color: #eca69f">今日已签到</div>
+
+    </van-popup>
     <van-popup
       v-model="shareshow"
       :style="{ background:'#fff',padding:'0.1rem',width:'50%',borderRadius:'5px'}"
@@ -91,7 +96,7 @@
       <img src="../../assets/img/liwu.png" style="margin: 0.1rem 0"/>
       <div class="my_share" @click="myshare">我要分享</div>
     </van-popup>
-  </van-popup>
+  </div>
 </template>
 
 <script>
@@ -142,16 +147,14 @@
             },
             //点击分享签到
             myshare: function (e) {
-                console.log(window.location.href.split('#')[0]);
-
+                let sourceUrl = localStorage.getItem('sourceUrl');
                 let shareConfig = {
                     title: '签到',
                     desc: '签到',
-                    link: window.location.href.split('#')[0],
-                    imgUrl: 'http://imgs.wjeys.com/src/assets/img/nostore.png',
+                    link: window.location.host + sourceUrl + '?state=' + JSON.parse(this.$store.getters.getuserinfo).phone,
+                    imgUrl: '',
                 };
-                let authUrl = {urlparam: window.location.href.split('#')[0]};
-                wechatAuth(authUrl, shareConfig)
+                wechatAuth(shareConfig);
                 // let msg = {
                 //     method: 'add.sign.share.item',
                 //     id: this.log_id

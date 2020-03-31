@@ -2,7 +2,7 @@
   <!--  空  -->
   <div class="none_store" :style="{'height':height}">
     <div>
-      <img src="http://imgs.wjeys.com/src/assets/img/nostore.png">
+      <img src="../../../assets/img/nostore.png">
       <p v-if="show1">{{text1}}</p>
       <pre v-if="show2">{{text2}}</pre>
       <div class="tolink">
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    import clientWw from "../../../assets/js/conmon";
+
     export default {
         name: "empty",
         props: {
@@ -34,7 +36,7 @@
                 show1: true,
                 show2: true,
                 showaddress: false,
-                showinvoice:false,
+                showinvoice: false,
                 querys: '{addressid:add}',
             }
         },
@@ -62,7 +64,9 @@
                     break;
 
             }
-            this.height = ((document.documentElement.clientHeight || document.body.clientHeight) - 43) + 'px';
+            let clientW = clientWw.clientWw()
+            let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
+            this.height = (h - 43 * clientW / 100) / clientW + 'rem';
         }
     }
 </script>

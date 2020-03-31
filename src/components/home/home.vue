@@ -96,9 +96,6 @@
       </el-row>
     </div>
     <!--  -->
-    <div>
-      没得更多了
-    </div>
     <signin></signin>
 
   </div>
@@ -166,27 +163,27 @@
             },
             //获取用户信息并存储
             getuserinfo: function () {
-                let _this = this;
-                let userinfo = {
-                    method: 'get.user.info'
-                }
-                this.$post('/api/v1/user', userinfo)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            if (response.data.is_sign == 0) {
-                                _this.$dialog.confirm({
-                                    title: '嗨！',
-                                    message: '今日还未签到是否签到赢好礼呢！'
-                                }).then(() => {
-                                    Bus.$emit('signtans', true);
-                                }).catch(() => {
-                                });
-                            }
-                            _this.$store.commit('userinfo', JSON.stringify(response.data))
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
+                // let _this = this;
+                // let userinfo = {
+                //     method: 'get.user.info'
+                // }
+                // this.$post('/api/v1/user', userinfo)
+                //     .then((response) => {
+                //         if (response.status == 200) {
+                //             if (response.data.is_sign == 0) {
+                //                 _this.$dialog.confirm({
+                //                     title: '嗨！',
+                //                     message: '今日还未签到是否签到赢好礼呢！'
+                //                 }).then(() => {
+                //                     Bus.$emit('signtans', true);
+                //                 }).catch(() => {
+                //                 });
+                //             }
+                //             _this.$store.commit('userinfo', JSON.stringify(response.data))
+                //         }
+                //     }).catch(function (error) {
+                //     console.log(error);
+                // });
             },
             //分类按钮
             doting: function (e, m) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
-      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name" >
+      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
         <div class="common_box">
           <van-list
             v-model="loading"
@@ -14,8 +14,13 @@
           >
             <el-row class="introduce_img" :gutter="10">
               <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-                <div class="grid-content bg-purple">
-                  <img :src="item.imgsrc">
+                <div class="grid-content bg-purple" @click="gotodetail(item.id)">
+                  <van-image
+                    width="100%"
+                    height="1.92rem"
+                    fit="cover"
+                    :src="item.imgsrc"
+                  />
                   <div class="msg">
                     <div class="text">
                       <span class="vip">{{zhuan[$route.query.typeid]}}</span>
@@ -44,13 +49,13 @@
                 finished: false,
                 error: false,
                 pages: 0,
-                flag:false,
+                flag: false,
                 navItems: [],
                 list: [],
-                defaultcateid:'',
-                cateidarry:[],
-                active:'',
-                zhuan:{vip:'会员区',customer:'顾客区',retail:'零售区',shop:'商家区'}
+                defaultcateid: '',
+                cateidarry: [],
+                active: '',
+                zhuan: {vip: '会员区', customer: '顾客区', retail: '零售区', shop: '商家区'}
             }
         },
         methods: {
@@ -64,7 +69,7 @@
                     .then((response) => {
                         _this.navItems = response.data;
                         _this.defaultcateid = response.data[0].id;
-                        for (var i in response.data){
+                        for (var i in response.data) {
                             _this.cateidarry.push(response.data[i].id)
                         }
                         _this.getlist()
@@ -74,7 +79,7 @@
                 })
             },
             //点击切换
-            qiehuan(name, title){
+            qiehuan(name, title) {
                 this.flag = true
                 this.defaultcateid = this.cateidarry[name];
                 this.getlist();
@@ -91,9 +96,9 @@
                     };
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
-                        if (_this.flag){
+                        if (_this.flag) {
                             this.list = response.data
-                        }else {
+                        } else {
                             this.list = this.list.concat(response.data)
                         }
                         // 加载状态结束
@@ -116,6 +121,15 @@
                     this.getlist();
                 }, 1000);
             },
+            gotodetail: function (e) {
+                console.log(e)
+                this.$router.push({
+                    path: '/goodsdetails',
+                    query: {
+                        id: e
+                    }
+                })
+            }
         },
         mounted() {
             // this.getlist();

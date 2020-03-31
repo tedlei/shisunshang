@@ -19,7 +19,7 @@
 
       <el-container>
         <el-main style="position: relative;">
-          <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.4+'rem'" class="erji">
+          <ul v-show="isUlliTwo " :style="'margin-top:'+isUlliTwoHeight*0.51+'rem'" class="erji">
             <li v-for="(item1,index1) in navChildren" :key="index1" @click="isUlliTwoAdd(item1.id)">
               {{item1.cate_name}}
             </li>
@@ -71,7 +71,7 @@
 <script>
     import Header from "../header/header";
     import Search from "../search/search";
-    import clientW from "../../assets/js/conmon";
+    import clientWw from "../../assets/js/conmon";
     import Bus from "../../assets/js/bus";
     export default {
         name: "business",
@@ -172,6 +172,7 @@
             this.getData();
         },
         mounted() {
+            let clientW = clientWw.clientWw()
             let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
             let topH = this.$refs.header_h.offsetHeight;
             this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem';
@@ -208,7 +209,7 @@
     }
 
     .left > li {
-      line-height: 0.4rem;
+      line-height: 0.5rem;
       box-sizing: border-box;
 
     }
@@ -252,7 +253,7 @@
 
     li {
       border-bottom: 1px solid #f2f2f2;
-      line-height: 0.4rem;
+      line-height: 0.5rem;
     }
 
     li:active {

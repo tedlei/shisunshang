@@ -42,7 +42,6 @@ Vue.use(Router)
 const $router = new Router({
   mode: 'history',  //去掉url中的#
   routes: [
-
     {
       path: '/author',
       name: 'author',

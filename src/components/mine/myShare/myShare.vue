@@ -44,8 +44,9 @@
             },
             creatQrCode() {
                 let phone = JSON.parse(this.$store.getters.getuserinfo).phone;
+                let source = 'myShare'
                 let qrCode = new QRCode('qrCode', {
-                    text: 'http://m.wjeys.com/?state=' + phone, // 需要转换为二维码的内容
+                    text: 'http://m.wjeys.com/?source=' + source + '?state=' + phone, // 需要转换为二维码的内容
                     width: 150,
                     height: 150,
                     colorDark: '#000000',

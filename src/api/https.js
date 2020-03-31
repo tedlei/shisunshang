@@ -10,19 +10,11 @@ Vue.use(Toast);
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-  if (!tokens) {
-    setTimeout(() => {
-      tokens = store.state.isLogin;
-    }, 1000)
-  } else {
-    tokens = store.state.isLogin;
-  }
-
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODU3MDg4MjUsIm5iZiI6MTU4NTEwNDAyNSwiaWF0IjoxNTg1MTA0MDI1LCJjbGllbnRfaWQiOjEsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.SkfpxJNPgZeC4kFD53oIKa_0EIwJRj0tDytZafEWa14';
 }
 
-const baseURL = 'https://test.gj.wjeys.com';
+const baseURL = 'http://test.gj.wjeys.com';
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;
@@ -32,13 +24,13 @@ axios.interceptors.request.use(
   config => {
     // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
+
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       'token': store.getters.isLogin,
       // 'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
-
     return config;
   },
   err => {
@@ -121,7 +113,7 @@ axios.interceptors.response.use(
       })
 
     } else if (response.data.status === 500) {
-      Toast('请求成功返回状态500');
+      Toast('数据错误');
     }
     return response;
   },
