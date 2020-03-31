@@ -49,7 +49,9 @@
                         <div class="left_msg">
                             <router-link :to="{path:'/goodsdetails',query:{id:data.id}}">
                             <div>{{data.name}}</div>
-                            <div class="goodsspecs">规格：{{data.goods_attr}}</div>
+                            <div class="goodsspecs">规格：默认
+                              <!-- {{data.goods_attr}} -->
+                            </div>
                             </router-link>
                             <div class="goodsprice">
                                 <span>￥{{data.price}}</span>

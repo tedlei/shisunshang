@@ -97,8 +97,8 @@
         <div class="right">
           <i class="el-icon-arrow-right"></i>
         </div>
-        <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
       </div>
+      <van-action-sheet v-model="show" :actions="actions" close-on-click-overlay @select="onSelect"/>
       <!-- 店铺详情 -->
       <div id="commoditEvaluate">
       <shop :is_follow='is_follow'></shop>
@@ -600,7 +600,7 @@
           goods_id: this.goodsData.goods_info.id,
           goods_num: this.nums,
           // goods_sku_id: getCart,
-          buy_type: 'customer'
+          buy_type: this.isactions
         };
         // console.log(ad_data);
         this.$post('/api/v1/goodsCart', ad_data)

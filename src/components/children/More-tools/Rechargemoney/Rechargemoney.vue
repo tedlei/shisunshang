@@ -67,6 +67,7 @@
             }
         },
         methods: {
+          
             //切换金额
             onClick(index) {
                 this.num = index;
@@ -79,11 +80,9 @@
                     money: this.dang
                 }
                 this.$post('/api/v1/UserRecharge', parms)
-                .then((response) => {
-                  if(res.data.is_wx_pay == 1){
+                .then((res) => {
                     this.jsApiParameters = res.data.payment;
                     this.callpay();
-                  }
                   
                 }).catch(function (error) {
                 console.log(error);
@@ -95,10 +94,20 @@
 	          	WeixinJSBridge.invoke(
 	          		'getBrandWCPayRequest',
 	          		this.jsApiParameters,
-	          		function(res){
-	          			if(  res.err_msg.indexOf(":ok")>0 ){
-	          				//跳转到支付成功页面
-                    this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+	          		(res)=>{
+                  // console.log(res)
+                  // this.$dialog.confirm({
+                  //   title: '标题',
+                  //   message: JSON.stringify(res)
+                  // }).then(() => {
+                  //   // on confirm
+                  // }).catch(() => {
+                  //   // on cancel
+                  // });
+                  if (res.err_msg = "get_brand_wcpay_request:ok") {
+                    //跳转到支付成功页面
+                    console.log(1)
+                    this.$router.push({path: '/mine/record', query: {recordid: 1}});
 	          			}else{
 
                   }

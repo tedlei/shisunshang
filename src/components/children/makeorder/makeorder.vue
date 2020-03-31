@@ -64,8 +64,8 @@
           <p class="fontWrap fontWrapTwo">
             {{goods.name}}
           </p>
-          <span class="fontWrap fontWrapOne">规格：
-            {{goods.goods_attr}}
+          <span class="fontWrap fontWrapOne">规格： 默认
+            <!-- {{goods.goods_attr}} -->
           </span>
           <div>￥
             {{goods.price}}
@@ -405,7 +405,7 @@
 	          		'getBrandWCPayRequest',
 	          		this.jsApiParameters,
 	          		function(res){
-	          			if(  res.err_msg.indexOf(":ok")>0 ){
+                  if (res.err_msg = "get_brand_wcpay_request:ok") {
 	          				//跳转到支付成功页面
                     this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
 	          			}else{

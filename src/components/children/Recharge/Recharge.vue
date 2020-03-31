@@ -83,9 +83,11 @@
                         'getBrandWCPayRequest',
                         jsApiParameters,
                         function (res) {
+                          
                             if (res.err_msg = "get_brand_wcpay_request:ok") {
                                 //跳转到支付成功页面
-                                alert("支付成功");
+                                console.log(1)
+                                this.$router.push({path: '/mine/record', query: {recordid: 5}});
                             } else if (res.err_msg = "get_brand_wcpay_request:fail") {
                                 alert("支付失败");
                             }

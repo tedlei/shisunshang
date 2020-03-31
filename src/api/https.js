@@ -113,7 +113,7 @@ axios.interceptors.response.use(
       })
 
     } else if (response.data.status === 500) {
-      Toast('数据错误');
+      Toast(response.data.message);
     }
     return response;
   },

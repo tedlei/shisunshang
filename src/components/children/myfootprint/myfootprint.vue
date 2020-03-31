@@ -57,7 +57,8 @@
               <div class="one">
                 <p class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</p>
                 <span>{{item.add_time}}</span>
-                <div class="evaluationicon" @click="deleteCollection(item.id)">
+                <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
+                <div class="evaluationicon">
                   <i class="el-icon-delete"></i>
                 </div>
               </div>
@@ -200,10 +201,11 @@
       },
 
       collectionShop (data) {
+        this.goodslist = [];
         for(var i in data){
           this.goodslist.push({
             id: data[i].id,
-            name: data[i].company,
+            name: data[i].shop_name,
             imgsrc: data[i].thumb,
             checked: false
           })
@@ -235,6 +237,7 @@
           this.$post('/api/v1/userCollectGoods', ad_data)
           .then((res) => {
             console.log(res)
+            this.goodslist = [];
             if(res.data.items.length!=0){
               this.isData = true;
               this.myfootprintDataPush(res.data.items);
@@ -252,6 +255,7 @@
           this.$post('/api/v1/userCollectShops', ad_data)
           .then((res) => {
             console.log(res)
+            this.goodslist = [];
             if(res.data.items.length!=0){
               this.isData = true;
               this.collectionShop(res.data.items);
@@ -268,6 +272,7 @@
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
             console.log(res)
+            this.goodslist = [];
             if(res.data.items.length!=0){
               this.isData = true;
               this.footprintPush(res.data.items);
@@ -286,6 +291,7 @@
           this.$post('/api/v1/GoodsComment', ad_data)
           .then((res) => {
             console.log(res)
+            this.goodslist = [];
             if(res.data.length!=0){
               this.isData = true;
               this.evaluation_lists = res.data;
@@ -302,18 +308,18 @@
 
       //删除收藏商品
       deleteCollection ( evaluationid ) {
-        this.$store.commit("setLoading");
         let _id = [];
-        if(evaluationid != undefined || evaluationid != '' || evaluationid != null){
-            _id = evaluationid;
-        }else{
-          for(var i in this.goodslist){
-            if(this.goodslist[i].checked){
-              _id.push(this.goodslist[i].id)
-            }
-          };
-        }
-        // console.log(_id)
+        // if(evaluationid != undefined || evaluationid != '' || evaluationid != null){
+        //     _id = evaluationid;
+        // }else{
+        // }
+        for(var i in this.goodslist){
+          console.log(this.goodslist[i].id[i])
+          if(this.goodslist[i].checked){
+            _id.push(this.goodslist[i].id)
+          }
+        };
+        // console.log(_id);
         if(this.$route.query.printid==0){
           let ad_data = {
             method: "del.collect.goods.list",
@@ -324,13 +330,13 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.$store.commit("setLoading");
+              this.getData();
             }
           }).catch(function (error) {
               console.log(error);
           });
         }else if(this.$route.query.printid==1){
-          // console.log("删除商家")
+          console.log("删除商家")
           let ad_data = {
             method: "del.collect.shops.list",
             id: _id
@@ -340,7 +346,6 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.$store.commit("setLoading");
               this.getData();
             }
           }).catch(function (error) {
@@ -356,7 +361,6 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.$store.commit("setLoading");
               this.getData();
             }
           }).catch(function (error) {
@@ -371,7 +375,6 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.$store.commit("setLoading");
               this.getData();
             }
           }).catch(function (error) {

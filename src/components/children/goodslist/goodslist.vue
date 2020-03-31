@@ -10,7 +10,8 @@
       @load="onLoad"
     >
       <van-row gutter="3" class="goods_list" v-if="havedata">
-        <van-col span="12" v-for="(item,index) in goods_list" :key="item.index" class="listitem">
+        <van-col span="12" v-for="(item,index) in goods_list" :key="index" class="listitem">
+          <router-link :to="{path:'/goodsdetails',query:{id: item.id}}">
           <div class="listdiv">
             <img :src="item.imgsrc">
             <div class="msg_box">
@@ -23,6 +24,7 @@
               </div>
             </div>
           </div>
+          </router-link>
         </van-col>
       </van-row>
 

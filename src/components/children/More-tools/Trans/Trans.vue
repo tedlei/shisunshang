@@ -26,7 +26,6 @@
         <van-form @submit="onSubmit">
           <van-field v-model="form_id" name="form_id" v-show="false"/>
           <van-field v-model="goto_id" name="goto_id" v-show="false"/>
-
           <div style="position: relative">
             <van-field
               v-model="money"
@@ -36,12 +35,10 @@
               type="number"
               :rules="[{ required: true, message: '请输入转账金额' }]"
             />
-
             <div class="alltans clo-g" @click="alltans">
               金额全转
             </div>
           </div>
-
           <van-field
             v-model="bili"
             name="用户名"
@@ -49,7 +46,6 @@
             readonly
 
           />
-
           <van-field
             v-model="message"
             name="desc"
@@ -61,8 +57,6 @@
             placeholder=""
             show-word-limit
           />
-
-
           <van-button block type="info" native-type="submit" class="common_btn">
             立即转账
           </van-button>
@@ -127,7 +121,7 @@
                 this.$post('/api/v1/UserTrans', values)
                     .then((response) => {
                         if (response.status == 200) {
-                            this.$toast('提现成功');
+                            this.$toast('转账成功');
                             setTimeout(()=>{
                               window.location.reload()
                             },2000)
