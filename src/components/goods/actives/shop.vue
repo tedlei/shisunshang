@@ -126,7 +126,6 @@
                 if(res.status==200){
                     this.$store.commit('setLoading');
                 }
-              
             }).catch(function (error) {
                 console.log(error);
             });

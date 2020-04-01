@@ -41,9 +41,10 @@
           <span class="textLinefeed SpecificationsName">
             {{initialName}}
             </span>
-          <span class="share">
-            <router-link to="/goodsdetails/share"><i class="el-icon-share"></i>分享</router-link>
+          <span class="share" @click="isQRcodeDomainName = true">
+            <i class="el-icon-share"></i>分享
           </span>
+          
         </div>
         <div class="price">
           {{goodsData.goods_info.price}}
@@ -104,6 +105,12 @@
       <shop :is_follow='is_follow'></shop>
       <!-- <shop :is_follow=""></shop> -->
       </div>
+
+      <!-- <div v-show="isQRcodeDomainName" class="qrcode"> -->
+      <!-- <div v-show="false" class="qrcode">
+        <div id="qrCode" ref="qrCode"></div>
+      </div> -->
+      
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
         <div class="head">商品评价（）</div>
@@ -241,6 +248,7 @@
 <script>
     import actives from "./actives/active";
     import shop from "./actives/shop";
+    import QRCode from 'qrcodejs2';
   export default {
     name: "goodsDATA",
     components: {
@@ -256,6 +264,7 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
+        isQRcodeDomainName: false,
         // imglist: [], //轮播数组
         actions: [
           { name: '选项' },
@@ -465,6 +474,22 @@
         this.show = false;
       },
 
+      //海报二维码
+      getQRcodeDomainName(){
+        let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+        console.log(userinfo);
+        let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
+        let routes = this.$route.path + '?id=' + this.$route.query.id;
+        let qrCode = new QRCode('qrCode', {
+            text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的内容
+            width: 150,
+            height: 150,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        })
+      },
+
       //获取推荐列表、
       getRecommend () {
         let ad_data = {method: 'get.goods.recommend.list'};
@@ -646,12 +671,16 @@
         // console.log(this.initialName)
         done();
       }
+
     },
 
     created () {
       // console.log(this.$route.query.id)
       this.getDATA();
       this.Addfootprints();
+      // this.$nextTick( ()=>{
+      //   this.getQRcodeDomainName();
+      // })
     },
     updated () {
 
@@ -1085,5 +1114,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .qrcode {
+    display: inline-block;
+    padding: 0.08rem;
+    background-color: #fff;
   }
 </style>

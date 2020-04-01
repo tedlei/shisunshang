@@ -13,7 +13,8 @@
       />
       <van-field name="uploader" label="文件上传">
         <template #input>
-          <van-uploader v-model="uploader" multiple :max-count="1" :after-read="afterRead"/>
+          <!-- <van-uploader v-model="uploader" multiple :max-count="1" :after-read="afterRead"/> -->
+          <imgOSSuploader :maxCount='1' @imgUpData='imgUpData'></imgOSSuploader>
         </template>
       </van-field>
     </div>
@@ -31,108 +32,72 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import baseURL from '../../../api/https'
-    import tokens from '../../../api/https'
-
-    export default {
-        name: "articles",
-        //刷新页面
-        inject:['reload'],
-        data() {
-            return {
-                text: '',
-                message: '',
-                uploader: [],
-                loading: false,
-                disabled: false,
-                Files: '',
-                // show: true,
-                // actions: [
-                //     {name: '选项'},
-                //     {name: '选项'},
-                //     {name: '选项', subname: '描述信息'}
-                // ]
-            }
-        },
-        methods: {
-            afterRead(file) {
-                // 此时可以自行将文件上传至服务器
-                console.log(file)
-                this.Files = file.file
-            },
-
-            onSubmitTwo() {
-                // console.log(this.imgList)
-                let ad_data = {
-                    method: 'get.qiniu.upload.token'
-                };
-                this.$post('/api/v1/uploads', ad_data)
-                    .then((res) => {
-                        console.log(res)
-                        this.OSS(res.data.token, res.data.domain);
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-            OSS(token, domain) {
-                let qiniu = require('qiniu-js');
-                const postfix = this.Files.name.substring(this.Files.name.lastIndexOf('.'), this.Files.name.length);
-                let name = new Date().getTime() + Math.ceil(Math.random() * 100) + postfix;
-                // console.log(name)
-                const putExtra = {
-                    fname: this.Files.name,
-                    params: {},
-                    mimeType: ["image/png", "image/jpeg", "image/jpg"]
-                }
-                const config = {
-                    useCdnDomain: true
-                }
-                let observable = qiniu.upload(this.Files, name, token, putExtra, config);
-                // let subscription = observable.subscribe(observer) // 上传开始
-                observable.subscribe({
-                    next: (result) => {
-                        // 主要用来展示进度
-                        // console.log(result)
-                    },
-                    error: (errResult) => {
-                        // 失败报错信息
-                        console.log(errResult)
-                    },
-                    complete: (result) => {
-                        // 接收成功后返回的信息
-                        let key = domain + result.key;
-                        let ad_data = {
-                            method: 'add.weixin.ad.item',
-                            img: key,
-                            title: this.text,
-                            desc: this.message,
-                        }
-                        this.$post('/api/v1/weixinAd', ad_data)
-                            .then((res) => {
-                                if (res.status == 200) {
-                                    this.$toast({
-                                        type: 'success',
-                                        message: '发布成功',
-                                    });
-                                    //刷新页面
-                                    this.$router.push({path: '/mine/ad/myad'});
-                                    // this.reload();
-                                }
-                            }).catch(function (error) {
-                            console.log(error);
-                        });
-
-                    }
-                })
-
-
-            }
-        },
-        mounted() {
-
+import imgOSSuploader from "../imgOSS/uploader"
+import imgUpload from '../../../api/imgUpload'
+export default {
+    components:{
+        imgOSSuploader,
+    },
+    name: "articles",
+    //刷新页面
+    inject:['reload'],
+    data() {
+        return {
+            text: '',
+            message: '',
+            uploader: [],
+            loading: false,
+            disabled: false,
+            Files: '',
         }
-    }
+    },
+    methods: {
+        afterRead(file) {
+            // console.log(file)
+        },
+        imgUpData( data ) {
+          console.log(data)
+          this.Files = data;
+        },
+
+        //提交
+        onSubmitTwo() {
+          if(this.message==''){
+            this.$toast('发布内容不能为空')
+          }else if(this.text==''){
+            this.$toast('发布标题不能为空')
+          }else if(this.Files.length==0){
+            this.$toast('发布图片不能为空')
+          }else{
+            imgUpload(this.Files).then(res => {
+              console.log(res)
+              let ad_data = {
+                  method: 'add.weixin.ad.item',
+                  img: res[0],
+                  title: this.text,
+                  desc: this.message,
+              }
+              this.$post('/api/v1/weixinAd', ad_data)
+                  .then((res) => {
+                      if (res.status == 200) {
+                          this.$toast({
+                              type: 'success',
+                              message: '发布成功',
+                          });
+                          //刷新页面
+                          this.$router.push({path: '/mine/ad/myad'});
+                          // this.reload();
+                      }
+                  }).catch(function (error) {
+                  console.log(error);
+              });
+            })
+          }
+          
+        },
+    },
+    mounted() {}
+}
 </script>
 
 <style scoped lang="scss">

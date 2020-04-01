@@ -63,5 +63,8 @@ export default {
   },
   getloopUpimgs (state) {
     return state.cart.loopUpimgs;
+  },
+  getQRcodeDomainName (state) {
+    return state.cart.QRcodeDomainName;
   }
 }

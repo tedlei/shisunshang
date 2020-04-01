@@ -27,8 +27,8 @@ axios.interceptors.request.use(
 
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      // 'token': store.getters.isLogin,
-      'token': tokens,
+      'token': store.getters.isLogin,
+      // 'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
     return config;

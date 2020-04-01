@@ -1,6 +1,7 @@
 export default {
     state:{
         isLoading: false,
+        QRcodeDomainName: 'http://m.wjeys.com', 
         cartdata: [
             {
               storename: '富锦旗舰店',

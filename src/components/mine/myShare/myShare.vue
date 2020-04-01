@@ -44,8 +44,10 @@
             },
             creatQrCode() {
                 let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+                console.log(userinfo);
+                let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
                 let qrCode = new QRCode('qrCode', {
-                    text: 'http://m.wjeys.com/' + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
+                    text: QRcodeDomainName + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
                     width: 150,
                     height: 150,
                     colorDark: '#000000',
@@ -56,7 +58,7 @@
         },
         mounted() {
             this.$nextTick(function () {
-                this.creatQrCode()
+              this.creatQrCode()
             })
         },
     }

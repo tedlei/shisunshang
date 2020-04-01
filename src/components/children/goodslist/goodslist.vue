@@ -10,7 +10,7 @@
       @load="onLoad"
     >
       <van-row gutter="3" style="margin: 0" class="goods_list" v-if="havedata">
-        <van-col span="12" v-for="(item,index) in goods_list" :key="item.index" class="listitem">
+        <van-col span="12" v-for="(item,index) in goods_list" :key="index" class="listitem">
           <div class="listdiv" @click="gotodetail(item.id)">
             <van-image
               width="100%"
@@ -138,17 +138,17 @@
             //         buy_type: 'customer'
             //     }
             //     this.$post('/api/v1/goodsCart', ad_data)
-            //         .then((res) => {
-            //             // console.log(res.status)
-            //             if (res.status == 200) {
-            //                 this.$toast.success("添加成功");
-            //                 this.$store.commit("setLoading");
-            //             } else {
-            //                 this.$store.commit("setLoading");
-            //                 this.$toast.fail("添加失败");
-            //             }
-            //         }).catch((error) => {
-            //         console.log(error);
+            //     .then((res) => {
+            //         // console.log(res.status)
+            //         if (res.status == 200) {
+            //             this.$toast.success("添加成功");
+            //             this.$store.commit("setLoading");
+            //         } else {
+            //             this.$store.commit("setLoading");
+            //             this.$toast.fail("添加失败");
+            //         }
+            //     }).catch((error) => {
+            //        console.log(error);
             //     });
             // },
 
