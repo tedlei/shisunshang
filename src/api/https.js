@@ -12,6 +12,7 @@ let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
+  store.commit('isLogin', tokens);
 }
 
 const baseURL = 'http://test.gj.wjeys.com';
@@ -28,7 +29,6 @@ axios.interceptors.request.use(
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       'token': store.getters.isLogin,
-      // 'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
     return config;

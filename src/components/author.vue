@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import Bus from "../assets/js/bus";
+
     export default {
         name: "author",
         data() {
@@ -28,12 +30,36 @@
                         .then((response) => {
                             if (response.status == 200) {
                                 this.$store.commit('isLogin', response.data.token);
-                                let sourceUrl = localStorage.getItem('sourceUrl');
-                                setTimeout(() => {
-                                    this.$router.push({
-                                        path: sourceUrl
-                                    })
-                                }, 2000);
+                                Bus.$emit('getHot', true);
+                                //获取用户信息并存储
+                                let userinfo = {
+                                    method: 'get.user.info'
+                                }
+                                this.$post('/api/v1/user', userinfo)
+                                    .then((response) => {
+                                        if (response.status == 200) {
+                                            let sourceUrl = localStorage.getItem('sourceUrl');
+                                            this.$store.commit('userinfo', JSON.stringify(response.data));
+                                            setTimeout(() => {
+                                                this.$router.push({
+                                                    path: sourceUrl
+                                                })
+                                            }, 2000);
+                                            Bus.$emit('wechatAuth', true)
+                                            // let phone = JSON.parse(store.getters.getuserinfo).phone;
+                                            // if (!phone) {
+                                            //   Dialog({
+                                            //     message: '去绑定手机号码',
+                                            //   }).then(() => {
+                                            //     router.push({
+                                            //       path: '/set/set-phone'
+                                            //     })
+                                            //   });
+                                            // }
+                                        }
+                                    }).catch(function (error) {
+                                    console.log(error);
+                                });
                             }
                         }).catch(function (error) {
                         console.log(error);
@@ -43,6 +69,7 @@
                     this.$router.replace('/')
                 }
             } else {
+                Bus.$emit('getHot', true);
                 this.$router.replace('/')
             }
 
