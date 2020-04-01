@@ -44,48 +44,54 @@
       <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
         <div class="left_img">
           <!-- <img :src="item.goods.imgsrc"> -->
-          <van-image
-            width="0.5rem"
-            height="0.5rem"
-            fit="cover"
-            :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
-          />
+          <div>
+            <van-image
+              width="0.5rem"
+              height="0.5rem"
+              fit="cover"
+              :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
+            />
+          </div>
+          <div class="one">
+            <div>
+              <span class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</span>
+              <span>{{item.add_time}}</span>
+            </div>
+            <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
+            <div class="evaluationicon">
+              <i class="el-icon-delete"></i>
+            </div>
+          </div>
         </div>
         <div class="right_msg">
           <ul>
             <li>
-              <div class="one">
-                <p class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</p>
-                <span>{{item.add_time}}</span>
-                <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
-                <div class="evaluationicon">
-                  <i class="el-icon-delete"></i>
-                </div>
-              </div>
               <div>
-                <span>评价：{{item.content}}</span>
+                <span class="fontWrap fontWrapTwo">评价：{{item.content}}</span>
                 <!-- <span>符合度：{{item.fhd}}</span>
                 <span>态度：{{item.td}}</span>
                 <span>物流：{{item.wl}}</span> -->
               </div>
             </li>
-            <!-- <li>
+            <li>
               <p>{{item.liuyan}}</p>
               <div class="pei">
-                <img v-for="(imgitem,index) in item.imglist" :src="require(`../../../assets/img/${imgitem}.png`)" :key="index">
+                <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
               </div>
             </li>
-            <li class="goods_li">
+            <!-- <li class="goods_li">
               <router-link to="">
-                <img :src="require(`../../../assets/img/${item.goods}.png`)">
-                <div class="left_g_msg">{{item.msg}}</div>
+                <img :src="require('../../../assets/img/pei1.png')">
+                <div class="left_g_msg">
+                  {{item.msg}}
+                </div>
                 <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
               </router-link>
-            </li>
+            </li> -->
             <li>
               <span>商家回复：</span>
-              {{item.huifu}}
-            </li> -->
+              <!-- {{item.huifu}} -->
+            </li>
           </ul>
         </div>
       </div>
@@ -461,35 +467,49 @@
     }
 
     .evaluation {
-      display: flex;
-      padding: 10px;
       border-bottom: 1px solid #f2f2f2;
+      padding: 0 0.1rem;
       .left_img {
-        margin-right: 0.1rem;
+        display: flex;
+        border-bottom: 1px solid #e0dddd;
+        padding: 0.1rem 0;
+        >div:first-child{
+          margin-right: 0.1rem;
+        }
+        .one {
+          width: 100%;
+          text-align: left;
+          height: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          >div:first-child{
+            >span:first-child{
+              color: #000;
+            }
+            >span:nth-child(2){
+              color: #999999;
+              font-size: 0.13rem;
+            }
+          }
+        }
       }
       .right_msg {
-        width: calc(100% - 90px);
-
+        padding: 0.1rem 0 0.1rem 0.6rem;
         span {
           color: #999999;
         }
-
         li {
           text-align: left;
           margin-bottom: 10px;
-
-          .one {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-          }
+          
 
           .pei {
             display: flex;
             justify-content: space-between;
-
-            img {
-              width: 30%;
+            >img {
+              width: 0.8rem;
+              height: 0.8rem;
             }
           }
         }
@@ -519,7 +539,6 @@
     background-color: $sss-color;
   }
   .evaluationicon{
-    width: 0.4rem;
-    height: 0.4rem;
+
   }
 </style>

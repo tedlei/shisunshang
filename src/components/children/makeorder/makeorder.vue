@@ -330,7 +330,7 @@
                     this.isloading = false;
                     this.$dialog.alert({
                         title: '提交失败',
-                        message: '请重新提交'
+                        message: res.message
                     })
                   }
                 }).catch(function (error) {
@@ -404,7 +404,7 @@
 	          	WeixinJSBridge.invoke(
 	          		'getBrandWCPayRequest',
 	          		this.jsApiParameters,
-	          		function(res){
+	          		(res)=>{
                   if (res.err_msg = "get_brand_wcpay_request:ok") {
 	          				//跳转到支付成功页面
                     this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});

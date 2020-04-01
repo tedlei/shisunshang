@@ -71,6 +71,9 @@ import imgUpload from '../../../api/imgUpload'
       this.$post('/api/v1/GoodsComment', ad_data)
       .then((res) => {
         console.log(res);
+        if(res.status==200){
+          // this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+        }
 
       }).catch(function (error) {
           console.log(error);

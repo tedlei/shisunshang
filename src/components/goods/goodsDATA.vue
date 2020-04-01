@@ -2,11 +2,11 @@
   <div>
     <div class="main">
       <div class="Anchor">
-        <a :class="active==0?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#allmerchandise',0)">
+        <a :class="active==0?'active':''" @click="goAnchor('allmerchandise',0)">
         </a>
-        <a :class="active==1?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#commoditDetails',1)">
+        <a :class="active==1?'active':''" @click="goAnchor('commoditDetails',1)">
         </a>
-        <a :class="active==2?'active':''" href="javascript:void(0)" rel="external nofollow" @click="goAnchor('#commoditEvaluate',2)">
+        <a :class="active==2?'active':''" @click="goAnchor('commoditEvaluate',2)">
         </a>
         <div class="Last"></div>
       </div>
@@ -448,8 +448,10 @@
       },
       goAnchor (selector, n) {
         this.active = n;
-        var anchor = this.$el.querySelector(selector);
-        document.documentElement.scrollTop = anchor.offsetTop;
+        // var anchor = this.$el.querySelector(selector);
+        // document.documentElement.scrollTop = anchor.offsetTop;
+        document.getElementById(selector).scrollIntoView();
+        
       },
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起

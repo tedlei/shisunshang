@@ -224,8 +224,10 @@
           // console.log(res)
           console.log(res.data)
           if(res.data.length==0){
+            this.isNoorder = false;
             this.isKnoorder = true;
           }else{
+            this.isKnoorder = false;
             this.isNoorder = true;
           }
           this.wholeData = res.data;
