@@ -6,7 +6,7 @@
       :style="{ height: '100%',width:'100%' }"
     >
       <header>
-        <i class="clo-9 el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
+        <i class="clo-9 el-icon-arrow-left back" @click="Popup()" style="left: 5px;"></i>
         <search :tmsg='tan' :dmsg="true"></search>
       </header>
 
@@ -24,7 +24,7 @@
           <div class="search_box">
             <p><i></i>搜索历史</p>
             <ul class="history_list clearfix">
-              <li v-for="(item,index) in hotlist" :key="index">搜索历史</li>
+              <li v-for="(item,index) in historylist" :key="index">item</li>
             </ul>
           </div>
 
@@ -62,15 +62,15 @@
                 tan: 'tan',
                 tans: false,
                 hotlist: [],
-                historylist: [],
+                historylist:[],
             }
         },
         computed: {
             gainsearchVal: function () {
                 return this.$store.state.searchVal;
-            }
-        },
+            },
 
+        },
         methods: {
             //弹窗消失
             Popup: function () {
@@ -78,6 +78,8 @@
                 this.$store.commit('sendVal', '');
                 this.$store.commit('sendsearchVal', '');
             },
+
+
             //获取热门
             getHot: function () {
                 let _this = this,
@@ -101,10 +103,17 @@
                     this.tans = true
                 }
             });
-            let token = this.$store.getters.isLogin;
-            if (token) {
-                this.getHot();
-            }
+            Bus.$on('closepop', (data) => {
+                if (data == true) {
+                    this.Popup()
+                }
+            });
+            Bus.$on('getHot', (data) => {
+                if (data == true) {
+                    this.getHot();
+                }
+            });
+            // localStorage.setItem('history', this.historylist)
         }
     }
 </script>

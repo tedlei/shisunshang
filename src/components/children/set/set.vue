@@ -12,7 +12,10 @@
         </li>
       </ul>
     </div>
-
+    <!--  退出登录  -->
+    <div class="loginout">
+      退出登录
+    </div>
   </div>
 </template>
 
@@ -93,6 +96,7 @@
                                 path: '/set/set-phone',
                             })
                         } else {
+
                             return
                         }
 
@@ -157,4 +161,12 @@
     }
   }
 
+  .loginout {
+    font-size: 0.18rem;
+    color: #009900;
+    line-height: 40px;
+    margin: 40px 10px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
 </style>

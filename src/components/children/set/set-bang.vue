@@ -7,7 +7,7 @@
         type="tel"
         name="phone"
         label="手机号码"
-        placeholder="请输入银行预留手机号码"
+        placeholder="请输入手机号码"
       />
 
       <div class="code">

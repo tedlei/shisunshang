@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <headerback v-show="$route.meta.goods"></headerback>
     <orderheader v-show="!$route.meta.goods"></orderheader>
     <router-view></router-view>
   </div>
-
 </template>
 
 <script>

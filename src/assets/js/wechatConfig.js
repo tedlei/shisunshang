@@ -2,9 +2,11 @@ import {get} from '../../api/https'
 import wx from 'weixin-js-sdk'
 import store from "../../store";
 
-const wechatAuth = async function (authUrl, shareConfig) {
-    let url = encodeURIComponent(window.location.href.split('#')[0])
-    get("wxshare/wxconfig/myapi.php?urlparam=" + url, authUrl)
+const wechatAuth = async function (shareConfig) {
+    let url = encodeURIComponent(window.location.href.split('#')[0]);
+    let sourceUrl = localStorage.getItem('sourceUrl');
+
+    get("wxshare/wxconfig/myapi.php?urlparam=" + url)
       .then((response) => {
 
         if (response.data && response.status === 200) {
@@ -15,7 +17,7 @@ const wechatAuth = async function (authUrl, shareConfig) {
             timestamp: authRes.timestamp,
             nonceStr: authRes.nonceStr,
             signature: authRes.signature,
-            jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"]
+            jsApiList: ["updateAppMessageShareData", "updateTimelineShareData"]
           });
         }
       }).catch(function (error) {
@@ -23,10 +25,10 @@ const wechatAuth = async function (authUrl, shareConfig) {
     });
 
     wx.ready(() => {
-      wx.onMenuShareTimeline({
+      wx.updateAppMessageShareData({
         title: shareConfig.title,
-        // desc: shareConfig.desc,
-        link: shareConfig.link,
+        desc: shareConfig.desc,
+        link: location.origin + sourceUrl + '?state=' + shareConfig.link,
         imgUrl: shareConfig.imgUrl,
         success: function () {//设置成功
           console.log("分享成功");
@@ -35,18 +37,18 @@ const wechatAuth = async function (authUrl, shareConfig) {
           console.log("取消分享");
         }
       });
-      wx.onMenuShareAppMessage({
-        title: shareConfig.title,
-        // desc: shareConfig.desc,
-        link: shareConfig.link,
-        imgUrl: shareConfig.imgUrl,
-        success: function () {//设置成功
-          //shareSuccessCallback();
-        },
-        cancel: function () {
-          console.log("取消分享");
-        }
-      });
+      // wx.updateTimelineShareData({
+      //   title: shareConfig.title,
+      //   desc: shareConfig.desc,
+      //   link: location.origin + sourceUrl + '?state=' + shareConfig.link,
+      //   imgUrl: shareConfig.imgUrl,
+      //   success: function () {//设置成功
+      //     //shareSuccessCallback();
+      //   },
+      //   cancel: function () {
+      //     console.log("取消分享");
+      //   }
+      // });
 
     })
     // if (authRes && authRes.code == 101) {

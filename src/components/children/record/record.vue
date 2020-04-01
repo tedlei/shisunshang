@@ -5,7 +5,7 @@
         <li v-for="(item,index) in navItems" :key="index" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
       </ul> -->
       <van-tabs v-model="active" @click="onClick">
-        <van-tab v-for="(item,index) in navItems" :key="index" :title="item" >
+        <van-tab v-for="(item,index) in navItems" :key="index" :title="item">
           <!-- 内容 {{ item }} -->
         </van-tab>
       </van-tabs>
@@ -44,7 +44,7 @@
         name: "record",
         data() {
             return {
-                active:0,
+                active: 0,
                 num: 0,
                 navItems: ['全部', '充值账户', '补贴账户', '推广账户', '代理账户', '签到现金'],
                 list: [],
@@ -91,31 +91,31 @@
             getNum: function (index) {
                 this.num = index;
             },
-            getData () {
-              let ad_data = {
-                method: 'get.money.list',
-                page: 0,
-                page_size: 10,
-                type: this.active
-              };
-              this.$post('/api/v1/userMoney', ad_data)
-              .then((res) => {
-                console.log(res)
-                this.list = res.data.items;
-              }).catch(function (error) {
-                  console.log(error);
-              });
+            getData() {
+                let ad_data = {
+                    method: 'get.money.list',
+                    page: 0,
+                    page_size: 10,
+                    type: this.active
+                };
+                this.$post('/api/v1/userMoney', ad_data)
+                    .then((res) => {
+                        console.log(res)
+                        this.list = res.data.items;
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
-            onClick ( ) {
-              this.getData();
+            onClick() {
+                this.getData();
             },
         },
         updated() {
             // this.onLoad()
         },
         mounted() {
-          // this.getData();
-          this.getMoney();
+            // this.getData();
+            this.getMoney();
         }
     }
 </script>
@@ -139,6 +139,10 @@
     }
   }
 
+  /deep/ .van-tabs__line {
+    background-color: #009900;
+  }
+
   .moneybox {
     position: absolute;
     top: 1.04rem;
@@ -149,6 +153,7 @@
       div.van-cell__value {
         display: flex;
         justify-content: space-between;
+
         span {
           width: 40%;
 

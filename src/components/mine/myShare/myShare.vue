@@ -1,12 +1,12 @@
 <template>
   <div class="content">
     <div class="mycode">
-      <div class="common_btn" @click="show = true">邀请好友扫码下载APP</div>
+      <div class="common_btn" @click="show = true">关注公众号</div>
 
       <div class="qrcode">
         <div id="qrCode" ref="qrCode"></div>
       </div>
-      <p>扫此二维码下载APP</p>
+      <p>扫此二维码进入微信公众号</p>
     </div>
 
     <van-action-sheet
@@ -43,10 +43,9 @@
                 this.show = false
             },
             creatQrCode() {
-                let phone = JSON.parse(this.$store.getters.getuserinfo).phone;
-                let source = 'myShare'
+                let userinfo = JSON.parse(this.$store.getters.getuserinfo);
                 let qrCode = new QRCode('qrCode', {
-                    text: 'http://m.wjeys.com/?source=' + source + '?state=' + phone, // 需要转换为二维码的内容
+                    text: 'http://m.wjeys.com/' + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
                     width: 150,
                     height: 150,
                     colorDark: '#000000',

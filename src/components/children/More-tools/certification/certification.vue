@@ -110,7 +110,6 @@
             // 用$on事件来接收参数
             var _this = this
             Bus.$on('Atc', (data) => {
-                console.log(21231321)
                 if (data == true) {
                     // _this.$refs.sub.submit();
                 }

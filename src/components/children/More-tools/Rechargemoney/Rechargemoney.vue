@@ -67,7 +67,7 @@
             }
         },
         methods: {
-          
+
             //切换金额
             onClick(index) {
                 this.num = index;
@@ -83,7 +83,7 @@
                 .then((res) => {
                     this.jsApiParameters = res.data.payment;
                     this.callpay();
-                  
+
                 }).catch(function (error) {
                 console.log(error);
                 })
@@ -111,7 +111,7 @@
 	          			}else{
 
                   }
-	          		
+
 	          		}
 	          	);
 	          },
@@ -120,7 +120,7 @@
 		              if( document.addEventListener ){
 		                  document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
 		              }else if (document.attachEvent){
-		                  document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		                  document.attachEvent('WeixinJSBridgeReady', this.jsApiCall);
 		                  document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
 		              }
 		          }else{

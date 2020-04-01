@@ -30,14 +30,14 @@
         v-model="number2"
         name="name"
         label="银行名称"
-        placeholder="列如:中国银行"
+        placeholder="例如:中国银行"
         :rules="[{ required: true, message: '银行名称' }]"
       />
       <van-field
         v-model="number3"
         name="branch"
         label="支行名称"
-        placeholder="列如:北京海淀支行行"
+        placeholder="例如:北京海淀支行行"
         :rules="[{ required: true, message: '支行名称' }]"
       />
 

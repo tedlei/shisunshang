@@ -16,7 +16,6 @@ import axios from 'axios'
 import qs from 'qs'
 import {post, patch, put} from './api/https'
 import 'mint-ui/lib/style.css'
-
 //定义全局变量
 Vue.prototype.$post = post;
 Vue.prototype.$fetch = fetch;
@@ -33,7 +32,6 @@ router.beforeEach((to, from, next) => {
   // console.log(to)
   let ua = window.navigator.userAgent.toLocaleLowerCase();
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-
     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
       let tokens = store.getters.isLogin;
       localStorage.setItem('sourceUrl', to.fullPath);
@@ -42,31 +40,8 @@ router.beforeEach((to, from, next) => {
         //请求微信授权,并跳转到 /WxAuth 路由
         let appId = 'wxf730b0b04586d06f'
         let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${phone}#wechat_redirect`
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=${phone}#wechat_redirect`
         return
-      } else if (to.name != 'set-phone') {
-        let userinfo = {
-          method: 'get.user.info'
-        }
-        post('/api/v1/user', userinfo)
-          .then((response) => {
-            if (response.status == 200) {
-              store.commit('userinfo', JSON.stringify(response.data));
-              let phone = JSON.parse(store.getters.getuserinfo).phone;
-              if (!phone) {
-                Dialog({
-                  message: '去绑定手机号码',
-                }).then(() => {
-                  router.push({
-                    path: '/set/set-phone'
-                  })
-                });
-              }
-            }
-          }).catch(function (error) {
-          console.log(error);
-        });
-
       } else {
         next();
       }

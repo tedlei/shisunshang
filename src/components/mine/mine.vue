@@ -88,7 +88,7 @@
         <li v-for="(item,index) in orderlists" :key="index">
           <router-link :to="{path: item.router, query:{orderid:item.orderid}}">
             <div style="margin-bottom: 0.1rem">
-              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 0.24rem">
+              <img :src="require(`../../assets/img/${item.img}.png`)" style="height: 0.24rem;width: auto">
             </div>
             <div>{{item.name}}</div>
           </router-link>

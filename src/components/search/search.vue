@@ -26,6 +26,7 @@
                 placeholder: '',
                 readonly: true,
                 tan: false,
+                history: [],
             }
         },
         computed: {
@@ -51,6 +52,14 @@
             },
             //搜索传值
             onSearch: function () {
+                // let history = JSON.parse(localStorage.getItem('history'));
+                // console.log(history)
+                // if (history) {
+                //     if (history.indexOf(this.searchVal) == -1) {
+                //         history.push(this.searchVal);
+                //         localStorage.setItem('history', JSON.stringify(history))
+                //     }
+                // }
                 this.$store.commit('sendsearchVal', this.searchVal);
             },
             //监听输入是否为空
@@ -59,7 +68,8 @@
             // }
         },
         mounted() {
-            this.isreadonly()
+            this.isreadonly();
+            // localStorage.setItem('history', this.history)
         }
     }
 </script>

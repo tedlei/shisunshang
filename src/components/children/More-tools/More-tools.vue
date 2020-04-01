@@ -114,31 +114,31 @@
                             },
                         ]
                     },
-                    {
-                        tll:'国健合作',
-                        list: [
-                            {
-                                img: 'gj1',
-                                text: '营销广告',
-                                linkto:''
-                            },
-                            {
-                                img: 'gj2',
-                                text: '我的分享',
-                                linkto:''
-                            },
-                            {
-                                img: 'gj3',
-                                text: '商品分享',
-                                linkto:''
-                            },
-                            {
-                                img: 'gj4',
-                                text: '收货地址',
-                                linkto:''
-                            },
-                        ]
-                    }
+                    // {
+                    //     tll:'国健合作',
+                    //     list: [
+                    //         {
+                    //             img: 'gj1',
+                    //             text: '营销广告',
+                    //             linkto:''
+                    //         },
+                    //         {
+                    //             img: 'gj2',
+                    //             text: '我的分享',
+                    //             linkto:''
+                    //         },
+                    //         {
+                    //             img: 'gj3',
+                    //             text: '商品分享',
+                    //             linkto:''
+                    //         },
+                    //         {
+                    //             img: 'gj4',
+                    //             text: '收货地址',
+                    //             linkto:''
+                    //         },
+                    //     ]
+                    // }
                 ]
             }
         },

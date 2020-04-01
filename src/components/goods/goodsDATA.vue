@@ -654,7 +654,7 @@
       this.Addfootprints();
     },
     updated () {
-      
+
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
@@ -667,7 +667,7 @@
         // console.log(this.$route.query.id)
         this.Addfootprints();
       },
-     
+
     }
 
   }

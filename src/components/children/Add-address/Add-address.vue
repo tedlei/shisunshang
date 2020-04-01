@@ -25,7 +25,6 @@
     <van-popup
       v-model="areashow"
       position="bottom"
-      :style="{ height: '30%' }"
     >
       <van-area
         :area-list="areaList"

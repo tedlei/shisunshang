@@ -15,6 +15,7 @@
     import loading from "./components/loading/loading";
     import SearchResult from "./components/children/searchResult/searchResult";
     import wechatAuth from "./assets/js/wechatConfig";
+    import Bus from "./assets/js/bus";
 
     export default {
         name: 'App',
@@ -39,29 +40,48 @@
                 this.$nextTick(function () {
                     this.isRouterAlive = true;         //再打开
                 })
-            }
+            },
+
         },
         mounted() {
             this.path = this.$route.path;
-            let phone = JSON.parse(this.$store.getters.getuserinfo);
-            // console.log(phone)
-            if (phone) {
-                let sourceUrl = localStorage.getItem('sourceUrl');
-                let shareConfig = {
-                    title: this.$router.name,
-                    desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
-                    link: window.location.host + sourceUrl + '?state=' + phone.phone,
-                    imgUrl: '',
-                };
-                wechatAuth(shareConfig)
-            }
+            let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+            let token = this.$store.getters.isLogin;
+            console.log(token)
+            if (token) {
 
-        },
-        watch: {
-            $router(to, from) {
-                this.path = to.path
+                //获取用户信息并存储
+                let userinfo = {
+                    method: 'get.user.info'
+                }
+                this.$post('/api/v1/user', userinfo)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.$store.commit('userinfo', JSON.stringify(response.data));
+                            let shareConfig = {
+                                title: this.$router.name,
+                                desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
+                                link: response.data.referee_number,
+                                imgUrl: '',
+                            };
+                            wechatAuth(shareConfig);
+                            // let phone = JSON.parse(store.getters.getuserinfo).phone;
+                            // if (!phone) {
+                            //   Dialog({
+                            //     message: '去绑定手机号码',
+                            //   }).then(() => {
+                            //     router.push({
+                            //       path: '/set/set-phone'
+                            //     })
+                            //   });
+                            // }
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+                Bus.$emit('getHot', true);
             }
-        }
+        },
     }
 </script>
 
@@ -70,6 +90,11 @@
     margin: 0;
     padding: 0;
   }
+
+  body, html {
+    background-color: #f2f2f2;
+  }
+
 
   html {
     font-size: 100px;

@@ -9,22 +9,25 @@
       error-text="请求失败，点击重新加载"
       @load="onLoad"
     >
-      <van-row gutter="3" class="goods_list" v-if="havedata">
-        <van-col span="12" v-for="(item,index) in goods_list" :key="index" class="listitem">
-          <router-link :to="{path:'/goodsdetails',query:{id: item.id}}">
-          <div class="listdiv">
-            <img :src="item.imgsrc">
+      <van-row gutter="3" style="margin: 0" class="goods_list" v-if="havedata">
+        <van-col span="12" v-for="(item,index) in goods_list" :key="item.index" class="listitem">
+          <div class="listdiv" @click="gotodetail(item.id)">
+            <van-image
+              width="100%"
+              height="1.92rem"
+              fit="cover"
+              :src="item.imgsrc"
+            />
             <div class="msg_box">
-              <p>{{item.name}}</p>
+              <p class="fontWrap fontWrapOne">{{item.name}}</p>
               <div class="price_box">
                 <div>
                   <span class="clo-g">￥{{item.price}}</span>
                 </div>
-                <van-icon name="add" class="add_cart clo-g"/>
+                <!--                <van-icon name="add" class="add_cart clo-g" @click="goodsCart(item.id)"/>-->
               </div>
             </div>
           </div>
-          </router-link>
         </van-col>
       </van-row>
 
@@ -108,6 +111,46 @@
                     this.getlist();
                 }, 1000);
             },
+            // 去详情页面
+            gotodetail: function (e) {
+                this.$router.push({
+                    path: '/goodsdetails',
+                    query: {
+                        id: e
+                    }
+                });
+                Bus.$emit('closepop', true);
+            },
+            //添加购物车
+            // goodsCart() {
+            //     this.$store.commit("setLoading");
+            //     let getCart = '';
+            //     // for (var i in this.initial) {
+            //     //   // getCart += this.initial[i];
+            //     // }
+            //     getCart = this.initial.join('_');
+            //     // console.log(getCart);
+            //     let ad_data = {
+            //         method: 'add.goods.cart.item',
+            //         goods_id: this.goodsData.goods_info.id,
+            //         goods_num: this.nums,
+            //         // goods_sku_id: getCart,
+            //         buy_type: 'customer'
+            //     }
+            //     this.$post('/api/v1/goodsCart', ad_data)
+            //         .then((res) => {
+            //             // console.log(res.status)
+            //             if (res.status == 200) {
+            //                 this.$toast.success("添加成功");
+            //                 this.$store.commit("setLoading");
+            //             } else {
+            //                 this.$store.commit("setLoading");
+            //                 this.$toast.fail("添加失败");
+            //             }
+            //         }).catch((error) => {
+            //         console.log(error);
+            //     });
+            // },
 
         },
         mounted() {
@@ -118,6 +161,7 @@
 </script>
 
 <style scoped lang="scss">
+
   .content {
     padding-right: 1.5px;
     padding-right: 1.5px;

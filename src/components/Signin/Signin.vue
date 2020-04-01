@@ -53,7 +53,6 @@
           <li v-for="dayobject in days">
             <!--本月-->
             <!--如果不是本月  改变类名加灰色-->
-
             <span v-if="dayobject.day.getMonth()+1 != currentMonth"
                   class="other-month">{{ dayobject.day.getDate() }}</span>
             <span v-else>
@@ -141,6 +140,15 @@
                         this.qd_money = response.data.qd_money;
                         this.isshow = this.arrDate.indexOf(this.istoday) == -1 ? true : false;
                         this.initData(null);
+                        if (response.data.is_sign == 0) {
+                            this.$dialog.confirm({
+                                title: '嗨！',
+                                message: '今日还未签到是否签到赢好礼呢！'
+                            }).then(() => {
+                                Bus.$emit('signtans', true);
+                            }).catch(() => {
+                            });
+                        }
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -223,31 +231,28 @@
                 this.days.length = 0;
                 // 今天是周日，放在第一行第7个位置，前面6个
                 //初始化本周
-                for (var i = this.currentWeek - 1; i >= 0; i--) {
+                for (var i = this.currentWeek - 1; i > 0; i--) {
                     var d = new Date(str);
                     d.setDate(d.getDate() - i);
                     var dayobject = {}; //用一个对象包装Date对象  以便为以后预定功能添加属性
                     dayobject.day = d;
-
                     this.days.push(dayobject);//将日期放入data 中的days数组 供页面渲染使用
                     if (dayobject.day.getMonth() + 1 == this.currentMonth) {
-                        for (let j = 0; j <= 6; j++) {
-                            if (i + j == 6) {
-                                this.days[j].isSign = this.isVerDate(d.getDate());
-                                this.days[j].todaysigin = i + 1;
-                            }
-
-                        }
+                        // for (let j = 0; j <= 6; j++) {
+                        //     if (i + j == 6) {
+                        //         this.days[j].isSign = this.isVerDate(d.getDate());
+                        //         this.days[j].todaysigin = i + 1;
+                        //     }
+                        //
+                        // }
                     }
                 }
                 //其他周
-                for (let i = 1; i <= 42 - this.currentWeek; i++) {
+                for (let i = 0; i <= 42 - this.currentWeek; i++) {
                     let d = new Date(str);
                     d.setDate(d.getDate() + i);
                     let dayobject = {};
-
                     dayobject = {day: d, isSign: this.isVerDate(d.getDate()), todaysigin: i + 1}
-
                     this.days.push(dayobject);
 
                 }
@@ -288,7 +293,7 @@
                 }
             });
             this.initData(null);
-            this.getsign()
+            this.getsign();
         }
     }
 </script>
