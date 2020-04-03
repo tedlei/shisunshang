@@ -9,28 +9,28 @@ Vue.use(Toast);
 
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
-let info = {
-  money1: -175.00,
-  money2: 0.00,
-  money3: 0.00,
-  money4: 0.00,
-  money5: 542.00,
-  money6: 0.00,
-  level: 1,
-  name: "【-空-】",
-  phone: 15320495341,
-  weixinname: "【-空-】",
-  portrait: "http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq8WibsnK03ibFskf6RJnFVDvovhUhdHPuYeVkdryC6hwaIDy9mUyrrkBz5unQE8eCD5ribuOicm3ha9w/132",
-  add_time: "2020-03-31 14:34:28",
-  referee_number: 101777,
-  is_set_paypassword: 1,
-  level_name: "顾客"
-}
-store.commit('userinfo', JSON.stringify(info));
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
   store.commit('isLogin', tokens);
+  let info = {
+    money1: -175.00,
+    money2: 0.00,
+    money3: 0.00,
+    money4: 0.00,
+    money5: 542.00,
+    money6: 0.00,
+    level: 1,
+    name: "【-空-】",
+    phone: 15320495341,
+    weixinname: "【-空-】",
+    portrait: "http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq8WibsnK03ibFskf6RJnFVDvovhUhdHPuYeVkdryC6hwaIDy9mUyrrkBz5unQE8eCD5ribuOicm3ha9w/132",
+    add_time: "2020-03-31 14:34:28",
+    referee_number: 101777,
+    is_set_paypassword: 1,
+    level_name: "顾客"
+  }
+  store.commit('userinfo', JSON.stringify(info));
 }
 
 const baseURL = 'http://test.gj.wjeys.com';
@@ -46,8 +46,7 @@ axios.interceptors.request.use(
 
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      // 'token': store.getters.isLogin,
-      'token': tokens,
+      'token': store.getters.isLogin,
       // 'Content-Type': 'multipart/form-data'
     };
     return config;
@@ -150,31 +149,6 @@ axios.interceptors.response.use(
     }
   }
 )
-
-// const instance = axios.create()
-// // 添加一个响应拦截器
-// instance.interceptors.response.use(response => {
-//   store.commit("setLoading");
-//   // 在这里对返回的数据进行处理
-//   let status = response.status
-//   let data = response.data
-//   if (status === 200) {
-//     Toast('成功')
-//     if (data.code !== '0000') {
-//       store.commit("setLoading");
-//     }
-//     return Promise.resolve(data)
-//   } else {
-//     Toast('失败')
-//     return Promise.reject(response)
-//   }
-// }, error => {
-//   // response error
-//   console.log(error)
-//   this.$store.commit("setLoading");
-//   Toast('请求异常，请联系管理员！')
-//   return Promise.reject(error)
-// })
 
 
 /**

@@ -48,8 +48,8 @@
                 let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
                 let qrCode = new QRCode('qrCode', {
                     text: QRcodeDomainName + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
-                    width: 150,
-                    height: 150,
+                    width: 200,
+                    height: 200,
                     colorDark: '#000000',
                     colorLight: '#ffffff',
                     correctLevel: QRCode.CorrectLevel.H
@@ -70,7 +70,7 @@
       padding: 0.7rem 0.3rem 0 0.3rem;
 
       .common_btn {
-        margin-bottom: 0.2rem;
+
       }
     }
 
@@ -78,7 +78,7 @@
       display: inline-block;
       padding: 0.08rem;
       background-color: #fff;
-
+      margin: 0.3rem 0;
     }
   }
 </style>

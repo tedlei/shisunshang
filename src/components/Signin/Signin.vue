@@ -50,7 +50,6 @@
         <!-- 日期 -->
         <ul class="days">
           <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
-          <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
           <li v-for="(dayobject,index) in days" :key="index">
             <!--本月-->
             <!--如果不是本月  改变类名加灰色-->

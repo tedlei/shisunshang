@@ -196,7 +196,6 @@
                     observer: true,
                     slidesOffsetAfter: 15,
                     direction: 'horizontal',
-                    observe: true,
                     observeParents: true,
                     spaceBetween: 20,
                     loop: true,
@@ -227,8 +226,8 @@
         },
         mounted() {
             this.getHomeMsg();
-
             this.getUserinfo();
+
         }
 
     }

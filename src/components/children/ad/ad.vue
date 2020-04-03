@@ -84,7 +84,7 @@
             .name {
               .tt_name {
                 font-size: 0.12rem;
-                margin: 0 0.5rem 0 0.1rem;
+                margin:  0.05rem 0 0.1rem 0;
               }
             }
 

@@ -75,6 +75,7 @@
                     }).catch(function (error) {
                     console.log(error);
                 });
+
                 //调用微信JS api 支付
                 function jsApiCall() {
 
@@ -140,6 +141,7 @@
         .Recharge_msg {
           padding-left: 0.15rem;
           text-align: left;
+          margin: 0.13rem 0;
 
           .text1 {
             margin-bottom: 0.05rem;

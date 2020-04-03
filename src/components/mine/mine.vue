@@ -316,6 +316,7 @@
             getuserinfo: function () {
                 let _this = this;
                 let data = JSON.parse(this.$store.getters.getuserinfo);
+
                 for (let i in _this.zclists) {
                     _this.zclists[i].num = Number(data['money' + (Number(i) + 1)])
                 }

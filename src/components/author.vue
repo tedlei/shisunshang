@@ -40,12 +40,13 @@
                                         if (response.status == 200) {
                                             let sourceUrl = localStorage.getItem('sourceUrl');
                                             this.$store.commit('userinfo', JSON.stringify(response.data));
+                                            Bus.$emit('wechatAuth', true);
                                             setTimeout(() => {
                                                 this.$router.push({
                                                     path: sourceUrl
                                                 })
                                             }, 2000);
-                                            Bus.$emit('wechatAuth', true)
+
                                             // let phone = JSON.parse(store.getters.getuserinfo).phone;
                                             // if (!phone) {
                                             //   Dialog({

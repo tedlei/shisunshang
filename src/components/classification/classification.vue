@@ -44,7 +44,7 @@
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
                 />
-                <div class="cate_name" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
+                <div class="cate_name fontWrap fontWrapOne" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
               </li>
             </ul>
           </div>
@@ -64,7 +64,7 @@
 
     export default {
         name: "classification",
-        components: { Search, Header},
+        components: {Search, Header},
         data() {
             return {
                 msg: '分类',
@@ -128,9 +128,11 @@
     align-items: center;
     border-bottom: 1px solid #f2f2f2;
     height: 0.55rem;
-    .sao,.news{
+
+    .sao, .news {
       color: #999;
       min-width: 0.45rem;
+
       i {
         font-size: 0.24rem;
 
@@ -179,7 +181,7 @@
 
     .goodslist li {
       float: left;
-      width: calc(33.3333% - 6.66666px);
+      width: calc(50% - 0.05rem);
       background-color: #fff;
       margin-bottom: 10px;
       font-weight: bold;
@@ -189,10 +191,10 @@
       flex-direction: column;
       justify-content: center;
       position: relative;
-      margin-right: 10px;
+      margin-right: 0.1rem;
     }
 
-    .goodslist li:nth-child(3n+3) {
+    .goodslist li:nth-child(2n) {
       margin-right: 0;
     }
   }

@@ -1,12 +1,18 @@
 import {get} from '../../api/https'
-import wx from 'weixin-js-sdk'
+// import wx from 'weixin-jsapi'
 import store from "../../store";
 
+const wechatAuth = async function (shareConfig) {
+  // wx.checkJsApi({
+  //   jsApiList: ["updateAppMessageShareData", "updateTimelineShareData", "onMenuShareAppMessage", "onMenuShareTimeline", "getLocation"], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+  //   success: function (res) {
+  //     console.log(res)
+  //   }
+  // });
 
-const wechatAuth = async function (type, shareConfig) {
-  let url = encodeURIComponent(window.location.href.split('#')[0]);
+  let url = encodeURIComponent(location.href);
+  console.log(location.href)
   let sourceUrl = localStorage.getItem('sourceUrl');
-
   get("wxshare/wxconfig/myapi.php?urlparam=" + url)
     .then((response) => {
       if (response.data && response.status === 200) {
@@ -17,51 +23,82 @@ const wechatAuth = async function (type, shareConfig) {
           timestamp: authRes.timestamp,
           nonceStr: authRes.nonceStr,
           signature: authRes.signature,
-          jsApiList: ["updateAppMessageShareData", "updateTimelineShareData", "getLocation",]
+          jsApiList: ["updateAppMessageShareData", "updateTimelineShareData", "onMenuShareAppMessage", "onMenuShareTimeline", "getLocation"]
         });
       }
     }).catch(function (error) {
     console.log(error);
   });
-  if (type == 'first') {
-    wx.ready(() => {
-      wx.getLocation({
-        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        success: function (res) {
-          let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          var speed = res.speed; // 速度，以米/每秒计
-          var accuracy = res.accuracy; // 位置精度
-          geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
-        }
-      });
-      wx.updateAppMessageShareData({
-        title: shareConfig.title,
-        desc: shareConfig.desc,
-        link: location.origin + sourceUrl + '?state=' + shareConfig.link,
-        imgUrl: shareConfig.imgUrl,
-        success: function () {//设置成功
-          console.log("分享成功");
-        },
-        cancel: function () {
-          console.log("取消分享");
-        }
-      });
-      wx.updateTimelineShareData({
-        title: shareConfig.title,
-        desc: shareConfig.desc,
-        link: location.origin + sourceUrl + '?state=' + shareConfig.link,
-        imgUrl: shareConfig.imgUrl,
-        success: function () {//设置成功
-          //shareSuccessCallback();
-        },
-        cancel: function () {
-          console.log("取消分享");
-        }
-      });
-    })
-  }
+  console.log(location.href)
+  console.log(shareConfig.title)
+  console.log(location.href + '?state=' + shareConfig.link)
 
+  wx.ready(function () {
+    //获取地理位置
+    // wx.getLocation({
+    //   type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+    //   success: function (res) {
+    //     let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+    //     let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+    //     var speed = res.speed; // 速度，以米/每秒计
+    //     var accuracy = res.accuracy; // 位置精度
+    //     geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
+    //   }
+    // });
+    //========老分享========
+    //好友
+    wx.onMenuShareAppMessage({
+      title: shareConfig.title,
+      desc: shareConfig.desc,
+      link: location.href + '?state=' + shareConfig.link,
+      imgUrl: shareConfig.imgUrl,
+      success: function () {//设置成功
+        console.log("分享成功");
+      },
+      cancel: function () {
+        console.log("取消分享");
+      }
+    });
+    //  朋友圈
+    wx.onMenuShareTimeline({
+      title: shareConfig.title,
+      link: location.href + '?state=' + shareConfig.link,
+      imgUrl: shareConfig.imgUrl,
+      success: function () {//设置成功
+        //shareSuccessCallback();
+      },
+      cancel: function () {
+        console.log("取消分享");
+      }
+    });
+    //========新分享========
+
+    //好友
+    // wx.updateAppMessageShareData({
+    //   title: shareConfig.title,
+    //   desc: shareConfig.desc,
+    //   link: location.href + '?state=' + shareConfig.link,
+    //   imgUrl: shareConfig.imgUrl,
+    //   success: function () {//设置成功
+    //     console.log("分享成功");
+    //   },
+    //   cancel: function () {
+    //     console.log("取消分享");
+    //   }
+    // });
+    // // 朋友圈
+    // wx.updateTimelineShareData({
+    //   title: shareConfig.title,
+    //   link: location.href + '?state=' + shareConfig.link,
+    //   imgUrl: shareConfig.imgUrl,
+    //   success: function () {//设置成功
+    //     //shareSuccessCallback();
+    //   },
+    //   cancel: function () {
+    //     console.log("取消分享");
+    //   }
+    // });
+  })
 };
 //将经纬度解析为详细的地址
 const geocoder = new qq.maps.Geocoder({
