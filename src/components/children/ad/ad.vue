@@ -7,10 +7,10 @@
             <van-image
               width="0.8rem"
               height="0.8rem"
-              fit="contain"
+              fit="cover"
               :src="item.img"
+              style="display: block"
             />
-            <!-- <img :src="item.img"> -->
           </div>
           <div class="right_msg">
             <div class="name">
@@ -55,7 +55,6 @@
             },
         },
         mounted() {
-            console.log(this.dmsg)
             this.getad()
         }
     }
@@ -65,42 +64,43 @@
   .content {
     .ad_list {
       background-color: #fff;
-      padding: 10px;
+      padding: 0.1rem;
       text-align: left;
 
-      li a {
-        margin-bottom: 20px;
-        display: flex;
+      li {
+        margin-bottom: 0.2rem;
+        padding-bottom: 0.1rem;
         border-bottom: 1px solid #f2f2f2;
-        padding-bottom: 10px;
-
-        .left_img {
-          width: 30vw;
-        }
-
-        .right_msg {
-          width: 70vw;
-          padding-left: 10px;
+        a {
           display: flex;
-          flex-direction: column;
-          justify-content: center;
+          align-items: center;
+          .right_msg {
 
-          .name {
-            font-size: 0.16rem;
+            padding-left: 0.15rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
-            .tt_name {
-              font-size: 0.14rem;
-              margin: 5px 0;
+            .name {
+              .tt_name {
+                font-size: 0.12rem;
+                margin: 0 0.5rem 0 0.1rem;
+              }
+            }
+
+            .time {
+              color: #999999;
+              font-size: 0.12rem;
             }
           }
-
-          .time {
-            color: #999999;
-            font-size: 0.12rem;
-          }
         }
-
       }
+      li:nth-last-child(1){
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
     }
   }
 </style>

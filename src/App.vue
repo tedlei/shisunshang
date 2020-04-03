@@ -45,42 +45,18 @@
         },
         mounted() {
             this.path = this.$route.path;
-            let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-            let token = this.$store.getters.isLogin;
-            console.log(token)
-            if (token) {
-
-                //获取用户信息并存储
-                let userinfo = {
-                    method: 'get.user.info'
+            Bus.$on('wechatAuth', (data) => {
+                if (data == true) {
+                    let shareConfig = {
+                        title: this.$router.name,
+                        desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
+                        link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
+                        imgUrl: '',
+                    };
+                    wechatAuth('first',shareConfig);
                 }
-                this.$post('/api/v1/user', userinfo)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            this.$store.commit('userinfo', JSON.stringify(response.data));
-                            let shareConfig = {
-                                title: this.$router.name,
-                                desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
-                                link: response.data.referee_number,
-                                imgUrl: '',
-                            };
-                            wechatAuth(shareConfig);
-                            // let phone = JSON.parse(store.getters.getuserinfo).phone;
-                            // if (!phone) {
-                            //   Dialog({
-                            //     message: '去绑定手机号码',
-                            //   }).then(() => {
-                            //     router.push({
-                            //       path: '/set/set-phone'
-                            //     })
-                            //   });
-                            // }
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-                Bus.$emit('getHot', true);
-            }
+            });
+
         },
     }
 </script>

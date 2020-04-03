@@ -113,6 +113,9 @@
                     this.getHot();
                 }
             });
+            if (this.$store.getters.isLogin){
+                Bus.$emit('getHot', true);
+            }
             // localStorage.setItem('history', this.historylist)
         }
     }

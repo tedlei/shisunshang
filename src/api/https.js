@@ -30,6 +30,7 @@ store.commit('userinfo', JSON.stringify(info));
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
+  store.commit('isLogin', tokens);
 }
 
 const baseURL = 'http://test.gj.wjeys.com';

@@ -53,7 +53,6 @@
           </div>
         </el-col>
       </el-row>
-
     </div>
     <!--  公告  -->
     <div class="notice">
@@ -110,7 +109,6 @@
     import Bus from "../../assets/js/bus";
     import Swiper from 'swiper';
     import Signin from "../Signin/Signin";
-
     export default {
         name: "home",
         //2.然后,在components中写入子组件
@@ -161,7 +159,9 @@
                     console.log(error);
                 });
             },
+            getUserinfo: function () {
 
+            },
             //分类按钮
             doting: function (e, m) {
                 if (e == 5) {
@@ -227,6 +227,8 @@
         },
         mounted() {
             this.getHomeMsg();
+
+            this.getUserinfo();
         }
 
     }
