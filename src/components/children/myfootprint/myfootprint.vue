@@ -27,8 +27,13 @@
       </div>
       <div class="bottom_box" v-show="$store.getters.getEmpty">
         <div class="mycheck left_check">
-          <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
-            style="margin-right: 0.1rem"></el-checkbox>
+          <!-- <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
+            style="margin-right: 0.1rem"></el-checkbox> -->
+          <div :class="checkAll ?'allElection':'allElectionShow'" @click="handleCheckAllChange">
+            <div v-show="checkAll">
+              <van-icon name="success" color="#fff"/>
+            </div>
+          </div>
           <span>全选</span>
         </div>
         <div class="right_delet" @click="deleteCollection">
@@ -163,6 +168,7 @@
     methods: {
       handleCheckAllChange () {
         // console.log(this.checkAll)
+        this.checkAll = !this.checkAll;
         if(this.checkAll){
           for(let i in this.goodslist){
             this.goodslist[i].checked = true;
@@ -450,6 +456,8 @@
       display: flex;
 
       .left_check {
+        display: flex;
+        align-items: center;
         padding-left: 10px;
         background-color: #333;
         line-height: 50px;
@@ -539,6 +547,25 @@
     background-color: $sss-color;
   }
   .evaluationicon{
+
+  }
+  .allElection{
+    width: 0.18rem;
+    height: 0.18rem;
+    background-color: $sss-color;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.03rem;
+    margin-right: 0.1rem;
+  }
+  .allElectionShow{
+    width: 0.18rem;
+    height: 0.18rem;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    margin-right: 0.1rem;
 
   }
 </style>

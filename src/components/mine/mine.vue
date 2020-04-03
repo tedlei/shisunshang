@@ -319,7 +319,7 @@
                 for (let i in _this.zclists) {
                     _this.zclists[i].num = Number(data['money' + (Number(i) + 1)])
                 }
-                _this.portrait = data.portrait
+                _this.portrait = data.portrait;
                 _this.username = data.name;
                 _this.phone = data.phone;
                 _this.level_name = data.level_name;

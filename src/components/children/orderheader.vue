@@ -114,11 +114,10 @@
 
 <style scoped lang="scss">
   header {
-    height: 0.43rem;
     font-size: 0.16rem;
     display: flex;
     justify-content: center;
-    padding: 0.1rem 0.15rem;
+    padding: 0.13rem 0.15rem;
     background-color: #fff;
     position: relative;
     position: fixed;

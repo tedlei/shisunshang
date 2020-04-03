@@ -83,10 +83,9 @@
         </span>
       </van-loading>
     </div> -->
-    <loading v-show="isloading"></loading>
     <!--  推荐  -->
-    <div class="cart_rmd">
-      <img v-show="isCart" src="../../assets/img/tj.png" style="margin-bottom: 0.1rem">
+    <div class="cart_rmd" v-show="isRecommend">
+      <img src="../../assets/img/tj.png" style="margin-bottom: 0.1rem">
       <!--  商品列表  -->
         <el-row class="goodslist">
           <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
@@ -111,6 +110,7 @@
           </el-col>
         </el-row>
     </div>
+    <loading v-show="isloading"></loading>
     <!--  有购物车结算  -->
     <div class="settlement" v-show="isCart">
       <div class="left_check">
@@ -147,6 +147,7 @@ export default {
         msg: '购物车',
         isIndeterminate: true,
         checkAll: false,
+        isRecommend: false,
         total:0,
         num: 1,
         goodsitem: [
@@ -187,6 +188,7 @@ export default {
       this.$post('/api/v1/goods', ad_data)
       .then((res) => {
         // console.log(res);
+        this.goodsitem = [];
         for(let i in res.data){
           this.goodsitem.push({
             id: res.data[i].id,
@@ -196,6 +198,7 @@ export default {
             goodsimg: res.data[i].imgsrc,
           })
         }
+        this.isRecommend = true;
 
       }).catch(function (error) {
         console.log(error);
@@ -234,6 +237,7 @@ export default {
 
     //获取购物车数据
     getCart () {
+      this.isCart = false;
       let ad_data = {
         method: 'get.goods.cart.list'
       };

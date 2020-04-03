@@ -41,7 +41,7 @@
           <span class="textLinefeed SpecificationsName">
             {{initialName}}
             </span>
-          <span class="share" @click="isQRcodeDomainName = true">
+          <span class="share" @click="SharePoster">
             <i class="el-icon-share"></i>分享
           </span>
           
@@ -69,14 +69,14 @@
         </div>
       </div> -->
       <!--   3   -->
-      <div class="m_b_10 conmo_box box_three">
+      <!-- <div class="m_b_10 conmo_box box_three">
         <span class="left">送至</span>
         <div class="right">
           <span><i class="el-icon-location-outline">{{ReceivingAddress}}</i></span>
           <span>免运费</span>
           <i class="el-icon-arrow-right"></i>
         </div>
-      </div>
+      </div> -->
       <!--   4   -->
       <!-- <div class="m_b_10 conmo_box box_four">
         <div class="left store_head">
@@ -106,10 +106,32 @@
       <!-- <shop :is_follow=""></shop> -->
       </div>
 
-      <!-- <div v-show="isQRcodeDomainName" class="qrcode"> -->
-      <!-- <div v-show="false" class="qrcode">
-        <div id="qrCode" ref="qrCode"></div>
-      </div> -->
+      <div class="Cover" v-show="isQRcodeDomainName">
+          <div v-show="!isPoster">
+              <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
+                  <div>
+                    <img :src="portrait" alt="">
+                    <div>
+                      <p>泰国香米美国产</p>
+                      <p>给你推荐了一个好东西</p>
+                    </div>
+                  </div>
+                  <img v-show="isGoods_infoImgsrc" style="width:100%;height:235px" :src="goodsData.goods_info.imgsrc" alt="海报图片">
+                  <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
+                  <div class="PosterDivMoney">￥560.00</div>
+                  <div class="PosterDivQRcode">
+                    <div>简单 仙魔香米号吃好好好好吃的2.5kg不抛光的向居民们的米</div>
+                    <div class="qrcode" id="qrCode" ref="qrCode"></div>
+                  </div>
+              </div>
+          </div>  
+          <div class="haibao" v-show="isPoster">
+              <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
+                <img src="../../assets/img/hbx.png" alt="">
+              </div>
+              <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#">
+          </div>
+      </div>
       
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
@@ -249,7 +271,8 @@
     import actives from "./actives/active";
     import shop from "./actives/shop";
     import QRCode from 'qrcodejs2';
-  export default {
+	  import html2canvas from 'html2canvas';
+    export default {
     name: "goodsDATA",
     components: {
         'actives' : actives,
@@ -264,7 +287,14 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
+        isGoods_infoImgsrc: true,
         isQRcodeDomainName: false,
+        isPoster: false,
+        w: 260,
+        h: 410,
+        imgResult: '',
+        portrait: '',
+
         // imglist: [], //轮播数组
         actions: [
           { name: '选项' },
@@ -474,14 +504,23 @@
         this.show = false;
       },
 
+      //分享海报
+      SharePoster(){
+        this.isQRcodeDomainName = true;
+        setTimeout(()=>{
+          if(!this.isPoster){
+            this.downloadImage();
+          }
+        },800);
+      },
+
       //海报二维码
       getQRcodeDomainName(){
         let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-        console.log(userinfo);
         let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
         let routes = this.$route.path + '?id=' + this.$route.query.id;
         let qrCode = new QRCode('qrCode', {
-            text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的内容
+            text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的链接
             width: 150,
             height: 150,
             colorDark: '#000000',
@@ -489,6 +528,27 @@
             correctLevel: QRCode.CorrectLevel.H
         })
       },
+
+      //生成海报
+      downloadImage() {
+	    	let opts = {
+	    		useCORS: true,
+	    		width: this.w,
+	    		height: this.h,
+	    		logging:false,
+          // scale:1,
+          dpi: window.devicePixelRatio,
+        };
+        // console.log(opts)
+		    window.scrollTo(0,0)
+	    	html2canvas(document.getElementById("Poster"),opts).then((canvas)=> {
+	    		let imgUri = canvas.toDataURL("image/jpeg",1); // 获取生成的图片的url
+	    		// console.log(imgUri)
+                this.imgResult=imgUri;
+                this.isPoster = true;
+                // clearTimeout();
+	    	});
+	    },
 
       //获取推荐列表、
       getRecommend () {
@@ -576,7 +636,6 @@
 
       //添加足迹
       Addfootprints () {
-
         let ad_data = {
           method: 'add.user.footprint.item',
           goods_id: this.$route.query.id
@@ -678,9 +737,12 @@
       // console.log(this.$route.query.id)
       this.getDATA();
       this.Addfootprints();
-      // this.$nextTick( ()=>{
-      //   this.getQRcodeDomainName();
-      // })
+      this.$nextTick( ()=>{
+        this.getQRcodeDomainName();
+      });
+      let user = JSON.parse(this.$store.getters.getuserinfo);
+      console.log(user)
+      this.portrait = user.portrait;
     },
     updated () {
 
@@ -720,7 +782,6 @@
     background: rgba(0, 0, 0, 0.3);
   }
   .custom-indicator2 {
-
     background: $sss-color !important;
   }
   .main {
@@ -1115,9 +1176,81 @@
     justify-content: space-between;
     align-items: center;
   }
+
+
   .qrcode {
-    display: inline-block;
-    padding: 0.08rem;
-    background-color: #fff;
+    width: 70px;
+    height: 70px;
   }
+  .Cover{
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        min-width: 100vw;
+        min-height: 100vh;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .PosterDiv{
+            padding: 0.1rem;
+            border-radius: 10px;
+            background-color: #fff;
+            
+            >div:first-child{
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              >img{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 5px;
+              }
+              >div{
+                text-align: left;
+                >p:nth-child(2){
+                  color: #999999;
+                  font-size: 12px;
+                }
+              }
+            }
+            .PosterDivMoney{
+              margin: 10px 10px 5px 10px;
+              text-align: left;
+              color: $sss-color;
+              font-weight: bold;
+
+            }
+            .PosterDivQRcode{
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              text-align: left;
+              padding: 0 5px;
+              >div:first-child{
+                  width: 150px;
+                  height: 60px;
+                  overflow:hidden;
+              }
+              
+            }
+        }
+    }
+    .haibao{
+      width: 260px;
+      height: 410px;
+      position: relative;
+      border-radius: 10px;
+        .CloseQRcodeDomainName{
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        >img{
+            border-radius: 10px;
+        }
+    }
 </style>

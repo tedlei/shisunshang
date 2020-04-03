@@ -405,7 +405,7 @@
 	          		'getBrandWCPayRequest',
 	          		this.jsApiParameters,
 	          		(res)=>{
-                  if (res.err_msg = "get_brand_wcpay_request:ok") {
+                  if (res.err_msg == "get_brand_wcpay_request:ok") {
 	          				//跳转到支付成功页面
                     this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
 	          			}else{

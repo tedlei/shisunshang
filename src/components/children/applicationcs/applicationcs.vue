@@ -73,7 +73,7 @@ import imgUpload from '../../../api/imgUpload'
     .content {
         padding-bottom: 50px;
         .evalua{
-            padding: 0.1rem 0.1rem;
+            padding: 0.1rem 0.1rem 0.3rem 0.1rem;
             background-color: #fff;
             margin-bottom: 0.1rem;
             .goodsImg{

@@ -40,7 +40,7 @@
                     {{item.name}}
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
-                    <span style="width:56px">地址:</span>
+                    <span>地址：</span>
                     <span class="fontWrap fontWrapTwo">
                         {{item.address}}
                       </span>
@@ -196,6 +196,7 @@
       font-size: 0.18rem;
       color: #999;
       margin: 0 0.2rem 0 0.08rem;
+      
     }
   }
 
@@ -282,6 +283,7 @@
 
         .address {
           display: flex;
+          align-items: center;
           color: #999;
           font-size: 0.12rem;
         }

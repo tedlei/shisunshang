@@ -9,6 +9,24 @@ Vue.use(Toast);
 
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
+let info = {
+  money1: -175.00,
+  money2: 0.00,
+  money3: 0.00,
+  money4: 0.00,
+  money5: 542.00,
+  money6: 0.00,
+  level: 1,
+  name: "【-空-】",
+  phone: 15320495341,
+  weixinname: "【-空-】",
+  portrait: "http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq8WibsnK03ibFskf6RJnFVDvovhUhdHPuYeVkdryC6hwaIDy9mUyrrkBz5unQE8eCD5ribuOicm3ha9w/132",
+  add_time: "2020-03-31 14:34:28",
+  referee_number: 101777,
+  is_set_paypassword: 1,
+  level_name: "顾客"
+}
+store.commit('userinfo', JSON.stringify(info));
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
   tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
@@ -27,8 +45,8 @@ axios.interceptors.request.use(
 
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      'token': store.getters.isLogin,
-      // 'token': tokens,
+      // 'token': store.getters.isLogin,
+      'token': tokens,
       // 'Content-Type': 'multipart/form-data'
     };
     return config;

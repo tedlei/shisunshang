@@ -13,13 +13,14 @@
       </div>
       <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
+      <van-field v-model="Recommender" label="推荐人：" placeholder="请输入推荐人"/>
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
         <div>
           <span>经营分类：</span>
           <span>
-                        {{classList}}
-                    </span>
+              {{classList}}
+          </span>
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
@@ -51,10 +52,11 @@
       v-model="show"
       position="bottom"
     >
-      <van-area :area-list="areaList"
-                confirm-button-text="保存"
-                @confirm="confirm"
-                @cancel="show=false"
+      <van-area 
+        :area-list="areaList"
+        confirm-button-text="保存"
+        @confirm="confirm"
+        @cancel="show=false"
       />
     </van-popup>
 
@@ -118,6 +120,7 @@
                 classList: '请选择公司经营分类',
                 upclassId: '',
                 message: '',
+                Recommender: '',
                 input: '',
                 input1: '',
                 input2: '',
@@ -193,6 +196,46 @@
             upData() {
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
+                if(this.input==''){
+                  this.$toast('公司名称不能为空');
+                  return;
+                }else if(this.input1==''){
+                  this.$toast('营业时间不能为空');
+                  return;
+
+                }else if(this.province[0].name=='选择省'){
+                  this.$toast('请选择公司地址');
+                  return;
+
+                }else if(this.input2==''){
+                  this.$toast('详细地址不能为空');
+                  return;
+
+                }else if(this.input3==''){
+                  this.$toast('公司电话不能为空');
+                  return;
+
+                }else if(this.Recommender==''){
+                  this.$toast('推荐人不能为空');
+                  return;
+
+                }else if(this.classList=='请选择公司经营分类'){
+                  this.$toast('请选择公司经营分类');
+                  return;
+
+                }else if(this.message==''){
+                  this.$toast('经营范围不能为空');
+                  return;
+
+                }else if(this.upfileList==0){
+                  this.$toast('封面不能为空');
+                  return;
+
+                }else if(this.upfileListTwo==0){
+                  this.$toast('宣传照不能为空');
+                  return;
+
+                }
                 imgUpload(imglist).then(imgurls => {
                     // console.log(imgurls)
                     let album = [];
@@ -210,6 +253,7 @@
                         city_id: this.province[1].code,
                         area: this.province[2].name,
                         area_id: this.province[2].code,
+                        referee: this.Recommender,
                         address: this.input2,
                         mobile: this.input3,
                         bus_scope: this.message,
