@@ -14,7 +14,7 @@
       </van-uploader>
     </div>
     <van-field v-model="number" type="number" label="" placeholder="请输入金额" class="m_b_10"/>
-    <div class="uploader_box">
+    <div class="uploader_box" style="border: none;margin-bottom: 0.4rem">
       <strong>规则说明</strong>
       <p>1.本着吃多少送多少的理念，用户在商家消费多少，我们送多少；</p>
       <p>1.本着吃多少送多少的理念，用户在商家消费多少，我们送多少；</p>
@@ -71,7 +71,7 @@
       height: 2rem;
       padding: 0.1rem;
       border-radius: 5px;
-      border: 1px dashed #999999;
+      border: 1px dashed #d2d2d2;
       margin-top: 0.1rem;
 
       /deep/ .van-uploader {

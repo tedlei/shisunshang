@@ -2,7 +2,10 @@
   <div>
     <div class="navigation" v-show="this.$route.query.orderid != 4">
       <ul class="clearfix">
-        <li v-for="(item,index) in navItems" :key="index" :style="numBoder==index?'border-bottom: 3px solid #009900;':''" class="numactive" @click="getNum(index)">{{item}}</li>
+        <li v-for="(item,index) in navItems" :key="index"
+            :style="numBoder==index?'border-bottom: 3px solid #009900;':''" class="numactive" @click="getNum(index)">
+          {{item}}
+        </li>
       </ul>
     </div>
 
@@ -22,7 +25,8 @@
             {{item.status==0?'待付款':item.status==1?'待发货':item.status==2?'待收货':item.status==3?'待评价':'已取消'}}
             </span>
         </div>
-        <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}" v-for="(goodsItem,index1) in item.goods" :key="index1">
+        <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}"
+                     v-for="(goodsItem,index1) in item.goods" :key="index1">
           <!--商品 卡片 -->
           <div class="goods">
             <div class="left_img">
@@ -77,7 +81,7 @@
             <el-row v-show="!isshouhou">
               <div v-show="num==1">
                 <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
-                    <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
+                  <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                 </router-link>
                 <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">付款</van-button>
               </div>
@@ -115,259 +119,264 @@
 
 <script>
 
-  import Headerback from "../../headerback/headerback";
-  import Empty from "../empty/empty";
+    import Headerback from "../../headerback/headerback";
+    import Empty from "../empty/empty";
 
-  export default {
-    name: "order",
-    components: {Empty, Headerback},
+    export default {
+        name: "order",
+        components: {Empty, Headerback},
 
-    data() {
-      return {
-        num: 0,
-        numBoder: 0,
-        isKnoorder: false,
-        isNoorder: false,
-        jsApiParameters: {},
-        is: 'num',
-        jsApiParameters:{},
-        shouhou: '',
-        isshouhou: false,
-        navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
-        orderAllItem: [
-          {
-            storename: '富锦旗舰店',
-            state: 2,
-            price: '268.00',
-            goodsimg: 'c_goods',
-            detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-            guige: '1000*10',
-            num: 1,
-            total: '268.00',
-            totalnum: 1,
-            add_time: '2020-01-13 10：02：42',
-          },
-          {
-            storename: '富锦旗舰店',
-            state: 2,
-            price: '268.00',
-            goodsimg: 'c_goods',
-            detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-            guige: '1000*10',
-            num: 1,
-            total: '268.00',
-            totalnum: 1,
-            add_time: '2020-01-13 10：02：42',
-          },
-          {
-            storename: '富锦旗舰店',
-            state: 2,
-            price: '268.00',
-            goodsimg: 'c_goods',
-            detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-            guige: '1000*10',
-            num: 1,
-            total: '268.00',
-            totalnum: 1,
-            add_time: '2020-01-13 10：02：42',
-          },
-          {
-            storename: '富锦旗舰店',
-            state: 2,
-            price: '268.00',
-            goodsimg: 'c_goods',
-            detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-            guige: '1000*10',
-            num: 1,
-            total: '268.00',
-            totalnum: 1,
-            add_time: '2020-01-13 10：02：42',
-          }
-        ],
-        wholeData:[
-          {
-            id: '',
-            goods: [
-              {
-                name: ''
-              }
-            ],
-            shop: {
-              name: ''
+        data() {
+            return {
+                num: 0,
+                numBoder: 0,
+                isKnoorder: false,
+                isNoorder: false,
+                jsApiParameters: {},
+                is: 'num',
+                jsApiParameters: {},
+                shouhou: '',
+                isshouhou: false,
+                navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
+                orderAllItem: [
+                    {
+                        storename: '富锦旗舰店',
+                        state: 2,
+                        price: '268.00',
+                        goodsimg: 'c_goods',
+                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
+                        guige: '1000*10',
+                        num: 1,
+                        total: '268.00',
+                        totalnum: 1,
+                        add_time: '2020-01-13 10：02：42',
+                    },
+                    {
+                        storename: '富锦旗舰店',
+                        state: 2,
+                        price: '268.00',
+                        goodsimg: 'c_goods',
+                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
+                        guige: '1000*10',
+                        num: 1,
+                        total: '268.00',
+                        totalnum: 1,
+                        add_time: '2020-01-13 10：02：42',
+                    },
+                    {
+                        storename: '富锦旗舰店',
+                        state: 2,
+                        price: '268.00',
+                        goodsimg: 'c_goods',
+                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
+                        guige: '1000*10',
+                        num: 1,
+                        total: '268.00',
+                        totalnum: 1,
+                        add_time: '2020-01-13 10：02：42',
+                    },
+                    {
+                        storename: '富锦旗舰店',
+                        state: 2,
+                        price: '268.00',
+                        goodsimg: 'c_goods',
+                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
+                        guige: '1000*10',
+                        num: 1,
+                        total: '268.00',
+                        totalnum: 1,
+                        add_time: '2020-01-13 10：02：42',
+                    }
+                ],
+                wholeData: [
+                    {
+                        id: '',
+                        goods: [
+                            {
+                                name: ''
+                            }
+                        ],
+                        shop: {
+                            name: ''
+                        }
+                    },
+                ],
             }
-          },
-        ],
-      }
-    },
-    methods: {
-      getNum (index) {
-        this.num = index;
-        this.numBoder = index;
+        },
+        methods: {
+            getNum(index) {
+                this.num = index;
+                this.numBoder = index;
 
-        this.getOderData(index);
-      },
-      getOderData (index) {
-        let ad_data = {
-          method: 'get.order.list',
-          // type:
-        };
-        if(index != undefined && index != 0){
-          ad_data = {
-            method: 'get.order.list',
-            type: index-1
-          }
-          // console.log(ad_data);
-        }
-        // console.log(ad_data);
-        this.$post('/api/v1/order', ad_data)
-        .then((res) => {
-          // console.log(res)
-          console.log(res.data)
-          if(res.data.length==0){
-            this.isNoorder = false;
-            this.isKnoorder = true;
-          }else{
-            this.isKnoorder = false;
-            this.isNoorder = true;
-          }
-          this.wholeData = res.data;
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      cancelOrder (id) {
-        let ad_data = {
-          method: 'cancel.order.item',
-          order_id: id
-        };
-        console.log(ad_data)
-        this.$post('/api/v1/order', ad_data)
-        .then((res) => {
-          console.log(res)
-          if(res.status==200){
-            this.$toast.success('订单已取消');
-            this.getOderData(2);
-          }else{
-            this.$toast.success('取消失败');
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-     //支付
-      payment ( id ) {
-        let _id = id;
-        let ad_data = {
-          method: 'continue.buy.order',
-          order_id: _id
-        }
-        this.$post('/api/v1/order', ad_data)
-        .then((res) => {
-          console.log(res);
-          if(res.data.is_wx_pay == 1){
-            console.log(res.data.payment)
-          	this.jsApiParameters = res.data.payment;
-            this.callpay();
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-      
-      jsApiCall(){
-	      WeixinJSBridge.invoke(
-	      	'getBrandWCPayRequest',
-	      	this.jsApiParameters,
-	      	function(res){
-	      		if(  res.err_msg.indexOf(":ok")>0 ){
-	      			//跳转到支付成功页面
-	      			
-	      		}else{
-              //取消付款跳转
+                this.getOderData(index);
+            },
+            getOderData(index) {
+                let ad_data = {
+                    method: 'get.order.list',
+                    // type:
+                };
+                if (index != undefined && index != 0) {
+                    ad_data = {
+                        method: 'get.order.list',
+                        type: index - 1
+                    }
+                }
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        if (res.data.length == 0) {
+                            this.isNoorder = false;
+                            this.isKnoorder = true;
+                        } else {
+                            this.isKnoorder = false;
+                            this.isNoorder = true;
+                        }
+                        this.wholeData = res.data;
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            cancelOrder(id) {
+                let ad_data = {
+                    method: 'cancel.order.item',
+                    order_id: id
+                };
+                console.log(ad_data)
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res)
+                        if (res.status == 200) {
+                            this.$toast.success('订单已取消');
+                            this.getOderData(2);
+                        } else {
+                            this.$toast.success('取消失败');
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //支付
+            payment(id) {
+                let _id = id;
+                let ad_data = {
+                    method: 'continue.buy.order',
+                    order_id: _id
+                }
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.data.is_wx_pay == 1) {
+                            console.log(res.data.payment)
+                            this.jsApiParameters = res.data.payment;
+                            this.callpay();
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            jsApiCall() {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    this.jsApiParameters,
+                    function (res) {
+                        if (res.err_msg.indexOf(":ok") > 0) {
+                            //跳转到支付成功页面
+
+                        } else {
+                            //取消付款跳转
+                        }
+                    }
+                );
+            },
+
+            callpay() {
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', this.jsApiCall);
+                        document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+                    }
+                } else {
+                    this.jsApiCall();
+                }
+            },
+        },
+        created() {
+            // this.getOderData();
+        },
+        mounted() {
+            this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
+            this.isshouhou = this.$route.query.orderid == 4 ? true : false;
+            this.shouhou = this.$route.query.orderid == 4 ? '0.43rem' : '1.01rem';
+            if (this.$route.query.orderid == 'evaluate') {
+                this.getNum(4);
+            } else {
+                this.getNum(this.$route.query.orderid);
+                console.log(this.$route.query.orderid)
             }
-	      	}
-	      );
-	    },
-
-	    callpay(){
-		        if (typeof WeixinJSBridge == "undefined"){
-		            if( document.addEventListener ){
-		                document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
-		            }else if (document.attachEvent){
-		                document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
-		                document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
-		            }
-		        }else{
-		            this.jsApiCall();
-		        }
-	    },
-    },
-    created () {
-      // this.getOderData();
-    },
-    mounted() {
-      this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
-      this.isshouhou = this.$route.query.orderid == 4 ? true : false;
-      this.shouhou = this.$route.query.orderid == 4 ? '0.43rem' : '1.01rem';
-      if(this.$route.query.orderid == 'evaluate'){
-        this.getNum(4);
-      }else{
-        this.getNum(this.$route.query.orderid);
-        console.log(this.$route.query.orderid)
-      }
+        }
     }
-  }
 </script>
 
 <style scoped lang="scss">
   .content {
-    .numactive{
+    .numactive {
       border-bottom: 3px solid #009900;
     }
+
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .state {
         color: #009900;
       }
     }
+
     .goods {
       display: flex;
       margin: 0.1rem 0;
+
       .left_img {
         width: 0.9rem;
         margin-right: 0.1rem;
       }
+
       .center_text {
         width: 100%;
-        >div:first-child{
+
+        > div:first-child {
           padding: 0 0.05rem;
           display: flex;
           width: 100%;
           justify-content: space-between;
-          .goodsItemName{
+
+          .goodsItemName {
             text-align: left;
             width: 70%;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:-webkit-box;
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:2; //超出几行显示
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; //超出几行显示
             margin-bottom: 0.4rem;
           }
         }
-        .Specifications{
+
+        .Specifications {
           display: flex;
           text-align: left;
-          >span:first-child{
+
+          > span:first-child {
             margin-left: 0.1rem;
             width: 70%;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:-webkit-box;
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:1; //超出几行显示
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1; //超出几行显示
           }
         }
       }
@@ -395,9 +404,11 @@
 
       .btn_box {
         float: right;
-        a{
+
+        a {
           display: inline-block;
         }
+
         .left_s_btn {
           border-color: #009900;
           color: #009900;
@@ -410,7 +421,8 @@
       }
     }
   }
-  .EmptyDiv{
+
+  .EmptyDiv {
     background-color: #fff;
     min-height: 100vh;
   }

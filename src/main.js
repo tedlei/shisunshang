@@ -16,6 +16,7 @@ import axios from 'axios'
 import qs from 'qs'
 import {post, patch, put} from './api/https'
 import 'mint-ui/lib/style.css'
+
 //定义全局变量
 Vue.prototype.$post = post;
 Vue.prototype.$fetch = fetch;
@@ -27,9 +28,10 @@ Vue.use(ElementUI);
 Vue.use(Vant);
 Vue.config.productionTip = false;
 
+
 router.beforeEach((to, from, next) => {
   //===== 判断是否为微信浏览器 =====
-  // console.log(to)
+
   let ua = window.navigator.userAgent.toLocaleLowerCase();
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
@@ -88,7 +90,6 @@ new Vue({
   router,
   store,
   components: {App},
-
   template: '<App/>',
 
 })

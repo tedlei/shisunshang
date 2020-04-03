@@ -14,9 +14,8 @@
     import Header from "./components/header/header";
     import loading from "./components/loading/loading";
     import SearchResult from "./components/children/searchResult/searchResult";
-    import wechatAuth from "./assets/js/wechatConfig";
     import Bus from "./assets/js/bus";
-
+    import wechatAuth from "./assets/js/wechatConfig";
     export default {
         name: 'App',
         components: {SearchResult, Header, Footer, loading},
@@ -34,6 +33,26 @@
         beforeUpdate() {
             this.path = this.$route.path
         },
+        watch: {
+            // 监听 $route 变化调用分享链接
+            '$route'(to, from) {
+                let ua = window.navigator.userAgent.toLocaleLowerCase();
+                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                    if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
+                        if (JSON.parse(this.$store.getters.getuserinfo)) {
+                            console.log(this.$router)
+                            let shareConfig = {
+                                title: "国建生态平台",
+                                desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
+                                link: 123,
+                                imgUrl: './assets/img/banner.png',
+                            };
+                            wechatAuth(shareConfig);
+                        }
+                    }
+                }
+            }
+        },
         methods: {
             reload() {
                 this.isRouterAlive = false;            //先关闭，
@@ -43,20 +62,21 @@
             },
 
         },
+
         mounted() {
             this.path = this.$route.path;
-            Bus.$on('wechatAuth', (data) => {
-                if (data == true) {
-                    let shareConfig = {
-                        title: this.$router.name,
-                        desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
-                        link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
-                        imgUrl: '',
-                    };
-                    wechatAuth('first',shareConfig);
-                }
-            });
 
+            // Bus.$on('wechatAuth', (data) => {
+            //     if (data == true) {
+            //         let shareConfig = {
+            //             title: this.$router.name,
+            //             desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
+            //             link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
+            //             imgUrl: './assets/img/banner.png',
+            //         };
+            //         wechatAuth(shareConfig);
+            //     }
+            // });
         },
     }
 </script>
