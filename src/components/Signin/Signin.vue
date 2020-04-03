@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <van-popup
       v-model="show"
       :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2' }"
@@ -49,7 +47,6 @@
         </ul>
         <!-- 日期 -->
         <ul class="days">
-          <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
           <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
           <li v-for="(dayobject,index) in days" :key="index">
             <!--本月-->

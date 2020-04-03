@@ -1,7 +1,7 @@
 <template>
   <header :style="{height:this.$route.name == 'Special-area'?'0.55rem':''}">
     <i class="el-icon-arrow-left back" @click="nobackss" style="left: 5px;" v-show="!noback"></i>
-    <i class="el-icon-arrow-left back" @click="$router.back(-1)" style="left: 5px;" v-show="noback"></i>
+    <i class="el-icon-arrow-left back" @click="routerback" style="left: 5px;" v-show="noback"></i>
     <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
@@ -70,6 +70,9 @@
             }
         },
         methods: {
+            routerback(){
+                this.$router.back(-1);
+            },
             baocun: function (id) {
                 var _this = this
                 _this.$store.commit('addressid', id);

@@ -15,13 +15,7 @@
           <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
             <img v-show="item!='' && item!=undefined && item != null" class="swipeImgs" :src="item">
             <img v-show="item==''||item==undefined||item==null" class="swipeImgs" src="../../assets/img/mrtp.png">
-            <!-- <img class="swipeImgs" :src="item"> -->
-            <!-- <van-image
-              width="100%"
-              height="3.5rem"
-              fit="cover"
-              :src="item"
-            /> -->
+           
           </van-swipe-item>
            <template #indicator>
             <div class="indicator">
@@ -41,7 +35,7 @@
           <span class="textLinefeed SpecificationsName">
             {{initialName}}
             </span>
-          <span class="share" @click="SharePoster">
+          <span class="share" @click="showTwo = true">
             <i class="el-icon-share"></i>分享
           </span>
           
@@ -88,9 +82,7 @@
         </div>
       </div> -->
       <!--   5   -->
-      <div style="display: flex;justify-content: space-between;"
-       class="m_b_10 conmo_box"
-       @click="show=true">
+      <div style="display: flex;justify-content: space-between;" class="m_b_10 conmo_box" @click="show=true">
         <div class="left vip_head">
           购买方式
         </div>
@@ -99,11 +91,31 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
+      <!-- 购买方式上拉菜单 -->
       <van-action-sheet v-model="show" :actions="actions" close-on-click-overlay @select="onSelect"/>
+      <!-- 分享上拉菜单 -->
+      <van-action-sheet v-model="showTwo" close-on-click-overlay>
+        <div class="shareUp">
+          <div>
+            <img src="../../assets/img/fzlj.png" alt="">
+            <p>复制链接</p>
+          </div>
+          <div @click="SharePoster">
+            <img src="../../assets/img/schb2.png" alt="">
+            <p>生成海报</p>
+          </div>
+          <div>
+            <img src="../../assets/img/wxhb.png" alt="">
+            <p>微信好友</p>
+          </div>
+        </div>
+        <div class="shareUpHr"></div>
+        <div class="shareUpcancel" @click="showTwo = false">取消</div>
+      </van-action-sheet>
+
       <!-- 店铺详情 -->
       <div id="commoditEvaluate">
-      <shop :is_follow='is_follow'></shop>
-      <!-- <shop :is_follow=""></shop> -->
+        <shop :is_follow='is_follow'></shop>
       </div>
 
       <div class="Cover" v-show="isQRcodeDomainName">
@@ -287,6 +299,7 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
+        showTwo: true,
         isGoods_infoImgsrc: true,
         isQRcodeDomainName: false,
         isPoster: false,
@@ -504,8 +517,11 @@
         this.show = false;
       },
 
+      //
+
       //分享海报
       SharePoster(){
+        this.showTwo = false;
         this.isQRcodeDomainName = true;
         setTimeout(()=>{
           if(!this.isPoster){
@@ -521,8 +537,8 @@
         let routes = this.$route.path + '?id=' + this.$route.query.id;
         let qrCode = new QRCode('qrCode', {
             text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的链接
-            width: 150,
-            height: 150,
+            width: 70,
+            height: 70,
             colorDark: '#000000',
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H
@@ -741,7 +757,7 @@
         this.getQRcodeDomainName();
       });
       let user = JSON.parse(this.$store.getters.getuserinfo);
-      console.log(user)
+      // console.log(user)
       this.portrait = user.portrait;
     },
     updated () {
@@ -1177,7 +1193,6 @@
     align-items: center;
   }
 
-
   .qrcode {
     width: 70px;
     height: 70px;
@@ -1236,21 +1251,46 @@
               
             }
         }
+  }
+  .haibao{
+    width: 260px;
+    height: 410px;
+    position: relative;
+    border-radius: 10px;
+      .CloseQRcodeDomainName{
+          width: 25px;
+          height: 25px;
+          position: absolute;
+          top: -10px;
+          right: -10px;
+      }
+      >img{
+          border-radius: 10px;
+      }
+  }
+  .shareUp{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.2rem 0.1rem;
+    img{
+      width: 0.58rem;
+      height: 0.58rem;
+      margin: 0.1rem 0;
     }
-    .haibao{
-      width: 260px;
-      height: 410px;
-      position: relative;
-      border-radius: 10px;
-        .CloseQRcodeDomainName{
-            width: 25px;
-            height: 25px;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-        }
-        >img{
-            border-radius: 10px;
-        }
+    >div:nth-child(2){
+      >img{
+        width: 0.62rem !important;
+        height: 0.62rem !important;
+      }
     }
+  }
+  .shareUpHr{
+    height: 0.1rem;
+    background: #f2f2f2;
+  }
+  .shareUpcancel{
+    line-height: 0.5rem;
+    font-size: 0.16rem;
+  }
 </style>

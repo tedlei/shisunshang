@@ -117,7 +117,7 @@
         }else{
             console.log("我是取消收藏")
             let ad_data = {
-            method: 'del.collect.shops.list',
+            method: 'del.collect.shops.list1',
             id: list
             };
             this.$post('/api/v1/userCollectShops', ad_data)

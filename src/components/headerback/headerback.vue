@@ -1,6 +1,6 @@
 <template>
   <header>
-    <i class="el-icon-arrow-left back" @click="$router.back(-1)"></i>
+    <i class="el-icon-arrow-left back" @click="routerback"></i>
     <ul class="clearfix tips">
       <li>商品</li>
       <li>
@@ -25,6 +25,24 @@
         var anchor = this.$el.querySelector(details);
         document.documentElement.scrollTop = anchor.offsetTop;
       },
+      routerback(){
+        console.log(1)
+        let state = this.getQueryString('state');
+        if(state==null){
+          console.log(2)
+          this.$router.push({path: '/'});
+        }else{
+          this.$router.back(-1);
+        }
+      
+      },
+      getQueryString(name) { 
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var l = decodeURI(window.location.search);
+				var r = l.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			}
     }
   }
 </script>
