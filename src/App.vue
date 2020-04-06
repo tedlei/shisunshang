@@ -16,6 +16,7 @@
     import SearchResult from "./components/children/searchResult/searchResult";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
+
     export default {
         name: 'App',
         components: {SearchResult, Header, Footer, loading},
@@ -33,21 +34,24 @@
         beforeUpdate() {
             this.path = this.$route.path
         },
+        created() {
+        },
         watch: {
             // 监听 $route 变化调用分享链接
             '$route'(to, from) {
                 let ua = window.navigator.userAgent.toLocaleLowerCase();
                 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
-                        if (JSON.parse(this.$store.getters.getuserinfo)) {
-                            console.log(this.$router)
+                        let userinfo = JSON.parse(this.$store.getters.getuserinfo)
+                        if (userinfo) {
                             let shareConfig = {
-                                title: "国建生态平台",
-                                desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
-                                link: 123,
-                                imgUrl: './assets/img/banner.png',
+                                title: '国健生态平台',
+                                desc: '国健生态平台!Come on.!',
+                                link: userinfo.referee_number,
+                                imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
                             };
-                            wechatAuth(shareConfig);
+                            let url = location.href
+                            wechatAuth(url, shareConfig);
                         }
                     }
                 }
@@ -60,23 +64,30 @@
                     this.isRouterAlive = true;         //再打开
                 })
             },
-
+            //    分享进来进行签名
+            shareConfig: function () {
+                let ua = window.navigator.userAgent.toLocaleLowerCase();
+                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                    if (this.$route.name != 'author') {//判断当前是否是新建的auth路由空白页面
+                        let userinfo = JSON.parse(this.$store.getters.getuserinfo)
+                        if (userinfo) {
+                            let shareConfig = {
+                                title: '国健生态平台',
+                                desc: '国健生态平台!Come on.!',
+                                link: userinfo.referee_number,
+                                imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
+                            };
+                            let url = location.href
+                            wechatAuth(url, shareConfig);
+                        }
+                    }
+                }
+            },
         },
 
         mounted() {
             this.path = this.$route.path;
-
-            // Bus.$on('wechatAuth', (data) => {
-            //     if (data == true) {
-            //         let shareConfig = {
-            //             title: this.$router.name,
-            //             desc: '欢迎光临欢迎光临欢迎光临欢迎光临',
-            //             link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
-            //             imgUrl: './assets/img/banner.png',
-            //         };
-            //         wechatAuth(shareConfig);
-            //     }
-            // });
+            this.shareConfig()
         },
     }
 </script>

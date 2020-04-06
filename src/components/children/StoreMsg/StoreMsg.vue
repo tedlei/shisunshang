@@ -10,7 +10,8 @@
     </div>
     <div class="common_box store_msg">
       <div class="name">
-        {{shops.name}}
+        <span>{{shops.name}}</span>
+        <span v-show="true" class="quality">品质商家</span>
       </div>
       <div class="time">
         营业时间：{{shops.bus_hours}}
@@ -65,7 +66,6 @@
         };
         this.$post('/api/v1/userStore', ad_data)
         .then((res) => {
-          console.log(res);
           this.shops = res.data;
         }).catch(function (error) {
           console.log(error);
@@ -89,6 +89,18 @@
 
       .name {
         font-size: 0.18rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .quality{
+          display: inline-block;
+          line-height: 0.2rem;
+          background-color: #009900;
+          border-radius: 0.2rem;
+          padding: 0 5px;
+          color: #fff;
+          font-size: 0.14rem;
+        }
       }
 
       .time {

@@ -15,7 +15,7 @@
           <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
             <img v-show="item!='' && item!=undefined && item != null" class="swipeImgs" :src="item">
             <img v-show="item==''||item==undefined||item==null" class="swipeImgs" src="../../assets/img/mrtp.png">
-           
+
           </van-swipe-item>
            <template #indicator>
             <div class="indicator">
@@ -38,7 +38,7 @@
           <span class="share" @click="showTwo = true">
             <i class="el-icon-share"></i>分享
           </span>
-          
+
         </div>
         <div class="price">
           {{goodsData.goods_info.price}}
@@ -60,7 +60,7 @@
             {{goodsData.goods_info.postage}}
             元
           </div>
-          
+
         </div>
       </div>
       <!-- 2 -->
@@ -163,7 +163,7 @@
                     <div class="qrcode" id="qrCode" ref="qrCode"></div>
                   </div>
               </div>
-          </div>  
+          </div>
           <div class="haibao" v-show="isPoster">
               <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
                 <img src="../../assets/img/hbx.png" alt="">
@@ -171,7 +171,7 @@
               <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#">
           </div>
       </div>
-      
+
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
         <div class="head">商品评价（）</div>
@@ -530,7 +530,7 @@
         // var anchor = this.$el.querySelector(selector);
         // document.documentElement.scrollTop = anchor.offsetTop;
         document.getElementById(selector).scrollIntoView();
-        
+
       },
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
@@ -1246,7 +1246,7 @@
             padding: 0.1rem;
             border-radius: 10px;
             background-color: #fff;
-            
+
             >div:first-child{
               display: flex;
               align-items: center;
@@ -1283,7 +1283,7 @@
                   height: 60px;
                   overflow:hidden;
               }
-              
+
             }
         }
   }

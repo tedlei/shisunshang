@@ -36,9 +36,10 @@
                 />
               </div>
               <div class="right_msg">
-                
+
                   <p class="p1 fontWrap fontWrapOne">
-                    {{item.name}}
+                    <span>{{item.name}}</span>
+                    <span v-show="true" class="quality">品质商家</span>
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
                     <span>地址：</span>
@@ -65,7 +66,7 @@
       <img src="../../assets/img/fjsj.png" alt="">
       <div>商家入驻</div>
     </div>
-    
+
     </router-link>
   </div>
 </template>
@@ -198,7 +199,7 @@
       font-size: 0.18rem;
       color: #999;
       margin: 0 0.2rem 0 0.08rem;
-      
+
     }
   }
 
@@ -278,10 +279,21 @@
       }
       .right_msg {
         margin-left: 0.05rem;
-
+        width: 100%;
         .p1 {
           color: #000 !important;
           font-size: 0.14rem;
+          display: flex;
+          justify-content: space-between;
+          .quality{
+            display: inline-block;
+            line-height: 0.18rem;
+            background-color: #009900;
+            border-radius: 0.18rem;
+            padding: 0 5px;
+            color: #fff;
+            font-size: 0.12rem;
+          }
         }
 
         .address {
@@ -320,6 +332,6 @@
       // text-shadow: 0 0 5px #000;
       box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
     }
-    
+
   }
 </style>

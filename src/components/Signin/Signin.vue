@@ -76,7 +76,7 @@
             <span>今日</span>
           </span>
           </div>
-          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false" v-show="!isshow">分享签到
+          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false,sharebox = true" v-show="!isshow">分享签到
           </div>
         </div>
       </div>
@@ -86,12 +86,28 @@
     </van-popup>
     <van-popup
       v-model="shareshow"
-      :style="{ background:'#fff',padding:'0.1rem',width:'50%',borderRadius:'5px'}"
+      :style="{ background:sharebox ? '#fff':'none',padding:'0.1rem',width:sharebox?'50%':'100%',borderRadius:'5px',height: sharebox ? 'auto':'100%'}"
+      @click="closepop"
     >
-      <div class="qdjesuccess" v-show="frist">签到成功!</div>
-      <div class="qdje">今日获得签到金:{{sign_money}}</div>
-      <img src="../../assets/img/liwu.png" style="margin: 0.1rem 0"/>
-      <div class="my_share" @click="myshare">我要分享</div>
+
+      <div class="share_box" v-if="sharebox">
+        <div class="qdjesuccess" v-show="frist">签到成功!</div>
+        <div class="qdje">今日获得签到金:{{sign_money}}</div>
+        <img src="../../assets/img/liwu.png" style="margin: 0.1rem 0"/>
+        <div class="my_share" @click.stop="myshare">我要分享</div>
+      </div>
+
+      <div v-else>
+        <div style="text-align: right">
+          <img src="../../assets/img/zhi.png" class="zhi">
+        </div>
+
+        <div class="share_tips">
+          <strong>立即分享给好友吧</strong>
+          <p>点击屏幕右上角将本页面分享给好友</p>
+        </div>
+      </div>
+
     </van-popup>
   </div>
 </template>
@@ -122,6 +138,7 @@
                 shareshow: false,
                 sign_money: localStorage.getItem('sign_money') || '',
                 frist: true,
+                sharebox: true,
             }
         },
 
@@ -153,14 +170,16 @@
             },
             //点击分享签到
             myshare: function (e) {
-                let sourceUrl = localStorage.getItem('sourceUrl');
+                let _this = this;
                 let shareConfig = {
-                    title: '签到',
-                    desc: '签到',
-                    link: window.location.host + sourceUrl + '?state=' + JSON.parse(this.$store.getters.getuserinfo).phone,
-                    imgUrl: '',
+                    title: '签到赢好礼哟',
+                    desc: '国健生态平台!Come on.!签到赢好礼哟！',
+                    link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
+                    imgUrl: 'http://gj.wjeys.com/dist/static/img/liwu.f4a143f.png',
                 };
-                wechatAuth(shareConfig);
+                let url = location.href
+                wechatAuth(url, shareConfig);
+                _this.sharebox = false
                 // let msg = {
                 //     method: 'add.sign.share.item',
                 //     id: this.log_id
@@ -204,6 +223,14 @@
                         }).catch(function (error) {
                         console.log(error);
                     });
+                }
+            },
+            //关闭pop
+            closepop: function () {
+                if (this.sharebox == false) {
+                    this.shareshow = false;
+                } else {
+                    return
                 }
             },
             //数据初始化
@@ -473,6 +500,16 @@
   .qdjesuccess {
     font-size: 0.18rem;
     color: #f00;
+  }
+
+
+  .zhi {
+    width: 30%;
+
+  }
+
+  .share_tips {
+    color: #fff;
   }
 
 </style>
