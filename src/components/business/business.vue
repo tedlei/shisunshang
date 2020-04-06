@@ -26,6 +26,7 @@
           </ul>
           <ul class="cpylist">
             <li v-for="(item,index) in cpylist" :key="index">
+              <router-link :to="{path:'/business/storemsg',query:{id: item.id}}">
               <div class="imgDiv">
                 <van-image
                   width="0.78rem"
@@ -35,7 +36,7 @@
                 />
               </div>
               <div class="right_msg">
-                <router-link :to="{path:'/business/storemsg',query:{id: item.id}}">
+                
                   <p class="p1 fontWrap fontWrapOne">
                     {{item.name}}
                   </p>
@@ -52,18 +53,19 @@
                       </span>
                   </div>
                   <!-- <p class="long">{{item.long}}</p> -->
-                </router-link>
-
               </div>
+              </router-link>
             </li>
           </ul>
         </el-main>
       </el-container>
     </el-container>
     <router-link to="/mine/nearby">
-    <div class='iconDiv'>
+    <div class="iconDiv">
       <img src="../../assets/img/fjsj.png" alt="">
+      <div>商家入驻</div>
     </div>
+    
     </router-link>
   </div>
 </template>
@@ -266,13 +268,14 @@
     padding: 0.05rem;
 
     .cpylist > li {
-      display: flex;
-      align-items: center;
       background-color: #fff;
       padding: 0.05rem;
       margin-bottom: 0.05rem;
       text-align: left;
-
+      >a{
+        display: flex;
+        align-items: center;
+      }
       .right_msg {
         margin-left: 0.05rem;
 
@@ -300,13 +303,23 @@
   }
   .iconDiv{
     position: fixed;
-    bottom: 0.9rem;
+    bottom: 0.8rem;
     right: 0.15rem;
-    border-radius: 50%;
-    box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
     >img{
+      border-radius: 50%;
+      box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
       width: 0.45rem;
       height: 0.45rem;
     }
+    >div{
+      margin: 0.05rem 0;
+      color: #fff;
+      border-radius: 10px;
+      padding: 0 0.05rem;
+      background-color: $sss-color;
+      // text-shadow: 0 0 5px #000;
+      box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
+    }
+    
   }
 </style>

@@ -44,15 +44,42 @@
           {{goodsData.goods_info.price}}
         </div>
         <div class="ys">
-          <span>已售
-          {{goodsData.goods_info.xiaoliang}}
+          <div>
+            <span>已售
+              {{goodsData.goods_info.xiaoliang}}
             </span>
-          <span style="margin-left: 40px">库存
-          {{goodsData.goods_info.kuchun}}
-          </span>
+            <span style="margin-left: 40px">库存
+              {{goodsData.goods_info.store_array[isactions]}}
+            </span>
+          </div>
+          <div>保价费:
+            {{goodsData.goods_info.offer_price}}
+            元
+          </div>
+          <div>邮费:
+            {{goodsData.goods_info.postage}}
+            元
+          </div>
+          
         </div>
       </div>
       <!-- 2 -->
+      <div class="m_b_10 conmo_box box_one">
+          <div class="vipPurchase">
+            <span>签到金：
+              {{goodsData.money_array[isactions].qd_money_rate/100*goodsData.goods_info.price}}
+              元
+            </span>
+            <span v-show="goodsData.money_array[isactions].money_rate>0">充值金：
+              {{goodsData.money_array[isactions].money_rate/100*goodsData.goods_info.price}}
+              元
+            </span>
+          </div>
+          <div v-show="goodsData.goods_info.xg_array[isactions].limitdan>0 || goodsData.goods_info.xg_array[isactions].limitcount>0" class="vipPurchase">
+            <span v-show="goodsData.goods_info.xg_array[isactions].limitdan>0">限购{{goodsData.goods_info.xg_array[isactions].limitdan}}单</span>
+            <span v-show="goodsData.goods_info.xg_array[isactions].limitcount>0">每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
+          </div>
+      </div>
       <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
         <span class="left">选择</span>
         <div class="right">
@@ -299,7 +326,7 @@
         initialName: '',//默认规格名称
         ReceivingAddress: "",//收货地址
         show: false,
-        showTwo: true,
+        showTwo: false,
         isGoods_infoImgsrc: true,
         isQRcodeDomainName: false,
         isPoster: false,
@@ -508,12 +535,9 @@
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
         // 可以通过 close-on-click-action 属性开启自动收起
+        // console.log(item);
         this.actionsName = item.name;
-        if(item.name == '顾客购买'){
-          this.isactions = 'customer'
-        }else if(item.name == '会员购买'){
-          this.isactions = 'vip'
-        }
+        this.isactions = item.key
         this.show = false;
       },
 
@@ -590,6 +614,7 @@
       },
       lajibushuaxin(id) {
           this.$router.push({path:'/goodsdetails',query:{id: id}});
+          console.log(1)
           // this.$route.query.id = id;
           // this.getDATA(id);
       },
@@ -637,7 +662,8 @@
               for(let n in res.data.buy_array){
                 // console.log(res.data.buy_array[n]);
                 actions.push({
-                  name:res.data.buy_array[n]
+                  name:res.data.buy_array[n],
+                  key: n
                 })
               }
               this.actions = actions;
@@ -761,7 +787,7 @@
       this.portrait = user.portrait;
     },
     updated () {
-
+      // console.log(this.isactions)
     },
     mounted() {
       this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
@@ -862,6 +888,15 @@
 
       .ys {
         color: #999999;
+        display: flex;
+        justify-content: space-between;
+        >div:nth-child(2){
+          background-color: $sss-color;
+          color: #fff;
+          font-size: 0.12rem;
+          padding: 0 0.05rem;
+          border-radius: 5px;
+        }
       }
     }
 
@@ -1292,5 +1327,12 @@
   .shareUpcancel{
     line-height: 0.5rem;
     font-size: 0.16rem;
+  }
+  .vipPurchase{
+    display: flex;
+    justify-content: center;
+    >span:first-child{
+      margin-right: 0.1rem;
+    }
   }
 </style>
