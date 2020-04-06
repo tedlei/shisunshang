@@ -15,7 +15,6 @@
           <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
             <img v-show="item!='' && item!=undefined && item != null" class="swipeImgs" :src="item">
             <img v-show="item==''||item==undefined||item==null" class="swipeImgs" src="../../assets/img/mrtp.png">
-           
           </van-swipe-item>
            <template #indicator>
             <div class="indicator">
@@ -44,19 +43,17 @@
           {{goodsData.goods_info.price}}
         </div>
         <div class="ys">
-          <div>
-            <span>已售
+          <div>已售
               {{goodsData.goods_info.xiaoliang}}
-            </span>
-            <span style="margin-left: 40px">库存
-              {{goodsData.goods_info.store_array[isactions]}}
-            </span>
           </div>
-          <div>保价费:
+          <div>库存
+              {{goodsData.goods_info.store_array[isactions]}}
+          </div>
+          <div>保:
             {{goodsData.goods_info.offer_price}}
             元
           </div>
-          <div>邮费:
+          <div>邮:
             {{goodsData.goods_info.postage}}
             元
           </div>
@@ -67,11 +64,11 @@
       <div class="m_b_10 conmo_box box_one">
           <div class="vipPurchase">
             <span>签到金：
-              {{goodsData.money_array[isactions].qd_money_rate/100*goodsData.goods_info.price}}
+              {{goodsData.money_array[isactions].qd_money_rate/100*goodsData.goods_info.price | moneyFormat}}
               元
             </span>
             <span v-show="goodsData.money_array[isactions].money_rate>0">充值金：
-              {{goodsData.money_array[isactions].money_rate/100*goodsData.goods_info.price}}
+              {{goodsData.money_array[isactions].money_rate/100*goodsData.goods_info.price | moneyFormat}}
               元
             </span>
           </div>
@@ -79,6 +76,12 @@
             <span v-show="goodsData.goods_info.xg_array[isactions].limitdan>0">限购{{goodsData.goods_info.xg_array[isactions].limitdan}}单</span>
             <span v-show="goodsData.goods_info.xg_array[isactions].limitcount>0">每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
           </div>
+      </div>
+      <div class="m_b_10 conmo_box box_one">
+        <div class="goodsNumber">
+          <span>数量：</span>
+          <van-stepper v-model="nums" />
+        </div>
       </div>
       <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
         <span class="left">选择</span>
@@ -123,7 +126,7 @@
       <!-- 分享上拉菜单 -->
       <van-action-sheet v-model="showTwo" close-on-click-overlay>
         <div class="shareUp">
-          <div>
+          <div @click="Replication">
             <img src="../../assets/img/fzlj.png" alt="">
             <p>复制链接</p>
           </div>
@@ -131,7 +134,7 @@
             <img src="../../assets/img/schb2.png" alt="">
             <p>生成海报</p>
           </div>
-          <div>
+          <div @click="showUrl">
             <img src="../../assets/img/wxhb.png" alt="">
             <p>微信好友</p>
           </div>
@@ -170,6 +173,9 @@
               </div>
               <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#">
           </div>
+      </div>
+      <div class="CoverTwo" v-show="isUrl" @click="isUrl = false">
+        <img src="../../assets/img/zhi.png" alt="">
       </div>
       
       <!--   商品评价   -->
@@ -231,8 +237,9 @@
         </van-skeleton>
       </div>
       <div id="commoditDetails"></div>
-      <div class="conmo_box bot_img_box">
-        <img :src="goodsData.goods_info.imgsrc">
+      <!-- 商品详情副文本框 -->
+      <div class="conmo_box bot_img_box" v-html="goodsData.goods_info.content">
+        
       </div>
     </div>
 
@@ -310,7 +317,9 @@
     import actives from "./actives/active";
     import shop from "./actives/shop";
     import QRCode from 'qrcodejs2';
-	  import html2canvas from 'html2canvas';
+    import html2canvas from 'html2canvas';
+    import '../../assets/js/filter'
+    
     export default {
     name: "goodsDATA",
     components: {
@@ -329,6 +338,7 @@
         showTwo: false,
         isGoods_infoImgsrc: true,
         isQRcodeDomainName: false,
+        isUrl: false,
         isPoster: false,
         w: 260,
         h: 410,
@@ -364,6 +374,18 @@
               album: [
                 require('../../assets/img/mrtp.png')
               ],
+              store_array: {
+                customer: "",
+                vip: "",
+                retail: "",
+                shop: ""
+              },
+              xg_array: {
+                customer: {},
+                vip: {},
+                retail: {},
+                shop: {}
+              },
 		    	    "id": "",
 		    	    "name": "",
 		    	    "proportion": "",
@@ -460,19 +482,33 @@
 		        },
 		        "money_array": {
 		        	"customer": {
-		    		  "module": "",
-		    		  "id": "",
-		    		  "goods_id": "",
-		    		  "qd_money_rate": "",
-		    		  "money_rate": ""
+		    		    "module": "",
+		    		    "id": "",
+		    		    "goods_id": "",
+		    		    "qd_money_rate": "",
+		    		    "money_rate": ""
 		        	},
 		        	"vip": {
-		    		  "module": "",
-		    		  "id": "",
-		    		  "goods_id": "",
-		    		  "qd_money_rate": "",
-		    		  "money_rate": ""
-		        	}
+		    		    "module": "",
+		    		    "id": "",
+		    		    "goods_id": "",
+		    		    "qd_money_rate": "",
+		    		    "money_rate": ""
+              },
+              retail: {
+                module: '',
+                id: "",
+                goods_id: "",
+                qd_money_rate: "",
+                money_rate: ""
+              },
+              shop: {
+                module: '',
+                id: "",
+                goods_id: "",
+                qd_money_rate: "",
+                money_rate: ""
+              }
 		        },
 		        "specData": {
 		      	  "spec_attr": [
@@ -540,7 +576,14 @@
         this.isactions = item.key
         this.show = false;
       },
-
+      Replication(){
+        this.$toast('暂未开放');
+      },
+      showUrl(){
+        this.showTwo = false;
+        this.isUrl = true;
+      },
+      
       //
 
       //分享海报
@@ -566,7 +609,8 @@
             colorDark: '#000000',
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H
-        })
+        });
+        // console.log(qrCode);
       },
 
       //生成海报
@@ -779,20 +823,20 @@
       // console.log(this.$route.query.id)
       this.getDATA();
       this.Addfootprints();
-      this.$nextTick( ()=>{
-        this.getQRcodeDomainName();
-      });
       let user = JSON.parse(this.$store.getters.getuserinfo);
       // console.log(user)
       this.portrait = user.portrait;
     },
+    mounted() {
+      this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
+      this.$nextTick( ()=>{
+        this.getQRcodeDomainName();
+      });
+    },
     updated () {
       // console.log(this.isactions)
     },
-    mounted() {
-      this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
-
-    },
+   
     watch:{
       '$route' (to, from) {
         // console.log(to.query.id)
@@ -890,13 +934,8 @@
         color: #999999;
         display: flex;
         justify-content: space-between;
-        >div:nth-child(2){
-          background-color: $sss-color;
-          color: #fff;
-          font-size: 0.12rem;
-          padding: 0 0.05rem;
-          border-radius: 5px;
-        }
+        font-size: 0.13rem;
+        
       }
     }
 
@@ -1287,6 +1326,21 @@
             }
         }
   }
+  .CoverTwo{
+    position: fixed;
+    top: 0;
+    z-index: 11;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: flex-end;
+    >img{
+      width: 150px;
+      height: 260px;
+      margin-right: 0.1rem;
+    }
+  }
   .haibao{
     width: 260px;
     height: 410px;
@@ -1331,8 +1385,17 @@
   .vipPurchase{
     display: flex;
     justify-content: center;
+    border: 1px solid $sss-color;
+    border-radius: 5px;
+    margin: 0.05rem 0.2rem;
+    color: $sss-color;
+    line-height: 0.3rem;
     >span:first-child{
       margin-right: 0.1rem;
     }
+  }
+  .goodsNumber{
+    display: flex;
+    justify-content: space-between;
   }
 </style>

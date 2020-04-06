@@ -11,7 +11,7 @@
           <i class="el-icon-location"></i>
           <span>
             <!-- {{$store.getters.getreceivingAddress.name?'有':orderData.address_default}} -->
-            <p v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
+            <p style="color:red" v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
             <p v-else-if="orderData.address_default!=''">
               {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.name:
               orderData==''?'':orderData.address_default.name}}&nbsp;
@@ -53,7 +53,9 @@
         </div>
       </router-link>
       <!-- 商品卡片 -->
-      <div class="card" v-for="(goods,index1) of shop.goods" :key="index1">
+      <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}" 
+      v-for="(goods,index1) of shop.goods" :key="index1">
+      <div class="card">
         <van-image
           width="1rem"
           height="1rem"
@@ -75,6 +77,7 @@
           </div>
         </div>
       </div>
+      </router-link>
     </div>
     <div  class="common_box allmsg">
       <div class="common delivery">
@@ -107,7 +110,7 @@
             元</span>
         </div>
       </router-link>
-      <div class="common m_b_10">
+      <div class="common m_b_10" v-show="orderData.total_offer_price>0">
         <div>保价金</div>
         <div class="right">
           <span class="Check">
@@ -471,7 +474,6 @@
       justify-content: space-between;
       /*align-items: center;*/
       line-height: 0.4rem;
-
       i {
         line-height: 0.4rem;
         color: #999999;

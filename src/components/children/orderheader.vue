@@ -16,16 +16,16 @@
     <i v-show="this.$route.name == 'Special-area'" class="el-icon-chat-dot-round" style="right: 5px"></i>
 
     <span class="news">
-      <span v-if="this.$route.meta.news">全部已读</span>
-      <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" @click="edit">编辑</span>
-      <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
-      <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
-      <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
-      <span v-else-if="this.bank" @click="add_bank">添加</span>
-      <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
-      <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
-      <span v-else-if="this.Atc" @click='activeChild'>保存</span>
-      <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span>
+        <span v-if="this.$route.meta.news">全部已读</span>
+        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" @click="edit">编辑</span>
+        <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
+        <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
+        <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
+        <span v-else-if="this.bank" @click="add_bank">添加</span>
+        <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
+        <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
+        <span v-else-if="this.Atc" @click='activeChild'>保存</span>
+        <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span>
     </span>
   </header>
 </template>
@@ -71,8 +71,22 @@
         },
         methods: {
             routerback(){
-                this.$router.back(-1);
+                console.log(1)
+                let state = this.getQueryString('state');
+                if(state==null){
+                  // console.log(2)
+                  this.$router.push({path: '/'});
+                }else{
+                  this.$router.back(-1);
+                }
             },
+            getQueryString(name) { 
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var l = decodeURI(window.location.search);
+				var r = l.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			},
             baocun: function (id) {
                 var _this = this
                 _this.$store.commit('addressid', id);
@@ -89,7 +103,7 @@
             },
             nobackss: function () {
                 Bus.$emit('val', this.noback);
-                this.noback = true
+                this.noback = true;
             },
             add_bank: function () {
                 this.$router.push({

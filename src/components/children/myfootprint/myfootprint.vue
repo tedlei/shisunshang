@@ -3,7 +3,8 @@
   <div class="common_box">
     <!--  足迹，收藏，店铺  -->
     <div v-show="$route.query.printid != 3 && isData">
-      <div class="footprint" v-for="(item,index) in goodslist" :key="index">
+
+      <!-- <div class="footprint" v-for="(item,index) in goodslist" :key="index">
         <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index)">
             <van-icon name="success" color="#fff"/>
         </div>
@@ -20,11 +21,39 @@
           <div>
             <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
             <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
-            <!-- <span class="" v-show="$route.query.printid == 2">{{item.companynam}}</span> -->
-            <!-- <i class="el-icon-delete"></i> -->
           </div>
         </div>
-      </div>
+      </div> -->
+
+      <van-list v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        offset="50"
+        @load="getData">
+        <div class="footprint" v-for="(item,index) in goodslist" :key="index">
+          <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index)">
+              <van-icon name="success" color="#fff"/>
+          </div>
+          <div class="img_box">
+            <van-image
+              width="0.9rem"
+              height="0.9rem"
+              fit="cover"
+              :src="item.imgsrc"
+            />
+          </div>
+          <div class="right_msg">
+            <p>{{item.name}}</p>
+            <div>
+              <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
+              <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
+            </div>
+          </div>
+        </div>
+      </van-list>
+
+
+      
       <div class="bottom_box" v-show="$store.getters.getEmpty">
         <div class="mycheck left_check">
           <!-- <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
@@ -163,9 +192,17 @@
           // }
         ],
         page: 0,
+
+
+        loading: false,
+        finished: false
+
       }
     },
     methods: {
+
+
+
       handleCheckAllChange () {
         // console.log(this.checkAll)
         this.checkAll = !this.checkAll;
@@ -226,13 +263,14 @@
       },
 
       footprintPush (data) {
-        this.goodslist = [];
+        // this.goodslist = [];
         for(var i in data){
+          let {id,goods} = data[i]
           this.goodslist.push({
-            id: data[i].id,
-            name: data[i].goods.name,
-            imgsrc: data[i].goods.imgsrc,
-            price: data[i].goods.price,
+            id,
+            name:goods?goods.name:'',
+            imgsrc:goods?goods.imgsrc:'',
+            price: goods?goods.price:'',
             checked: false
           })
         }
@@ -249,13 +287,22 @@
           this.$post('/api/v1/userCollectGoods', ad_data)
           .then((res) => {
             console.log(res)
-            this.goodslist = [];
-            if(res.data.items.length!=0){
+            this.loading = true;   //是否处于加载状态  是
+            let {items} = res.data
+            this.page+=items.length;
+            // this.goodslist = [];
+            if(items.length>0){
               this.isData = true;
-              this.myfootprintDataPush(res.data.items);
+              this.myfootprintDataPush(items);
+              if(this.goodslist.length<10){
+                this.finished = true;
+              }
             }else{
-              this.isEmpty = true;
+              this.finished = true;
             }
+            if(this.goodslist.length>0) this.isEmpty = false;
+            else this.isEmpty = true;
+
           }).catch(function (error) {
               console.log(error);
           });
@@ -279,18 +326,28 @@
           });
         }else if(this.$route.query.printid==2){
           let ad_data = {
-            method: 'get.user.footprint.list'
+            method: 'get.user.footprint.list',
+            page:this.page ,
+            page_size: 10
           };
+          this.loading = true;   //是否处于加载状态  是
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
-            console.log(res)
-            this.goodslist = [];
-            if(res.data.items.length!=0){
+            this.loading = false;   //是否处于加载状态  否
+            let {items} = res.data
+            this.page+=items.length;
+            // this.goodslist = [];
+            if(items.length>0){
               this.isData = true;
-              this.footprintPush(res.data.items);
+              this.footprintPush(items);
+              if(this.goodslist.length<10){
+                this.finished = true;
+              }
             }else{
-              this.isEmpty = true;
+              this.finished = true;
             }
+            if(this.goodslist.length>0) this.isEmpty = false;
+            else this.isEmpty = true;
           }).catch(function (error) {
               console.log(error);
           });
@@ -368,12 +425,16 @@
             method: "del.cuser.footprint.list",
             id: _id
           };
+          this.deleteList(_id)
+          return
           // console.log(ad_data);
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.getData();
+              // this.getData();
+              // this.goodslist
+              this.deleteList(_id)
             }
           }).catch(function (error) {
               console.log(error);
@@ -394,6 +455,18 @@
           });
         }
 
+      },
+
+      //删除数组数据
+      deleteList(arr){
+        let {goodslist} = this
+        for(var list of arr){
+          for(var i in goodslist){
+            if(i,goodslist[i].id===list){
+              goodslist.splice(i,1);
+            }
+          }
+        }
       }
 
       //取消关注店铺
