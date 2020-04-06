@@ -79,7 +79,7 @@
 <script>
   export default {
   components: {
-      
+
   },
   props: [
       'is_follow'
@@ -135,10 +135,10 @@
     },
   },
   created () {
-        console.log(this.$store.state.cart.getshops)
-        // this.isCollection = 0 == 0 ? true:false; 
+        // console.log(this.$store.state.cart.getshops)
+        // this.isCollection = 0 == 0 ? true:false;
         // console.log(this.isCollection)
-        
+
   },
   mounted ( ) {
         // console.log(this.is_follow)
@@ -147,7 +147,7 @@
 
   },
   computed: {
-    
+
   },
   watch: {
     is_follow(newVal){
@@ -177,9 +177,9 @@
                 margin: 0 0.1rem;
                 text-align: left;
                 >P:first-child{
-                    overflow:hidden; 
+                    overflow:hidden;
                     text-overflow:ellipsis;
-                    display:-webkit-box; 
+                    display:-webkit-box;
                     -webkit-box-orient:vertical;
                     -webkit-line-clamp:1;
                 }
@@ -232,7 +232,7 @@
                 }
                 .footerImg{
                     padding: 0.05rem 0.05rem 0 0;
-                    
+
                 }
                 .storeDetails{
                     display: flex;
@@ -247,7 +247,7 @@
                     }
                 }
             }
-            
+
         }
     }
 </style>

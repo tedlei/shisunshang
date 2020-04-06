@@ -88,4 +88,8 @@ export default {
     state.cart.loopUpimgs[data.index] = data.fileList;
     // console.log(state.cart.loopUpimgs)
   },
+
+  setfirstUrlFun(state, data){
+    state.firstUrlFun = data
+  }
 }

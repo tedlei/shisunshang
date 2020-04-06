@@ -37,7 +37,7 @@
           <span class="share" @click="showTwo = true">
             <i class="el-icon-share"></i>分享
           </span>
-          
+
         </div>
         <div class="price">
           {{goodsData.goods_info.price}}
@@ -57,7 +57,7 @@
             {{goodsData.goods_info.postage}}
             元
           </div>
-          
+
         </div>
       </div>
       <!-- 2 -->
@@ -166,7 +166,7 @@
                     <div class="qrcode" id="qrCode" ref="qrCode"></div>
                   </div>
               </div>
-          </div>  
+          </div>
           <div class="haibao" v-show="isPoster">
               <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
                 <img src="../../assets/img/hbx.png" alt="">
@@ -566,7 +566,7 @@
         // var anchor = this.$el.querySelector(selector);
         // document.documentElement.scrollTop = anchor.offsetTop;
         document.getElementById(selector).scrollIntoView();
-        
+
       },
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
@@ -1285,7 +1285,7 @@
             padding: 0.1rem;
             border-radius: 10px;
             background-color: #fff;
-            
+
             >div:first-child{
               display: flex;
               align-items: center;
@@ -1322,7 +1322,7 @@
                   height: 60px;
                   overflow:hidden;
               }
-              
+
             }
         }
   }

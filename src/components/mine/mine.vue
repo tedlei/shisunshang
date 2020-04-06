@@ -67,7 +67,8 @@
       <ul class="zc_lists clearfix">
         <li v-for="(item,index) in zclists" :key="index">
           <router-link :to="{path:'/mine/record',query:{recordid:index+1}}">
-            <div style="margin-bottom: 0.1rem">{{ item.num | moneyFormat}}</div>
+            <div style="padding-bottom: 0.05rem;margin-bottom: 0.05rem;border-bottom: 1px solid #999;display: inline-block">{{ item.num | moneyFormat}}</div>
+            <div style="margin-bottom: 0.1rem">{{ item.totalnum | moneyFormat}}</div>
             <div>{{item.name}}</div>
           </router-link>
         </li>
@@ -182,31 +183,38 @@
                 zclists: [
                     {
                         num: 0,
-                        name: '充值账户'
+                        name: '充值账户',
+                        totalnum: 0,
                     },
                     {
                         num: 0,
-                        name: '补贴账户'
+                        name: '补贴账户',
+                        totalnum: 0,
                     },
                     {
                         num: 0,
-                        name: '推广账户'
+                        name: '推广账户',
+                        totalnum: 0,
                     },
                     {
                         num: 0,
-                        name: '代理账户'
+                        name: '代理账户',
+                        totalnum: 0,
                     },
                     {
                         num: 0,
-                        name: '签到现金'
+                        name: '签到现金',
+                        totalnum: 0,
                     },
                     {
                         num: 0,
-                        name: '生态币账户'
+                        name: '生态币账户',
+                        totalnum: 0,
                     },
                     // {
                     //     num: 0,
-                    //     name: '原始股账户'
+                    //     name: '原始股账户',
+                    //      totalnum:0,
                     // },
                 ],
                 orderlists: [
@@ -341,6 +349,10 @@
                         _this.total_money = response.data.total_money
                         _this.use_money = response.data.use_money
                         _this.cashed_money = response.data.cashed_money
+
+                        for (let i in _this.zclists) {
+                            _this.zclists[i].totalnum = Number(response.data['money' + (Number(i) + 1)])
+                        }
                     }).catch(function (error) {
                     console.log(error);
                 });

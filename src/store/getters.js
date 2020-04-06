@@ -50,7 +50,7 @@ export default {
   // userName: (state) => state.user_name,
   isLogin: (state) => state.isLogin,
   getLoading (state) {
-    return state.cart.isLoading;  
+    return state.cart.isLoading;
   },
   getEmpty (state) {
       return state.cart.empty;
@@ -66,5 +66,8 @@ export default {
   },
   getQRcodeDomainName (state) {
     return state.cart.QRcodeDomainName;
+  },
+  getfirstUrlFun(state){
+    return state.firstUrlFun;
   }
 }

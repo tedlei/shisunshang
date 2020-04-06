@@ -9,6 +9,26 @@
       </ul>
     </div>
 
+    <van-tabs class="nav" v-model="active" animated @click="qiehuan">
+      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
+        <div class="common_box">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            :error.sync="error"
+            :immediate-check="false"
+            error-text="请求失败，点击重新加载"
+            @load="onLoad"
+          >
+
+
+          </van-list>
+        </div>
+      </van-tab>
+    </van-tabs>
+
+
     <div v-show="isNoorder" class="content" :style="{'padding-top':shouhou}">
       <div class="common_box item" v-for="(item,index) in wholeData" :key="index">
         <!-- 店铺标题 -->
@@ -125,7 +145,6 @@
     export default {
         name: "order",
         components: {Empty, Headerback},
-
         data() {
             return {
                 num: 0,
@@ -138,58 +157,10 @@
                 shouhou: '',
                 isshouhou: false,
                 navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
-                orderAllItem: [
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    }
-                ],
                 wholeData: [
+
                     {
+
                         id: '',
                         goods: [
                             {
