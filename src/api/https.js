@@ -11,7 +11,7 @@ let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
-  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODYyMjg1NDksIm5iZiI6MTU4NTYyMzc0OSwiaWF0IjoxNTg1NjIzNzQ5LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.fDok0tAcc4VOyugfZzPIm6g3qGmiUZfAMTQc8kRM4p0';
+  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODY4MzM0OTYsIm5iZiI6MTU4NjIyODY5NiwiaWF0IjoxNTg2MjI4Njk2LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.W8MZDHV3QZQ78l2ofFshFTe3iFu-ljyPRVfdG2TKLxM';
   store.commit('isLogin', tokens);
   let info = {
     money1: -175.00,

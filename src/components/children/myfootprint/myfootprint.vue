@@ -75,60 +75,66 @@
 
     <!-- 评价   -->
     <div v-show="$route.query.printid == 3 && isData">
-      <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
-        <div class="left_img">
-          <!-- <img :src="item.goods.imgsrc"> -->
-          <div>
-            <van-image
-              width="0.5rem"
-              height="0.5rem"
-              fit="cover"
-              :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
-            />
-          </div>
-          <div class="one">
+      <van-list v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        offset="50"
+        @load="getData">
+        <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
+          <div class="left_img">
+            <!-- <img :src="item.goods.imgsrc"> -->
             <div>
-              <span class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</span>
-              <span>{{item.add_time}}</span>
+              <van-image
+                width="0.5rem"
+                height="0.5rem"
+                fit="cover"
+                :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
+              />
             </div>
-            <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
-            <div class="evaluationicon">
-              <i class="el-icon-delete"></i>
+            <div class="one">
+              <div>
+                <span class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</span>
+                <span>{{item.add_time}}</span>
+              </div>
+              <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
+              <div class="evaluationicon" @click="tapDelete(item.id)">
+                <i class="el-icon-delete"></i>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="right_msg">
-          <ul>
-            <li>
-              <div>
-                <span class="fontWrap fontWrapTwo">评价：{{item.content}}</span>
-                <!-- <span>符合度：{{item.fhd}}</span>
-                <span>态度：{{item.td}}</span>
-                <span>物流：{{item.wl}}</span> -->
-              </div>
-            </li>
-            <li>
-              <p>{{item.liuyan}}</p>
-              <div class="pei">
-                <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
-              </div>
-            </li>
-            <!-- <li class="goods_li">
-              <router-link to="">
-                <img :src="require('../../../assets/img/pei1.png')">
-                <div class="left_g_msg">
-                  {{item.msg}}
+          <div class="right_msg">
+            <ul>
+              <li>
+                <div>
+                  <span class="fontWrap fontWrapTwo">评价：{{item.content}}</span>
+                  <!-- <span>符合度：{{item.fhd}}</span>
+                  <span>态度：{{item.td}}</span>
+                  <span>物流：{{item.wl}}</span> -->
                 </div>
-                <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
-              </router-link>
-            </li> -->
-            <li>
-              <span>商家回复：</span>
-              <!-- {{item.huifu}} -->
-            </li>
-          </ul>
+              </li>
+              <li>
+                <p>{{item.liuyan}}</p>
+                <div class="pei">
+                  <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
+                </div>
+              </li>
+              <!-- <li class="goods_li">
+                <router-link to="">
+                  <img :src="require('../../../assets/img/pei1.png')">
+                  <div class="left_g_msg">
+                    {{item.msg}}
+                  </div>
+                  <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
+                </router-link>
+              </li> -->
+              <li>
+                <span>商家回复：</span>
+                <!-- {{item.huifu}} -->
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </van-list>
     </div>
 
   </div>
@@ -354,20 +360,26 @@
         }else if(this.$route.query.printid==3){
           let ad_data = {
             method: 'get.user.comment.list',
-            page: 0,
-            page_size: 10
+            page: this.page,
+            page_size: 5
           };
+          this.loading = true;   //是否处于加载状态  是
           this.$post('/api/v1/GoodsComment', ad_data)
           .then((res) => {
-            console.log(res)
-            this.goodslist = [];
-            if(res.data.length!=0){
+            this.loading = false;   //是否处于加载状态  否
+            let items = res.data
+            this.page+=items.length;
+            if(items.length>0){
               this.isData = true;
-              this.evaluation_lists = res.data;
-              // console.log(this.evaluation_lists[0].goods.name)
+              this.evaluation_lists = items;
+              if(this.evaluation_lists.length<5){
+                this.finished = true;
+              }
             }else{
-              this.isEmpty = true;
+              this.finished = true;
             }
+            if(this.evaluation_lists.length>0) this.isEmpty = false;
+            else this.isEmpty = true;
           }).catch(function (error) {
               console.log(error);
           });
@@ -462,12 +474,39 @@
         let {goodslist} = this
         for(var list of arr){
           for(var i in goodslist){
-            if(i,goodslist[i].id===list){
+            if(goodslist[i].id===list){
               goodslist.splice(i,1);
             }
           }
         }
-      }
+      },
+
+
+      //删除评价
+      tapDelete(id){
+        return
+        let {evaluation_lists} = this
+        let ad_data = {
+            method: 'get.user.comment.list',
+            id
+          };
+          this.$post('/api/v1/GoodsComment', ad_data)
+          .then((res) => {
+            console.log(res);
+
+            return
+            for(var i in evaluation_lists){
+              if(evaluation_lists[i].id===id){
+                evaluation_lists.splice(i,1);
+              }
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
+      },
+      
+
+
 
       //取消关注店铺
     },

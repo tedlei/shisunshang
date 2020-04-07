@@ -172,7 +172,7 @@
                     Bus.$emit('signtans', true)
                 } else if (e == 8) {
                     this.$router.push({
-                        path: '/uploadpic'
+                        path: '/help'
                     })
                 } else {
                     this.$router.push({

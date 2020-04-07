@@ -5,6 +5,7 @@
     <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
+      <span v-else-if="title">{{title}}</span>
       <span v-else-if="this.$route.query.orderid != 5">{{this.$route.meta.title}}</span>
       <span v-else>退款/售后</span>
     </div>
@@ -44,6 +45,7 @@
                 noback: true,
                 tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',],
                 record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
+                title:'',   //自定义title
             }
         },
         computed: {
@@ -71,14 +73,9 @@
         },
         methods: {
             routerback(){
-                console.log(1)
-                let state = this.getQueryString('state');
-                if(state==null){
-                  // console.log(2)
-                  this.$router.push({path: '/'});
-                }else{
+
                   this.$router.back(-1);
-                }
+                
             },
             getQueryString(name) { 
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -121,6 +118,10 @@
                 if (data == true) {
                     _this.noback = false
                 }
+            })
+            Bus.$on('title', (value) => {
+                console.log(value,213456879)
+                _this.title = value?value:'';
             })
         },
         destroyed() {

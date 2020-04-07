@@ -460,12 +460,14 @@ export default {
 
 <style lang="scss" scoped>
 .storeDetails {
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     background-color: #fff;
     position: fixed;
     .heder {
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -536,6 +538,7 @@ export default {
         }
     }
     .main {
+        width: 100%;
         flex: 1;
     }
 }

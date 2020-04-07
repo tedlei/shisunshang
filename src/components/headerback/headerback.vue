@@ -26,14 +26,14 @@
         document.documentElement.scrollTop = anchor.offsetTop;
       },
       routerback(){
-        console.log(1)
-        let state = this.getQueryString('state');
-        if(state==null){
-          console.log(2)
-          this.$router.push({path: '/'});
-        }else{
+        // console.log(1)
+        // let state = this.getQueryString('state');
+        // if(state==null){
+        //   console.log(2)
+        //   this.$router.push({path: '/'});
+        // }else{
           this.$router.back(-1);
-        }
+        // }
       
       },
       getQueryString(name) { 

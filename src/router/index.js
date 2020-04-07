@@ -38,6 +38,12 @@ import evaluate from '@/components/children/evaluate/evaluate'
 import myinvoice from '@/components/children/invoice/myinvoice'
 import store from "../store";
 
+// lm
+import help from '@/components/pages_lm/help/help'
+import helpList from '@/components/pages_lm/help/list'
+import helpDetail from '@/components/pages_lm/help/detail'
+
+
 Vue.use(Router)
 
 const $router = new Router({
@@ -388,8 +394,28 @@ const $router = new Router({
           component: certification,
           meta: {title: '实名认证', showFooter: false, goods: false,}
         },
-
-
+        {    //帮助中心
+          path:'/help',
+          component:help,
+          children:[
+            {   //帮助中心列表
+              path:'',
+              component:helpList,
+              meta: {
+                title: '帮助中心',
+                showFooter: false,     //配置底部tabbar
+              },
+            },
+            {   //帮助中心详情
+              path:'helpDetail',
+              component:helpDetail,
+              meta: {
+                title: '帮助中心详情',
+                showFooter: false,     //配置底部tabbar
+              },
+            }
+          ]
+        },
       ],
       meta: {title: '商品详情', showFooter: false}
     },
