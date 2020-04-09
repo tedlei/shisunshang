@@ -2,7 +2,7 @@
 
   <div class="common_box">
     <!--  足迹，收藏，店铺  -->
-    <div v-show="$route.query.printid != 3 && isData">
+    <div v-if="$route.query.printid != 3 && isData">
 
       <!-- <div class="footprint" v-for="(item,index) in goodslist" :key="index">
         <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index)">
@@ -74,11 +74,11 @@
     <empty v-show="isEmpty"></empty>
 
     <!-- 评价   -->
-    <div v-show="$route.query.printid == 3 && isData">
+    <div v-if="$route.query.printid == 3 && isData">
       <van-list v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
-        offset="50"
+        offset="100"
         @load="getData">
         <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
           <div class="left_img">
@@ -98,7 +98,7 @@
               </div>
               <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
               <div class="evaluationicon" @click="tapDelete(item.id)">
-                <i class="el-icon-delete"></i>
+                <van-icon  size="20" name="delete" />
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@
               </li>
               <li>
                 <p>{{item.liuyan}}</p>
-                <div class="pei">
+                <div class="pei" v-if="item.imgarr.length>0">
                   <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
                 </div>
               </li>
@@ -127,9 +127,8 @@
                   <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
                 </router-link>
               </li> -->
-              <li>
-                <span>商家回复：</span>
-                <!-- {{item.huifu}} -->
+              <li v-if="item.huifu">
+                <span>商家回复：</span>{{item.huifu}}
               </li>
             </ul>
           </div>
@@ -152,56 +151,11 @@
         isEmpty: false,
         isData: false,
         checkAll: false,
-        goodslist: [
-          // {
-          //   goodsimg: 'icon2',
-          //   name: '沧海系列皮带石英商务男士手表钟表 情侣表黑色GS3886S/D-B',
-          //   price: '268.00',
-          //   companynam: '黄州友商信息科技有限公司',
-          //   checked: false
-          // },
-          // {
-          //   goodsimg: 'icon2',
-          //   name: '沧海系列皮带石英商务男士手表钟表 情侣表黑色GS3886S/D-B',
-          //   price: '268.00',
-          //   companynam: '黄州友商信息科技有限公司',
-          //   checked: false
-          // },
-
-        ],
-        evaluation_lists: [
-          // {
-          //   storename: '乡村基',
-          //   add_time: '2020年1月17日',
-          //   pj: '2星',
-          //   fhd: '2星',
-          //   td: '2星',
-          //   wl: '2星',
-          //   liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
-          //   imglist: [],
-          //   goods: 'banner',
-          //   msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
-          //   huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
-          // },
-          // {
-          //   storename: '乡村基',
-          //   add_time: '2020年1月17日',
-          //   pj: '2星',
-          //   fhd: '2星',
-          //   td: '2星',
-          //   wl: '2星',
-          //   liuyan: '买香米就你家了，真空小包装，不抛光，真正的 东北香米，煮饭特好吃，五星好评，吃完再来买！',
-          //   imglist: ['pei1', 'pei2', 'pei3'],
-          //   goods: 'banner',
-          //   msg: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米...',
-          //   huifu: '买香米就你家了，真空小包装，不抛光，真正的东北香米，煮饭特好吃，五星好评，吃完再来买！'
-          // }
-        ],
+        goodslist: [],  //我的收藏、我的关注、我的足迹列表
+        evaluation_lists: [],   //评价列表
         page: 0,
-
-
-        loading: false,
-        finished: false
+        loading: false,   //是否正在获取数据
+        finished: false   //数据是否获取完成
 
       }
     },
@@ -283,17 +237,16 @@
       },
 
       //获取数据
-      getData () {
+      getData (num) {
         if(this.$route.query.printid==0){
           let ad_data = {
             method: 'get.collect.goods.list',
-            page: this.page,
-            page_size: 10
+            page: num?this.goodslist.length+num:this.page,
+            page_size: num?num:10
           };
           this.$post('/api/v1/userCollectGoods', ad_data)
           .then((res) => {
-            console.log(res)
-            this.loading = true;   //是否处于加载状态  是
+            this.loading = false;   //是否处于加载状态  否
             let {items} = res.data
             this.page+=items.length;
             // this.goodslist = [];
@@ -315,28 +268,36 @@
         }else if(this.$route.query.printid==1){
           // console.log("收藏商家")
           let ad_data = {
-            method: 'get.collect.shops.list'
+            method: 'get.collect.shops.list',
+            page: num?this.goodslist.length+num:this.page,
+            page_size: num?num:10
           };
           this.$post('/api/v1/userCollectShops', ad_data)
           .then((res) => {
-            console.log(res)
-            this.goodslist = [];
-            if(res.data.items.length!=0){
+            this.loading = false;   //是否处于加载状态  否
+            let {items} = res.data
+            this.page+=items.length;
+            // this.goodslist = [];
+            if(items.length>0){
               this.isData = true;
               this.collectionShop(res.data.items);
+              if(this.goodslist.length<10){
+                this.finished = true;
+              }
             }else{
-              this.isEmpty = true;
+              this.finished = true;
             }
+            if(this.goodslist.length>0) this.isEmpty = false;
+            else this.isEmpty = true;
           }).catch(function (error) {
               console.log(error);
           });
         }else if(this.$route.query.printid==2){
           let ad_data = {
             method: 'get.user.footprint.list',
-            page:this.page ,
-            page_size: 10
+            page:num?this.goodslist.length+num:this.page,
+            page_size: num?num:10
           };
-          this.loading = true;   //是否处于加载状态  是
           this.$post('/api/v1/UserFootprint', ad_data)
           .then((res) => {
             this.loading = false;   //是否处于加载状态  否
@@ -360,19 +321,19 @@
         }else if(this.$route.query.printid==3){
           let ad_data = {
             method: 'get.user.comment.list',
-            page: this.page,
-            page_size: 5
+            page: num?this.evaluation_lists.length+num:this.page,
+            page_size: num?num:10
           };
           this.loading = true;   //是否处于加载状态  是
           this.$post('/api/v1/GoodsComment', ad_data)
           .then((res) => {
             this.loading = false;   //是否处于加载状态  否
             let items = res.data
-            this.page+=items.length;
-            if(items.length>0){
+            if(items&&items.length>0){
+              this.page+=items.length;
               this.isData = true;
-              this.evaluation_lists = items;
-              if(this.evaluation_lists.length<5){
+              this.evaluation_lists = this.evaluation_lists.concat(items);
+              if(this.evaluation_lists.length<10){
                 this.finished = true;
               }
             }else{
@@ -411,7 +372,8 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.getData();
+              // this.getData();
+              this.deleteList(_id);
             }
           }).catch(function (error) {
               console.log(error);
@@ -427,7 +389,7 @@
           .then((res) => {
             console.log(res);
             if(res.status == 200){
-              this.getData();
+              this.deleteList(_id);
             }
           }).catch(function (error) {
               console.log(error);
@@ -479,25 +441,24 @@
             }
           }
         }
+        this.getData(arr.length)
       },
 
 
       //删除评价
       tapDelete(id){
-        return
         let {evaluation_lists} = this
         let ad_data = {
-            method: 'get.user.comment.list',
-            id
+            method: 'del.goods.comment.list',
+            id:[id]
           };
-          this.$post('/api/v1/GoodsComment', ad_data)
+          this.$post('/api/v1/goodsComment', ad_data)
           .then((res) => {
-            console.log(res);
-
-            return
-            for(var i in evaluation_lists){
-              if(evaluation_lists[i].id===id){
-                evaluation_lists.splice(i,1);
+            if(res.data){
+              for(var i in evaluation_lists){
+                if(evaluation_lists[i].id===id){
+                  evaluation_lists.splice(i,1);
+                }
               }
             }
           }).catch(function (error) {

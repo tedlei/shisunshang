@@ -42,6 +42,7 @@ import store from "../store";
 import help from '@/components/pages_lm/help/help'
 import helpList from '@/components/pages_lm/help/list'
 import helpDetail from '@/components/pages_lm/help/detail'
+import upgrade from '@/components/pages_lm/upgrade/upgrade'
 
 
 Vue.use(Router)
@@ -416,6 +417,15 @@ const $router = new Router({
             }
           ]
         },
+        {
+          path:'/upgrade',
+          name:'upgrade',
+          component:upgrade,
+          meta: {
+            title: '在线升级',
+            showFooter: false,     //配置底部tabbar
+          },
+        }
       ],
       meta: {title: '商品详情', showFooter: false}
     },

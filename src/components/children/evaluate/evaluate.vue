@@ -72,7 +72,8 @@ import imgUpload from '../../../api/imgUpload'
       .then((res) => {
         console.log(res);
         if(res.status==200){
-          // this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+          this.$store.commit("setLoading");
+          this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
         }
 
       }).catch(function (error) {
@@ -80,6 +81,7 @@ import imgUpload from '../../../api/imgUpload'
       });
     },
     Submission () {
+      this.$store.commit("setLoading");
       let upimglist = [];
       let imglist = this.$store.getters.getloopUpimgs;
       if(imglist.length==0){

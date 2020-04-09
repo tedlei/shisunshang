@@ -7,7 +7,7 @@
       <div class="address" @click="show=true">
         <div>
           <span>公司地址：</span>
-          <span>{{province[0].name}}/{{province[1].name}}/{{province[2].name}}</span>
+          <span>{{province[0]}}/{{province[1]}}/{{province[2]}}</span>
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
@@ -52,11 +52,17 @@
       v-model="show"
       position="bottom"
     >
-      <van-area 
+      <!-- <van-area 
         :area-list="areaList"
         confirm-button-text="保存"
         @confirm="confirm"
         @cancel="show=false"
+      /> -->
+      <van-picker :columns="areaList"
+                  show-toolbar
+                  confirm-button-text="保存"
+                  @cancel="show=false"
+                  @confirm="confirm"
       />
     </van-popup>
 
@@ -68,7 +74,7 @@
       <van-picker :columns="classArr"
                   show-toolbar
                   confirm-button-text="保存"
-                  @cancel="onCancel"
+                  @cancel="show2=false"
                   @confirm="onConfirm"
       />
     </van-popup>
@@ -92,6 +98,7 @@
     import {Area} from '../../../assets/js/Area.js'
     import imgOSSuploader from '../../children/imgOSS/uploader'
     import imgUpload from '../../../api/imgUpload'
+    import AreaArr from '../../../api/user.json'
 
     export default {
         components: {
@@ -99,23 +106,14 @@
         },
         data() {
             return {
-                areaList: Area,
+                areaList: AreaArr,
                 province: [
-                    {name: '选择省'},
-                    {name: '市'},
-                    {name: '（区/县）'},
+                    '选择省',
+                    '市',
+                    '（区/县）',
                 ],
                 show: false,
-                classArr: [
-                    // {
-                    //     text: '浙江',
-                    //     children: [
-                    //         {
-                    //             text: '杭州',
-                    //         }
-                    //     ]
-                    // }
-                ],
+                classArr: [ ],
                 show2: false,
                 classList: '请选择公司经营分类',
                 upclassId: '',
@@ -132,43 +130,56 @@
         },
         methods: {
             confirm(e) {
-                //   console.log(e);
+                console.log(e);
                 this.province = e;
                 this.show = false;
+                let list = this.areaList.filter( item => {
+                  return item.text==e[0];
+                });
+                // console.log(list);
+                this.province.push(list[0].id);
+                let listTwo = list[0].children.filter( item => {
+                  return item.text==e[1];
+                });
+                // console.log(listTwo)
+                this.province.push(listTwo[0].id);
+
+                let listSan = listTwo[0].children.filter( item => {
+                  return item.text==e[2];
+                });
+                // console.log(listSan)
+                this.province.push(listSan[0].id);
+                // console.log(this.province);
             },
 
             getClassArr() {
-                let ad_data = {
-                    method: "get.user.strre.category.list"
-                };
-                this.$post('/api/v1/UserStoreCategory', ad_data)
-                    .then((res) => {
-                        console.log(res);
-                        if (res.status == 200) {
-                            for (var i in res.data) {
-                                this.classArr.push({
-                                    text: res.data[i].cate_name,
-                                    children: []
-                                });
-                                let list = res.data[i].sub;
-                                for (var n in list) {
-                                    this.classArr[i].children.push({
-                                        id: list[n].id,
-                                        text: list[n].cate_name,
-                                    })
-                                }
-                            }
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-            onCancel(e) {
-                //   console.log(e);
-                this.show2 = false;
+              let ad_data = {
+                  method: "get.user.strre.category.list"
+              };
+              this.$post('/api/v1/UserStoreCategory', ad_data)
+                  .then((res) => {
+                      console.log(res);
+                      if (res.status == 200) {
+                          for (var i in res.data) {
+                              this.classArr.push({
+                                  text: res.data[i].cate_name,
+                                  children: []
+                              });
+                              let list = res.data[i].sub;
+                              for (var n in list) {
+                                  this.classArr[i].children.push({
+                                      id: list[n].id,
+                                      text: list[n].cate_name,
+                                  })
+                              }
+                          }
+                      }
+                  }).catch(function (error) {
+                  console.log(error);
+              });
             },
             onConfirm(e) {
-                //   console.log(e);
+                // console.log(e);
                 this.classList = e.join('/');
                 this.show2 = false;
                 for (var i in this.classArr) {
@@ -181,9 +192,10 @@
                         }
                     }
                 }
-                //   console.log(this.upclassId)
+                // console.log(this.upclassId)
 
             },
+
             imgUpData(data) {
                 console.log(data);
                 this.upfileList = data;
@@ -193,6 +205,7 @@
                 this.upfileListTwo = data;
 
             },
+
             upData() {
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
@@ -203,7 +216,7 @@
                   this.$toast('营业时间不能为空');
                   return;
 
-                }else if(this.province[0].name=='选择省'){
+                }else if(this.province[0]=='选择省'){
                   this.$toast('请选择公司地址');
                   return;
 
@@ -247,12 +260,12 @@
                     let ad_data = {
                         method: "add.user.store.item",
                         name: this.input,
-                        province: this.province[0].name,
-                        province_id: this.province[0].code,
-                        city: this.province[1].name,
-                        city_id: this.province[1].code,
-                        area: this.province[2].name,
-                        area_id: this.province[2].code,
+                        province: this.province[0],
+                        province_id: this.province[3],
+                        city: this.province[1],
+                        city_id: this.province[4],
+                        area: this.province[2],
+                        area_id: this.province[5],
                         referee: this.Recommender,
                         address: this.input2,
                         mobile: this.input3,
@@ -282,6 +295,9 @@
         },
         created() {
             this.getClassArr();
+        },
+        mounted(){
+          // console.log(AreaArr)
         },
         computed: {},
         watch: {}

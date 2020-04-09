@@ -13,13 +13,16 @@
           </div>
           <div class="user_msg">
           <span class="user_name">
-            {{username}}
+            {{JSON.parse(this.$store.getters.getuserinfo).weixinname}}
           </span>
             <span class="user_phone">
             {{phone}}
           </span>
             <div class="vip_lv">
-              <span><img src="../../assets/img/vip_icon.png" style="width: 12px;margin-right: 5px">{{level_name}}</span>
+              <span>
+                <img src="../../assets/img/vip_icon.png" style="width: 12px;margin-right: 5px">
+                {{JSON.parse(this.$store.getters.getuserinfo).level_name}}
+              </span>
             </div>
           </div>
 
@@ -366,7 +369,7 @@
             //在线升级
             upgrade: function () {
                 this.$router.push({
-                    path: '/mine/upgrade'
+                    path: '/upgrade'
                 })
             },
         },

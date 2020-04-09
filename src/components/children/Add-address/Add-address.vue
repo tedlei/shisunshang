@@ -26,13 +26,19 @@
       v-model="areashow"
       position="bottom"
     >
-      <van-area
+      <!-- <van-area
         :area-list="areaList"
         title=""
         confirm-button-text="保存"
         @confirm="confirm"
         @cancel="cancel"
         :value="defaultCode"
+      /> -->
+      <van-picker :columns="areaList"
+                  show-toolbar
+                  confirm-button-text="保存"
+                  @cancel="areashow=false"
+                  @confirm="confirm"
       />
     </van-popup>
 
@@ -66,6 +72,7 @@
 
 <script>
     import {Area} from '../../../assets/js/Area'
+    import AreaArr from '../../../api/user.json'
 
     export default {
         name: "Add-address",
@@ -81,7 +88,7 @@
                 defaultCode: '500000,500100,500103',
                 show: false,
                 areashow: false,
-                areaList: Area,
+                areaList: AreaArr,
                 Areas: '请选择地区',
                 chooseAreasCode: {},
             }
@@ -135,15 +142,32 @@
             },
             // 底部选择省市弹窗 确定按钮
             confirm(e) {
-                this.Areas = e[0].name + ',' + e[1].name + ',' + e[2].name;
-                this.chooseAreasCode.province = e[0].name
-                this.chooseAreasCode.city = e[1].name
-                this.chooseAreasCode.area = e[2].name
-                this.chooseAreasCode.province_id = e[0].code
-                this.chooseAreasCode.city_id = e[1].code
-                this.chooseAreasCode.area_id = e[2].code
-                this.areashow = false;
                 console.log(e)
+                this.areashow = false;
+                this.Areas = e.join('/');
+                this.chooseAreasCode.province = e[0];
+                this.chooseAreasCode.city = e[1];
+                this.chooseAreasCode.area = e[2];
+                for(let i in this.areaList){
+                  if(this.areaList[i].text==e[0]){
+                    this.chooseAreasCode.province_id = this.areaList[i].id;
+                    // console.log(this.areaList[i].id)
+                    let list = this.areaList[i].children;
+                    for(let n in list){
+                      if(list[n].text==e[1]){
+                        console.log(list[n].id)
+                        this.chooseAreasCode.city_id = list[n].id;
+                        let list2 = list[n].children;
+                        for(let s in list2){
+                          if(list2[s].text==e[2]){
+                            console.log(list2[s].id)
+                            this.chooseAreasCode.area_id = list2[s].id;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {

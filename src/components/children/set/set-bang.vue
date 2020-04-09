@@ -7,6 +7,7 @@
         type="tel"
         name="phone"
         label="手机号码"
+        readonly 
         placeholder="请输入手机号码"
       />
 
@@ -39,6 +40,7 @@
         name="pass2"
         label="再输入支付密码"
         placeholder="请再输入支付密码"
+        label-width='100px'
         :rules="[{ required: true, message: '请再输入支付密码' }]"
         v-if="show"
       />
@@ -64,6 +66,10 @@
                 password2: '',
                 show: this.$route.meta.title == '绑定手机号' ? false : true,
             }
+        },
+        created(){
+          let {getuserinfo} = this.$store.getters;
+          if(getuserinfo) this.phone = JSON.parse(getuserinfo).phone;
         },
         methods: {
             //获取验证码
