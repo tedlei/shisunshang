@@ -91,14 +91,10 @@
                         })
                         break;
                     case '绑定手机':
-                        if (!JSON.parse(this.$store.getters.getuserinfo).phone) {
-                            this.$router.push({
-                                path: '/set/set-phone',
-                            })
-                        } else {
 
-                            return
-                        }
+                        this.$router.push({
+                            path: '/set/set-phone',
+                        })
 
                         break;
                     case '地址管理':

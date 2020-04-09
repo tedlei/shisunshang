@@ -38,7 +38,7 @@
             <ul class="clearfix goodslist">
               <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(goodsitem.id)">
                 <van-image
-                  height="imgH"
+                  :height="imgH"
                   fit="cover"
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
@@ -96,13 +96,13 @@
                     .then((response) => {
                         _this.typelist = response.data;
                         this.$nextTick(()=>{
-                            console.log(this.$refs.imgW[0].offsetWidth)
-                            this.imgH = this.$refs.imgW + 'px'
+                            this.imgH = this.$refs.imgW[0].$el.clientWidth + 'px'
                         })
                     }).catch(function (error) {
                     console.log(error);
                 })
             },
+
             //  切换商品
             getNum: function (index) {
                 this.num = index;

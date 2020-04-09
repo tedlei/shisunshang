@@ -12,7 +12,7 @@ export const Debounce = (fn, t) => {
   console.log(typeof fn)
   return function () {
     let args = arguments;
-    if(timer){
+    if (timer) {
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
