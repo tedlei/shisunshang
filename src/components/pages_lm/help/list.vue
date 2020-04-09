@@ -16,7 +16,7 @@
         components: {},
         data() {
             return {
-                list: [],  //帮助中心列表
+                list: [ ],  //帮助中心列表
             }
         },
         created() {
