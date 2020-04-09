@@ -39,10 +39,11 @@
               <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(goodsitem.id)">
                 <van-image
                   width="100%"
-                  height="0.71rem"
+                  height="imgH"
                   fit="cover"
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
+                  :ref="imgW"
                 />
                 <div class="cate_name fontWrap fontWrapOne" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
               </li>
@@ -70,6 +71,7 @@
                 msg: '分类',
                 height: '100px',
                 sss: 'sssss',
+                imgH: '',
                 num: 0,
                 typelist: [
                     {
@@ -77,6 +79,9 @@
                     }
                 ],
             }
+        },
+        created() {
+
         },
         methods: {
             opensearch: function () {
@@ -102,18 +107,18 @@
             //    跳转
             todetile: function (e) {
                 this.$router.push({path: '/goodslist', query: {id: e}})
-                console.log(e)
             },
             getHeight: function () {
                 let clientW = clientWw.clientWw()
                 let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
                 let topH = this.$refs.headerh.offsetHeight;
                 this.height = (h - topH - 70 * clientW / 100) / clientW + 'rem'
-                console.log(topH)
             },
         },
         mounted() {
-
+            this.$nextTick(() => {
+                this.imgH = this.$refs.imgW + 'px'
+            });
             setTimeout(() => {
                 this.getHeight();
             }, 100)

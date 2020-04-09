@@ -19,6 +19,7 @@
 </template>
 
 <script>
+    import Bus from "../../../assets/js/bus";
 
     export default {
         name: "addetails",
@@ -44,11 +45,14 @@
                         _this.add_time = response.data.add_time
                         _this.weixinname = response.data.user.weixinname
                         _this.portrait = response.data.user.portrait
-                        console.log(response)
+                        Bus.$emit('title', response.data.title)
                     }).catch(function (error) {
                     console.log(error);
                 });
             }
+        },
+        destroyed() {
+            Bus.$emit('title', '')
         },
         mounted() {
             this.getdetails()

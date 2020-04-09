@@ -22,7 +22,7 @@ const state = {
   Val:'',
   userinfo: localStorage.getItem('userinfo'),
   isLogin: localStorage.getItem('token'),
-  firstUrlFun:'',
+  phone:'',
 }
 // getters 只会依赖 state 中的成员去更新
 

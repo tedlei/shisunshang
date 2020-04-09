@@ -89,7 +89,7 @@ export default {
     // console.log(state.cart.loopUpimgs)
   },
 
-  setfirstUrlFun(state, data){
-    state.firstUrlFun = data
+  setphone(state, data){
+    state.phone = data
   }
 }

@@ -69,51 +69,51 @@
                             },
                         ]
                     },
-                    {
-                        tll:'参与互动',
-                        list: [
-                            {
-                                img: 'gj1',
-                                text: '营销广告',
-                                linkto:'/mine/ad'
-                            },
-                            {
-                                img: 'gj2',
-                                text: '我的分享',
-                                linkto:'/mine/ad'
-                            },
-                            {
-                                img: 'gj3',
-                                text: '商品分享',
-                                linkto:'/mine/share'
-                            },
-                            {
-                                img: 'gj4',
-                                text: '收货地址',
-                                linkto:'/mine/Address'
-                            },
-                            {
-                                img: 'gj5',
-                                text: '个人信息',
-                                linkto:'/mine/usermsg'
-                            },
-                            {
-                                img: 'gj6',
-                                text: '我的团队',
-                                linkto:'/mine/Myteam'
-                            },
-                            {
-                                img: 'gj7',
-                                text: '财务记录',
-                                linkto:'/mine/record'
-                            },
-                            {
-                                img: 'gj8',
-                                text: '关于我们',
-                                linkto:'/mine/ad'
-                            },
-                        ]
-                    },
+                    // {
+                    //     tll:'参与互动',
+                    //     list: [
+                    //         {
+                    //             img: 'gj1',
+                    //             text: '营销广告',
+                    //             linkto:'/mine/ad'
+                    //         },
+                    //         {
+                    //             img: 'gj2',
+                    //             text: '我的分享',
+                    //             linkto:'/mine/ad'
+                    //         },
+                    //         {
+                    //             img: 'gj3',
+                    //             text: '商品分享',
+                    //             linkto:'/mine/share'
+                    //         },
+                    //         {
+                    //             img: 'gj4',
+                    //             text: '收货地址',
+                    //             linkto:'/mine/Address'
+                    //         },
+                    //         {
+                    //             img: 'gj5',
+                    //             text: '个人信息',
+                    //             linkto:'/mine/usermsg'
+                    //         },
+                    //         {
+                    //             img: 'gj6',
+                    //             text: '我的团队',
+                    //             linkto:'/mine/Myteam'
+                    //         },
+                    //         {
+                    //             img: 'gj7',
+                    //             text: '财务记录',
+                    //             linkto:'/mine/record'
+                    //         },
+                    //         {
+                    //             img: 'gj8',
+                    //             text: '关于我们',
+                    //             linkto:'/mine/ad'
+                    //         },
+                    //     ]
+                    // },
                     // {
                     //     tll:'国健合作',
                     //     list: [

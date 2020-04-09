@@ -20,7 +20,6 @@
                 if (this.$route.query.code) {
                     let code = this.getUrlParam('code');
                     let state = this.getUrlParam('state');
-                    localStorage.setItem('code', code);
                     let msg = {
                         method: 'login.wechat.oauth2.step2',
                         code: code,
@@ -74,6 +73,7 @@
                 this.$router.replace('/')
             }
 
+
         },
 
         methods: {
@@ -85,6 +85,7 @@
                 if (r != null) return unescape(r[2]);
                 return null;
             },
+
 
         },
         mounted() {

@@ -67,7 +67,7 @@ export default {
   getQRcodeDomainName (state) {
     return state.cart.QRcodeDomainName;
   },
-  getfirstUrlFun(state){
-    return state.firstUrlFun;
+  getphone(state){
+    return state.phone;
   }
 }

@@ -1,42 +1,47 @@
 <template>
   <div class="content">
-      <div class="newsdetails">
-        <p style="font-size: 0.16rem;">{{title}}</p>
-        <div class="main" v-html="content"></div>
-        <div class="add_time">
-          <span>{{add_time}}</span>
-          <span>阅读量：{{click_times}}</span>
-        </div>
+    <div class="newsdetails">
+      <div class="main" v-html="content"></div>
+      <div class="add_time">
+        <span>{{add_time}}</span>
+        <span>阅读量：{{click_times}}</span>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
+    import Bus from "../../../assets/js/bus";
+
     export default {
         name: "newsdetail",
+        props: ['datas'],
         data() {
             return {
-                // serverSrc: "192.168.1.145",
-                title:'',
-                content:'',
-                add_time:'',
-                click_times:''
+                title: '',
+                content: '',
+                add_time: '',
+                click_times: '',
+                propsdata: [],
             }
         },
-        methods:{
+        methods: {
             getnews: function () {
                 let news = {
-                    method: 'get.news.item',
-                    id:this.$route.query.id
+                    method: this.datas == 'helpdetails' ? "get.help.item" : 'get.news.item',
+                    id: this.$route.query.id
                 };
                 //获取新闻列表
                 this.$post('/api/v1/news', news)
                     .then((response) => {
-                        // this.newslists = response.data.items,
-                        this.title = response.data.title
-                        this.content = response.data.content
-                        this.add_time = response.data.add_time
-                        this.click_times = response.data.click_times
+                        if (response.status = 200) {
+                            this.content = response.data.content
+                            this.add_time = response.data.add_time
+                            this.click_times = response.data.click_times
+                            Bus.$emit('title', response.data.title)
+                        } else {
+                            this.$toast(response.message)
+                        }
                         // let textareaHtml = response.data.content
                         // let srcReg = /src=([\'\"]?([^\'\"]*)[\'\"]?)/ig;
                         // if(textareaHtml){
@@ -48,6 +53,9 @@
                 });
             }
         },
+        destroyed() {
+            Bus.$emit('title', '')
+        },
         mounted() {
             this.getnews();
         }
@@ -55,18 +63,24 @@
 </script>
 
 <style scoped lang="scss">
-  .content{
-    .newsdetails{
+  .content {
+    .newsdetails {
       background-color: #fff;
       margin: 0.1rem;
       padding: 0.2rem;
       border-radius: 5px;
-      .main{
+
+      .main {
         text-align: left;
         margin: 0.2rem 0;
         text-indent: 2em;
+
+        > > > img {
+          margin: 0.1rem 0;
+        }
       }
-      .add_time{
+
+      .add_time {
         color: #999999;
         display: flex;
         justify-content: space-between;

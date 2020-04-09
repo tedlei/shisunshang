@@ -22,7 +22,7 @@
                     :src="item.imgsrc"
                   />
                   <div class="msg">
-                    <div class="text">
+                    <div class="text fontWrap fontWrapTwo">
                       <span class="vip">{{zhuan[$route.query.typeid]}}</span>
                       {{item.name}}
                     </div>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+    import Bus from "../../../assets/js/bus";
+
     export default {
         name: "Special-area",
         data() {
@@ -97,17 +99,35 @@
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
                         if (_this.flag) {
-                            this.list = response.data
+                            if (response.status == 200) {
+                                if (response.data) {
+                                    this.list = response.data
+                                } else {
+                                    this.list = []
+                                    this.finished = true;
+                                }
+                            } else {
+                                _this.$toast(response.message)
+                            }
                         } else {
-                            this.list = this.list.concat(response.data)
+                            if (response.status == 200) {
+                                if (response.data) {
+                                    this.list = this.list.concat(response.data)
+                                } else {
+                                    this.finished = true;
+                                }
+                                // 加载状态结束
+                                this.loading = false;
+                                this.pages += response.data.length;
+                                // 数据全部加载完成
+                                if (response.data.length < 20) {
+                                    this.finished = true;
+                                }
+                            } else {
+                                _this.$toast(response.message)
+                            }
                         }
-                        // 加载状态结束
-                        this.loading = false;
-                        this.pages += response.data.length;
-                        // 数据全部加载完成
-                        if (response.data.length < 20) {
-                            this.finished = true;
-                        }
+
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -133,8 +153,12 @@
         },
         mounted() {
             // this.getlist();
+            Bus.$emit('title', this.zhuan[this.$route.query.typeid])
             this.getgoods();
-        }
+        },
+        destroyed() {
+            Bus.$emit('title', '')
+        },
     }
 </script>
 
@@ -172,6 +196,7 @@
 
           .text {
             font-size: 0.14rem;
+
             .vip {
               background-color: #009900;
               color: #fff;
@@ -179,6 +204,7 @@
               line-height: 14px;
               border-radius: 5px;
               padding: 4px;
+              font-size: 0.12rem;
             }
           }
 

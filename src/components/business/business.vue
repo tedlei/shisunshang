@@ -39,7 +39,7 @@
 
                   <p class="p1 fontWrap fontWrapOne">
                     <span>{{item.name}}</span>
-                    <span v-show="true" class="quality">品质商家</span>
+                    <span v-show="item.label == 1" class="quality">品质商家</span>
                   </p>
                   <div style="margin: 0.02rem 0;" class="address">
                     <span>地址：</span>
@@ -118,10 +118,8 @@
                     text: '全部',
                     children: [],
                 })
-                // console.log(this.leftlists)
             },
             getData() {
-                // this.$store.commit("setLoading");
                 let ad_data = {
                     method: "get.user.strre.category.list"
                 };
@@ -129,7 +127,6 @@
                     .then((res) => {
                         console.log(res);
                         if (res.status == 200) {
-                            // this.$store.commit("setLoading");
                             this.navPush(res.data);
                             this.getDataTwo();
                         }
@@ -148,7 +145,6 @@
                         page_size: 20
                     };
                 } else {
-                    // console.log("没得Id")
                     ad_data = {
                         method: "get.user.store.list",
                         cate_id: 0,
