@@ -16,6 +16,9 @@ import axios from 'axios'
 import qs from 'qs'
 import {post, patch, put} from './api/https'
 import 'mint-ui/lib/style.css'
+import {Api} from '../src/assets/js/verifyCodeTime.js'
+
+Api.init.call(Vue);
 
 //定义全局变量
 Vue.prototype.$post = post;

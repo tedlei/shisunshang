@@ -66,8 +66,8 @@
           <p class="fontWrap fontWrapTwo">
             {{goods.name}}
           </p>
-          <span class="fontWrap fontWrapOne">规格： 默认
-            <!-- {{goods.goods_attr}} -->
+          <span class="fontWrap fontWrapOne">购买方式：
+            {{buy_types[goods.buy_type]}}
           </span>
           <div>￥
             {{goods.price}}
@@ -79,7 +79,7 @@
       </div>
       </router-link>
     </div>
-    <div  class="common_box allmsg">
+    <div style="padding-bottom: 0.5 rem;" class="common_box allmsg">
       <div class="common delivery">
         <div class="left">
           配速方式
@@ -100,14 +100,6 @@
           <span v-if="this.infor == 1">不开具发票</span>
           <span v-else>开具发票</span>
           <i class="el-icon-arrow-right"></i>
-        </div>
-      </router-link>
-      <router-link to="" class="common m_b_10">
-        <div>签到金</div>
-        <div class="right">
-          <span class="Check">
-            {{orderData.total_qd_price}}
-            元</span>
         </div>
       </router-link>
       <div class="common m_b_10" v-show="orderData.total_offer_price>0">
@@ -141,9 +133,9 @@
           </span>
         </div>
         <div class="right">
-          <span>运费</span>
-          <span class="clo-g">+￥
-            {{orderData.total_postage}}
+          <span>签到金</span>
+          <span class="clo-g">-￥
+            {{orderData.total_qd_price}}
           </span>
         </div>
         <div class="right">
@@ -152,12 +144,19 @@
             {{orderData.total_offer_price}}
           </span>
         </div>
+        <div class="right">
+          <span>运费</span>
+          <span class="clo-g">+￥
+            {{orderData.total_postage}}
+          </span>
+        </div>
+        
       </div>
     </div>
     <!--  底部提交  -->
     <div class="clearfix bot_submit">
       <div class="left_text">实付款：￥
-        {{orderData.order_pay_price}}
+        {{!checked?orderData.order_pay_price:orderData.user_money>=orderData.order_pay_price?0:orderData.order_pay_price-orderData.user_money}}
       </div>
       <div class="right_btn" @click="uploadOrder">
         提交订单
@@ -182,6 +181,7 @@
                 goods_id: '',
                 goods_num: '',
                 goods_sku_id: [],
+                buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区',shop: '商家专区'},
                 infor: this.$store.state.IvcMsg,
                 buy_type: '',
                 isTips: true,
@@ -219,24 +219,24 @@
               let goods_num = this.$route.query.num;
               // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
               let buy_type = this.$route.query.buy_type;
+              let address_id = this.$store.getters.getreceivingAddress.id;
               let ad_data = {
                   method: 'get.buy.goods.now',
                   goods_id: goods_id,
                   goods_num: goods_num,
                   // goods_sku_id: goods_sku_id,
                   buy_type: buy_type,
+                  address_id: address_id?address_id:0,
               };
               this.$post('/api/v1/order', ad_data)
               .then((res) => {
-                // console.log(res);
+                console.log(res);
                 // return false;
                 if(res.status==200){
                   this.orderData = res.data;
-                  // if(res.data.address_default==null||res.data.address_default==undefined||res.data.address_default==''){
-
-                  // }
+                  
                 }else{
-                  this.$router.back(-1);
+                  // this.$router.back(-1);
                   this.$toast(res.message);
                 }
               }).catch(function (error) {
@@ -246,10 +246,12 @@
 
           //购物车入口跳转获取订单
           getDataTwo () {
-              let list = this.$route.query.id
+              let list = this.$route.query.id;
+              let address_id = this.$store.getters.getreceivingAddress.id;
               let ad_data = {
                   method: 'get.buy.goods.cart',
                   goods: list,
+                  address_id: address_id?address_id:0,
               };
               // console.log(ad_data)
               this.$post('/api/v1/order', ad_data)
@@ -326,7 +328,7 @@
                         message: '使用充值金付款成功'
                     }).then((res) => {
                         if (res == 'confirm') {
-                          this.$router.push({path: '/goodsdetails/order', query: {id: '2'}});
+                          this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
                         }
                     })
                   }else{
@@ -388,7 +390,7 @@
                         message: '使用充值金付款成功'
                     }).then((res) => {
                         if (res == 'confirm') {
-                          this.$router.push({path: '/goodsdetails/order', query: {id: '2'}});
+                          this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
                         }
                     })
                   }else{
@@ -413,7 +415,7 @@
 	          				//跳转到支付成功页面
                     this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
 	          			}else{
-
+                    this.$router.push({path: '/goodsdetails/order', query: {orderid: '1'}});
                   }
 	          		
 	          		}
@@ -434,21 +436,14 @@
         },
         mounted() {
           // console.log(this.$route.query.id)
-          // console.log(this.$route.query.buy_type)
           if(this.$route.query.buy_type){
             this.goods_id = this.$route.query.id;
             this.goods_num = this.$route.query.num;
-            // this.goods_sku_id = this.$route.query.goods_sku_id;
             this.buy_type = this.$route.query.buy_type;
             this.getDATA();
-
-            // Bus.$on('info', (data) => {
-            //     this.infor = Number(data)
-            //     console.log(this.infor)
-            // })
           }else{
             this.getDataTwo();
-            console.log('购物车')
+            // console.log('购物车')
           }
         },
         created() {
@@ -461,8 +456,6 @@
 
 <style scoped lang="scss">
   .content {
-    margin-bottom: 0.45rem;
-
     i {
       font-size: 0.18rem;
     }

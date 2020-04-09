@@ -7,8 +7,7 @@
                 <div class="information">
                     <span>订单编号：</span>
                     <span style="width:75%" class="fontWrap fontWrapOne">&nbsp;&nbsp;&nbsp;
-                        0041752200328142255423478173
-                        <!-- {{this.$route.query.id}} -->
+                        {{$route.query.id+''}}
                     </span>
                 </div>
                 <div class="information">
@@ -73,7 +72,7 @@
             let pay_no = this.$route.query.id;
             let ad_data = {
                 method: 'get.pay.info',
-                pay_no: '0041752200328142255423478173'
+                pay_no: pay_no
             }
             this.$post('/api/v1/order', ad_data)
             .then((res) => {

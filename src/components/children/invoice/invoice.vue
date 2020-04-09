@@ -12,7 +12,7 @@
         </van-radio-group>
         <div class="tips">
           <p>填写发票信息前，请仔细阅读
-            <span @click="show = true">
+            <span style="color: #2528e7;" @click="show = true">
               《发票须知》
             </span>
           </p>
@@ -125,10 +125,10 @@
       <div class="wrapper" @click.stop>
         <div class="block">
           <p>发票须知</p>
-          <p class="blockP">1、发票须知发票须知发票须知发票须知发票须知发票须知</p>
-          <p class="blockP">2、发票须知发票须知发票须知发票须知发票须知发票须知</p>
-          <p class="blockP">3、发票须知发票须知发票须知发票须知发票须知发票须知</p>
-          <p class="blockP">4、发票须知发票须知发票须知发票须知发票须知发票须知</p>
+          <p class="blockP">1、公司名称必须为工商注册登记的名称</p>
+          <p class="blockP">2、开户银行名称与银行帐号两者必须是您公司开户许可证上的银行帐户</p>
+          <p class="blockP">3、未经我司客服人员的允许，财务部门将不接受电话、传真、邮件、邮寄等形式的重开发票申请，如您擅自将发票寄到我公司的任一办公地址，在寄送过程中发生的发票遗失、缺失等情况，恕我们概不负责</p>
+          <p class="blockP">4、如果您在收到货物的30天内还未收到发票，请您及时与我们的客服人员联系；超过90天（您成功下单之日起）未与我们联系的，我司将不再为已开发票的订单进行补开发票</p>
           <p class="blockBtn" @click="show = false">我知道了</p>
         </div>
       </div>
@@ -160,6 +160,7 @@
             onSubmit(values) {
               if(this.radio=='1'){
                 console.log("返回")
+                this.$store.commit('sendIvcMsg', this.radio);
                 this.$router.back(-1)
                 return;
               }
@@ -187,6 +188,7 @@
                 this.$post('/api/v1/Invoice', values)
                     .then((res) => {
                         if (res.status == 200) {
+                          this.$store.commit('sendIvcMsg', this.radio);
                           this.$store.commit('setinvoice',invoice);
                             this.$toast('添加成功')
                             this.$router.back(-1);
@@ -202,7 +204,7 @@
 
             },
             change: function (e) {
-                this.$store.commit('sendIvcMsg', Number(e))
+                
             }
         },
         mounted() {
@@ -250,7 +252,6 @@
     .information {
       margin-top: 0.1rem;
       background-color: #fff;
-
       .informationType {
         padding: 0.1rem;
         border-bottom: 1px solid #f2f2f2;
@@ -277,7 +278,7 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 0.15rem 0.15rem 0 0.15rem;
-    color: #cccccc;
+    color: #a09f9f;
 
     > p:first-child {
       display: block;

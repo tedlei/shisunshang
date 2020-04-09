@@ -75,6 +75,8 @@
             routerback() {
                 if (this.$route.query.goindex === 'true') {
                     this.$router.push('/')
+                }else if(this.$route.name=='order' || this.$route.name=='successfulPayment'){
+                    this.$router.push('/mine')
                 } else {
                     this.$router.back(-1)
                 }

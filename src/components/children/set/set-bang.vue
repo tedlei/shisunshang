@@ -19,8 +19,8 @@
           placeholder="请输入短信验证码"
           :rules="[{ required: true, message: '请输入短信验证码' }]"
         />
-        <div class="getcode" @click="getcode">
-          获取验证码
+        <div class="getcode" @click="codeTime('surplusTime',getcode)">
+          {{surplusTime?surplusTime+'秒后获取':'获取验证码'}}
         </div>
       </div>
       <p class="tips"></p>
@@ -55,7 +55,6 @@
 </template>
 
 <script>
-
     export default {
         name: "set-bang",
         data() {
@@ -65,32 +64,34 @@
                 password1: '',
                 password2: '',
                 show: this.$route.meta.title == '绑定手机号' ? false : true,
+                surplusTime:0,  //剩余时间
             }
         },
         created(){
           let {getuserinfo} = this.$store.getters;
           if(getuserinfo) this.phone = JSON.parse(getuserinfo).phone;
+          this.codeTime('surplusTime');
         },
         methods: {
             //获取验证码
-            getcode: function () {
-                let _this = this;
-                let can = _this.show ? 'send.sms.update.paypassword' : 'send.sms.bind.mobile';
-                let values = {
-                    method: can,
-                    phone: this.phone
-                };
-                this.$post('/api/v1/user', values)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            this.$toast(response.data.msg);
-                        } else {
-                            this.$toast(response.message);
-                        }
-                        console.log(response)
-                    }).catch(function (error) {
-                    console.log(error);
-                });
+            getcode: function (){
+              let _this = this;
+              let can = _this.show ? 'send.sms.update.paypassword' : 'send.sms.bind.mobile';
+              let values = {
+                  method: can,
+                  phone: this.phone
+              };
+              this.$post('/api/v1/user', values)
+                  .then((response) => {
+                      if (response.status == 200) {
+                          this.$toast(response.data.msg);
+                      } else {
+                          this.$toast(response.message);
+                      }
+                      console.log(response)
+                  }).catch(function (error) {
+                  console.log(error);
+              });
             },
             //提交
             onSubmit(values) {

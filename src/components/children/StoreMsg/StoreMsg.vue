@@ -10,8 +10,7 @@
     </div>
     <div class="common_box store_msg">
       <div class="name">
-        <span>{{shops.name}}</span>
-        <span v-show="true" class="quality">品质商家</span>
+        {{shops.name}}
       </div>
       <div class="time">
         营业时间：{{shops.bus_hours}}
@@ -26,21 +25,21 @@
       <p>
         {{shops.bus_scope}}
       </p>
-      <el-row class="introduce_img" :gutter="20">
-        <el-col v-for="(item,index) in shops.album" :key="index" :span="8" >
+      <vant-row class="introduce_img" :gutter="20">
+        <vant-col v-for="(item,index) in shops.album" :key="index" :span="8" >
           <div class="grid-content bg-purple"><img :src="item"></div>
-        </el-col>
-      </el-row>
+        </vant-col>
+      </vant-row>
 
     </div>
     <div class="footer">
       <div class="left_hujiao">
-        <i class="el-icon-phone"></i>
-        <span>呼叫</span>
+        <van-icon name="phone-o" />
+        <span style="margin:0 0.1rem">呼叫</span>
       </div>
       <div class="right_daohang">
-        <i class="el-icon-position"></i>
-        <span>导航</span>
+        <van-icon name="aim" />
+        <span style="margin:0 0.1rem">导航</span>
       </div>
     </div>
   </div>
@@ -66,6 +65,7 @@
         };
         this.$post('/api/v1/userStore', ad_data)
         .then((res) => {
+          console.log(res);
           this.shops = res.data;
         }).catch(function (error) {
           console.log(error);
@@ -80,6 +80,7 @@
 
 <style scoped lang="scss">
   .content {
+    padding-bottom: 0.45rem;
     .store_banner{
       background-color: #fff;
     }
@@ -89,18 +90,6 @@
 
       .name {
         font-size: 0.18rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .quality{
-          display: inline-block;
-          line-height: 0.2rem;
-          background-color: #009900;
-          border-radius: 0.2rem;
-          padding: 0 5px;
-          color: #fff;
-          font-size: 0.14rem;
-        }
       }
 
       .time {
@@ -136,8 +125,14 @@
         width: 50%;
         background-color: #333;
         line-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .right_daohang{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: #009900;
         line-height: 50px;
         width: 50%;
