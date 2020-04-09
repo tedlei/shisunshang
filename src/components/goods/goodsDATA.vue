@@ -245,7 +245,7 @@
     </div>
     <!-- 底部   -->
     <div class="footer_js">
-      <div class="left">
+      <div class="left"> 
         <div @click="service">
           <van-icon name="chat-o" size="20px"/>
           <div>客服</div>
