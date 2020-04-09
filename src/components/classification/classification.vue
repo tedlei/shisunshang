@@ -38,12 +38,11 @@
             <ul class="clearfix goodslist">
               <li v-for="(goodsitem,goodsindex) in item.sub" :key="goodsindex" @click="todetile(goodsitem.id)">
                 <van-image
-                  width="100%"
                   height="imgH"
                   fit="cover"
                   :src="goodsitem.icon"
                   style="margin-bottom: 0.1rem"
-                  :ref="imgW"
+                  ref="imgW"
                 />
                 <div class="cate_name fontWrap fontWrapOne" style="font-size: 0.12rem">{{goodsitem.cate_name}}</div>
               </li>
@@ -95,7 +94,11 @@
                 };
                 this.$post('/api/v1/goodsCategory', parms)
                     .then((response) => {
-                        _this.typelist = response.data
+                        _this.typelist = response.data;
+                        this.$nextTick(()=>{
+                            console.log(this.$refs.imgW[0].offsetWidth)
+                            this.imgH = this.$refs.imgW + 'px'
+                        })
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -116,9 +119,6 @@
             },
         },
         mounted() {
-            this.$nextTick(() => {
-                this.imgH = this.$refs.imgW + 'px'
-            });
             setTimeout(() => {
                 this.getHeight();
             }, 100)
