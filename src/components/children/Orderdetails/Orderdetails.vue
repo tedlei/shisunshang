@@ -208,7 +208,8 @@
           },
           goods:[],
           shop: {}
-        }
+        },
+        oderPay: '',//付款成功跳转传参
       }
     },
     methods: {
@@ -261,10 +262,10 @@
         this.$post('/api/v1/order', ad_data)
         .then((res) => {
           console.log(res);
-          
           if(res.data.is_wx_pay == 1){
             console.log(res.data.payment)
-          	this.jsApiParameters = res.data.payment;
+            this.jsApiParameters = res.data.payment;
+            this.oderPay = res.data.pay_no;
             this.callpay();
           }
         }).catch(function (error) {
@@ -279,7 +280,7 @@
 	      	function(res){
 	      		if(  res.err_msg.indexOf(":ok")>0 ){
 	      			//跳转到支付成功页面
-	      			
+	      			this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
 	      		}else{
               //取消付款跳转
             }
@@ -301,7 +302,7 @@
 	    },
     },
     created () {
-      console.log(this.$route.query.id)
+      // console.log(this.$route.query.id)
       if(this.$route.query.id==undefined){
         this.$router.push({path:'/'});
         return;

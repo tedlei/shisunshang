@@ -90,7 +90,7 @@
               </div>
               <div v-show="num==3">
                 <van-button plain type="primary" size="small" color="#009900">查看物流</van-button>
-                <van-button type="primary" size="small" color="#009900">确认收货</van-button>
+                <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(item.id)">确认收货</van-button>
               </div>
               <div v-show="num==4">
                 <router-link :to="{path:'/goodsdetails/evaluate',query: {id: item.id}}">
@@ -115,16 +115,12 @@
     </div>
   </div>
 </template>
-
 <script>
-
     import Headerback from "../../headerback/headerback";
     import Empty from "../empty/empty";
-
     export default {
         name: "order",
         components: {Empty, Headerback},
-
         data() {
             return {
                 num: 0,
@@ -200,15 +196,17 @@
                         }
                     },
                 ],
+                oderPay: '',//付款成功跳转传参
             }
         },
         methods: {
             getNum(index) {
                 this.num = index;
                 this.numBoder = index;
-
                 this.getOderData(index);
             },
+
+            //订单列表
             getOderData(index) {
                 let ad_data = {
                     method: 'get.order.list',
@@ -234,6 +232,8 @@
                     console.log(error);
                 });
             },
+
+            //取消订单（砍）
             cancelOrder(id) {
                 let ad_data = {
                     method: 'cancel.order.item',
@@ -253,7 +253,8 @@
                     console.log(error);
                 });
             },
-            //支付
+
+            //付款按钮
             payment(id) {
                 let _id = id;
                 let ad_data = {
@@ -266,6 +267,7 @@
                         if (res.data.is_wx_pay == 1) {
                             console.log(res.data.payment)
                             this.jsApiParameters = res.data.payment;
+                            this.oderPay = res.data.pay_no;
                             this.callpay();
                         }
                     }).catch(function (error) {
@@ -273,6 +275,7 @@
                 });
             },
 
+            //微信支付
             jsApiCall() {
                 WeixinJSBridge.invoke(
                     'getBrandWCPayRequest',
@@ -280,14 +283,13 @@
                     function (res) {
                         if (res.err_msg.indexOf(":ok") > 0) {
                             //跳转到支付成功页面
-
+                            this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
                         } else {
                             //取消付款跳转
                         }
                     }
                 );
             },
-
             callpay() {
                 if (typeof WeixinJSBridge == "undefined") {
                     if (document.addEventListener) {
@@ -299,6 +301,21 @@
                 } else {
                     this.jsApiCall();
                 }
+            },
+
+            //确认收货
+            Confirmreceipt(id) {
+              let ad_data = {
+                  method: 'confirm.order.goods.item',
+                  order_id: id
+              }
+              this.$post('/api/v1/order', ad_data)
+                  .then((res) => {
+                      console.log(res);
+                      this.getOderData(3);
+                  }).catch(function (error) {
+                  console.log(error);
+              });
             },
         },
         created() {
@@ -312,7 +329,7 @@
                 this.getNum(4);
             } else {
                 this.getNum(this.$route.query.orderid);
-                console.log(this.$route.query.orderid)
+                // console.log(this.$route.query.orderid)
             }
         }
     }
