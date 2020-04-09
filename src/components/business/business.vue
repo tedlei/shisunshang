@@ -56,6 +56,7 @@
                             <div class="address">
                                 <span>电话：</span>
                                 <span>{{item.mobile}}</span>
+
                             </div>
                         </div>
                     </router-link>
@@ -129,14 +130,13 @@ export default {
             };
             this.$post("/api/v1/UserStoreCategory", ad_data)
                 .then(res => {
-                    console.log(res);
                     if (res.status == 200) {
-                        this.navPush(res.data);
+                        this.navPush(res.data); 
                         this.getDataTwo();
                     }
                 })
                 .catch(function(error) {
-                    console.log(error);
+                    console.log(error,1);
                 });
         },
         getDataTwo(id) {
