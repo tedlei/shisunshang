@@ -37,7 +37,7 @@
           <span class="share" @click="showTwo = true">
             <i class="el-icon-share"></i>分享
           </span>
-
+          
         </div>
         <div class="price">
           {{goodsData.goods_info.price}}
@@ -50,14 +50,14 @@
               {{goodsData.goods_info.store_array[isactions]}}
           </div>
           <div>保:
-            {{goodsData.goods_info.offer_price}}
+            {{goodsData.goods_info.offer_money_array[isactions]}}
             元
           </div>
           <div>邮:
-            {{goodsData.goods_info.postage}}
+            {{goodsData.goods_info.postage_array[isactions]}}
             元
           </div>
-
+          
         </div>
       </div>
       <!-- 2 -->
@@ -80,7 +80,7 @@
       <div class="m_b_10 conmo_box box_one">
         <div class="goodsNumber">
           <span>数量：</span>
-          <van-stepper v-model="nums" />
+          <van-stepper v-model="nums" :max="goodsData.goods_info.xg_array[isactions].limitcount==0?'999':goodsData.goods_info.xg_array[isactions].limitcount"/>
         </div>
       </div>
       <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
@@ -166,7 +166,7 @@
                     <div class="qrcode" id="qrCode" ref="qrCode"></div>
                   </div>
               </div>
-          </div>
+          </div>  
           <div class="haibao" v-show="isPoster">
               <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
                 <img src="../../assets/img/hbx.png" alt="">
@@ -247,16 +247,18 @@
     <div class="footer_js">
       <div class="left">
         <div>
-          <div class="el-icon-chat-line-round"></div>
+          <van-icon name="chat-o" size="20px"/>
           <div>客服</div>
         </div>
-        <div>
-          <div class="el-icon-chat-dot-round"></div>
-          <div @click="collection">收藏</div>
+        <div @click="collection">
+          <van-icon v-show="goodsData.goods_info.is_follow!=1" name="star-o" size="20px"/>
+          <van-icon v-show="goodsData.goods_info.is_follow==1" name="star" size="20px"/>
+          <div>收藏</div>
         </div>
         <div>
           <router-link to="/my_cart">
-            <div class="el-icon-shopping-cart-2"></div>
+            <van-icon v-show="cartNum==0" name="shopping-cart-o" size="20px"/>
+            <van-icon v-show="cartNum!=0" name="shopping-cart-o" :info="cartNum" size="20px"/>
             <div>购物车</div>
           </router-link>
         </div>
@@ -265,10 +267,8 @@
         <div class="join_cart" @click="goodsCart">
           加入购物车
         </div>
-        <div class="buy">
-          <router-link :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial, buy_type: isactions}}">
+        <div class="buy" @click="diatepurchase">
             立即购买
-          </router-link>
         </div>
       </div>
     </div>
@@ -343,7 +343,8 @@
         w: 260,
         h: 410,
         imgResult: '',
-        portrait: '',
+        users: {},//用户信息
+        portrait: '',//用户头像
 
         // imglist: [], //轮播数组
         actions: [
@@ -361,16 +362,11 @@
         direction: 'btt',
         nums: 1,//添加购物车的商品数量
         name: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-        goodsitem: [
-          // {
-          //   'goodsname': '云阖·永川秀芽【炒青】100g',
-          //   'goodsrice': '￥98.00',
-          //   'goodsimg': 'goods_img'
-          // },
-        ],
-
+        goodsitem: [],
         goodsData: {
             "goods_info": {
+              offer_money_array: [],
+              postage_array: [],
               album: [
                 require('../../assets/img/mrtp.png')
               ],
@@ -386,54 +382,6 @@
                 retail: {},
                 shop: {}
               },
-		    	    "id": "",
-		    	    "name": "",
-		    	    "proportion": "",
-		    	    "price": "",
-		    	    "imgsrc": "",
-		    	    "ip": "",
-		    	    "merchants_id": "",
-		    	    "type_id": "",
-		    	    "content": "",
-		    	    "click_times": "",
-		    	    "imgsrc1": "",
-		    	    "imgsrc2": "",
-		    	    "imgsrc3": "",
-		    	    "imgsrc4": "",
-		    	    "limitcount": "",
-		    	    "limitdan": "",
-		    	    "type": "",
-		    	    "money_level1": "",
-		    	    "money_level2": "",
-		    	    "money_level3": "",
-		    	    "money_level4": "",
-		    	    "money_level5": "",
-		    	    "money_level6": "",
-		    	    "money_level7": "",
-		    	    "money_level8": "",
-		    	    "money_level9": "",
-		    	    "money_level10": "",
-		    	    "chengben": "",
-		    	    "kuchun": "",
-		    	    "xiaoliang": "",
-		    	    "danliang": "",
-		    	    "admin_id": "",
-		    	    "pay_type": "",
-		    	    "postage": "",
-		    	    "chengben_postage": "",
-		    	    "trading_type": "",
-		    	    "trading_proportion": "",
-		    	    "product_code": "",
-		    	    "product_class": "",
-		    	    "is_tejia": "",
-		    	    "is_hot": "",
-		    	    "is_top": "",
-		    	    "is_new": "",
-		    	    "category_id": "",
-		    	    "is_map_customer": "",
-		    	    "is_map_vip": "",
-		    	    "is_map_retail": "",
-		    	    "is_map_shop": "",
 		    	    "spec": [
 		    		    {
 		    		    	"goods_spec_id": "",
@@ -548,7 +496,8 @@
               score_fh: ''
             }
         },
-        is_follow: 0
+        is_follow: 0,
+        cartNum: 0,
       }
     },
 
@@ -566,15 +515,28 @@
         // var anchor = this.$el.querySelector(selector);
         // document.documentElement.scrollTop = anchor.offsetTop;
         document.getElementById(selector).scrollIntoView();
-
+        
       },
       onSelect(item,index) {
         // 默认情况下点击选项时不会自动收起
         // 可以通过 close-on-click-action 属性开启自动收起
         // console.log(item);
-        this.actionsName = item.name;
-        this.isactions = item.key
-        this.show = false;
+        // if(item.key=='vip'){
+        //   this.show = false; 
+        //   this.$dialog.confirm({
+        //     message: '您还不是会员，马上前往充值会员？'
+        //   }).then((res) => {
+        //     console.log(res)
+
+        //   }).catch((err) => {
+        //     console.log(err)
+        //   });
+        // }else{
+          this.actionsName = item.name;
+          this.isactions = item.key;
+          this.show = false;  
+        // }
+        
       },
       Replication(){
         this.$toast('暂未开放');
@@ -636,7 +598,10 @@
 
       //获取推荐列表、
       getRecommend () {
-        let ad_data = {method: 'get.goods.recommend.list'};
+        let ad_data = {
+          method: 'get.goods.like.list',
+          goods_id: this.$route.query.id
+        };
         this.$post('/api/v1/goods', ad_data)
         .then((res) => {
           // console.log(res);
@@ -735,57 +700,124 @@
         });
       },
 
-      //收藏商品
+      //收藏和删除收藏商品
       collection () {
         this.$store.commit("setLoading");
-        let _id = this.$route.query.id;
-        let ad_data = {
-          method: 'add.collect.goods.item',
-          goods_id: _id
-        };
-        this.$post('/api/v1/userCollectGoods', ad_data)
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            this.$store.commit("setLoading");
-            this.$toast.success("收藏成功");
-          }else{
-            this.$store.commit("setLoading");
-            this.$toast.fail("收藏失败");
-          }
-        }).catch(function (error) {
-            console.log(error);
-        });
+        if(this.goodsData.goods_info.is_follow==0){
+          let _id = this.$route.query.id;
+          let ad_data = {
+            method: 'add.collect.goods.item',
+            goods_id: _id
+          };
+          this.$post('/api/v1/userCollectGoods', ad_data)
+          .then((res) => {
+            // console.log(res);
+            if (res.status == 200) {
+              this.$store.commit("setLoading");
+              this.$toast.success("收藏成功");
+              this.goodsData.goods_info.is_follow=1;
+            }else{
+              this.$store.commit("setLoading");
+              this.$toast.fail("收藏失败");
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }else{
+          let _id = [this.$route.query.id];
+          let ad_data = {
+            method: 'del.collect.goods.list1',
+            id: _id
+          };
+          this.$post('/api/v1/userCollectGoods', ad_data)
+          .then((res) => {
+            console.log(res);
+            if (res.status == 200) {
+              this.goodsData.goods_info.is_follow=0;
+              this.$store.commit("setLoading");
+              this.$toast.success("已取消");
+            }
+          }).catch(function (error) {
+              console.log(error);
+          });
+        }
+        
       },
 
       //添加购物车
       goodsCart () {
-        this.$store.commit("setLoading");
         let getCart = '';
-        // for (var i in this.initial) {
-        //   // getCart += this.initial[i];
-        // }
         getCart = this.initial.join('_');
         // console.log(getCart);
-        let ad_data = {
-          method: 'add.goods.cart.item',
-          goods_id: this.goodsData.goods_info.id,
-          goods_num: this.nums,
-          // goods_sku_id: getCart,
-          buy_type: this.isactions
-        };
+        let ad_data = {};
+        if(this.isactions=='vip'&&this.users.level==1){
+          this.$dialog.confirm({
+            message: '您还不是会员，是否前往充值会员？'
+          }).then((res) => {
+            console.log(res)
+            this.$router.push({path:'/upgrade'});
+          }).catch((err) => {
+            console.log(err)
+          });
+          return;
+        }else{
+          ad_data = {
+            method: 'add.goods.cart.item',
+            goods_id: this.goodsData.goods_info.id,
+            goods_num: this.nums,
+            // goods_sku_id: getCart,
+            buy_type: this.isactions
+          };
+        }
         // console.log(ad_data);
         this.$post('/api/v1/goodsCart', ad_data)
         .then((res) => {
           // console.log(res.status)
           if (res.status == 200) {
+            this.cartNum = this.cartNum+1;
             this.$toast.success("添加成功");
-            this.$store.commit("setLoading");
           }else{
-            this.$store.commit("setLoading");
             this.$toast.fail("添加失败");
           }
         }).catch( (error) => {
+            console.log(error);
+        });
+      },
+      
+      //立即购买
+      diatepurchase () {
+        if(this.isactions=='vip'&&this.users.level==1){
+          this.$dialog.confirm({
+            message: '您还不是会员，是否前往充值会员？'
+          }).then((res) => {
+            console.log(res)
+            this.$router.push({path:'/upgrade'});
+          }).catch((err) => {
+            console.log(err)
+          });
+          return;
+        }
+        this.$router.push({
+          path:'/goodsdetails/makeorder',
+          query:{
+            id: this.goodsData.goods_info.id,
+            num: this.nums,
+            goods_sku_id: this.initial,
+            buy_type: this.isactions
+          }
+        });
+      },
+
+      //购物车数量
+      getCartNum () {
+        let ad_data = {
+          method: 'get.goods.cart.count',
+        };
+        this.$post('/api/v1/GoodsCart', ad_data)
+        .then((res) => {
+          // console.log(res);
+          this.cartNum = res.data;
+        }).catch(function (error) {
             console.log(error);
         });
       },
@@ -823,8 +855,9 @@
       // console.log(this.$route.query.id)
       this.getDATA();
       this.Addfootprints();
+      this.getCartNum();
       let user = JSON.parse(this.$store.getters.getuserinfo);
-      // console.log(user)
+      this.users = user;
       this.portrait = user.portrait;
     },
     mounted() {
@@ -1285,7 +1318,7 @@
             padding: 0.1rem;
             border-radius: 10px;
             background-color: #fff;
-
+            
             >div:first-child{
               display: flex;
               align-items: center;
@@ -1322,7 +1355,7 @@
                   height: 60px;
                   overflow:hidden;
               }
-
+              
             }
         }
   }

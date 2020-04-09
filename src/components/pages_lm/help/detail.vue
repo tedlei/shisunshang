@@ -49,6 +49,6 @@ import Bus from '@/assets/js/bus';
 </script>
 <style lang="scss" scoped>
 .deta_app{
-
+  padding:5px 10px;
 }
 </style>

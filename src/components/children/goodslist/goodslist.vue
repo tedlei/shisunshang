@@ -19,7 +19,7 @@
               :src="item.imgsrc"
             />
             <div class="msg_box">
-              <p class="fontWrap fontWrapOne">{{item.name}}</p>
+              <p class="fontWrap fontWrapTwo">{{item.name}}</p>
               <div class="price_box">
                 <div>
                   <span class="clo-g">￥{{item.price}}</span>
@@ -108,7 +108,7 @@
                 // 异步更新数据
                 setTimeout(() => {
                     console.log(321)
-                    this.getlist();
+                    // this.getlist();
                 }, 1000);
             },
             // 去详情页面
@@ -178,7 +178,9 @@
 
           .msg_box {
             padding: 7px;
-
+            >p:first-child{
+              height: 0.4rem;
+            }
             .price_box {
               display: flex;
               justify-content: space-between;

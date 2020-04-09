@@ -137,7 +137,7 @@
         <div class="left">
           <span>商品金额</span>
           <span class="clo-g">￥
-            {{orderData.total_price}}
+            {{orderData.total_price_old}}
           </span>
         </div>
         <div class="right">
@@ -403,6 +403,7 @@
             });
           },
 
+          //微信支付
           jsApiCall(){
 	          	WeixinJSBridge.invoke(
 	          		'getBrandWCPayRequest',
@@ -418,7 +419,6 @@
 	          		}
 	          	);
 	        },
-
 	        callpay(){
 		        if (typeof WeixinJSBridge == "undefined"){
 		            if( document.addEventListener ){
@@ -553,7 +553,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
+    margin: 0.05rem 0;
     .cardMsg {
       width: 70%;
       position: relative;

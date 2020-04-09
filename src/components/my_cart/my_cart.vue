@@ -150,21 +150,11 @@ export default {
         isRecommend: false,
         total:0,
         num: 1,
-        goodsitem: [
-          // {
-          //   'goodsname': '云阖·永川秀芽【炒青】100g',
-          //   'goodsrice': '￥98.00',
-          //   'Sold': '123件',
-          //   'goodsimg': 'goods_img'
-          // }
-
-        ],
+        goodsitem: [],
         isKcart: false,
         isCart: false,
         isDellBatch: false,
-        goodsObj: [
-
-        ],
+        goodsObj: [],
         totalMoney : 0,
         totalFare : 0,
         allChecked : false
@@ -207,6 +197,7 @@ export default {
 
     //遍历筛选购物车数据
     cartDataPush (data) {
+      this.goodsObj = [];
       for (let i in data.shops){
         let obj = {
           name: data.shops[i].shop.shop_name,
@@ -454,33 +445,41 @@ export default {
     },
     //批量删除
 	  dellBatch () {
-	  	for ( var i in this.goodsObj){
-	  		let shop = this.goodsObj[i];
-        for(var n=shop.list.length-1; n>-1; n--){
-          if(shop.list[n].checked){
-            let ad_data = {
-              method: "del.goods.cart.item",
-              goods_id: shop.list[n].id,
-              goods_sku_id: shop.list[n].goods_sku_id
-            };
-            console.log(ad_data);
-            this.$post('/api/v1/goodsCart', ad_data)
-            .then((res) => {
-              console.log(res);
-              if(res.status == 200){
-                this.goodsObj[i].list.splice(n, 1);
-                this.cal(i);
-                this.isDellBatch = !this.isDellBatch;
-                this.getCart();
+	  	for ( let i=this.goodsObj.length-1; i>-1; i--){
+        let shop = this.goodsObj[i];
+        // console.log(shop);
+          for(let n=shop.list.length-1; n>-1; n--){
+            if(shop.list[n].checked){
+              let ad_data = {
+                method: "del.goods.cart.item",
+                goods_id: shop.list[n].id,
+                goods_sku_id: shop.list[n].goods_sku_id
+              };
+              // console.log(ad_data);
+              this.goodsObj[i].list.splice(n, 1);
+              if(this.goodsObj[i].list.length==0){
+                this.goodsObj.splice(i,1);
               }
-            }).catch( (error) => {
-              console.log(error);
-            });
+              this.$post('/api/v1/goodsCart', ad_data)
+              .then((res) => {
+                // console.log(res);
+                if(res.status == 200){
+                  if(this.goodsObj.length==0){
+                    this.isKcart = true;
+                    this.isCart = false;
+                  }
+                  this.isDellBatch = !this.isDellBatch;
+                  // this.getCart(); 
+                  // console.log(this.goodsObj);
+                }
+              }).catch( (error) => {
+                console.log(error);
+              });
 
-	  			}
+	  		  	}
         }
+        
       }
-
 	  },
 
     //去结算
