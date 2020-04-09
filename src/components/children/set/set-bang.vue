@@ -79,7 +79,7 @@
               let can = _this.show ? 'send.sms.update.paypassword' : 'send.sms.bind.mobile';
               let values = {
                   method: can,
-                  phone: this.phone
+                  phone: this.phone 
               };
               this.$post('/api/v1/user', values)
                   .then((response) => {
