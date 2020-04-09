@@ -41,7 +41,6 @@
             }
         },
         mounted() {
-            // console.log(this.isemptytype)
             let acsp = this.isemptytype
             switch (acsp) {
                 case 'address':
@@ -66,7 +65,7 @@
             }
             let clientW = clientWw.clientWw()
             let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //浏览器高度
-            this.height = (h - 43 * clientW / 100) / clientW + 'rem';
+            this.height = (h - 48 * clientW / 100) / clientW + 'rem';
         }
     }
 </script>

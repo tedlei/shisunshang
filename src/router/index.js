@@ -396,26 +396,26 @@ const $router = new Router({
           meta: {title: '实名认证', showFooter: false, goods: false,}
         },
         {    //帮助中心
-          path:'/help',
-          component:help,
-          children:[
+          path: '/help',
+          component: help,
+          children: [
             {   //帮助中心列表
-              path:'',
-              component:helpList,
+              path: '',
+              component: helpList,
               meta: {
                 title: '帮助中心',
                 showFooter: false,     //配置底部tabbar
               },
             },
             {   //帮助中心详情
-              path:'helpDetail',
-              component:helpDetail,
+              path: 'helpDetail',
+              component: helpDetail,
               meta: {
                 title: '帮助中心详情',
                 showFooter: false,     //配置底部tabbar
               },
             }
-          ]
+          ],
         },
         {
           path:'/upgrade',

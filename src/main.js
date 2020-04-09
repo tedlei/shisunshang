@@ -31,15 +31,8 @@ Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
   //===== 判断是否为微信浏览器 =====
-
   let ua = window.navigator.userAgent.toLocaleLowerCase();
   if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-    let url = location.href
-    if (GetQueryString(url)) {
-      url = location.href.split('state')[0].substring(0, location.href.split('state')[0].length - 1);
-      window.location.href = url;
-      return;
-    };
     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
       let tokens = store.getters.isLogin;
       localStorage.setItem('sourceUrl', to.fullPath);
@@ -70,14 +63,7 @@ router.beforeEach((to, from, next) => {
     return null;
   }
 
-  //判断是否有state
-  function GetQueryString(name) {
-    if (name.indexOf("state") >= 0) {
-      return true
-    } else {
-      return false
-    }
-  }
+
 
   window.scrollTo(0, 0);
   /*路由发生改变修改页面的title */

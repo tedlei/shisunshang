@@ -175,7 +175,7 @@
                     title: '签到赢好礼哟',
                     desc: '国健生态平台!Come on.!签到赢好礼哟！',
                     link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
-                    imgUrl: 'http://gj.wjeys.com/dist/static/img/liwu.f4a143f.png',
+                    imgUrl: 'http://m.wjeys.com/dist/static/img/liwu.f4a143f.png',
                 };
                 let url = location.href
                 wechatAuth(url, shareConfig);

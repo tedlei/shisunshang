@@ -16,17 +16,17 @@
             <img v-show="item!='' && item!=undefined && item != null" class="swipeImgs" :src="item">
             <img v-show="item==''||item==undefined||item==null" class="swipeImgs" src="../../assets/img/mrtp.png">
           </van-swipe-item>
-           <template #indicator>
+          <template #indicator>
             <div class="indicator">
               <div class="custom-indicator" :class="customIndicator==index?'custom-indicator2':''"
-              v-for="(item,index) in goodsData.goods_info.album" :key="index"
-              @click="swipeCustomIndicator(index)"></div>
+                   v-for="(item,index) in goodsData.goods_info.album" :key="index"
+                   @click="swipeCustomIndicator(index)"></div>
             </div>
           </template>
         </van-swipe>
       </div>
       <!-- 1 -->
-      <div  class="m_b_10 conmo_box box_one">
+      <div class="m_b_10 conmo_box box_one">
         <div class="name textLinefeed commodityName">
           {{goodsData.goods_info.name}}
         </div>
@@ -37,50 +37,52 @@
           <span class="share" @click="showTwo = true">
             <i class="el-icon-share"></i>分享
           </span>
-          
+
         </div>
         <div class="price">
           {{goodsData.goods_info.price}}
         </div>
         <div class="ys">
           <div>已售
-              {{goodsData.goods_info.xiaoliang}}
+            {{goodsData.goods_info.xiaoliang}}
           </div>
           <div>库存
-              {{goodsData.goods_info.store_array[isactions]}}
+            {{goodsData.goods_info.store_array[isactions]}}
           </div>
           <div>保:
-            {{goodsData.goods_info.offer_money_array[isactions]}}
+            {{goodsData.goods_info.offer_price}}
             元
           </div>
           <div>邮:
-            {{goodsData.goods_info.postage_array[isactions]}}
+            {{goodsData.goods_info.postage}}
             元
           </div>
-          
+
         </div>
       </div>
       <!-- 2 -->
       <div class="m_b_10 conmo_box box_one">
-          <div class="vipPurchase">
+        <div class="vipPurchase">
             <span>签到金：
               {{goodsData.money_array[isactions].qd_money_rate/100*goodsData.goods_info.price | moneyFormat}}
               元
             </span>
-            <span v-show="goodsData.money_array[isactions].money_rate>0">充值金：
+          <span v-show="goodsData.money_array[isactions].money_rate>0">充值金：
               {{goodsData.money_array[isactions].money_rate/100*goodsData.goods_info.price | moneyFormat}}
               元
             </span>
-          </div>
-          <div v-show="goodsData.goods_info.xg_array[isactions].limitdan>0 || goodsData.goods_info.xg_array[isactions].limitcount>0" class="vipPurchase">
-            <span v-show="goodsData.goods_info.xg_array[isactions].limitdan>0">限购{{goodsData.goods_info.xg_array[isactions].limitdan}}单</span>
-            <span v-show="goodsData.goods_info.xg_array[isactions].limitcount>0">每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
-          </div>
+        </div>
+        <div
+          v-show="goodsData.goods_info.xg_array[isactions].limitdan>0 || goodsData.goods_info.xg_array[isactions].limitcount>0"
+          class="vipPurchase">
+          <span v-show="goodsData.goods_info.xg_array[isactions].limitdan>0">限购{{goodsData.goods_info.xg_array[isactions].limitdan}}单</span>
+          <span v-show="goodsData.goods_info.xg_array[isactions].limitcount>0">每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
+        </div>
       </div>
       <div class="m_b_10 conmo_box box_one">
         <div class="goodsNumber">
           <span>数量：</span>
-          <van-stepper v-model="nums" :max="goodsData.goods_info.xg_array[isactions].limitcount==0?'999':goodsData.goods_info.xg_array[isactions].limitcount"/>
+          <van-stepper v-model="nums"/>
         </div>
       </div>
       <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
@@ -149,62 +151,60 @@
       </div>
 
       <div class="Cover" v-show="isQRcodeDomainName">
-          <div v-show="!isPoster">
-              <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
-                  <div>
-                    <img :src="portrait" alt="">
-                    <div>
-                      <p>泰国香米美国产</p>
-                      <p>给你推荐了一个好东西</p>
-                    </div>
-                  </div>
-                  <img v-show="isGoods_infoImgsrc" style="width:100%;height:235px" :src="goodsData.goods_info.imgsrc" alt="海报图片">
-                  <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
-                  <div class="PosterDivMoney">￥560.00</div>
-                  <div class="PosterDivQRcode">
-                    <div>简单 仙魔香米号吃好好好好吃的2.5kg不抛光的向居民们的米</div>
-                    <div class="qrcode" id="qrCode" ref="qrCode"></div>
-                  </div>
+        <div v-show="!isPoster">
+          <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
+            <div>
+              <img :src="portrait" alt="">
+              <div>
+                <p>泰国香米美国产</p>
+                <p>给你推荐了一个好东西</p>
               </div>
-          </div>  
-          <div class="haibao" v-show="isPoster">
-              <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
-                <img src="../../assets/img/hbx.png" alt="">
-              </div>
-              <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#">
+            </div>
+            <img v-show="isGoods_infoImgsrc" style="width:100%;height:235px" :src="goodsData.goods_info.imgsrc"
+                 alt="海报图片">
+            <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
+            <div class="PosterDivMoney">￥560.00</div>
+            <div class="PosterDivQRcode">
+              <div>简单 仙魔香米号吃好好好好吃的2.5kg不抛光的向居民们的米</div>
+              <div class="qrcode" id="qrCode" ref="qrCode"></div>
+            </div>
           </div>
+        </div>
+        <div class="haibao" v-show="isPoster">
+          <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
+            <img src="../../assets/img/hbx.png" alt="">
+          </div>
+          <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#">
+        </div>
       </div>
       <div class="CoverTwo" v-show="isUrl" @click="isUrl = false">
         <img src="../../assets/img/zhi.png" alt="">
       </div>
-      
+
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
-        <div class="head">商品评价（）</div>
-        <!-- <ul class="goods_evaluate_list clearfix">
-          <li>全部(23)</li>
-          <li>好评(23)</li>
-          <li>有图(23)</li>
-          <li>中评(0)</li>
-          <li>差评(0)</li>
-        </ul> -->
-        <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
-          <div class="evaluate_head">
-            <div class="user">
-              <img :src="item.users!=undefined&&item.users!=null&&item.users!=''?item.users.portrait:''" style="width: 24px">
-              <span>
+        <div v-show="comment">
+          <div class="head">商品评价（）</div>
+          <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
+            <div class="evaluate_head">
+              <div class="user">
+                <img :src="item.users!=undefined&&item.users!=null&&item.users!=''?item.users.portrait:''"
+                     style="width: 24px">
+                <span>
                 {{item.users!=undefined&&item.users!=null&&item.users!=''?item.users.weixinname:''}}
               </span>
+              </div>
+              <div class="add_time">
+                {{item.add_time}}
+              </div>
             </div>
-            <div class="add_time">
-              {{item.add_time}}
-            </div>
+            <p class="text_p">
+              {{item.content}}
+            </p>
           </div>
-          <p class="text_p">
-            {{item.content}}
-          </p>
+          <div class="watch_all"><span>查看全部评价</span></div>
         </div>
-        <div class="watch_all"><span>查看全部评价</span></div>
+        <div v-show="!comment" align="center">暂无评价！</div>
       </div>
       <div class="conmo_box tuijian_slide">
         <title style="display: block;">
@@ -212,34 +212,34 @@
         </title>
         <!--  推荐列表  -->
         <van-skeleton :loading='loading' :row="2">
-         <el-row class="goodslist RecommendBac">
-          <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
-            <!--<router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
-            <div class="item Recommend" @click="lajibushuaxin(goods.id)">
-              <van-image
-                width="100%"
-                height="1.8rem"
-                fit="cover"
-                :src="goods.goodsimg"
-              />
-              <div>
-                <p class="fontWrap fontWrapTwo">
-                  {{goods.goodsname}}
-                  <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
-                </p>
-                <div class="Sold">已售：{{goods.Sold}}</div>
-                <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+          <el-row class="goodslist RecommendBac">
+            <el-col :span="12" v-for="(goods, goodsindex) in goodsitem" :key="goodsindex">
+              <!--<router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
+              <div class="item Recommend" @click="lajibushuaxin(goods.id)">
+                <van-image
+                  width="100%"
+                  height="1.8rem"
+                  fit="cover"
+                  :src="goods.goodsimg"
+                />
+                <div>
+                  <p class="fontWrap fontWrapTwo">
+                    {{goods.goodsname}}
+                    <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
+                  </p>
+                  <div class="Sold">已售：{{goods.Sold}}</div>
+                  <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                </div>
               </div>
-            </div>
-            <!--</router-link>-->
-          </el-col>
-         </el-row>
+              <!--</router-link>-->
+            </el-col>
+          </el-row>
         </van-skeleton>
       </div>
       <div id="commoditDetails"></div>
       <!-- 商品详情副文本框 -->
       <div class="conmo_box bot_img_box" v-html="goodsData.goods_info.content">
-        
+
       </div>
     </div>
 
@@ -247,18 +247,16 @@
     <div class="footer_js">
       <div class="left">
         <div>
-          <van-icon name="chat-o" size="20px"/>
+          <div class="el-icon-chat-line-round"></div>
           <div>客服</div>
         </div>
-        <div @click="collection">
-          <van-icon v-show="goodsData.goods_info.is_follow!=1" name="star-o" size="20px"/>
-          <van-icon v-show="goodsData.goods_info.is_follow==1" name="star" size="20px"/>
-          <div>收藏</div>
+        <div>
+          <div class="el-icon-chat-dot-round"></div>
+          <div @click="collection">收藏</div>
         </div>
         <div>
           <router-link to="/my_cart">
-            <van-icon v-show="cartNum==0" name="shopping-cart-o" size="20px"/>
-            <van-icon v-show="cartNum!=0" name="shopping-cart-o" :info="cartNum" size="20px"/>
+            <div class="el-icon-shopping-cart-2"></div>
             <div>购物车</div>
           </router-link>
         </div>
@@ -267,8 +265,11 @@
         <div class="join_cart" @click="goodsCart">
           加入购物车
         </div>
-        <div class="buy" @click="diatepurchase">
+        <div class="buy">
+          <router-link
+            :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial, buy_type: isactions}}">
             立即购买
+          </router-link>
         </div>
       </div>
     </div>
@@ -319,612 +320,587 @@
     import QRCode from 'qrcodejs2';
     import html2canvas from 'html2canvas';
     import '../../assets/js/filter'
-    
-    export default {
-    name: "goodsDATA",
-    components: {
-        'actives' : actives,
-        'shop' : shop,
-    },
-    data() {
-      return {
-        active: 0,
-        sImgs: [],//轮播图
-        customIndicator: 0,//轮播图指示器颜色
-        initial: [],//默认规格Id
-        initialName: '',//默认规格名称
-        ReceivingAddress: "",//收货地址
-        show: false,
-        showTwo: false,
-        isGoods_infoImgsrc: true,
-        isQRcodeDomainName: false,
-        isUrl: false,
-        isPoster: false,
-        w: 260,
-        h: 410,
-        imgResult: '',
-        users: {},//用户信息
-        portrait: '',//用户头像
 
-        // imglist: [], //轮播数组
-        actions: [
-          { name: '选项' },
-          { name: '选项' },
-        ],
-        evaluatelist: [],
-        isactions: 'customer',
-        actionsName: '顾客购买',
-        loading: true,
-        msg: '商品详情',
-        imgHeight: '',
-        boxHeight: '',
-        drawer: false,
-        direction: 'btt',
-        nums: 1,//添加购物车的商品数量
-        name: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-        goodsitem: [],
-        goodsData: {
-            "goods_info": {
-              offer_money_array: [],
-              postage_array: [],
-              album: [
-                require('../../assets/img/mrtp.png')
-              ],
-              store_array: {
-                customer: "",
-                vip: "",
-                retail: "",
-                shop: ""
-              },
-              xg_array: {
-                customer: {},
-                vip: {},
-                retail: {},
-                shop: {}
-              },
-		    	    "spec": [
-		    		    {
-		    		    	"goods_spec_id": "",
-		    		    	"goods_id": "",
-		    		    	"goods_no": "",
-		    		    	"goods_price": "",
-		    		    	"integral_price": "",
-		    		    	"give_integral": "",
-		    		    	"line_price": "",
-		    		    	"stock_num": "",
-		    		    	"goods_sales": "",
-		    		    	"goods_weight": "",
-		    		    	"wxapp_id": "",
-		    		    	"spec_sku_id": "",
-		    		    	"create_time": "",
-		    		    	"update_time": ""
-		    		    }
-		    	    ],
-		    	    "spec_rel": [
-		    	    	{
-		    	    		"spec_value_id": "",
-		    	    		"spec_value": "",
-		    	    		"spec_id": "",
-		    	    		"wxapp_id": "",
-		    	    		"create_time": "",
-		    	    		"spec": {
-		    	    			"spec_id": "",
-		    	    			"spec_name": "",
-		    	    			"wxapp_id": "",
-		    	    			"create_time": ""
-		    	    		},
-		    	    		"pivot": {
-		    	    			"id": "",
-		    	    			"goods_id": "",
-		    	    			"spec_id": "",
-		    	    			"spec_value_id": "",
-		    	    			"wxapp_id": "",
-		    	    			"create_time": ""
-		    	    		}
-		    	    	}
-		    	    ]
-		        },
-		        "buy_array": {
-		        	"customer": "",
-		        	"vip": ""
-		        },
-		        "money_array": {
-		        	"customer": {
-		    		    "module": "",
-		    		    "id": "",
-		    		    "goods_id": "",
-		    		    "qd_money_rate": "",
-		    		    "money_rate": ""
-		        	},
-		        	"vip": {
-		    		    "module": "",
-		    		    "id": "",
-		    		    "goods_id": "",
-		    		    "qd_money_rate": "",
-		    		    "money_rate": ""
-              },
-              retail: {
-                module: '',
-                id: "",
-                goods_id: "",
-                qd_money_rate: "",
-                money_rate: ""
-              },
-              shop: {
-                module: '',
-                id: "",
-                goods_id: "",
-                qd_money_rate: "",
-                money_rate: ""
-              }
-		        },
-		        "specData": {
-		      	  "spec_attr": [
-		      	  	{
-		      	  		"group_id": "",
-		      	  		"group_name": "",
-		      	  		"spec_items": [
-		      	  			{
-		      	  				"item_id": "",
-		      	  				"spec_value": ""
-		      	  			}
-		      	  		]
-		      	  	}
-		      	  ],
-		      	  "spec_list": [
-		      	  	{
-		      	  		"goods_spec_id": "",
-		      	  		"spec_sku_id": "",
-		      	  		"rows": "",
-		      	  		"form": {
-		      	  			"goods_no": "",
-		      	  			"goods_price": "",
-		      	  			"goods_weight": "",
-		      	  			"line_price": "",
-		      	  			"stock_num": "",
-		      	  			"give_integral": ""
-		      	  		}
-		      	  	}
-		      	  ]
-            },
-            "shopinfo": {
-              id: '',
-              name: '',
-              score_zh: '',
-              score_ms: '',
-              score_fw: '',
-              score_fh: ''
+    export default {
+        name: "goodsDATA",
+        components: {
+            'actives': actives,
+            'shop': shop,
+        },
+        data() {
+            return {
+                active: 0,
+                sImgs: [],//轮播图
+                customIndicator: 0,//轮播图指示器颜色
+                initial: [],//默认规格Id
+                initialName: '',//默认规格名称
+                ReceivingAddress: "",//收货地址
+                show: false,
+                showTwo: false,
+                isGoods_infoImgsrc: true,
+                isQRcodeDomainName: false,
+                isUrl: false,
+                isPoster: false,
+                w: 260,
+                h: 410,
+                imgResult: '',
+                portrait: '',
+                comment: false,
+                // imglist: [], //轮播数组
+                actions: [
+                    {name: '选项'},
+                    {name: '选项'},
+                ],
+                evaluatelist: [],
+                isactions: 'customer',
+                actionsName: '顾客购买',
+                loading: true,
+                msg: '商品详情',
+                imgHeight: '',
+                boxHeight: '',
+                drawer: false,
+                direction: 'btt',
+                nums: 1,//添加购物车的商品数量
+                name: '简箪 现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
+                goodsitem: [
+                    // {
+                    //   'goodsname': '云阖·永川秀芽【炒青】100g',
+                    //   'goodsrice': '￥98.00',
+                    //   'goodsimg': 'goods_img'
+                    // },
+                ],
+
+                goodsData: {
+                    "goods_info": {
+                        album: [
+                            require('../../assets/img/mrtp.png')
+                        ],
+                        store_array: {
+                            customer: "",
+                            vip: "",
+                            retail: "",
+                            shop: ""
+                        },
+                        xg_array: {
+                            customer: {},
+                            vip: {},
+                            retail: {},
+                            shop: {}
+                        },
+                        "id": "",
+                        "name": "",
+                        "proportion": "",
+                        "price": "",
+                        "imgsrc": "",
+                        "ip": "",
+                        "merchants_id": "",
+                        "type_id": "",
+                        "content": "",
+                        "click_times": "",
+                        "imgsrc1": "",
+                        "imgsrc2": "",
+                        "imgsrc3": "",
+                        "imgsrc4": "",
+                        "limitcount": "",
+                        "limitdan": "",
+                        "type": "",
+                        "money_level1": "",
+                        "money_level2": "",
+                        "money_level3": "",
+                        "money_level4": "",
+                        "money_level5": "",
+                        "money_level6": "",
+                        "money_level7": "",
+                        "money_level8": "",
+                        "money_level9": "",
+                        "money_level10": "",
+                        "chengben": "",
+                        "kuchun": "",
+                        "xiaoliang": "",
+                        "danliang": "",
+                        "admin_id": "",
+                        "pay_type": "",
+                        "postage": "",
+                        "chengben_postage": "",
+                        "trading_type": "",
+                        "trading_proportion": "",
+                        "product_code": "",
+                        "product_class": "",
+                        "is_tejia": "",
+                        "is_hot": "",
+                        "is_top": "",
+                        "is_new": "",
+                        "category_id": "",
+                        "is_map_customer": "",
+                        "is_map_vip": "",
+                        "is_map_retail": "",
+                        "is_map_shop": "",
+                        "spec": [
+                            {
+                                "goods_spec_id": "",
+                                "goods_id": "",
+                                "goods_no": "",
+                                "goods_price": "",
+                                "integral_price": "",
+                                "give_integral": "",
+                                "line_price": "",
+                                "stock_num": "",
+                                "goods_sales": "",
+                                "goods_weight": "",
+                                "wxapp_id": "",
+                                "spec_sku_id": "",
+                                "create_time": "",
+                                "update_time": ""
+                            }
+                        ],
+                        "spec_rel": [
+                            {
+                                "spec_value_id": "",
+                                "spec_value": "",
+                                "spec_id": "",
+                                "wxapp_id": "",
+                                "create_time": "",
+                                "spec": {
+                                    "spec_id": "",
+                                    "spec_name": "",
+                                    "wxapp_id": "",
+                                    "create_time": ""
+                                },
+                                "pivot": {
+                                    "id": "",
+                                    "goods_id": "",
+                                    "spec_id": "",
+                                    "spec_value_id": "",
+                                    "wxapp_id": "",
+                                    "create_time": ""
+                                }
+                            }
+                        ]
+                    },
+                    "buy_array": {
+                        "customer": "",
+                        "vip": ""
+                    },
+                    "money_array": {
+                        "customer": {
+                            "module": "",
+                            "id": "",
+                            "goods_id": "",
+                            "qd_money_rate": "",
+                            "money_rate": ""
+                        },
+                        "vip": {
+                            "module": "",
+                            "id": "",
+                            "goods_id": "",
+                            "qd_money_rate": "",
+                            "money_rate": ""
+                        },
+                        retail: {
+                            module: '',
+                            id: "",
+                            goods_id: "",
+                            qd_money_rate: "",
+                            money_rate: ""
+                        },
+                        shop: {
+                            module: '',
+                            id: "",
+                            goods_id: "",
+                            qd_money_rate: "",
+                            money_rate: ""
+                        }
+                    },
+                    "specData": {
+                        "spec_attr": [
+                            {
+                                "group_id": "",
+                                "group_name": "",
+                                "spec_items": [
+                                    {
+                                        "item_id": "",
+                                        "spec_value": ""
+                                    }
+                                ]
+                            }
+                        ],
+                        "spec_list": [
+                            {
+                                "goods_spec_id": "",
+                                "spec_sku_id": "",
+                                "rows": "",
+                                "form": {
+                                    "goods_no": "",
+                                    "goods_price": "",
+                                    "goods_weight": "",
+                                    "line_price": "",
+                                    "stock_num": "",
+                                    "give_integral": ""
+                                }
+                            }
+                        ]
+                    },
+                    "shopinfo": {
+                        id: '',
+                        name: '',
+                        score_zh: '',
+                        score_ms: '',
+                        score_fw: '',
+                        score_fh: ''
+                    }
+                },
+                is_follow: 0
             }
         },
-        is_follow: 0,
-        cartNum: 0,
-      }
-    },
 
-    methods: {
-      onChange (index) {
+        methods: {
+            onChange(index) {
 
-        this.customIndicator = index;
-      },
-      swipeCustomIndicator ( index ) {
-        // console.log(this.$refs.imgCheckbox)
-        this.$refs.imgCheckbox.swipeTo(index);
-      },
-      goAnchor (selector, n) {
-        this.active = n;
-        // var anchor = this.$el.querySelector(selector);
-        // document.documentElement.scrollTop = anchor.offsetTop;
-        document.getElementById(selector).scrollIntoView();
-        
-      },
-      onSelect(item,index) {
-        // 默认情况下点击选项时不会自动收起
-        // 可以通过 close-on-click-action 属性开启自动收起
-        // console.log(item);
-        // if(item.key=='vip'){
-        //   this.show = false; 
-        //   this.$dialog.confirm({
-        //     message: '您还不是会员，马上前往充值会员？'
-        //   }).then((res) => {
-        //     console.log(res)
+                this.customIndicator = index;
+            },
+            swipeCustomIndicator(index) {
+                // console.log(this.$refs.imgCheckbox)
+                this.$refs.imgCheckbox.swipeTo(index);
+            },
+            goAnchor(selector, n) {
+                this.active = n;
+                // var anchor = this.$el.querySelector(selector);
+                // document.documentElement.scrollTop = anchor.offsetTop;
+                document.getElementById(selector).scrollIntoView();
 
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   });
-        // }else{
-          this.actionsName = item.name;
-          this.isactions = item.key;
-          this.show = false;  
-        // }
-        
-      },
-      Replication(){
-        this.$toast('暂未开放');
-      },
-      showUrl(){
-        this.showTwo = false;
-        this.isUrl = true;
-      },
-      
-      //
+            },
+            onSelect(item, index) {
+                // 默认情况下点击选项时不会自动收起
+                // 可以通过 close-on-click-action 属性开启自动收起
+                // console.log(item);
+                this.actionsName = item.name;
+                this.isactions = item.key
+                this.show = false;
+            },
+            Replication() {
+                this.$toast('暂未开放');
+            },
+            showUrl() {
+                this.showTwo = false;
+                this.isUrl = true;
+            },
 
-      //分享海报
-      SharePoster(){
-        this.showTwo = false;
-        this.isQRcodeDomainName = true;
-        setTimeout(()=>{
-          if(!this.isPoster){
-            this.downloadImage();
-          }
-        },800);
-      },
+            //
 
-      //海报二维码
-      getQRcodeDomainName(){
-        let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-        let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
-        let routes = this.$route.path + '?id=' + this.$route.query.id;
-        let qrCode = new QRCode('qrCode', {
-            text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的链接
-            width: 70,
-            height: 70,
-            colorDark: '#000000',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-        // console.log(qrCode);
-      },
+            //分享海报
+            SharePoster() {
+                this.showTwo = false;
+                this.isQRcodeDomainName = true;
+                setTimeout(() => {
+                    if (!this.isPoster) {
+                        this.downloadImage();
+                    }
+                }, 800);
+            },
 
-      //生成海报
-      downloadImage() {
-	    	let opts = {
-	    		useCORS: true,
-	    		width: this.w,
-	    		height: this.h,
-	    		logging:false,
-          // scale:1,
-          dpi: window.devicePixelRatio,
-        };
-        // console.log(opts)
-		    window.scrollTo(0,0)
-	    	html2canvas(document.getElementById("Poster"),opts).then((canvas)=> {
-	    		let imgUri = canvas.toDataURL("image/jpeg",1); // 获取生成的图片的url
-	    		// console.log(imgUri)
-                this.imgResult=imgUri;
-                this.isPoster = true;
-                // clearTimeout();
-	    	});
-	    },
+            //海报二维码
+            getQRcodeDomainName() {
+                let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+                let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
+                let routes = this.$route.path + '?id=' + this.$route.query.id;
+                let qrCode = new QRCode('qrCode', {
+                    text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的链接
+                    width: 70,
+                    height: 70,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                // console.log(qrCode);
+            },
 
-      //获取推荐列表、
-      getRecommend () {
-        let ad_data = {
-          method: 'get.goods.like.list',
-          goods_id: this.$route.query.id
-        };
-        this.$post('/api/v1/goods', ad_data)
-        .then((res) => {
-          // console.log(res);
-          this.goodsitem = [];
-          for(let i in res.data){
-            this.goodsitem.push({
-              id: res.data[i].id,
-              goodsname: res.data[i].name,
-              goodsrice: res.data[i].price,
-              Sold: res.data[i].xiaoliang,
-              goodsimg: res.data[i].imgsrc,
-            })
-          }
-          this.loading = false;
+            //生成海报
+            downloadImage() {
+                let opts = {
+                    useCORS: true,
+                    width: this.w,
+                    height: this.h,
+                    logging: false,
+                    // scale:1,
+                    dpi: window.devicePixelRatio,
+                };
+                // console.log(opts)
+                window.scrollTo(0, 0)
+                html2canvas(document.getElementById("Poster"), opts).then((canvas) => {
+                    let imgUri = canvas.toDataURL("image/jpeg", 1); // 获取生成的图片的url
+                    // console.log(imgUri)
+                    this.imgResult = imgUri;
+                    this.isPoster = true;
+                    // clearTimeout();
+                });
+            },
 
-        }).catch(function (error) {
-          console.log(error);
-        });
-      },
-      lajibushuaxin(id) {
-          this.$router.push({path:'/goodsdetails',query:{id: id}});
-          console.log(1)
-          // this.$route.query.id = id;
-          // this.getDATA(id);
-      },
+            //获取推荐列表、
+            getRecommend() {
+                let ad_data = {method: 'get.goods.recommend.list'};
+                this.$post('/api/v1/goods', ad_data)
+                    .then((res) => {
+                        // console.log(res);
+                        this.goodsitem = [];
+                        for (let i in res.data) {
+                            this.goodsitem.push({
+                                id: res.data[i].id,
+                                goodsname: res.data[i].name,
+                                goodsrice: res.data[i].price,
+                                Sold: res.data[i].xiaoliang,
+                                goodsimg: res.data[i].imgsrc,
+                            })
+                        }
+                        this.loading = false;
 
-      //商品信息
-      getDATA ( id ) {
-          let _id = this.$route.query.id;
-          if(id){
-            _id = id;
-          }
-          // console.log(_id)
-          let ad_data = {
-            method: 'get.goods.item',
-            goods_id: _id
-          };
-          this.$post('/api/v1/goods', ad_data)
-          .then((res) => {
-            console.log(res)
-            if(res.status == 200){
-              // console.log(this.$route.meta);
-              document.title = res.data.goods_info.name;
-              this.goodsData = res.data;
-              this.is_follow = res.data.shopinfo.is_follow;
-              // console.log(this.is_follow)
-              // console.log(this.goodsData);
-              this.$store.commit('getGoodsData',res.data);
-              this.$store.commit('getshopsData',res.data.shopinfo);
-              // let list = res.data.specData.spec_attr;
-              this.goodsData.goods_info.album.unshift(
-                res.data.goods_info.imgsrc
-              )
-              //规格循环
-              // for (var i in list) {
-              //   this.initial.push( list[i].spec_items[0].item_id );
-              //   this.initialName += list[i].spec_items[0].spec_value+'*' ;
-              // }
-              // console.log(this.initial);
-              //评价循环
-              for(var n in res.data.goods_info.comment){
-                if(n<11){
-                  this.evaluatelist.push(res.data.goods_info.comment[n]);
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            lajibushuaxin(id) {
+                this.$router.push({path: '/goodsdetails', query: {id: id}});
+                console.log(1)
+                // this.$route.query.id = id;
+                // this.getDATA(id);
+            },
+
+            //商品信息
+            getDATA(id) {
+                let _id = this.$route.query.id;
+                if (id) {
+                    _id = id;
                 }
-              }
-              let actions = [];
-              for(let n in res.data.buy_array){
-                // console.log(res.data.buy_array[n]);
-                actions.push({
-                  name:res.data.buy_array[n],
-                  key: n
-                })
-              }
-              this.actions = actions;
-              this.getRecommend();
-            }else{
+                // console.log(_id)
+                let ad_data = {
+                    method: 'get.goods.item',
+                    goods_id: _id
+                };
+                this.$post('/api/v1/goods', ad_data)
+                    .then((res) => {
+                        console.log(res)
+                        if (res.status == 200) {
+                            // console.log(this.$route.meta);
+                            document.title = res.data.goods_info.name;
+                            this.goodsData = res.data;
+                            this.is_follow = res.data.shopinfo.is_follow;
+                            // console.log(this.is_follow)
+                            // console.log(this.goodsData);
+                            this.$store.commit('getGoodsData', res.data);
+                            this.$store.commit('getshopsData', res.data.shopinfo);
+                            // let list = res.data.specData.spec_attr;
+                            this.goodsData.goods_info.album.unshift(
+                                res.data.goods_info.imgsrc
+                            )
+                            //规格循环
+                            // for (var i in list) {
+                            //   this.initial.push( list[i].spec_items[0].item_id );
+                            //   this.initialName += list[i].spec_items[0].spec_value+'*' ;
+                            // }
+                            // console.log(this.initial);
+                            //评价循环
+                            for (var n in res.data.goods_info.comment) {
+                                if (n < 11) {
+                                    this.evaluatelist.push(res.data.goods_info.comment[n]);
+                                }
+                            }
+                            let actions = [];
+                            for (let n in res.data.buy_array) {
+                                // console.log(res.data.buy_array[n]);
+                                actions.push({
+                                    name: res.data.buy_array[n],
+                                    key: n
+                                })
+                            }
+                            this.actions = actions;
+                            this.getRecommend();
+                        } else {
 
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            //添加足迹
+            Addfootprints() {
+                let ad_data = {
+                    method: 'add.user.footprint.item',
+                    goods_id: this.$route.query.id
+                };
+                this.$post('/api/v1/UserFootprint', ad_data)
+                    .then((res) => {
+                        // console.log(res)
+
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            //收藏商品
+            collection() {
+                this.$store.commit("setLoading");
+                let _id = this.$route.query.id;
+                let ad_data = {
+                    method: 'add.collect.goods.item',
+                    goods_id: _id
+                };
+                this.$post('/api/v1/userCollectGoods', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            this.$store.commit("setLoading");
+                            this.$toast.success("收藏成功");
+                        } else {
+                            this.$store.commit("setLoading");
+                            this.$toast.fail("收藏失败");
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            //添加购物车
+            goodsCart() {
+                this.$store.commit("setLoading");
+                let getCart = '';
+                // for (var i in this.initial) {
+                //   // getCart += this.initial[i];
+                // }
+                getCart = this.initial.join('_');
+                // console.log(getCart);
+                let ad_data = {
+                    method: 'add.goods.cart.item',
+                    goods_id: this.goodsData.goods_info.id,
+                    goods_num: this.nums,
+                    // goods_sku_id: getCart,
+                    buy_type: this.isactions
+                };
+                // console.log(ad_data);
+                this.$post('/api/v1/goodsCart', ad_data)
+                    .then((res) => {
+                        // console.log(res.status)
+                        if (res.status == 200) {
+                            this.$toast.success("添加成功");
+                            this.$store.commit("setLoading");
+                        } else {
+                            this.$store.commit("setLoading");
+                            this.$toast.fail("添加失败");
+                        }
+                    }).catch((error) => {
+                    console.log(error);
+                });
+            },
+
+            back() {
+                if (window.history.length <= 1) {
+                    this.$router.push({path: '/'})
+                    return false
+                } else {
+                    this.$router.go(-1)
+                }
+            },
+            // 关闭窗口
+            handleClose(done) {
+                let list = this.goodsData.specData.spec_attr;
+                let initialName = '';
+                for (let i in list) {
+                    // console.log(list[i].spec_items);
+                    for (let n in list[i].spec_items) {
+                        if (this.initial[i] == list[i].spec_items[n].item_id) {
+                            // console.log(list[i].spec_items[n].spec_value);
+                            initialName += list[i].spec_items[n].spec_value + '*';
+                        }
+                    }
+                }
+                this.initialName = initialName;
+                // console.log(this.initial)
+                // console.log(this.initialName)
+                done();
             }
-          }).catch(function (error) {
-              console.log(error);
-          });
-      },
 
-      //添加足迹
-      Addfootprints () {
-        let ad_data = {
-          method: 'add.user.footprint.item',
-          goods_id: this.$route.query.id
-        };
-        this.$post('/api/v1/UserFootprint', ad_data)
-        .then((res) => {
-          // console.log(res)
+        },
 
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
+        created() {
+            // console.log(this.$route.query.id)
+            this.getDATA();
+            this.Addfootprints();
+            let user = JSON.parse(this.$store.getters.getuserinfo);
+            // console.log(user)
+            this.portrait = user.portrait;
+        },
+        mounted() {
+            this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
+            this.$nextTick(() => {
+                this.getQRcodeDomainName();
+            });
+        },
+        updated() {
+            // console.log(this.isactions)
+        },
 
-      //收藏和删除收藏商品
-      collection () {
-        this.$store.commit("setLoading");
-        if(this.goodsData.goods_info.is_follow==0){
-          let _id = this.$route.query.id;
-          let ad_data = {
-            method: 'add.collect.goods.item',
-            goods_id: _id
-          };
-          this.$post('/api/v1/userCollectGoods', ad_data)
-          .then((res) => {
-            // console.log(res);
-            if (res.status == 200) {
-              this.$store.commit("setLoading");
-              this.$toast.success("收藏成功");
-              this.goodsData.goods_info.is_follow=1;
-            }else{
-              this.$store.commit("setLoading");
-              this.$toast.fail("收藏失败");
-            }
-          }).catch(function (error) {
-              console.log(error);
-          });
-        }else{
-          let _id = [this.$route.query.id];
-          let ad_data = {
-            method: 'del.collect.goods.list1',
-            id: _id
-          };
-          this.$post('/api/v1/userCollectGoods', ad_data)
-          .then((res) => {
-            console.log(res);
-            if (res.status == 200) {
-              this.goodsData.goods_info.is_follow=0;
-              this.$store.commit("setLoading");
-              this.$toast.success("已取消");
-            }
-          }).catch(function (error) {
-              console.log(error);
-          });
+        watch: {
+            '$route'(to, from) {
+                // console.log(to.query.id)
+                this.getDATA(to.query.id);
+                // console.log(this.$route.query.id)
+                this.Addfootprints();
+            },
+
         }
-        
-      },
-
-      //添加购物车
-      goodsCart () {
-        let getCart = '';
-        getCart = this.initial.join('_');
-        // console.log(getCart);
-        let ad_data = {};
-        if(this.isactions=='vip'&&this.users.level==1){
-          this.$dialog.confirm({
-            message: '您还不是会员，是否前往充值会员？'
-          }).then((res) => {
-            console.log(res)
-            this.$router.push({path:'/upgrade'});
-          }).catch((err) => {
-            console.log(err)
-          });
-          return;
-        }else{
-          ad_data = {
-            method: 'add.goods.cart.item',
-            goods_id: this.goodsData.goods_info.id,
-            goods_num: this.nums,
-            // goods_sku_id: getCart,
-            buy_type: this.isactions
-          };
-        }
-        // console.log(ad_data);
-        this.$post('/api/v1/goodsCart', ad_data)
-        .then((res) => {
-          // console.log(res.status)
-          if (res.status == 200) {
-            this.cartNum = this.cartNum+1;
-            this.$toast.success("添加成功");
-          }else{
-            this.$toast.fail("添加失败");
-          }
-        }).catch( (error) => {
-            console.log(error);
-        });
-      },
-      
-      //立即购买
-      diatepurchase () {
-        if(this.isactions=='vip'&&this.users.level==1){
-          this.$dialog.confirm({
-            message: '您还不是会员，是否前往充值会员？'
-          }).then((res) => {
-            console.log(res)
-            this.$router.push({path:'/upgrade'});
-          }).catch((err) => {
-            console.log(err)
-          });
-          return;
-        }
-        this.$router.push({
-          path:'/goodsdetails/makeorder',
-          query:{
-            id: this.goodsData.goods_info.id,
-            num: this.nums,
-            goods_sku_id: this.initial,
-            buy_type: this.isactions
-          }
-        });
-      },
-
-      //购物车数量
-      getCartNum () {
-        let ad_data = {
-          method: 'get.goods.cart.count',
-        };
-        this.$post('/api/v1/GoodsCart', ad_data)
-        .then((res) => {
-          // console.log(res);
-          this.cartNum = res.data;
-        }).catch(function (error) {
-            console.log(error);
-        });
-      },
-
-      back () {
-        if (window.history.length <= 1) {
-          this.$router.push({path: '/'})
-          return false
-        } else {
-          this.$router.go(-1)
-        }
-      },
-      // 关闭窗口
-      handleClose(done) {
-        let list = this.goodsData.specData.spec_attr;
-        let initialName = '';
-        for (let i in list) {
-            // console.log(list[i].spec_items);
-            for (let n in list[i].spec_items){
-              if(this.initial[i] == list[i].spec_items[n].item_id){
-                // console.log(list[i].spec_items[n].spec_value);
-                initialName += list[i].spec_items[n].spec_value+'*';
-              }
-            }
-        }
-        this.initialName = initialName;
-        // console.log(this.initial)
-        // console.log(this.initialName)
-        done();
-      }
-
-    },
-
-    created () {
-      // console.log(this.$route.query.id)
-      this.getDATA();
-      this.Addfootprints();
-      this.getCartNum();
-      let user = JSON.parse(this.$store.getters.getuserinfo);
-      this.users = user;
-      this.portrait = user.portrait;
-    },
-    mounted() {
-      this.imgHeight = document.documentElement.clientWidth || document.body.clientWidth / this.$refs.imgSize[0].width * this.$refs.imgSize[0].height;
-      this.$nextTick( ()=>{
-        this.getQRcodeDomainName();
-      });
-    },
-    updated () {
-      // console.log(this.isactions)
-    },
-   
-    watch:{
-      '$route' (to, from) {
-        // console.log(to.query.id)
-        this.getDATA(to.query.id);
-        // console.log(this.$route.query.id)
-        this.Addfootprints();
-      },
 
     }
-
-  }
 </script>
 
 <style scoped lang="scss">
-  .swipeImgs{
+  .swipeImgs {
     width: 100%;
     height: 3.5rem;
   }
-  .indicator{
+
+  .indicator {
     position: absolute;
     width: 100%;
     bottom: 5px;
     display: flex;
     justify-content: center;
   }
+
   .custom-indicator {
     padding: 2px 5px;
     margin: 0 0.03rem;
     background: rgba(0, 0, 0, 0.3);
   }
+
   .custom-indicator2 {
     background: $sss-color !important;
   }
+
   .main {
     padding-top: 0.54rem;
     padding-bottom: 0.45rem;
-    .Anchor{
+
+    .Anchor {
       width: 100%;
       position: fixed;
-      left:0.4rem;
+      left: 0.4rem;
       top: 0;
       z-index: 50;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 0.1rem 0;
-      a{
+
+      a {
         width: 0.62rem;
         height: 0.35rem;
         // background: chartreuse;
       }
-      .Last{
+
+      .Last {
         width: 0.8rem;
         height: 0.35rem;
       }
+
       .active {
         border-bottom: 3px solid #009900;
       }
@@ -968,7 +944,7 @@
         display: flex;
         justify-content: space-between;
         font-size: 0.13rem;
-        
+
       }
     }
 
@@ -1046,18 +1022,19 @@
         }
 
       }
-      .watch_all {
-          text-align: center;
 
-          span {
-            display: inline-block;
-            line-height: 30px;
-            padding: 0 20px;
-            background-color: #009900;
-            border-radius: 30px;
-            color: #fff;
-          }
+      .watch_all {
+        text-align: center;
+
+        span {
+          display: inline-block;
+          line-height: 30px;
+          padding: 0 20px;
+          background-color: #009900;
+          border-radius: 30px;
+          color: #fff;
         }
+      }
     }
   }
 
@@ -1257,43 +1234,52 @@
       }
     }
   }
-  .textLinefeed{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-box-orient:vertical;
+
+  .textLinefeed {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
   }
-  .commodityName{
-    -webkit-line-clamp:2;
+
+  .commodityName {
+    -webkit-line-clamp: 2;
   }
-  .SpecificationsName{
+
+  .SpecificationsName {
     width: 70%;
-    -webkit-line-clamp:1;
+    -webkit-line-clamp: 1;
   }
+
   .goodslist {
     background: none;
     padding: 0;
   }
-  .Recommend{
-    margin:0 0.05rem 0.1rem 0.05rem;
+
+  .Recommend {
+    margin: 0 0.05rem 0.1rem 0.05rem;
     padding: 0.05rem;
     background-color: #fff;
     border-radius: 5px;
     border: 1px solid #e1e1e1;
-    >div:nth-child(2){
-      p{
+
+    > div:nth-child(2) {
+      p {
         text-align: left;
         height: 0.4rem;
       }
-      >div:nth-child(3){
+
+      > div:nth-child(3) {
         text-align: left;
       }
     }
   }
+
   .Sold {
     text-align: right;
     color: #999;
   }
+
   .goodsprice {
     display: flex;
     justify-content: space-between;
@@ -1304,62 +1290,71 @@
     width: 70px;
     height: 70px;
   }
-  .Cover{
-        position: fixed;
-        top: 0;
-        z-index: 10;
-        min-width: 100vw;
-        min-height: 100vh;
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .PosterDiv{
-            padding: 0.1rem;
-            border-radius: 10px;
-            background-color: #fff;
-            
-            >div:first-child{
-              display: flex;
-              align-items: center;
-              margin-bottom: 10px;
-              >img{
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                margin-right: 5px;
-              }
-              >div{
-                text-align: left;
-                >p:nth-child(2){
-                  color: #999999;
-                  font-size: 12px;
-                }
-              }
-            }
-            .PosterDivMoney{
-              margin: 10px 10px 5px 10px;
-              text-align: left;
-              color: $sss-color;
-              font-weight: bold;
 
-            }
-            .PosterDivQRcode{
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              text-align: left;
-              padding: 0 5px;
-              >div:first-child{
-                  width: 150px;
-                  height: 60px;
-                  overflow:hidden;
-              }
-              
-            }
+  .Cover {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .PosterDiv {
+      padding: 0.1rem;
+      border-radius: 10px;
+      background-color: #fff;
+
+      > div:first-child {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        > img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 5px;
         }
+
+        > div {
+          text-align: left;
+
+          > p:nth-child(2) {
+            color: #999999;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .PosterDivMoney {
+        margin: 10px 10px 5px 10px;
+        text-align: left;
+        color: $sss-color;
+        font-weight: bold;
+
+      }
+
+      .PosterDivQRcode {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding: 0 5px;
+
+        > div:first-child {
+          width: 150px;
+          height: 60px;
+          overflow: hidden;
+        }
+
+      }
+    }
   }
-  .CoverTwo{
+
+  .CoverTwo {
     position: fixed;
     top: 0;
     z-index: 11;
@@ -1368,54 +1363,64 @@
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: flex-end;
-    >img{
+
+    > img {
       width: 150px;
       height: 260px;
       margin-right: 0.1rem;
     }
   }
-  .haibao{
+
+  .haibao {
     width: 260px;
     height: 410px;
     position: relative;
     border-radius: 10px;
-      .CloseQRcodeDomainName{
-          width: 25px;
-          height: 25px;
-          position: absolute;
-          top: -10px;
-          right: -10px;
-      }
-      >img{
-          border-radius: 10px;
-      }
+
+    .CloseQRcodeDomainName {
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+
+    > img {
+      border-radius: 10px;
+    }
   }
-  .shareUp{
+
+  .shareUp {
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 0.2rem 0.1rem;
-    img{
+
+    img {
       width: 0.58rem;
       height: 0.58rem;
       margin: 0.1rem 0;
     }
-    >div:nth-child(2){
-      >img{
+
+    > div:nth-child(2) {
+      > img {
         width: 0.62rem !important;
         height: 0.62rem !important;
       }
     }
   }
-  .shareUpHr{
+
+  .shareUpHr {
     height: 0.1rem;
     background: #f2f2f2;
   }
-  .shareUpcancel{
+
+  .shareUpcancel {
     line-height: 0.5rem;
     font-size: 0.16rem;
   }
-  .vipPurchase{
+
+  .vipPurchase {
     display: flex;
     justify-content: center;
     border: 1px solid $sss-color;
@@ -1423,11 +1428,13 @@
     margin: 0.05rem 0.2rem;
     color: $sss-color;
     line-height: 0.3rem;
-    >span:first-child{
+
+    > span:first-child {
       margin-right: 0.1rem;
     }
   }
-  .goodsNumber{
+
+  .goodsNumber {
     display: flex;
     justify-content: space-between;
   }

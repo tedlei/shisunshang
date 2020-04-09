@@ -73,7 +73,7 @@
         <span>{{item.module}}</span>
         <span class="text_rich">新款商品下单</span>
       </div>
-      <img :src="item.ad.img" style="height: 28vw">
+      <img :src="item.ad.img">
       <el-row class="goodslist">
         <router-link v-for="(goods, index) in item.goods" :key="index"
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">
@@ -109,6 +109,7 @@
     import Bus from "../../assets/js/bus";
     import Swiper from 'swiper';
     import Signin from "../Signin/Signin";
+
     export default {
         name: "home",
         //2.然后,在components中写入子组件

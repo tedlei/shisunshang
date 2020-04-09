@@ -7,9 +7,11 @@
       :error.sync="error"
       :immediate-check="false"
       error-text="请求失败，点击重新加载"
+      :offset="100"
       @load="onLoad"
+      v-if="havedata"
     >
-      <van-row gutter="3" style="margin: 0" class="goods_list" v-if="havedata">
+      <van-row gutter="3" style="margin: 0" class="goods_list">
         <van-col span="12" v-for="(item,index) in goods_list" :key="index" class="listitem">
           <div class="listdiv" @click="gotodetail(item.id)">
             <van-image
@@ -32,9 +34,9 @@
       </van-row>
 
     </van-list>
-    <empty v-if="!havedata"></empty>
-
+    <empty v-else></empty>
   </div>
+
 </template>
 
 <script>
@@ -50,7 +52,7 @@
                 loading: false,
                 finished: false,
                 error: false,
-                havedata: false,
+                havedata: true,
                 issearch: false,
                 text: '',
                 pages: 0,
@@ -72,7 +74,7 @@
         },
         methods: {
             async getlist() {
-                console.log(this.gainsearchVal)
+
                 let _this = this,
                     parms = {
                         method: 'get.goods.category.list',

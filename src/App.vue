@@ -39,9 +39,15 @@
         watch: {
             // 监听 $route 变化调用分享链接
             '$route'(to, from) {
+                // console.log(1111111111111)
                 let ua = window.navigator.userAgent.toLocaleLowerCase();
                 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
+                        let urls = location.href;
+                        if (this.GetQueryString(urls)) {
+                            let url = urls.split('state')[0].substring(0, urls.split('state')[0].length - 1);
+                            history.pushState(null, null, url);
+                        };
                         let userinfo = JSON.parse(this.$store.getters.getuserinfo)
                         if (userinfo) {
                             let shareConfig = {
@@ -66,9 +72,15 @@
             },
             //    分享进来进行签名
             shareConfig: function () {
+                // console.log(2222222222222)
                 let ua = window.navigator.userAgent.toLocaleLowerCase();
                 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                     if (this.$route.name != 'author') {//判断当前是否是新建的auth路由空白页面
+                        let urls = location.href;
+                        if (this.GetQueryString(urls)) {
+                            let url = urls.split('state')[0].substring(0, urls.split('state')[0].length - 1);
+                            history.pushState(null, null, url);
+                        };
                         let userinfo = JSON.parse(this.$store.getters.getuserinfo)
                         if (userinfo) {
                             let shareConfig = {
@@ -83,11 +95,28 @@
                     }
                 }
             },
+            //判断是否有state
+            GetQueryString: function (name) {
+                if (name.indexOf("state") >= 0) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            setgoindex: function () {
+                if (window.history.length <= 2) {
+                    if (location.href.indexOf('?') === -1) {
+                        window.location.href = location.href + '?goindex=true'
+                    } else if (location.href.indexOf('?') !== -1 && location.href.indexOf('goindex') === -1) {
+                        window.location.href = location.href + '&goindex=true'
+                    }
+                }
+            }
         },
-
         mounted() {
             this.path = this.$route.path;
-            this.shareConfig()
+            this.shareConfig();
+            this.setgoindex();
         },
     }
 </script>

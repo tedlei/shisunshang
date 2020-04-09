@@ -45,7 +45,7 @@
                 noback: true,
                 tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',],
                 record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
-                title:'',   //自定义title
+                title: '',   //自定义title
             }
         },
         computed: {
@@ -61,7 +61,7 @@
             Atc() {
                 return this.$store.state.Atcb;
             },
-            ivc(){
+            ivc() {
                 return this.$store.state.ivcb;
             }
         },
@@ -72,18 +72,13 @@
             }
         },
         methods: {
-            routerback(){
-
-                  this.$router.back(-1);
-                
+            routerback() {
+                if (this.$route.query.goindex === 'true') {
+                    this.$router.push('/')
+                } else {
+                    this.$router.back(-1)
+                }
             },
-            getQueryString(name) { 
-				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-				var l = decodeURI(window.location.search);
-				var r = l.substr(1).match(reg);
-				if (r != null) return unescape(r[2]);
-				return null;
-			},
             baocun: function (id) {
                 var _this = this
                 _this.$store.commit('addressid', id);
@@ -107,7 +102,7 @@
                     path: '/Bank-card/add-bank-card'
                 });
             },
-            activeChild:function () {
+            activeChild: function () {
                 Bus.$emit('Atc', true)
             }
         },
@@ -120,8 +115,7 @@
                 }
             })
             Bus.$on('title', (value) => {
-                console.log(value,213456879)
-                _this.title = value?value:'';
+                _this.title = value ? value : '';
             })
         },
         destroyed() {
