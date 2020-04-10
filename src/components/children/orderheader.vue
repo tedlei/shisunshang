@@ -27,6 +27,8 @@
         <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
         <span v-else-if="this.Atc" @click='activeChild'>保存</span>
         <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span>
+        <van-button  v-else-if="this.$route.meta.title==='财务记录'&&this.$route.query.recordid===1"
+         type="primary" size="small" class="news_btn" @click="topUp">充值</van-button>
     </span>
   </header>
 </template>
@@ -106,6 +108,9 @@
             },
             activeChild: function () {
                 Bus.$emit('Atc', true)
+            },
+            topUp(){
+                this.$router.push({path:'/mine/Rechargemoney'})
             }
         },
         mounted() {
