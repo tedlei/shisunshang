@@ -3,7 +3,7 @@
     <div class="headBg">
       <header class="">
         <div style="text-align: right">
-          <router-link to="/mine/set"><i class="el-icon-setting"></i></router-link>
+          <router-link to="/mine/set"><van-icon name="setting-o" /></router-link>
         </div>
         <div class="user">
           <div style="display: flex">
@@ -29,7 +29,7 @@
                   <img src="../../assets/img/vipM.png" style="width:auto;height: 0.12rem;"
                        v-if="userinfo.level == 2 && userinfo.level_type == 2">
                   <div class="vip_expire">
-<!--                    <p v-if="userinfo.level_type == 0">{{expireTime | expireTime(userinfo.level_end_time,'year')}}</p>-->
+                    <!--   <p v-if="userinfo.level_type == 0">{{expireTime | expireTime(userinfo.level_end_time,'year')}}</p>-->
                     <p
                       v-if="userinfo.level_type == 1">{{expireTime | expireTime(userinfo.level_end_time,'month')}}</p>
                     <p
@@ -99,13 +99,13 @@
       <div class="conmon_deader">
         <span class="left_text">我的订单</span>
         <span class="right_link">
-          <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<i
-            class="el-icon-arrow-right"></i></router-link>
+          <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<van-icon name="arrow" /></router-link>
         </span>
       </div>
 
       <ul class="order_lists clearfix">
-        <li v-for="(item,index) in orderlists" :key="index">
+        <li style="position: relative;" v-for="(item,index) in orderlists" :key="index">
+          <div v-show="item.num>0" class="order_lists_info">{{100>item.num?item.num:99}}</div>
           <router-link :to="{path: item.router, query:{orderid:item.orderid}}">
             <div style="margin-bottom: 0.1rem">
               <img :src="require(`../../assets/img/${item.img}.png`)" style="height: 0.24rem;width: auto">
@@ -120,12 +120,12 @@
       <div class="conmon_deader">
         <span class="left_text">我的工具</span>
         <span class="right_link">
-          <router-link to="/mine/More-tools">更多工具<i class="el-icon-arrow-right"></i></router-link>
+          <router-link to="/mine/More-tools">更多工具<van-icon name="arrow" /></router-link>
         </span>
       </div>
 
       <ul class="gj_lists clearfix">
-        <li v-for="(item,index) in gjlists" :key="item.index">
+        <li v-for="(item) in gjlists" :key="item.index">
           <router-link :to="{path:item.linkto}">
             <div style="margin-bottom: 0.1rem">
               <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 0.34rem">
@@ -243,32 +243,37 @@
                         img: 'dfk',
                         name: '待付款',
                         router: '/goodsdetails/order',
-                        orderid: 1
+                        orderid: 1,
+                        num:''
                     },
                     {
                         img: 'dfh',
                         name: '待发货',
                         router: '/goodsdetails/order',
-                        orderid: 2
+                        orderid: 2,
+                        num:''
                     },
                     {
                         img: 'dsh',
                         name: '待收货',
                         router: '/goodsdetails/order',
-                        orderid: 3
+                        orderid: 3,
+                        num:''
                     },
                     {
                         img: 'dpj',
                         name: '待评价',
                         router: '/goodsdetails/order',
-                        orderid: 'evaluate'
+                        orderid: 'evaluate',
+                        num:''
 
                     },
                     {
                         img: 'sh',
                         name: '售后',
                         router: '/goodsdetails/customerService',
-                        orderid: 5
+                        orderid: 5,
+                        num:''
                     }
                 ],
                 gjlists: [
@@ -388,12 +393,16 @@
                         _this.total_money = response.data.total_money
                         _this.use_money = response.data.use_money
                         _this.cashed_money = response.data.cashed_money
-
                         for (let i in _this.zclists) {
                             _this.zclists[i].totalnum = Number(response.data['money' + (Number(i) + 1)])
                         }
+                        for (let n in response.data.order_array) {
+                          this.orderlists[n].num = response.data.order_array[n];
+                        }
+                        console.log(1)
+                        // console.log(this.orderlists)
                     }).catch(function (error) {
-                    console.log(error);
+                      console.log(error);
                 });
             },
             //充值活动
@@ -555,5 +564,18 @@
   }
 
   /*  */
-
+  .order_lists_info{
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 12px;
+  }
 </style>
