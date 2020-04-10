@@ -13,10 +13,14 @@
         </div>
         <div class="bottom">
           <div class="mycheck">
-            <el-radio class="all" @change="handleCheckAllChange(index,item.id)"
-                      v-model="radio = item.default == 0 ? index+1 : index" :label="index"
-                      style="margin-right: 10px">默认地址
-            </el-radio>
+            <van-radio-group v-model="radio = item.default == 1 ? index : index+1" >
+              <van-radio class="all" :name="index" checked-color="#009900" icon-size="16px" @click="handleCheckAllChange(index,item.id)">默认地址
+              </van-radio>
+            </van-radio-group>
+            <!--            <el-radio class="all" @change="handleCheckAllChange(index,item.id)"-->
+            <!--                      v-model="radio = item.default == 0 ? index+1 : index" :label="index"-->
+            <!--                      style="margin-right: 10px">默认地址-->
+            <!--            </el-radio>-->
           </div>
           <div>
             <span class="edit">
@@ -41,17 +45,7 @@
       </router-link>
 
     </div>
-    <!--  对话框  -->
-    <el-dialog
-      title="确定删除该地址？"
-      :visible.sync="dialogVisible"
-      width="80%">
-      <span>删除该地址后，将不会恢复</span>
-      <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="delet()">确 定</el-button>
-  </span>
-    </el-dialog>
+
     <!--  空  -->
     <empty :isemptytype="isemptytype" v-if="addresslist == null"></empty>
   </div>
@@ -66,7 +60,6 @@
         data() {
             return {
                 check: false,
-                dialogVisible: false,
                 isemptytype: 'address',
                 deletid: '',
                 addresslist: '',
@@ -112,16 +105,21 @@
             },
             //批量删除
             DialogVisible: function (itemid) {
-                this.dialogVisible = true;
                 this.deletid = itemid;
+                this.$dialog.confirm({
+                    title: '确定删除该地址？',
+                    message: '删除该地址后，将不会恢复!'
+                }).then(() => {
+                    this.delet()
+                }).catch(() => {
+                });
             },
             delet: function () {
                 const address = {method: 'del.address.list'};
                 address.id = this.deletid
                 this.$post('/api/v1/address', address)
                     .then((response) => {
-                        this.dialogVisible = false
-                        this.$message({
+                        this.$toast({
                             message: '删除成功!',
                             type: 'success',
                         });
@@ -130,18 +128,17 @@
                                 this.addresslist.splice(i, 1)
                             }
                         }
-                        console.log(this.addresslist)
                         this.addresslist = this.addresslist.length == 0 ? null : this.addresslist
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
             //订单入口选择收货地址
-            rouMake( data ) {
-              if(this.$route.query.id == 'makeorder'){
-                this.$store.commit('setreceivingAddress',data);
-                this.$router.back(-1);
-              }
+            rouMake(data) {
+                if (this.$route.query.id == 'makeorder') {
+                    this.$store.commit('setreceivingAddress', data);
+                    this.$router.back(-1);
+                }
             }
         },
         mounted() {

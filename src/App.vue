@@ -3,7 +3,7 @@
 
     <Footer v-show="$route.meta.showFooter"></Footer>
     <router-view v-if="isRouterAlive"></router-view>
-    <loading v-show="$store.getters.getLoading"></loading>
+    <loading v-show="$store.getters.getLoading" type="spinner"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
     <search-result></search-result>
   </div>

@@ -466,9 +466,7 @@
             line-height: 0.2rem;
             border-radius: 0.2rem;
             font-size: 0.12rem;
-
             .vip_expire {
-              margin-left: 5px;
               display: inline-block;
             }
           }
