@@ -78,18 +78,21 @@ export default {
   setEmptyNo(state, data) {
     state.cart.empty = false;
   },
-  setinvoice(state, data){
+  setinvoice(state, data) {
     state.cart.invoice = data;
   },
-  setreceivingAddress(state, data){
+  setreceivingAddress(state, data) {
     state.cart.receivingAddress = data;
   },
-  setloopUpimgs(state, data){
+  setloopUpimgs(state, data) {
     state.cart.loopUpimgs[data.index] = data.fileList;
     // console.log(state.cart.loopUpimgs)
   },
 
-  setphone(state, data){
+  setphone(state, data) {
     state.phone = data
+  },
+  setCartNum(state, data) {
+    state.cart.cartNum = data;
   }
 }

@@ -79,7 +79,7 @@
       </div>
       </router-link>
     </div>
-    <div style="padding-bottom: 0.5 rem;" class="common_box allmsg">
+    <div style="padding-bottom: 0.5rem;" class="common_box allmsg">
       <div class="common delivery">
         <div class="left">
           配速方式

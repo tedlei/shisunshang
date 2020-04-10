@@ -49,25 +49,28 @@ export default {
   },
   // userName: (state) => state.user_name,
   isLogin: (state) => state.isLogin,
-  getLoading (state) {
+  getLoading(state) {
     return state.cart.isLoading;
   },
-  getEmpty (state) {
-      return state.cart.empty;
+  getEmpty(state) {
+    return state.cart.empty;
   },
-  getinvoice (state) {
+  getinvoice(state) {
     return state.cart.invoice;
   },
-  getreceivingAddress (state) {
+  getreceivingAddress(state) {
     return state.cart.receivingAddress;
   },
-  getloopUpimgs (state) {
+  getloopUpimgs(state) {
     return state.cart.loopUpimgs;
   },
-  getQRcodeDomainName (state) {
+  getQRcodeDomainName(state) {
     return state.cart.QRcodeDomainName;
   },
-  getphone(state){
+  getphone(state) {
     return state.phone;
+  },
+  getCartNum(state) {
+    return state.cart.cartNum;
   }
 }

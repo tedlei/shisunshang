@@ -38,5 +38,6 @@ export default {
         receivingAddress: {},
         empty: false,
         loopUpimgs: [],
+        cartNum: 0,
     }
 }

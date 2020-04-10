@@ -13,58 +13,57 @@
                     v-for="(item,index) in leftlists"
                     :key="index"
                     :class="num==index?'active':''"
-                    @click="getNum(index,item.children)"
-                >
+                    @click="getNum(index,item.children)">
                     <span>{{item.text}}</span>
 
-                    <ul v-show="isUlliTwo" class="left_ul">
+                    <!-- <ul v-show="isUlliTwo&&listNum===index" class="left_ul">
                         <li
-                            v-show="listNum===index"
                             class="left_ul_li"
                             v-for="(item1,index1) in navChildren"
                             :key="index1"
-                            @click="isUlliTwoAdd(item1.id)"
+                            @click.stop="isUlliTwoAdd(item1.id)"
                         >{{item1.cate_name}}</li>
-                    </ul>
+                    </ul> -->
                 </li>
             </ul>
 
 
-            <ul class="right">
-                <li class="right_li" v-for="(item,index) in cpylist" :key="index">
-                    <router-link
-                        class="right_route"
-                        :to="{path:'/business/storemsg',query:{id: item.id}}"
-                    >
-                        <div class="imgDiv">
-                            <van-image
-                                width="0.78rem"
-                                height="0.78rem"
-                                fit="cover"
-                                :src="item.imgurl"
-                            />
-                        </div>
-                        <div class="right_msg">
-                            <p class="p1">
-                                <span class="p1_span">{{item.name}}</span>
-                                <span v-show="item.label == 1" class="quality">品质商家</span>
-                            </p>
-                            <div style="margin: 0.02rem 0;" class="address">
-                                <span>地址：</span>
-                                <span class="fontWrap fontWrapTwo">{{item.address}}</span>
+            <div class="right">
+                <!-- :style="{top:listNum*0.51+'rem'}" -->
+                <ul v-show="isUlliTwo" class="left_ul">
+                    <li
+                        class="left_ul_li"
+                        v-for="(item1,index1) in navChildren"
+                        :key="index1"
+                        @click.stop="isUlliTwoAdd(item1.id)"
+                    >{{item1.cate_name}}</li>
+                </ul>
+                <ul class="right_ul">
+                    <li class="right_li" v-for="(item,index) in cpylist" :key="index">
+                        <div class="right_route" @click="tapRoute({path:'/business/storemsg',query:{id: item.id}})">
+                            <div class="imgDiv">
+                                <van-image width="100%" height="100%" :src="item.imgurl"/>
                             </div>
-                            <div class="address">
-                                <span>电话：</span>
-                                <span>{{item.mobile}}</span>
-
+                            <div class="right_msg">
+                                <p class="p1">
+                                    <span class="p1_span">{{item.name}}</span>
+                                    <span v-show="item.label == 1" class="quality">品质商家</span>
+                                </p>
+                                <div style="margin: 0.02rem 0;" class="address">
+                                    地址：{{item.address}}
+                                </div>
+                                <div class="address">
+                                    <span>电话：</span>
+                                    <span>{{item.mobile}}</span>
+                                </div>
                             </div>
                         </div>
-                    </router-link>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <router-link to="/mine/nearby">
+        <router-link  to="/mine/nearby">
             <div class="iconDiv">
                 <img src="../../assets/img/fjsj.png" alt />
                 <div>商家入驻</div>
@@ -91,8 +90,7 @@ export default {
             navChildren: [],
             leftlists: [],
             cpylist: [],
-
-            listNum: 0
+            listNum:0,
         };
     },
     methods: {
@@ -171,6 +169,10 @@ export default {
         isUlliTwoAdd(id) {
             this.isUlliTwo = false;
             this.getDataTwo(id);
+        },
+
+        tapRoute(obj){
+            this.$router.push(obj);
         }
     },
     created() {
@@ -204,90 +206,157 @@ export default {
     .main_div {
         width: 100%;
         height: 100%;
+        padding-bottom: 1.3rem;
         background-color: rgb(242, 242, 242);
         display: flex;
         .left {
             width: 1rem;
             height: 100%;
             background-color: #fff;
+            overflow-y: auto;
             .left_li {
                 height: 0.51rem;
                 border-bottom: 1px solid #f2f2f2;
                 text-align: center;
                 line-height: 0.51rem;
-                position: relative;
-                .left_ul {
-                    width: 1rem;
-                    border-left: 1px solid #f2f2f2;
-                    background-color: #fff;
-                    position: absolute;
-                    top: 0;
-                    right: -1rem;
-                    z-index: 10001;
-                    .left_ul_li {
-                        border-bottom: 1px solid #f2f2f2;
-                        color: #000;
-                    }
-                }
+                // position: relative;
+                // .left_ul {
+                //     width: 1rem;
+                //     border-left: 1px solid #f2f2f2;
+                //     background-color: #fff;
+                //     position: absolute;
+                //     top: 0;
+                //     right: -1rem;
+                //     z-index: 10001;
+                //     .left_ul_li {
+                //         border-bottom: 1px solid #f2f2f2;
+                //         color: #000;
+                //     }
+                //     .left_ul_li:active{
+                //         opacity: 0.8;
+                //         color: #090;
+                //     }
+                // }
+            }
+            .left_li:active{
+                opacity: 0.8;
             }
             .active {
                 color: #090;
                 background-color: #f2f2f2;
-                border-left: 3px solid #090 !important;
+                border-left: 3px solid #090;
             }
         }
         .right {
             height: 100%;
+            position: relative;
             flex: 1;
-            overflow-y: auto;
-            .right_li {
+            .left_ul {
+                width: 1rem;
+                max-height: 100%;
+                border-left: 1px solid #f2f2f2;
                 background-color: #fff;
-                padding: 0.05rem;
-                margin-bottom: 0.05rem;
-                text-align: left;
-                .right_route {
-                    display: flex;
-                    align-items: center;
-                    .right_msg {
-                        margin-left: 0.05rem;
-                        width: 100%;
-                        .p1 {
-                            color: #000 !important;
-                            font-size: 0.14rem;
-                            display: flex;
-                            .quality {
-                                display: inline-block;
-                                line-height: 0.18rem;
-                                background-color: #009900;
-                                border-radius: 0.18rem;
-                                padding: 0 5px;
-                                color: #fff;
-                                font-size: 0.12rem;
+                overflow-y: auto;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 10001;
+                .left_ul_li {
+                    height: 0.51rem;
+                    border-bottom: 1px solid #f2f2f2;
+                    line-height: 0.51rem;
+                    color: #000;
+                }
+                .left_ul_li:active{
+                    opacity: 0.8;
+                    color: #090;
+                }
+            }
+            .right_ul{
+                width: 100%;
+                height: 100%;
+                padding: 0.05rem 0.05rem;
+                padding-bottom: 0;
+                flex: 1;
+                overflow-y: auto;
+                .right_li {
+                    background-color: #fff;
+                    padding: 0.05rem;
+                    margin-bottom: 0.05rem;
+                    text-align: left;
+                    .right_route {
+                        display: flex;
+                        align-items: center;
+                        .imgDiv{
+                            width: 0.78rem;
+                            height: 0.78rem;
+                        }
+                        .right_msg {
+                            margin-left: 0.05rem;
+                            flex: 1;
+                            .p1 {
+                                color: #000 !important;
+                                font-size: 0.14rem;
+                                display: flex;
+                                justify-content: space-between;
+                                .p1_span {
+                                    width: 1.2rem;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                                .quality {
+                                    display: inline-block;
+                                    line-height: 0.18rem;
+                                    background-color: #009900;
+                                    border-radius: 0.18rem;
+                                    padding: 0 5px;
+                                    color: #fff;
+                                    font-size: 0.12rem;
+                                }
                             }
-                            .p1_span {
-                                flex: 1;
+
+                            .address {
+                                width: 2rem;
+                                color: #999;
+                                font-size: 0.12rem;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 white-space: nowrap;
                             }
-                        }
 
-                        .address {
-                            display: flex;
-                            align-items: center;
-                            color: #999;
-                            font-size: 0.12rem;
-                        }
-
-                        .long {
-                            text-align: right;
-                            color: #009900;
-                            font-size: 0.12rem;
+                            .long {
+                                text-align: right;
+                                color: #009900;
+                                font-size: 0.12rem;
+                            }
                         }
                     }
                 }
             }
         }
     }
+    .iconDiv{
+    position: fixed;
+    bottom: 0.8rem;
+    right: 0.15rem;
+    >img{
+      border-radius: 50%;
+      box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
+      width: 0.45rem;
+      height: 0.45rem;
+      background-color: #fff;
+    }
+    >div{
+      margin: 0.05rem 0;
+      color: #fff;
+      border-radius: 10px;
+      padding: 0 0.05rem;
+      background-color: $sss-color;
+      // text-shadow: 0 0 5px #000;
+      box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
+    }
+    
+  }
 }
 </style>
