@@ -52,11 +52,11 @@ export default {
     state.isLogin = token;
   },
 
-  LoginOut(state) {
-    localStorage.clear();
-    state.user_name = '';
-    state.isLogin = false;
-  },
+  // LoginOut(state) {
+  //   localStorage.clear();
+  //   state.user_name = '';
+  //   state.isLogin = false;
+  // },
 
   cartPush(state, data) {
     state.cart.cartdata = data;

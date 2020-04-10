@@ -20,15 +20,17 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
     money4: 0.00,
     money5: 542.00,
     money6: 0.00,
-    level: 1,
+    level: 2,
     name: "【-空-】",
+    level_type: 1,
+    level_end_time: 1589405466,
     phone: 15320495341,
     weixinname: "【-空-】",
     portrait: "http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq8WibsnK03ibFskf6RJnFVDvovhUhdHPuYeVkdryC6hwaIDy9mUyrrkBz5unQE8eCD5ribuOicm3ha9w/132",
     add_time: "2020-03-31 14:34:28",
     referee_number: 101777,
     is_set_paypassword: 1,
-    level_name: "顾客"
+    level_name: "会员"
   }
   store.commit('userinfo', JSON.stringify(info));
 }

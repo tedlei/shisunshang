@@ -3,21 +3,37 @@
     <div class="myinvoice" v-if="myinvoicelists">
       <ul class="myinvoice_ul">
         <li class="common_style" v-for="(item,index) in myinvoicelists" :key="index">
-          <mt-cell-swipe
-            :right="[
-                {
-                    content: '设为默认',
-                    style: {'background-color': '#ccc', 'color': '#fff !important'}
-                },
-                {
-                    content: '删除',
-                    style: {'background-color': '#009900', 'color': '#fff !important'},
-                    handler: () => isdelet(item.id)
-                }]"
-            :title="item.title"
-          >
-            <p class="section">税号：{{item.number}}</p>
-          </mt-cell-swipe>
+
+          <van-swipe-cell :before-close="beforeClose">
+            <!--            <template #left>-->
+            <!--              <van-button square type="primary" text="选择" />-->
+            <!--            </template>-->
+            <van-cell :border="false" :title="item.title" :value="'税号：'+item.number"/>
+<!--            <p class="section">税号：{{item.number}}</p>-->
+            <template #right>
+
+              <van-button square type="default" text="设为默认"
+                          :style="{'background-color': '#ccc', 'color': '#fff !important'}"/>
+              <van-button square type="default" text="删除"
+                          :style="{'background-color': '#009900', 'color': '#fff !important'}"/>
+            </template>
+          </van-swipe-cell>
+
+          <!--          <mt-cell-swipe-->
+          <!--            :right="[-->
+          <!--                {-->
+          <!--                    content: '设为默认',-->
+          <!--                    style: {'background-color': '#ccc', 'color': '#fff !important'}-->
+          <!--                },-->
+          <!--                {-->
+          <!--                    content: '删除',-->
+          <!--                    style: {'background-color': '#009900', 'color': '#fff !important'},-->
+          <!--                    handler: () => isdelet(item.id)-->
+          <!--                }]"-->
+          <!--            :title="item.title"-->
+          <!--          >-->
+          <!--            <p class="section">税号：{{item.number}}</p>-->
+          <!--          </mt-cell-swipe>-->
 
         </li>
       </ul>
@@ -73,6 +89,26 @@
 
                 });
             },
+            // instance 为对应的 SwipeCell 实例
+            beforeClose({ position, instance }) {
+                switch (position) {
+                    case 'left':
+                    case 'cell':
+                    case 'outside':
+                        instance.close();
+                        break;
+                    case 'right':
+                        this.$dialog.confirm({
+                            message: '确定删除吗？'
+                        }).then(() => {
+                            instance.close();
+                        }).catch(() => {
+
+                        });
+                        break;
+                }
+            },
+
             //删除选中发票信息
             delet: function (e) {
                 let parms = {
@@ -109,31 +145,26 @@
 
     .myinvoice_ul {
       li {
+        > > > .van-swipe-cell {
 
-        /deep/ .mint-cell {
-          display: flex;
-          height: 0.7rem;
-          align-items: center;
-
-          .mint-cell-wrapper {
-            display: block;
+          .van-cell{
             text-align: left;
-            padding: 0 0.2rem;
+            display: block;
+          }
+          .van-cell__value{
+            text-align: left;
+          }
 
-            .mint-cell-title {
-              font-size: 0.17rem;
-              margin-bottom: 0.1rem;
+          .van-swipe-cell__right{
+            font-size: 0;
+            .van-button {
+              height: 100%;
+              border: none;
             }
           }
 
-
-          .mint-cell-swipe-button {
-            width: 0.7rem;
-            padding: 0;
-            line-height: 0.7rem;
-          }
-
         }
+
 
 
         .section {

@@ -23,6 +23,7 @@ const state = {
   userinfo: localStorage.getItem('userinfo'),
   isLogin: localStorage.getItem('token'),
   phone:'',
+  // clearStorage:localStorage.clear(),
 }
 // getters 只会依赖 state 中的成员去更新
 

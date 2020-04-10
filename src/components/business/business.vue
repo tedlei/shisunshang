@@ -29,8 +29,7 @@
 
 
             <div class="right">
-                <!-- :style="{top:listNum*0.51+'rem'}" -->
-                <ul v-show="isUlliTwo" class="left_ul">
+                <ul v-show="isUlliTwo" :style="{top:listNum*0.51+'rem'}" class="left_ul">
                     <li
                         class="left_ul_li"
                         v-for="(item1,index1) in navChildren"
@@ -99,7 +98,7 @@ export default {
             Bus.$emit("searchval", true);
         },
         getNum(index, children) {
-            this.listNum = index;
+            this.listNum = index
             this.num = index;
             this.navChildren = children;
             this.isUlliTwoHeight = index;
@@ -213,7 +212,6 @@ export default {
             width: 1rem;
             height: 100%;
             background-color: #fff;
-            overflow-y: auto;
             .left_li {
                 height: 0.51rem;
                 border-bottom: 1px solid #f2f2f2;
@@ -250,13 +248,10 @@ export default {
         .right {
             height: 100%;
             position: relative;
-            flex: 1;
             .left_ul {
                 width: 1rem;
-                max-height: 100%;
                 border-left: 1px solid #f2f2f2;
                 background-color: #fff;
-                overflow-y: auto;
                 position: absolute;
                 top: 0;
                 left: 0;

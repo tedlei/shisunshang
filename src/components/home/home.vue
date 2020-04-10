@@ -228,7 +228,6 @@
         mounted() {
             this.getHomeMsg();
             this.getUserinfo();
-
         }
 
     }

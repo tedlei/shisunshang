@@ -58,12 +58,8 @@
     <div class="common_box ipt_box">
       <div class="left_name">设为默认地址</div>
       <div class="right_ipt" style="text-align: right">
-        <el-switch
-          v-model="value1"
-          active-color="#009900"
-          active-text=""
-          inactive-text="">
-        </el-switch>
+        <van-switch v-model="value1" active-color="#009900" inactive-color="#DCDFE6" size="18px"/>
+
       </div>
     </div>
   </div>
@@ -71,7 +67,6 @@
 </template>
 
 <script>
-    import {Area} from '../../../assets/js/Area'
     import AreaArr from '../../../api/user.json'
 
     export default {
@@ -148,25 +143,24 @@
                 this.chooseAreasCode.province = e[0];
                 this.chooseAreasCode.city = e[1];
                 this.chooseAreasCode.area = e[2];
-                for(let i in this.areaList){
-                  if(this.areaList[i].text==e[0]){
-                    this.chooseAreasCode.province_id = this.areaList[i].id;
-                    // console.log(this.areaList[i].id)
-                    let list = this.areaList[i].children;
-                    for(let n in list){
-                      if(list[n].text==e[1]){
-                        console.log(list[n].id)
-                        this.chooseAreasCode.city_id = list[n].id;
-                        let list2 = list[n].children;
-                        for(let s in list2){
-                          if(list2[s].text==e[2]){
-                            console.log(list2[s].id)
-                            this.chooseAreasCode.area_id = list2[s].id;
-                          }
+                for (let i in this.areaList) {
+                    if (this.areaList[i].text == e[0]) {
+                        this.chooseAreasCode.province_id = this.areaList[i].id;
+                        let list = this.areaList[i].children;
+                        for (let n in list) {
+                            if (list[n].text == e[1]) {
+                                console.log(list[n].id)
+                                this.chooseAreasCode.city_id = list[n].id;
+                                let list2 = list[n].children;
+                                for (let s in list2) {
+                                    if (list2[s].text == e[2]) {
+                                        console.log(list2[s].id)
+                                        this.chooseAreasCode.area_id = list2[s].id;
+                                    }
+                                }
+                            }
                         }
-                      }
                     }
-                  }
                 }
             },
             // 底部选择省市弹窗 取消按钮
@@ -185,16 +179,17 @@
                     } else {
                         flag = 0
                     }
-                };
+                }
+                ;
                 if (flag == 1) {
-                    this.$message({
-                        message: '请填写完整哦!',
-                        type: 'warning',
+                    this.$toast({
+                        message: '请填写完整哦',
+                        type: 'fail',
                     });
-                }else if(flag == 2){
-                    this.$message({
-                        message: '还未选择城市哦!',
-                        type: 'warning',
+                } else if (flag == 2) {
+                    this.$toast({
+                        message: '还未选择城市哦',
+                        type: 'fail',
                     });
                 } else {
                     let _this = this
@@ -210,13 +205,13 @@
                         let newaddress = Object.assign(address, _this.chooseAreasCode)
                         _this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                _this.$router.back(-1);
-                                // _this.$message({
-                                //     message: '添加成功!',
-                                //     type: 'warning',
-                                //     onClose: function () {
-                                //     }
-                                // });
+                                _this.$toast({
+                                    message: '添加成功',
+                                    type: 'success',
+                                    onClose: function () {
+                                        _this.$router.back(-1);
+                                    }
+                                });
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -233,9 +228,9 @@
                         let newaddress = Object.assign(address, _this.chooseAreasCode)
                         this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                _this.$message({
-                                    message: '修改成功!',
-                                    type: 'warning',
+                                _this.$toast({
+                                    message: '修改成功',
+                                    type: 'success',
                                     onClose: function () {
                                         _this.$router.back(-1);
                                     }

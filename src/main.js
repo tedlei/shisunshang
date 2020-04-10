@@ -78,7 +78,7 @@ router.beforeEach((to, from, next) => {
       }).catch(function (error) {
       console.log(error);
     });
-  } else if (to.meta.title) {
+  } else if (to.name != 'Special-area'&&to.meta.title) {
     document.title = to.meta.title;
   }
   next();

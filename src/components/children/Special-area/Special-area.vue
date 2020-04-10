@@ -146,18 +146,18 @@
                 this.$router.push({
                     path: '/goodsdetails',
                     query: {
-                        id: e
+                        id: e,
+                        buy_type: '',
                     }
                 })
             }
         },
         mounted() {
-            // this.getlist();
-            Bus.$emit('title', this.zhuan[this.$route.query.typeid])
+            document.title = this.zhuan[this.$route.query.typeid]
             this.getgoods();
         },
         destroyed() {
-            Bus.$emit('title', '')
+
         },
     }
 </script>

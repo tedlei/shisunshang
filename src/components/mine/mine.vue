@@ -1,65 +1,78 @@
 <template>
   <div>
-    <header class="">
-      <div style="text-align: right">
-        <router-link to="/mine/set"><i class="el-icon-setting"></i></router-link>
-      </div>
-      <div class="user">
-        <div style="display: flex">
-          <div class="user_header">
-            <router-link to="/mine/usermsg">
-              <img :src="portrait" class="">
-            </router-link>
-          </div>
-          <div class="user_msg">
+    <div class="headBg">
+      <header class="">
+        <div style="text-align: right">
+          <router-link to="/mine/set"><i class="el-icon-setting"></i></router-link>
+        </div>
+        <div class="user">
+          <div style="display: flex">
+            <div class="user_header">
+              <router-link to="/mine/usermsg">
+                <img :src="portrait" class="">
+              </router-link>
+            </div>
+            <div class="user_msg">
           <span class="user_name">
             {{JSON.parse(this.$store.getters.getuserinfo).weixinname}}
           </span>
-            <span class="user_phone">
+              <span class="user_phone">
             {{phone}}
           </span>
-            <div class="vip_lv">
-              <span>
-                <img src="../../assets/img/vip_icon.png" style="width: 12px;margin-right: 5px">
-                {{JSON.parse(this.$store.getters.getuserinfo).level_name}}
-              </span>
+              <div class="vip_lv">
+                <span>
+                  {{userinfo.level_name}}
+                  <img src="../../assets/img/vip_icon.png" style="width: 12px;"
+                       v-if="userinfo.level == 1">
+                  <img src="../../assets/img/vipM.png" style="width:auto;height: 0.12rem;"
+                       v-if="userinfo.level == 2 && userinfo.level_type == 1">
+                  <img src="../../assets/img/vipM.png" style="width:auto;height: 0.12rem;"
+                       v-if="userinfo.level == 2 && userinfo.level_type == 2">
+                  <div class="vip_expire">
+<!--                    <p v-if="userinfo.level_type == 0">{{expireTime | expireTime(userinfo.level_end_time,'year')}}</p>-->
+                    <p
+                      v-if="userinfo.level_type == 1">{{expireTime | expireTime(userinfo.level_end_time,'month')}}</p>
+                    <p
+                      v-else-if="userinfo.level_type == 2">{{expireTime | expireTime(userinfo.level_end_time,'day')}}</p>
+                  </div>
+                </span>
+
+              </div>
+
             </div>
           </div>
+          <div class="user_up">
+            <div class="Recharge" @click="Recharge">充值活动</div>
+            <div class="shengji" @click="upgrade">会员升级</div>
+          </div>
+        </div>
 
-        </div>
-        <div class="user_up">
-          <div class="Recharge" @click="Recharge">充值活动</div>
-          <div class="shengji" @click="upgrade">会员升级</div>
-        </div>
+        <ul class="bot_lists clearfix">
+          <li v-for="(item,index) in headerlists" :key="item.index">
+            <router-link :to="{path:'/mine/myfootprint',query: {printid:index}}">
+              <div style="margin: 13px 0 10px 0">{{item.num}}</div>
+              <div>{{item.name}}</div>
+            </router-link>
+          </li>
+        </ul>
+      </header>
+      <!--   累计   -->
+      <div class="leiji m_b_10">
+        <ul class="leiji_list clearfix">
+          <li>
+            <div>{{day_money}}/{{total_money}}</div>
+            <div>今日/累计收入</div>
+          </li>
+          <li>
+            <div>{{use_money}}</div>
+            <div>累计消费</div>
+          </li>
+          <li>
+            <div>{{cashed_money}}</div>
+            <div>累计提现</div>
+          </li>
+        </ul>
       </div>
-
-      <ul class="bot_lists clearfix">
-        <li v-for="(item,index) in headerlists" :key="item.index">
-          <router-link :to="{path:'/mine/myfootprint',query: {printid:index}}">
-            <div style="margin: 13px 0 10px 0">{{item.num}}</div>
-            <div>{{item.name}}</div>
-          </router-link>
-        </li>
-      </ul>
-
-    </header>
-
-    <!--   累计   -->
-    <div class="leiji m_b_10">
-      <ul class="leiji_list clearfix">
-        <li>
-          <div>{{day_money}}/{{total_money}}</div>
-          <div>今日/累计收入</div>
-        </li>
-        <li>
-          <div>{{use_money}}</div>
-          <div>累计消费</div>
-        </li>
-        <li>
-          <div>{{cashed_money}}</div>
-          <div>累计提现</div>
-        </li>
-      </ul>
     </div>
     <!--  我的资产  -->
     <div class="m_b_10 conmon_box my_zc">
@@ -69,8 +82,11 @@
 
       <ul class="zc_lists clearfix">
         <li v-for="(item,index) in zclists" :key="index">
-          <router-link :to="{path:'/mine/record',query:{recordid:index+1}}">
-            <div style="padding-bottom: 0.05rem;margin-bottom: 0.05rem;border-bottom: 1px solid #999;display: inline-block">{{ item.num | moneyFormat}}</div>
+          <router-link :to="{path:'/mine/record',query:{recordid:index + 1}}">
+            <div
+              style="padding-bottom: 0.05rem;margin-bottom: 0.05rem;border-bottom: 1px solid #999;display: inline-block">
+              {{ item.num | moneyFormat}}
+            </div>
             <div style="margin-bottom: 0.1rem">{{ item.totalnum | moneyFormat}}</div>
             <div>{{item.name}}</div>
           </router-link>
@@ -158,6 +174,8 @@
         data() {
             return {
                 msg: '我的',
+                userinfo: JSON.parse(this.$store.getters.getuserinfo),
+                expireTime: '到期时间：',
                 username: '',
                 portrait: '',
                 phone: '',
@@ -322,12 +340,30 @@
                 ]
             }
         },
+        //计算剩余时间
+        filters: {
+            expireTime: function (val, end_time, type) {
+                let during = new Date(parseInt(end_time) * 1000);
+                let expireTimes = '';
+                switch (type) {
+                    case 'year':
+                        expireTimes = during.toLocaleDateString().replace(/\//g, '-');
+                        break;
+                    case 'month':
+                        expireTimes = during.toLocaleDateString().replace(/\//g, '-');
+                        break;
+                    case 'day':
+                        expireTimes = during.toLocaleDateString().replace(/\//g, '-');
+                        break;
+                }
+                return val + expireTimes
+            },
+        },
         methods: {
             //获取用户信息并存储
             getuserinfo: function () {
                 let _this = this;
-                let data = JSON.parse(this.$store.getters.getuserinfo);
-
+                let data = _this.userinfo;
                 for (let i in _this.zclists) {
                     _this.zclists[i].num = Number(data['money' + (Number(i) + 1)])
                 }
@@ -372,6 +408,7 @@
                     path: '/upgrade'
                 })
             },
+
         },
         mounted() {
             this.getuserinfo();
@@ -381,97 +418,106 @@
 </script>
 
 <style lang="scss" scoped>
+  .headBg {
 
+    background: url("../../assets/img/vip_head.jpg") no-repeat;
 
-  header {
-    padding: 0.1rem;
-    background-color: #009900;
-    color: #fff;
-
-    .el-icon-setting {
-      font-size: 0.2rem;
-      font-weight: bold;
-    }
-
-    .user {
-      display: flex;
-      justify-content: space-between;
-
-      .user_header {
-        overflow: hidden;
-        border-radius: 50%;
-        padding: 1px;
-        background-color: #fff;
-        width: 0.6rem;
-        height: 0.6rem;
-        margin-right: 0.2rem;
-
-        img {
-          border-radius: 50%;
-        }
-      }
-
-      .user_msg {
-        text-align: left;
-
-        .vip_lv {
-          margin-top: 5px;
-        }
-
-        .vip_lv span {
-          width: 0.7rem;
-          text-align: center;
-          display: inline-block;
-          background-color: rgba(0, 0, 0, 0.2);
-          line-height: 0.2rem;
-          border-radius: 0.2rem;
-          font-size: 0.12rem;
-        }
-      }
-
-      .user_up {
-        margin-top: 0.3rem;
-
-        .Recharge, .shengji {
-          line-height: 0.18rem;
-          border-radius: 0.18rem;
-          padding: 0 0.1rem;
-          font-size: 0.12rem;
-        }
-
-        .Recharge {
-          background-color: red;
-          margin-bottom: 5px;
-        }
-
-        .shengji {
-          background-color: #235f23;
-        }
-      }
-    }
-
-    .bot_lists li {
-      float: left;
-      width: 25%;
-    }
-
-
-  }
-
-  .leiji {
-    color: #fff;
-
-    .leiji_list {
+    header {
       padding: 0.1rem;
-      background-color: #235f23;
 
-      li {
+      color: #fff;
+
+      .el-icon-setting {
+        font-size: 0.2rem;
+        font-weight: bold;
+      }
+
+      .user {
+        display: flex;
+        justify-content: space-between;
+
+        .user_header {
+          overflow: hidden;
+          border-radius: 50%;
+          padding: 1px;
+          background-color: #fff;
+          width: 0.6rem;
+          height: 0.6rem;
+          margin-right: 0.2rem;
+
+          img {
+            border-radius: 50%;
+          }
+        }
+
+        .user_msg {
+          text-align: left;
+
+          .vip_lv {
+            margin-top: 5px;
+          }
+
+          .vip_lv span {
+            text-align: center;
+            display: inline-block;
+            align-items: center;
+            padding: 0 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            line-height: 0.2rem;
+            border-radius: 0.2rem;
+            font-size: 0.12rem;
+            .vip_expire {
+              display: inline-block;
+            }
+          }
+
+        }
+
+        .user_up {
+          margin-top: 0.3rem;
+
+          .Recharge, .shengji {
+            line-height: 0.18rem;
+            border-radius: 0.18rem;
+            padding: 0 0.1rem;
+            font-size: 0.12rem;
+            width: max-content;
+          }
+
+          .Recharge {
+            background-color: red;
+            margin-bottom: 5px;
+          }
+
+          .shengji {
+            background-color: #235f23;
+          }
+        }
+      }
+
+      .bot_lists li {
         float: left;
-        width: 33.3333%;
+        width: 25%;
+      }
+
+
+    }
+
+    .leiji {
+      color: #fff;
+
+      .leiji_list {
+        padding: 0.1rem;
+        background-color: rgba(0, 0, 0, .2);
+
+        li {
+          float: left;
+          width: 33.3333%;
+        }
       }
     }
-  }
 
+  }
 
   /*  */
   .conmon_box {
