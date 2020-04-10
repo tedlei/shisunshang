@@ -106,12 +106,12 @@
       <ul class="order_lists clearfix">
         <li style="position: relative;" v-for="(item,index) in orderlists" :key="index">
           <div v-show="item.num>0" class="order_lists_info">{{100>item.num?item.num:99}}</div>
-          <router-link :to="{path: item.router, query:{orderid:item.orderid}}">
-            <div style="margin-bottom: 0.1rem">
+          <!-- <router-link :to="{path: item.router, query:{orderid:item.orderid}}"> -->
+            <div @click="CustomerService(item.router,item.orderid)" style="margin-bottom: 0.1rem">
               <img :src="require(`../../assets/img/${item.img}.png`)" style="height: 0.24rem;width: auto">
             </div>
             <div>{{item.name}}</div>
-          </router-link>
+          <!-- </router-link> -->
         </li>
       </ul>
     </div>
@@ -365,6 +365,15 @@
             },
         },
         methods: {
+            //订单跳转
+            CustomerService(router, id){
+              console.log(router, id)
+              if(id==5){
+                this.$toast('功能暂未上线')
+              }else{
+                this.$router.push({path: router, query:{orderid: id}});
+              }
+            },
             //获取用户信息并存储
             getuserinfo: function () {
                 let _this = this;
@@ -399,7 +408,6 @@
                         for (let n in response.data.order_array) {
                           this.orderlists[n].num = response.data.order_array[n];
                         }
-                        console.log(1)
                         // console.log(this.orderlists)
                     }).catch(function (error) {
                       console.log(error);

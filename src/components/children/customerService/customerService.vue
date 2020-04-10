@@ -12,11 +12,9 @@
         </div>
         <div>
           <div class="fontWrap fontWrapTwo">
-            啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
           </div>
           <div class="Specifications">
-            <div class="fontWrap fontWrapOne">规格:
-              <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
+            <div class="fontWrap fontWrapOne">规格：默认
             </div>
             <div>数量:
 
@@ -44,14 +42,17 @@
       let ad_data = {
         method: 'get.collect.shops.list'
       };
-      // this.$post('/api/v1/userCollectShops', ad_data)
-      // .then((res) => {
-      //   console.log(res)
-      //   this.collectionShop(res.data.items);
-      // }).catch(function (error) {
-      //     console.log(error);
-      // });
+      this.$post('/api/v1/userCollectShops', ad_data)
+      .then((res) => {
+        console.log(res)
+        this.collectionShop(res.data.items);
+      }).catch(function (error) {
+          console.log(error);
+      });
     },
+  },
+  created(){
+    // this.getData();
   },
   computed: {
     
@@ -74,6 +75,7 @@
       align-items: center;
       width: 85%;
       >div:nth-child(2){
+        width: 100%;
         margin: 0 0.05rem;
         text-align: left;
         .Specifications{
@@ -84,6 +86,9 @@
           >div:first-child{
             width: 50%;
           }
+        }
+        >div:first-child{
+          height: 0.4rem;
         }
       }
     }

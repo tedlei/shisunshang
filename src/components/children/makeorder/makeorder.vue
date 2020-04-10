@@ -236,7 +236,7 @@
                   this.orderData = res.data;
                   
                 }else{
-                  // this.$router.back(-1);
+                  this.$router.back(-1);
                   this.$toast(res.message);
                 }
               }).catch(function (error) {
