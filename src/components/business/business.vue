@@ -38,7 +38,7 @@
                                 <div class="right_msg">
                                     <div class="p1">
                                         <div class="p1_span">{{item.name}}</div>
-                                        <div v-show="item.label == 1" class="quality">品质商家</div>
+                                        <div v-if="item.is_promotion == 1" class="quality">品质商家</div>
                                     </div>
                                     <div style="margin: 0.02rem 0;" class="address">
                                         地址：{{item.address}}
