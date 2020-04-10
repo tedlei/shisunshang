@@ -184,7 +184,7 @@
       <!--   商品评价   -->
       <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
         <div v-show="comment">
-          <div class="head">商品评价（）</div>
+          <div class="head">商品评价</div>
           <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
             <div class="evaluate_head">
               <div class="user">
@@ -502,7 +502,7 @@
                     }
                 },
                 is_follow: 0,
-                cartNum: 0,
+                cartNum: this.$store.getters.getCartNum,
             }
         },
 
@@ -544,7 +544,7 @@
 
             },
             Replication() {
-                this.$toast('暂未开放');
+                this.$toast('功能暂未上线');
             },
             showUrl() {
                 this.showTwo = false;
@@ -707,7 +707,7 @@
 
             //客服
             service() {
-                this.$toast('暂未开发')
+                this.$toast('功能上线中')
             },
 
             //收藏和删除收藏商品
@@ -818,20 +818,6 @@
                 });
             },
 
-            //购物车数量
-            getCartNum() {
-                let ad_data = {
-                    method: 'get.goods.cart.count',
-                };
-                this.$post('/api/v1/GoodsCart', ad_data)
-                    .then((res) => {
-                        // console.log(res);
-                        this.cartNum = res.data;
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-
             back() {
                 if (window.history.length <= 1) {
                     this.$router.push({path: '/'})
@@ -865,7 +851,6 @@
             // console.log(this.$route.query.id)
             this.getDATA();
             this.Addfootprints();
-            this.getCartNum();
             let user = JSON.parse(this.$store.getters.getuserinfo);
             this.users = user;
             this.portrait = user.portrait;

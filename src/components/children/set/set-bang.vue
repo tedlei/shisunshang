@@ -7,7 +7,6 @@
         type="tel"
         name="phone"
         label="手机号码"
-        readonly 
         placeholder="请输入手机号码"
       />
 

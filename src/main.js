@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from "./store";
 import ElementUI from 'element-ui'
-import Vant, {Dialog, Toast} from 'vant';
+import Vant, { Dialog, Toast } from 'vant';
 import 'vant/lib/index.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/layout.scss'
@@ -14,9 +14,9 @@ import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.min.css';
 import axios from 'axios'
 import qs from 'qs'
-import {post, patch, put} from './api/https'
+import { post, patch, put } from './api/https'
 import 'mint-ui/lib/style.css'
-import {Api} from '../src/assets/js/verifyCodeTime.js'
+import { Api } from '../src/assets/js/verifyCodeTime.js'
 
 Api.init.call(Vue);
 
@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
   }
   ;
 
-// 解析url参数并获取code
+  // 解析url参数并获取code
   function getUrlParam(name) {   //name为要获取的参数名
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var rrr = decodeURIComponent(window.location.search);
@@ -71,15 +71,28 @@ router.beforeEach((to, from, next) => {
   /*路由发生改变修改页面的title */
   if (to.meta.title == '首页') {
     // console.log(post)
-    let ad_data = {method: 'get.web.info'};
+    let ad_data = { method: 'get.web.info' };
     post('/api/v1/sets', ad_data)
       .then((res) => {
         document.title = res.data.webtitle;
       }).catch(function (error) {
-      console.log(error);
-    });
-  } else if (to.name != 'Special-area'&&to.meta.title) {
+        console.log(error);
+      });
+  } else if (to.name != 'Special-area' && to.meta.title) {
     document.title = to.meta.title;
+  }
+  if (['home', 'mine', 'my_cart', 'business', 'classification'].includes(to.name)) {
+    //购物车数量
+    let ad_data = {
+      method: 'get.goods.cart.count',
+    };
+    post('/api/v1/GoodsCart', ad_data)
+      .then((res) => {
+        // console.log(res);
+        store.commit('setCartNum', res.data.num)
+      }).catch(function (error) {
+        console.log(error);
+      });
   }
   next();
 });
@@ -90,7 +103,7 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: {App},
+  components: { App },
   template: '<App/>',
 
 })

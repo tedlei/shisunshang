@@ -469,6 +469,7 @@ export default {
                     this.isCart = false;
                   }
                   this.isDellBatch = !this.isDellBatch;
+                  this.getCartNum();
                   // this.getCart(); 
                   // console.log(this.goodsObj);
                 }
@@ -480,7 +481,21 @@ export default {
         }
         
       }
-	  },
+    },
+    
+    //购物车数量
+    getCartNum () {
+      let ad_data = {
+        method: 'get.goods.cart.count',
+      };
+      this.$post('/api/v1/GoodsCart', ad_data)
+      .then((res) => {
+        // console.log(res);
+        this.$store.commit('setCartNum',res.data.num)
+      }).catch(function (error) {
+          console.log(error);
+      });
+    },
 
     //去结算
     payment () {
