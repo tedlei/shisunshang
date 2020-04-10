@@ -20,7 +20,7 @@
 
 
             <div class="right">
-                <div v-show="isUlliTwo" :style="{top:listNum*0.51+'rem'}" class="left_ul">
+                <div v-show="isUlliTwo&&navChildren.length>0" class="left_ul">
                     <div
                         class="left_ul_li"
                         v-for="(item1,index1) in navChildren"
