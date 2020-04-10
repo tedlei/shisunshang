@@ -1,8 +1,8 @@
 <template>
     <div class="main_box main_height">
         <header ref="header_h">
-            <div @click="opensearch" style="width: 100%;margin:0 0.1rem">
-                <search :dmsg="msg"></search>
+            <div style="width: 100%;margin:0 0.1rem">
+                <search :dmsg="true"></search>
             </div>
         </header>
 
@@ -83,6 +83,7 @@ export default {
             leftlists: [],
             cpylist: [],
             listNum:0,
+            keywords: '',
         };
     },
     methods: {
@@ -116,12 +117,13 @@ export default {
         },
         getData() {
             let ad_data = {
-                method: "get.user.strre.category.list"
+                method: "get.user.strre.category.list",
+                keywords:this.keywords
             };
             this.$post("/api/v1/UserStoreCategory", ad_data)
                 .then(res => {
                     if (res.status == 200) {
-                        this.navPush(res.data); 
+                        this.navPush(res.data);
                         this.getDataTwo();
                     }
                 })
@@ -171,6 +173,12 @@ export default {
         this.getData();
     },
     mounted() {
+        Bus.$on('searchD', (data) => {
+            if (data) {
+                this.keywords = data;
+                this.getData();
+            }
+        });
         let clientW = clientWw.clientWw();
         let h =
             window.innerHeight ||
@@ -339,7 +347,7 @@ export default {
       // text-shadow: 0 0 5px #000;
       box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
     }
-    
+
   }
 }
 </style>
