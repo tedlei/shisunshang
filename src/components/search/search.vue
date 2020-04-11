@@ -41,6 +41,7 @@
                 }
             }
         },
+       
         methods: {
             //是否
             isreadonly: function () {
@@ -54,15 +55,19 @@
             },
             //搜索传值
             onSearch: function () {
-                // let history = JSON.parse(localStorage.getItem('history'));
-                // console.log(history)
-                // if (history) {
-                //     if (history.indexOf(this.searchVal) == -1) {
-                //         history.push(this.searchVal);
-                //         localStorage.setItem('history', JSON.stringify(history))
-                //     }
-                // }
-                this.$store.commit('sendsearchVal', this.searchVal);
+                let searchVal = this.searchVal;
+                if(!searchVal){
+                    this.$notify({ type: 'warning', message: '请输入搜索内容',duration:'500' });
+                    return
+                }
+                let histort = localStorage.getItem('histort');
+                if(!histort) histort = [];
+                else histort = JSON.parse(histort);
+                if(histort.length>=10) histort.pop()
+                if(histort.indexOf(searchVal)) histort.unshift(searchVal);
+                localStorage.setItem('histort',JSON.stringify(histort));
+                this.$emit('getHistorylist')
+                this.$store.commit('sendsearchVal', searchVal);
             },
             inputsearchVal:Debounce(function(val) {
                 if (this.readonly == false){

@@ -7,7 +7,7 @@
     >
       <header>
         <i class="clo-9 el-icon-arrow-left back" @click="Popup()" style="left: 5px;"></i>
-        <search :tmsg='tan' :dmsg="true"></search>
+        <search :tmsg='tan' :dmsg="true" @getHistorylist="getHistorylist"></search>
       </header>
 
 
@@ -24,11 +24,11 @@
           <div class="search_box">
             <p><i></i>搜索历史</p>
             <ul class="history_list clearfix">
-              <li v-for="(item,index) in historylist" :key="index">item</li>
+              <li v-for="(item,index) in historylist" :key="index" @click="boxsearch(item)">{{item}}</li>
             </ul>
           </div>
 
-          <div class="delet_his">
+          <div class="delet_his" @click="deleteHistorylist">
             <i class="el-icon-delete"></i>
             <span>清空历史搜索</span>
           </div>
@@ -65,6 +65,9 @@
                 historylist:[],
             }
         },
+        created(){
+           this.getHistorylist();
+        },
         computed: {
             gainsearchVal: function () {
                 return this.$store.state.searchVal;
@@ -95,7 +98,19 @@
             },
             boxsearch: function (e) {
                 this.$store.commit('sendVal', e);
-            }
+            },
+
+            //获取搜索历史列表
+            getHistorylist(){
+              let histort = localStorage.getItem('histort');
+              if(histort) this.historylist = JSON.parse(histort);
+            },
+
+            //清空搜索历史列表
+            deleteHistorylist(){
+              localStorage.setItem('histort','');
+              this.historylist = [];
+            },
         },
         mounted() {
             Bus.$on('searchval', (data) => {
