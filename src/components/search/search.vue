@@ -81,7 +81,7 @@
             // }
         },
         mounted() {
-            console.log(this.searchVal)
+            // console.log(this.searchVal)
             this.isreadonly();
             // localStorage.setItem('history', this.history)
         },

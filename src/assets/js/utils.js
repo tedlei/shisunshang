@@ -8,10 +8,12 @@
 export const Debounce = (fn, t) => {
   let delay = t || 500;
   let timer;
+  // console.log(fn)
+  // console.log(typeof fn)
   return function () {
     let args = arguments;
     if (timer) {
-      clearTimeout(timer);
+      clearTimeout(timer);  
     }
     timer = setTimeout(() => {
       timer = null;
@@ -38,7 +40,7 @@ export const Throttle = (fn, t) => {
       timer = setTimeout(() => {
         last = now;
         fn.apply(this, args);
-      }, interval);
+      }, interval);  
     } else {
       last = now;
       fn.apply(this, args);

@@ -84,6 +84,7 @@ import imgUpload from '../../../api/imgUpload'
       this.$store.commit("setLoading");
       let upimglist = [];
       let imglist = this.$store.getters.getloopUpimgs;
+      // console.log(imglist);
       if(imglist.length==0){
         let goodslist = this.evaluate.goods;
         for(let i in goodslist){
