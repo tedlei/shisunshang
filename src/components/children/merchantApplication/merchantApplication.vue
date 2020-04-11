@@ -13,7 +13,7 @@
       </div>
       <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
-      <van-field v-model="Recommender" label="推荐人：" placeholder="请输入推荐人"/>
+      <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/>
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
         <div>
@@ -228,10 +228,6 @@
                   this.$toast('公司电话不能为空');
                   return;
 
-                }else if(this.Recommender==''){
-                  this.$toast('推荐人不能为空');
-                  return;
-
                 }else if(this.classList=='请选择公司经营分类'){
                   this.$toast('请选择公司经营分类');
                   return;
@@ -280,6 +276,7 @@
                         .then((res) => {
                             console.log(res);
                             if (res.status == 200) {
+                                this.$notify({ type: 'success', message: '入驻成功' });
                                 this.$router.push({path: '/mine/nearby'});
                             } else {
                                 this.$toast(res.message);

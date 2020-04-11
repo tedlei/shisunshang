@@ -551,7 +551,7 @@
                 this.isUrl = true;
             },
 
-            //
+            //复制链接
 
             //分享海报
             SharePoster() {
