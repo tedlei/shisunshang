@@ -12,7 +12,7 @@
 
 <script>
     import Bus from "../../../assets/js/bus";
-
+    import {ImagePreview} from 'vant';
     export default {
         name: "newsdetail",
         props: ['datas'],
@@ -23,6 +23,7 @@
                 add_time: '',
                 click_times: '',
                 propsdata: [],
+                imgUrlList:[],   //获取富文本图片路径
             }
         },
         methods: {
@@ -35,23 +36,30 @@
                 this.$post('/api/v1/news', news)
                     .then((response) => {
                         if (response.status = 200) {
-                            this.content = response.data.content
+                            // this.content = response.data.content
                             this.add_time = response.data.add_time
                             this.click_times = response.data.click_times
+                            this.updateImg(response.data.content)
                             Bus.$emit('title', response.data.title)
                         } else {
                             this.$toast(response.message)
                         }
-                        // let textareaHtml = response.data.content
-                        // let srcReg = /src=([\'\"]?([^\'\"]*)[\'\"]?)/ig;
-                        // if(textareaHtml){
-                        //     textareaHtml = textareaHtml.replace(srcReg,"src='"+this.serverSrc+"$2"+"'");
-                        //     this.content = textareaHtml;
-                        // }
                     }).catch(function (error) {
                     console.log(error);
                 });
+            },
+
+            //给图片添加class
+            updateImg(value){
+              this.content = value.replace(/<img/g,"<img class='tapClass'")
             }
+        },
+        updated(){
+          let doc = document.getElementsByClassName('tapClass');
+          for(let item of doc){
+            this.imgUrlList.push(item.src)
+            item.onclick = ()=>{ImagePreview(this.imgUrlList);};
+          }
         },
         destroyed() {
             Bus.$emit('title', '')
@@ -61,23 +69,30 @@
         }
     }
 </script>
+<style lang="scss">
+.content>.newsdetails>.main{
+  overflow: hidden;
+  p{
+    width: 100%;
+  }
+  span{
+    text-indent: 2em;
+  }
+}
+</style>
 
 <style scoped lang="scss">
   .content {
     .newsdetails {
       background-color: #fff;
       margin: 0.1rem;
-      padding: 0.2rem;
+      padding: 0.1rem;
       border-radius: 5px;
-
       .main {
+        width: 100%;
         text-align: left;
         margin: 0.2rem 0;
-        text-indent: 2em;
-
-        > > > img {
-          margin: 0.1rem 0;
-        }
+        // text-indent: 2em;
       }
 
       .add_time {
