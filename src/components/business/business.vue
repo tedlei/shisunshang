@@ -29,6 +29,12 @@
                     >{{item1.cate_name}}</div>
                 </div>
                 <div class="right_ul">
+                    <van-list
+                    v-model="loading"
+                    :finished="finished"
+                    offset="50"
+                    finished-text="没有更多了"
+                    @load="getDataTwo">
                     <div class="right_li" v-for="(item,index) in cpylist" :key="index">
                         <div class="right_route" @click="tapRoute({path:'/business/storemsg',query:{id: item.id}})">
                             <div class="imgDiv">
@@ -51,6 +57,8 @@
                             </div>
                         </div>
                     </div>
+
+                    </van-list>
                 </div>
             </div>
         </div>
@@ -79,28 +87,36 @@ export default {
             num: 0,
             isUlliTwo: true,
             isUlliTwoHeight: 1,
-            navChildren: [],
-            leftlists: [],
-            cpylist: [],
+            leftlists: [],   //一级导航列表
+            navChildren: [],  //二级导航列表
+            cpylist: [],    //商家列表
             listNum:0,
             keywords: '',
+
+            loading:false,
+            finished:false,
+            page:0,  //数据条数
+            navigation:false,   //导航id  
         };
     },
     methods: {
-        //搜索
-        opensearch: function() {
-            Bus.$emit("searchval", true);
-        },
+        //选择一级导航列表时
         getNum(index, children) {
             this.listNum = index
             this.num = index;
             this.navChildren = children;
             this.isUlliTwoHeight = index;
             this.isUlliTwo = true;
-            if (index == 0) {
+            if(!index){
+                this.finished = false;
+                this.page = 0;
+                this.navigation = false;
+                this.cpylist=[];
                 this.getDataTwo();
             }
         },
+
+        //转换数据格式
         navPush(list) {
             for (var i in list) {
                 this.leftlists.push({
@@ -115,78 +131,88 @@ export default {
                 children: []
             });
         },
+
+
+        //获取导航列表
         getData() {
             let ad_data = {
-                method: "get.user.strre.category.list",
-                keywords:this.keywords
+                method: "get.user.strre.category.list"
             };
-            this.$post("/api/v1/UserStoreCategory", ad_data)
-                .then(res => {
-                    if (res.status == 200) {
-                        this.navPush(res.data);
-                        this.getDataTwo();
-                    }
-                })
-                .catch(function(error) {
-                    console.log(error,1);
-                });
+            this.$post("/api/v1/UserStoreCategory", ad_data) 
+            .then(res => {
+                this.navPush(res.data);
+            })
+            .catch(function(error) {
+                console.log(error,1);
+            });
         },
-        getDataTwo(id) {
-            let ad_data = {};
-            if (id) {
-                // console.log("有Id")
-                ad_data = {
-                    method: "get.user.store.list",
-                    cate_id: id,
-                    page: 0,
-                    page_size: 20
-                };
-            } else {
-                ad_data = {
-                    method: "get.user.store.list",
-                    cate_id: 0,
-                    page: 0,
-                    page_size: 20
-                };
-            }
+
+        //获取商家列表
+        getDataTwo() {
+            let {page,navigation,keywords,cpylist} = this;
+            let ad_data = {
+                method: "get.user.store.list",
+                cate_id: 0,
+                page,
+                page_size: 10
+            };
+            if(navigation) ad_data.cate_id = navigation;
+            if(keywords) ad_data.keywords = keywords;
+            this.loading = true;
             this.$post("/api/v1/userStore", ad_data)
                 .then(res => {
-                    console.log(res);
-                    if (res.status == 200) {
-                        this.cpylist = res.data;
+                    this.loading = false;
+                    let {data} = res;
+                    if(!data||data.length<=0) this.finished = true;  //数据全部加载完成
+                    else{
+                        this.cpylist = this.cpylist.concat(data)
+                        this.page = page+data.length;
+                        cpylist = cpylist.concat(data)
+                    }
+                    if(cpylist.length<10){
+                        this.finished = true;  //数据全部加载完成
                     }
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
+
+        //点击二级导航列表时
         isUlliTwoAdd(id) {
+            this.finished = false;
             this.isUlliTwo = false;
-            this.getDataTwo(id);
+            this.navigation = id;
+            this.page = 0;
+            this.cpylist = [];
+            this.getDataTwo();
         },
 
+        //跳转到商家详情
         tapRoute(obj){
             this.$router.push(obj);
         }
     },
     created() {
         this.getData();
-    },
-    mounted() {
         Bus.$on('searchD', (data) => {
-            if (data) {
-                this.keywords = data;
-                this.getData();
-            }
+            this.finished = false;
+            this.page = 0;
+            this.navigation = false;
+            this.cpylist=[];
+            this.keywords = data;
+            this.getDataTwo();
         });
-        let clientW = clientWw.clientWw();
-        let h =
-            window.innerHeight ||
-            document.documentElement.clientHeight ||
-            document.body.clientHeight; //浏览器高度
-        let topH = this.$refs.header_h.offsetHeight;
-        this.height = (h - topH - (70 * clientW) / 100) / clientW + "rem";
-    }
+    },
+    // mounted() {
+        // let clientW = clientWw.clientWw();
+        // let h =
+        //     window.innerHeight ||
+        //     document.documentElement.clientHeight ||
+        //     document.body.clientHeight; //浏览器高度
+        // let topH = this.$refs.header_h.offsetHeight;
+        // this.height = (h - topH - (70 * clientW) / 100) / clientW + "rem";
+    // }
 };
 </script>
 

@@ -57,14 +57,14 @@
     <!--  公告  -->
     <div class="notice">
       <img src="../../assets/img/icon1.png">
-      <el-carousel height="0.2rem" direction="vertical" :autoplay="true">
+      <el-carousel height="0.2rem" direction="vertical" style="margin-left:0.05rem;" :autoplay="true">
         <el-carousel-item v-for="(item,items) in news" :key="items">
           <router-link :to="{path:'/news/newsdetail',query:{id:item.id}}">
             {{ item.title }}
           </router-link>
         </el-carousel-item>
       </el-carousel>
-      <span class="clo-g"><router-link to="/news">查看</router-link></span>
+      <!-- <span class="clo-g"><router-link to="/news">查看</router-link></span> -->
     </div>
 
     <!--  商品列表  -->
@@ -274,7 +274,7 @@
     border-radius: 100px;
     background-color: #f9f9f9;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
     text-align: left;
 
