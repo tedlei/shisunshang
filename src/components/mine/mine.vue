@@ -574,16 +574,17 @@
   /*  */
   .order_lists_info{
     position: absolute;
-    top: 0;
-    right: 2px;
-    width: 20px;
-    height: 20px;
+    top: 2px;
+    right: 3px;
+    width: 16px;
+    height: 16px;
     background: red;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 12px;
+    font-size: 0.10rem;
+    font-weight: bold;
   }
 </style>

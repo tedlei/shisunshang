@@ -65,8 +65,6 @@ router.beforeEach((to, from, next) => {
     return null;
   }
 
-
-
   window.scrollTo(0, 0);
   /*路由发生改变修改页面的title */
   if (to.meta.title == '首页') {

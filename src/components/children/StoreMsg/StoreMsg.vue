@@ -31,7 +31,7 @@
           <div class="grid-content bg-purple"><img :src="item"></div>
         </van-col>
       </van-row>
-      <router-link class="common_btn" to="/uploadpic" style="border-radius: 0.4rem;color: #fff !important;margin-top: 0.3rem">上传小票</router-link>
+      <router-link class="common_btn" :to="{path:'/uploadpic',query:{store_id: shops.id}}" style="border-radius: 0.4rem;color: #fff !important;margin-top: 0.3rem">上传小票</router-link>
     </div>
     <div class="footer">
       <div class="left_hujiao">

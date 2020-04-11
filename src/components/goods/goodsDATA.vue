@@ -35,7 +35,7 @@
             {{initialName}}
             </span>
           <span class="share" @click="showTwo = true">
-            <van-icon name="friends-o" size="20"/>
+            <img src="../../assets/img/spfx.png" alt="#">
             分享
           </span>
 
@@ -963,6 +963,11 @@
           border-radius: 28px;
           display: flex;
           align-items: center;
+          >img{
+            width: 0.18rem;
+            height: 0.18rem;
+            margin: 0 0.03rem;
+          }
         }
       }
 
