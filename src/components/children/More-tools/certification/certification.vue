@@ -6,26 +6,20 @@
         <van-field
           v-model="username"
           name="username"
-          label=""
           placeholder="真实姓名"
-          :rules="[{ required: true, message: '请填写真实姓名' }]"
         />
         <van-field
           v-model="number1"
-          type="tel"
+          type="number"
           name="number"
-          label=""
           placeholder="您的身份证号码(将做加密处理)"
-          :rules="[{ required: true, message: '请填写身份证号码' }]"
         />
         <p class="tips">您的手机号码(必填)</p>
         <van-field
           v-model="number2"
-          name="name"
-          type="tel"
-          label=""
+          type="number"
+          name="number"
           placeholder="填写一致的手机号码"
-          :rules="[{ required: true, message: '请填写手机号码' }]"
         />
         <p class="tips">身份证正反面(必填)</p>
         <div class="unload_pic">
@@ -83,13 +77,10 @@
             // 上传图片
             ZafterRead(file) {
                 console.log(file)
-                file.status = 'uploading';
-                file.message = '上传中...';
-
-                setTimeout(() => {
-                    file.status = 'failed';
-                    file.message = '上传失败';
-                }, 1000);
+                // file.status = 'uploading';
+                // file.message = '上传中...';
+                
+                
             },
             FafterRead(file) {
                 file.status = 'uploading';
@@ -128,7 +119,7 @@
       .tips {
         padding: 0.1rem 0.16rem;
         text-align: left;
-        color: #999999;
+        color: #000;
       }
 
       .unload_pic {

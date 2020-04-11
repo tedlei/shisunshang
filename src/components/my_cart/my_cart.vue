@@ -2,7 +2,7 @@
   <div>
     <header ref="header_h">
       <span style="font-weight: bold">购物车</span>
-      <span style="position: absolute;right: 0.1rem;font-size: 0.16rem;color: #999;" @click="isDellBatch = !isDellBatch">编辑</span>
+      <span v-show="isCart  " style="position: absolute;right: 0.1rem;font-size: 0.16rem;color: #999;" @click="isDellBatch = !isDellBatch">编辑</span>
       <!-- <i class="el-icon-chat-dot-round"></i> -->
     </header>
     <!--  空购物车  -->
@@ -114,10 +114,13 @@
     <!--  有购物车结算  -->
     <div class="settlement" v-show="isCart">
       <div class="left_check">
-        <div :class="allChecked ?'allElection':'allElectionShow'" @click="chooseAllGoods($event)">
-            <div v-show="allChecked">
-              <van-icon name="success" color="#fff"/>
-            </div>
+        <div class="left_check_btn" @click="chooseAllGoods">
+          <div :class="allChecked ?'allElection':'allElectionShow'">
+              <div v-show="allChecked">
+                <van-icon name="success" color="#fff"/>
+              </div>
+          </div>
+          <div>全选</div>
         </div>
         <div style="margin-top: -0.03rem">
           合计：￥{{totalMoney.toFixed(2)}}
@@ -859,6 +862,13 @@ body, html {
       justify-content: space-between;
       padding: 0 0.18rem;
       width: 70%;
+      .left_check_btn{
+        display: flex;
+        >div:nth-child(2){
+          line-height: 0.18rem;
+          margin-left: 0.05rem;
+        }
+      }
       .allElection{
         width: 0.18rem;
         height: 0.18rem;
