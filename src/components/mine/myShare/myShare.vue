@@ -1,22 +1,32 @@
 <template>
   <div class="content">
     <div class="mycode">
-      <div class="common_btn" @click="show = true">关注公众号</div>
+      <div class="common_btn" @click="show = true">我要分享</div>
 
       <div class="qrcode">
         <div id="qrCode" ref="qrCode"></div>
       </div>
-      <p>扫此二维码进入微信公众号</p>
+      <div style="margin-bottom: 0.2rem;font-size: 0.16rem;font-weight: bold">长按图片分享给好友</div>
+      <van-button square  type="primary" class="" v-clipboard:copy="urls"
+           v-clipboard:success="onCopy"
+           v-clipboard:error="onError" @click="select(1)">复制推广二维码
+      </van-button>
+      <p>推广网址：<span>{{urls}}</span></p>
+      <p>识别二维码加入团队</p>
     </div>
-
+    <input type="text" v-model="urls" hidden/>
     <van-action-sheet
       v-model="show"
       :round="false"
-      :actions="actions"
       cancel-text="取消"
       @cancel="onCancel"
-      :style="{'color':'#009900'}"
-    />
+
+    >
+
+
+    </van-action-sheet>
+
+    <!--    -->
   </div>
 </template>
 
@@ -28,24 +38,29 @@
         data() {
             return {
                 show: false,
-                actions: [
-                    {name: '复制推广二维码', color: '#009900'},
-                    {name: '分享给好友', color: '#009900'},
-                    {name: '保存到相册', color: '#009900'},
-                ]
+                urls: ''
             }
         },
         created() {
 
         },
         methods: {
+            select() {
+                this.show = false;
+            },
+            onCopy: function (e) {
+                this.$toast('复制成功！')
+            },
+            onError(e) {
+                this.$toast('复制失败！')
+            },
             onCancel: function () {
                 this.show = false
             },
             creatQrCode() {
                 let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-                console.log(userinfo);
                 let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
+                this.urls = QRcodeDomainName + '?state=' + userinfo.referee_number
                 let qrCode = new QRCode('qrCode', {
                     text: QRcodeDomainName + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
                     width: 200,
@@ -55,10 +70,12 @@
                     correctLevel: QRCode.CorrectLevel.H
                 })
             },
+            //    复制
+
         },
         mounted() {
             this.$nextTick(function () {
-              this.creatQrCode()
+                this.creatQrCode()
             })
         },
     }
@@ -72,6 +89,11 @@
       .common_btn {
 
       }
+    }
+
+    .content_div {
+      line-height: 0.5rem;
+      border-bottom: 1px solid #f2f2f2;
     }
 
     .qrcode {
