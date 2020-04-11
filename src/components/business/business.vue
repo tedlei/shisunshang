@@ -235,7 +235,6 @@ export default {
             position: relative;
             .left_ul {
                 width: 1rem;
-                height: 100%;
                 border-left: 1px solid #f2f2f2;
                 background-color: #fff;
                 position: absolute;
@@ -259,7 +258,6 @@ export default {
                 height: 100%;
                 padding: 0.05rem 0.05rem;
                 padding-bottom: 0;
-                // flex: 1;
                 overflow-y: auto;
                 .right_li {
                     width: 100%;
@@ -270,7 +268,6 @@ export default {
                     .right_route {
                         width: 100%;
                         display: flex;
-                        // align-items: center;
                         .imgDiv{
                             width: 0.78rem;
                             height: 0.78rem;
@@ -344,7 +341,6 @@ export default {
       border-radius: 10px;
       padding: 0 0.05rem;
       background-color: $sss-color;
-      // text-shadow: 0 0 5px #000;
       box-shadow: 0px 0px 10px 5px rgba(36, 35, 35, 0.3);
     }
 
