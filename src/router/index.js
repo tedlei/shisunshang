@@ -352,6 +352,12 @@ const $router = new Router({
           meta: {title: '我的团队', showFooter: false, goods: false, Same: true}
         },
         {
+          path: '/mine/MyteamBusiness',
+          name: 'MyteamBusiness',
+          component: resolve => require(['@/components/children/Myteam/business'], resolve),
+          meta: {title: '我的推荐商家', showFooter: false, goods: false, Same: true}
+        },
+        {
           path: '/mine/More-tools',
           name: 'More-tools',
           component: resolve => require(['@/components/children/More-tools/More-tools'], resolve),

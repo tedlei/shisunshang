@@ -10,7 +10,7 @@
     </div>
     <div class="common_box store_msg">
       <div class="name">
-        <span class="left_name">{{shops.name}}</span>
+        <span class="left_name fontWrap fontWrapOne">{{shops.name}}</span>
         <img src="../../../assets/img/lian.png" v-if="shops.is_promotion == 1">
       </div>
       <div class="time">
@@ -31,7 +31,7 @@
           <div class="grid-content bg-purple"><img :src="item"></div>
         </van-col>
       </van-row>
-      <router-link class="common_btn" :to="{path:'/uploadpic',query:{store_id: shops.id}}" style="border-radius: 0.4rem;color: #fff !important;margin-top: 0.3rem">上传小票</router-link>
+      <router-link v-if="shops.is_promotion == 1" class="common_btn" :to="{path:'/uploadpic',query:{store_id: shops.id}}" style="border-radius: 0.4rem;color: #fff !important;margin-top: 0.3rem">上传小票</router-link>
     </div>
     <div class="footer">
       <div class="left_hujiao">
@@ -106,13 +106,8 @@
         font-size: 0.18rem;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-
-        .left_name {
-          width: 70%;
-        }
-
         img {
+          margin: 0 0.1rem;
           width: 0.5rem;
         }
       }

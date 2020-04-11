@@ -126,11 +126,11 @@
           合计：￥{{totalMoney.toFixed(2)}}
         </div>
       </div>
-      <div @click="payment" v-show="!isDellBatch" class="right_js">
+      <div @click="payment" v-show="!isDellBatch" :class="Settlement?'right_js':'right_jsTwo'">
         去结算
       </div>
       <!-- 购物车删除按钮 -->
-      <div class="isDellBatch" v-show="isDellBatch" @click="dellBatch">
+      <div :class="Settlement?'isDellBatch':'isDellBatch isDellBatchTwo'" v-show="isDellBatch" @click="dellBatch">
 	    	删除
       </div>
     </div>
@@ -160,7 +160,8 @@ export default {
         goodsObj: [],
         totalMoney : 0,
         totalFare : 0,
-        allChecked : false
+        allChecked : false,
+        Settlement: false
     }
   },
   watch:{},
@@ -268,6 +269,8 @@ export default {
       this.allChecked = !this.allChecked;
       this.calTotalMoney();
       this.calTotalFare();
+      this.isSettlement();
+
     },
 
     // 每个店铺全选
@@ -287,8 +290,8 @@ export default {
 
       // 判断是否选择所有商品的全选
       this.isChooseAll();
-
       this.cal(index);
+      this.isSettlement();
     },
 
     // 单个选择
@@ -299,6 +302,7 @@ export default {
         this.goodsObj[index1]['checked'] = false;
         this.allChecked = false;
         list[index]['checked'] = !list[index]['checked'];
+
       } else {
         list[index]['checked'] = !list[index]['checked'];
 
@@ -312,12 +316,12 @@ export default {
         }
         flag == true ? this.goodsObj[index1]['checked'] = true : this.goodsObj[index1]['checked'] = false;
       }
-
       // 判断是否选择所有商品的全选
       this.isChooseAll();
       // console.log(index1)
       // console.log(index)
       this.cal(index1);
+      this.isSettlement();
     },
 
     // 判断是否选择所有商品的全选
@@ -330,6 +334,22 @@ export default {
         }
       }
       flag1 == true ? this.allChecked = true : this.allChecked = false;
+    },
+
+    //判断删除和结算按钮是否启用
+    isSettlement() {
+      let list = this.goodsObj.filter( item => {
+        return item.checked==true;
+      });
+      // console.log(list);
+      let listTwo = list.filter( item => {
+        return item.checked==true;
+      });
+      if(listTwo.length==0){
+        this.Settlement = false; 
+      }else{
+        this.Settlement = true; 
+      }
     },
 
     // 商品数量控制
@@ -900,8 +920,16 @@ body, html {
       line-height: 0.5rem;
       width: 30%;
     }
+    .right_jsTwo{
+      background-color: #999999;
+      line-height: 0.5rem;
+      width: 30%;
+    }
     .isDellBatch{
       background-color: red !important;
+    }
+    .isDellBatchTwo{
+      background-color: #999999 !important;
     }
   }
   .overlay{

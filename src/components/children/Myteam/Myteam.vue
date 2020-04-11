@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-show="look&&!isbusiness">
+    <div v-show="look">
       <div style="position: relative;color: #fff">
         <img src="../../../assets/img/icon3.png">
         <span style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%">我的团队</span>
@@ -10,7 +10,7 @@
       </div>
       <div>
         <ul class="team_list">
-          <li v-for="(item,index) in msglists" :key="index" @click="openteam(item.id)">
+          <li v-for="(item,index) in msglists" :key="index" @click="openteam(item.id,item.name)">
             <div class="left">{{item.name}}:{{item.num}}人</div>
             <div class="right">
               <span>查看</span>
@@ -60,37 +60,7 @@
         </tr>
       </table>
     </div>
-    <!-- 附近商家 -->
-    <ul v-if="adlists&&isbusiness" class="ad_list">
-        <li v-for="(item,index) in adlists" :key="index">
-        <router-link to="">
-              <div class="left_img">
-                 <van-image
-                  width="0.8rem"
-                  height="0.8rem"
-                  fit="cover"
-                  :src="item.imgurl"
-                /> 
-              </div>
-              <div class="right_msg">
-                <div class="name">
-                    <div class="tt fontWrap fontWrapTwo">
-                      {{item.name}}
-                    </div>
-                  <div class="tt_name fontWrap fontWrapOne">地址：{{item.address}}</div>
-                </div>
-                <div class="time">
-                  <span>电话：{{item.mobile}}</span>
-                  <!-- {{item.status}} 0待审核 1不显示 2审核失败  -->
-                </div>
-              </div>
-              <div class="imgDiv">
-                  <img v-show="item.status==0" src="../../../assets/img/shz.png" alt="#">
-                  <img v-show="item.status==2" src="../../../assets/img/shsb.png" alt="#">
-              </div>
-        </router-link>
-        </li>
-    </ul>
+    
   </div>
 </template>
 
@@ -106,8 +76,6 @@
                 msglists: [],
                 team_dtllists: [],
                 business_num: 0,
-                isbusiness: false,
-                adlists: null,
             }
         },
         methods: {
@@ -140,7 +108,8 @@
             },
 
             //查看
-            openteam: function (e) {
+            openteam: function (e ,name) {
+                Bus.$emit('title', '我的'+name);
                 let _this = this,
                     teammsg = {
                         method: 'get.user.team.list',
@@ -149,32 +118,16 @@
                 this.$post('/api/v1/UserTeam', teammsg)
                     .then((response) => {
                         _this.team_dtllists = response.data.items
-                        _this.look = false
+                        _this.look = false;
                     }).catch(function (error) {
                     console.log(error);
                 });
                 Bus.$emit('val', true)
+              
             },
             //查看2
             openteamTwo() {
-              this.$route.meta.title = '附近商家';
-              console.log(this.$route.meta.title)
-              let _this = this,
-                  teammsg = {
-                      method: 'get.user.recomment.store.list'
-                  };
-              // this.$post('/api/v1/userStore', teammsg)
-              //     .then((res) => {
-              //       console.log(res)
-              //       if(res.status==200){
-              //         this.adlists = res.data;
-              //         this.isbusiness = true;
-              //       }else{
-              //         this.$toast("暂无商家")
-              //       }
-              //     }).catch(function (error) {
-              //       console.log(error);
-              // });
+              this.$router.push({path:'/mine/MyteamBusiness'});
             },
         },
         mounted() {
@@ -186,6 +139,11 @@
             })
             this.getteam();
             this.getbusiness();
+        },
+        watch:{
+          look(value){
+            if(value) Bus.$emit('title','')
+          }
         }
     }
 </script>

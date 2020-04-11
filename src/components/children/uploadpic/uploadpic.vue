@@ -14,11 +14,9 @@
       </van-uploader>
     </div>
     <van-field v-model="number" type="number" label="" placeholder="请输入金额" class="m_b_10"/>
-    <div class="uploader_box" style="border: none;margin-bottom: 0.4rem">
+    <div class="uploader_boxTwo" style="border: none;margin-bottom: 0.4rem">
       <strong>规则说明</strong>
-      <p>1.本着吃多少送多少的理念，用户在商家消费多少，我们送多少；</p>
-      <p>1.本着吃多少送多少的理念，用户在商家消费多少，我们送多少；</p>
-      <p>1.本着吃多少送多少的理念，用户在商家消费多少，我们送多少；</p>
+      <div v-if="content" v-html="content"></div>
     </div>
     <div class="common_btn" @click="submits">
       上传
@@ -34,11 +32,26 @@ import imgUpload from '../../../api/imgUpload'
             return {
                 fileList: [],
                 number: '',
-                file: ''
+                file: '',
+                content: null
             }
         },
 
         methods: {
+            //获取规则
+            getrule() {
+              let ad_data = {
+                  method: 'get.promotion.item',
+              };
+              this.$post('/api/v1/news', ad_data)
+                  .then((res) => {
+                      console.log(res);
+                      this.content = res.data.content;
+                  }).catch(function (error) {
+                  console.log(error);
+              });
+            },
+
             afterRead: function (files) {
                 // console.log(files);
                 let _this = this;
@@ -126,6 +139,7 @@ import imgUpload from '../../../api/imgUpload'
         },
         created () {
           // console.log(this.$route.query.store_id)
+          this.getrule();
         }
     }
 </script>
@@ -142,7 +156,6 @@ import imgUpload from '../../../api/imgUpload'
       border-radius: 5px;
       border: 1px dashed #d2d2d2;
       margin-top: 0.1rem;
-
       /deep/ .van-uploader {
         height: 100%;
         width: 100%;
@@ -189,6 +202,17 @@ import imgUpload from '../../../api/imgUpload'
         text-align: justify;
         margin-bottom: 0.1rem;
         color: #999999;
+      }
+    }
+    .uploader_boxTwo{
+      background-color: #fff;
+      padding: 0.1rem;
+      border-radius: 5px;
+      border: 1px dashed #d2d2d2;
+      margin-top: 0.1rem;
+      >div{
+        text-align: left;
+        padding: 0.1rem 0;
       }
     }
   }
