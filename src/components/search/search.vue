@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import { Debounce } from "../../assets/js/utils";
+    import {Debounce} from "../../assets/js/utils";
     import Bus from "../../assets/js/bus";
 
     export default {
@@ -41,7 +41,7 @@
                 }
             }
         },
-       
+
         methods: {
             //是否
             isreadonly: function () {
@@ -56,25 +56,24 @@
             //搜索传值
             onSearch: function () {
                 let searchVal = this.searchVal;
-                if(!searchVal){
-                    this.$notify({ type: 'warning', message: '请输入搜索内容',duration:'500' });
+                if (!searchVal) {
+                    this.$notify({type: 'warning', message: '请输入搜索内容', duration: '500'});
                     return
                 }
                 let histort = localStorage.getItem('histort');
-                if(!histort) histort = [];
+                if (!histort) histort = [];
                 else histort = JSON.parse(histort);
-                if(histort.length>=10) histort.pop()
-                if(histort.indexOf(searchVal)) histort.unshift(searchVal);
-                localStorage.setItem('histort',JSON.stringify(histort));
+                if (histort.length >= 10) histort.pop()
+                if (histort.indexOf(searchVal)) histort.unshift(searchVal);
+                localStorage.setItem('histort', JSON.stringify(histort));
                 this.$emit('getHistorylist')
                 this.$store.commit('sendsearchVal', searchVal);
             },
-            inputsearchVal:Debounce(function(val) {
-                if (this.readonly == false){
+            inputsearchVal: Debounce(function (val) {
+                if (this.readonly == false) {
                     Bus.$emit('searchD', val)
                 }
-
-            },300)
+            }, 300)
             //监听输入是否为空
             // searchValchange: function () {
             //     this.$store.commit('sendsearchVal', this.searchVal)

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="mycode">
-      <div class="common_btn" @click="show = true">我要分享</div>
+      <div class="common_btn">我要分享</div>
 
       <div class="qrcode">
         <div id="qrCode" ref="qrCode"></div>
@@ -15,16 +15,6 @@
       <p>识别二维码加入团队</p>
     </div>
     <input type="text" v-model="urls" hidden/>
-    <van-action-sheet
-      v-model="show"
-      :round="false"
-      cancel-text="取消"
-      @cancel="onCancel"
-
-    >
-
-
-    </van-action-sheet>
 
     <!--    -->
   </div>
@@ -37,7 +27,6 @@
         name: "myShare",
         data() {
             return {
-                show: false,
                 urls: ''
             }
         },
@@ -53,9 +42,6 @@
             },
             onError(e) {
                 this.$toast('复制失败！')
-            },
-            onCancel: function () {
-                this.show = false
             },
             creatQrCode() {
                 let userinfo = JSON.parse(this.$store.getters.getuserinfo);

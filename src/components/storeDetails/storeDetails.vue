@@ -21,12 +21,12 @@
                 </div>
             </div>
             <div class="hederMsg">
-                <div class="hederMsgIco">
-                    <img src="../../assets/img/fx.png" alt />
-                </div>
-                <div class="hederMsgIco">
-                    <img src alt />
-                </div>
+<!--                <div class="hederMsgIco">-->
+<!--                    <img src="../../assets/img/fx.png" alt />-->
+<!--                </div>-->
+<!--                <div class="hederMsgIco">-->
+<!--                    <img src alt />-->
+<!--                </div>-->
                 <div @click="isCollectionAdd">
                     <van-icon v-if="isCollection==true" name="like" />
                     <van-icon v-else name="like-o" />
@@ -522,7 +522,7 @@ export default {
                     margin-bottom: 0.01rem;
                 }
             }
-            > div:nth-child(3) {
+            > div {
                 display: flex;
                 justify-content: center;
                 align-items: center;
