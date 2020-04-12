@@ -58,7 +58,9 @@
           let doc = document.getElementsByClassName('tapClass');
           for(let item of doc){
             this.imgUrlList.push(item.src)
-            item.onclick = ()=>{ImagePreview(this.imgUrlList);};
+            item.onclick = ()=>{ImagePreview(this.imgUrlList);};  
+            
+            
           }
         },
         destroyed() {

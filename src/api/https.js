@@ -186,7 +186,7 @@ export function post(url, params = {},) {
       .then(response => {
         if (response.status === 500) {
           Toast('数据错误')
-          return
+          reject(false)
         } else if (response.status === 200 && response.data) {
           resolve(response.data)
           // success(response.data)
@@ -195,7 +195,7 @@ export function post(url, params = {},) {
           // console.log(resolve(response.data))
         }
       }, err => {
-        reject(err)
+        reject(false)
       })
   })
 }

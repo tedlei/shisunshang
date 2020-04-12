@@ -72,7 +72,6 @@
             },
             //    分享进来进行签名
             shareConfig: function () {
-                // console.log(2222222222222)
                 let ua = window.navigator.userAgent.toLocaleLowerCase();
                 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                     if (this.$route.name != 'author') {//判断当前是否是新建的auth路由空白页面

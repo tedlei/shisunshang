@@ -10,11 +10,11 @@
       <span v-else>退款/售后</span>
     </div>
     <!--  搜索组件    -->
-    <search v-show="this.$route.name == 'Special-area'"
+    <search v-if="this.$route.name == 'Special-area'"
             :dmsg='true'
-            :style="this.$route.name == 'Special-area'? 'padding: 0 0.2rem':'padding:0 0 0 0.2rem'"></search>
+            :style="'padding:0 0 0 0.2rem'"></search>
     <!--    -->
-    <i v-show="this.$route.name == 'Special-area'" class="el-icon-chat-dot-round" style="right: 5px"></i>
+
 
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>

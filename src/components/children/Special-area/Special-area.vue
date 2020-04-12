@@ -1,10 +1,8 @@
 <template>
   <div>
-    <van-dropdown-menu style="position: fixed;top: 0.55rem;height: 0.5rem;z-index: 9999;width: 100%" active-color="#009900">
-      <van-dropdown-item v-model="value1" :options="option1" @change="changeval(value1)"/>
-      <van-dropdown-item v-model="value2" :options="option2" @change="changeval(value2)"/>
-    </van-dropdown-menu>
-
+    <ul class="firstNav clearfix" style="position: fixed;top: 0.55rem;height: 0.5rem;z-index: 9999;width: 100%">
+      <li v-for="(item,index) in firstNav" :class="{active:Fnum == index}" @click="changeval(index)">{{item.text}}</li>
+    </ul>
     <!--    -->
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
       <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
@@ -52,6 +50,7 @@
         name: "Special-area",
         data() {
             return {
+                Fnum: 0,
                 num: 0,
                 loading: false,
                 finished: false,
@@ -64,29 +63,35 @@
                 cateidarry: [],
                 active: '',
                 zhuan: {vip: '会员区', customer: '顾客区', retail: '零售区', shop: '商家区'},
-                value1: 0,
-                value2: 'a',
-                option1: [
-                    {text: '全部', value: 0},
-                    {text: '顾客区', value: 1},
-                    {text: '会员区', value: 2},
-                    {text: '零售区', value: 3},
-                    {text: '商家区', value: 4},
-                ],
-                option2: [
-                    {text: '默认排序', value: 'a'},
-                    {text: '好评排序', value: 'b'},
-                    {text: '销量排序', value: 'c'},
-                ]
+                firstNav: [{text: '顾客区', value: 0, typeid: 'customer'},
+                    {text: '会员区', value: 1, typeid: 'vip'},
+                    {text: '零售区', value: 2, typeid: 'retail'},
+                    {text: '商家区', value: 3, typeid: 'shop'},],
+                keywords: '',
+
             }
         },
         methods: {
             changeval(e) {
                 switch (e) {
                     case 0:
+                        this.$router.replace({query: {typeid: 'customer'}});
+                        break;
+                    case 1:
+                        this.$router.replace({query: {typeid: 'vip'}});
+                        break;
+                    case 2:
+                        this.$router.replace({query: {typeid: 'retail'}});
+                        break;
+                    case 3:
+                        this.$router.replace({query: {typeid: 'shop'}});
+                        break;
+                    default:
 
-                        break
                 }
+                this.Fnum = e;
+                this.flag = true;
+                this.getlist();
             },
             //获取导航
             getgoods: function () {
@@ -96,7 +101,9 @@
                 };
                 this.$post('/api/v1/goodsCategory', parms)
                     .then((response) => {
-                        _this.navItems = response.data;
+                        response.data.unshift({id: 0, cate_name: '全部'})
+
+                        _this.navItems = response.data
                         _this.defaultcateid = response.data[0].id;
                         for (let i in response.data) {
                             _this.cateidarry.push(response.data[i].id)
@@ -123,7 +130,8 @@
                         map: _this.$route.query.typeid,
                         page: this.pages,
                         page_size: 20,
-                        cate_id: _this.defaultcateid
+                        cate_id: _this.defaultcateid,
+                        keywords: _this.keywords
                     };
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
@@ -135,6 +143,7 @@
                                     this.list = []
                                     this.finished = true;
                                 }
+                                this.pages = 0;
                             } else {
                                 _this.$toast(response.message)
                             }
@@ -184,6 +193,20 @@
         mounted() {
             document.title = this.zhuan[this.$route.query.typeid]
             this.getgoods();
+            //    初始选项
+            for (let i in this.firstNav) {
+                if (this.firstNav[i].typeid == this.$route.query.typeid) {
+                    console.log(i)
+                    this.Fnum = this.firstNav[i].value
+                }
+
+            }
+            Bus.$on('searchD', (data) => {
+                this.keywords = data;
+                this.pages = 0;
+                this.flag = true;
+                this.getlist();
+            });
         },
         destroyed() {
 
@@ -192,6 +215,23 @@
 </script>
 
 <style scoped lang="scss">
+  .firstNav {
+    background-color: #fff;
+    padding: 0.1rem;
+
+    li {
+      float: left;
+      width: 25%;
+      line-height: 0.3rem;
+      border-radius: 4px;
+    }
+
+    li.active {
+      background-color: #009900;
+      color: #fff;
+    }
+  }
+
   .nav {
     top: 1.05rem;
 

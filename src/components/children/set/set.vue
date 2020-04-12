@@ -7,7 +7,7 @@
           <div class="right">
             <img :src="item.right" v-if="index==0">
             <span v-else>{{item.right}}</span>
-            <i class="el-icon-arrow-right" v-show="index!=1"></i>
+            <i class="el-icon-arrow-right" v-show="index!=1&&index!=0"></i>
           </div>
         </li>
       </ul>

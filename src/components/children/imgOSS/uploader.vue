@@ -23,15 +23,12 @@ export default {
     },
     methods: {
         afterRead ( file ) {
-            // console.log(file);
             this.createImage();
         },
         beforeDelete( e ) {
-            // console.log(e)
             // this.createImage();
         },
         createImage( ) {
-            // console.log(this.fileList)
             let self = this;
             for( let i in this.fileList){
                 let file = this.fileList[i].file;
@@ -44,9 +41,9 @@ export default {
                         img.onload = function() {
                            this.firImg = self.compress(img, 0.7);
                             let imgTwo = self.base64UrlToBlob(this.firImg);
-                            // console.log(imgTwo)
                             self.fileList[i].file = imgTwo;
-                            // console.log(self.fileList);
+                            // if(self.type) self.fileList[i].type = self.type;
+                            
                         }
                     }else{
                         console.log(this.fileList)
@@ -95,9 +92,6 @@ export default {
         this.$emit('imgUpData', this.fileList);
     },
     computed: {
-    
-    },
-    watch: {
     
     }
 }

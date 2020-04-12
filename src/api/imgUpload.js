@@ -38,7 +38,8 @@ export default function OSS ( imgList ) {
                 })
             }
         }).catch(function (error) {
-            console.log(error);
+            reject({data:false})
+            // console.log(error);
         });
     })
 }
