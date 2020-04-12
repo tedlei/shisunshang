@@ -267,7 +267,8 @@
         <div>
           <router-link to="/my_cart">
             <van-icon v-show="$store.getters.getCartNum==0" name="shopping-cart-o" size="20px"/>
-            <van-icon v-show="$store.getters.getCartNum!=0" name="shopping-cart-o" :info="$store.getters.getCartNum" size="20px"/>
+            <van-icon v-show="$store.getters.getCartNum!=0" name="shopping-cart-o" :info="$store.getters.getCartNum"
+                      size="20px"/>
             <div>购物车</div>
           </router-link>
         </div>
@@ -391,12 +392,8 @@
                             retail: {},
                             shop: {}
                         },
-                        "spec": [
-                            
-                        ],
-                        "spec_rel": [
-                            
-                        ]
+                        "spec": [],
+                        "spec_rel": []
                     },
                     "buy_array": {
                         "customer": "",
@@ -753,15 +750,15 @@
                         // console.log(res.status)
                         if (res.status == 200) {
                             let ad_data = {
-                              method: 'get.goods.cart.count',
+                                method: 'get.goods.cart.count',
                             };
                             this.$post('/api/v1/GoodsCart', ad_data)
-                              .then((res) => {
-                                // console.log(res);
-                                this.$store.commit('setCartNum', res.data.num)
-                              }).catch(function (error) {
+                                .then((res) => {
+                                    // console.log(res);
+                                    this.$store.commit('setCartNum', res.data.num)
+                                }).catch(function (error) {
                                 console.log(error);
-                              });
+                            });
                             this.$toast.success("添加成功");
                         } else {
                             this.$toast.fail("添加失败");
@@ -941,7 +938,8 @@
           display: flex;
           align-items: center;
           color: $sss-color;
-          >img{
+
+          > img {
             width: 0.18rem;
             height: 0.18rem;
             margin: 0 0.03rem;
@@ -1067,10 +1065,10 @@
     .left {
       width: 50%;
       background-color: #333;
-
       display: flex;
       justify-content: space-around;
-      padding: 5px 0;
+      align-items: center;
+      height: 0.5rem;
     }
 
     .right {
@@ -1079,13 +1077,13 @@
 
       .join_cart {
         width: 50%;
-        line-height: 45px;
+        line-height: 0.5rem;
         background-color: #48a248;
       }
 
       .buy {
         width: 50%;
-        line-height: 45px;
+        line-height: 0.5rem;
         background-color: #009900;
       }
     }
