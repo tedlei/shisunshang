@@ -284,7 +284,7 @@
                     },
                     {
                         img: 'gj2',
-                        name: '我的分享',
+                        name: '推广二维码',
                         linkto: '/mine/myShare'
                     },
                     {

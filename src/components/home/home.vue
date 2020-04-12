@@ -22,12 +22,12 @@
           <div>扫码</div>
         </div> -->
         <!--消息-->
-        <div class="news">
+        <!-- <div class="news">
           <router-link to="/news">
             <i class="el-icon-chat-dot-round"></i>
             <div>消息</div>
           </router-link>
-        </div>
+        </div> -->
       </el-row>
     </header>
     <!--  轮播组件  -->

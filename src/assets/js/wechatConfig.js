@@ -10,6 +10,16 @@ const wechatAuth = async function (url, shareConfig) {
   //     console.log(res)
   //   }
   // });
+  let getLocation = {
+    type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+    success: function (res) {
+      let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+      let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+      var speed = res.speed; // 速度，以米/每秒计
+      var accuracy = res.accuracy; // 位置精度
+      geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
+    }
+  }
   get("wxshare/wxconfig/myapi.php?urlparam=" + url)
     .then((response) => {
       if (response.data && response.status === 200) {
@@ -24,16 +34,10 @@ const wechatAuth = async function (url, shareConfig) {
         });
         wx.ready(function () {
           //获取地理位置
-          // wx.getLocation({
-          //   type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-          //   success: function (res) {
-          //     let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          //     let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          //     var speed = res.speed; // 速度，以米/每秒计
-          //     var accuracy = res.accuracy; // 位置精度
-          //     geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
-          //   }
-          // });
+
+          wx.getLocation(getLocation);
+
+0
           //========老分享========
           //好友
           // wx.onMenuShareAppMessage({
@@ -78,7 +82,7 @@ const wechatAuth = async function (url, shareConfig) {
           // 朋友圈
           wx.updateTimelineShareData({
             title: shareConfig.title,
-            link:  location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
+            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
               //shareSuccessCallback();
