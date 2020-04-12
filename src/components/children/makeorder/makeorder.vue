@@ -1,14 +1,14 @@
 <template>
   <div class="content">
     <!--提醒框 -->
-    <div class="tips" v-show="isTips">
+    <div class="tips" v-show="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined && isTips">
       <span class="clo-g">应国家快递实名制规定，收件人须填写真实信息。</span>
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
     <div class="common_box adress">
       <router-link :to="{path:'/mine/Address',query:{id: 'makeorder'}}" class="common">
         <div class="left">
-          <i class="el-icon-location"></i>
+          <i style="margin-top:0.15rem" class="el-icon-location"></i>
           <span>
             <!-- {{$store.getters.getreceivingAddress.name?'有':orderData.address_default}} -->
             <p style="color:red" v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
@@ -102,15 +102,6 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </router-link>
-      <div class="common m_b_10">
-        <div>签到金</div>
-        <div class="right">
-          <span class="Check">
-            {{orderData.total_qd_price}}
-            元</span>
-        </div>
-      </div>
-      
       <a class="common m_b_10">
         <div>充值金</div>
         <div class="right">
@@ -131,6 +122,12 @@
           <span>商品金额</span>
           <span class="clo-g shopgoodman">￥
             {{orderData.total_price_old}}
+          </span>
+        </div>
+        <div class="right">
+          <span>签到金</span>
+          <span style="color:#0f0f0f !important;" class="clo-g">￥
+            {{orderData.total_qd_price}}
           </span>
         </div>
         <div class="right">
@@ -483,7 +480,6 @@
         justify-content: space-between;
         align-items: center;
         padding: 0.1rem 0;
-        border-bottom: 1px solid #f2f2f2;
       }
 
       .left {

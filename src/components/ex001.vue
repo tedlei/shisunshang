@@ -7,6 +7,7 @@
           type="file"
           accept="video/*"
         />
+        
     </div>
 </template>
 
