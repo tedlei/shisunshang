@@ -325,7 +325,7 @@ export default {
                                         border-radius: 0.18rem;
                                         padding: 0 5px;
                                         color: #fff;
-                                        font-size: 0.12rem;
+                                        font-size: 0.10rem;
                                     }
                                 }
 

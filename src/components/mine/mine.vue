@@ -2,8 +2,8 @@
   <div>
     <div class="headBg">
       <header class="">
-        <div style="text-align: right">
-          <router-link to="/mine/set"><van-icon name="setting-o" /></router-link>
+        <div style="text-align: right;padding-top: 0.05rem;">
+          <router-link to="/mine/set"><van-icon name="setting-o" size="20"/></router-link>
         </div>
         <div class="user">
           <div style="display: flex">

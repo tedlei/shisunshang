@@ -102,14 +102,15 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </router-link>
-      <div class="common m_b_10" v-show="orderData.total_offer_price>0">
-        <div>保价金</div>
+      <div class="common m_b_10">
+        <div>签到金</div>
         <div class="right">
           <span class="Check">
-            {{orderData.total_offer_price}}
+            {{orderData.total_qd_price}}
             元</span>
         </div>
       </div>
+      
       <a class="common m_b_10">
         <div>充值金</div>
         <div class="right">
@@ -128,14 +129,14 @@
       <div class="price">
         <div class="left">
           <span>商品金额</span>
-          <span class="clo-g">￥
+          <span class="clo-g shopgoodman">￥
             {{orderData.total_price_old}}
           </span>
         </div>
         <div class="right">
-          <span>签到金</span>
-          <span class="clo-g">-￥
-            {{orderData.total_qd_price}}
+          <span>充值金</span>
+          <span class="clo-g">+￥
+            {{orderData.total_price}}
           </span>
         </div>
         <div class="right">
@@ -577,5 +578,8 @@
     font-size: 0.14rem;
     // transform: scale(0.95);
   }
-
+  .shopgoodman{
+    text-decoration:line-through;
+    color: #999999 !important;
+  }
 </style>

@@ -176,7 +176,7 @@
                     path: '/goodsdetails',
                     query: {
                         id: e,
-                        buy_type: '',
+                        buy_type: this.$route.query.typeid,
                     }
                 })
             }

@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.name != 'Special-area' && to.meta.title) {
     document.title = to.meta.title;
   }
-  if (['home', 'mine', 'my_cart', 'business', 'classification'].includes(to.name)) {
+  if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
     //购物车数量
     let ad_data = {
       method: 'get.goods.cart.count',

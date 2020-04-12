@@ -266,8 +266,8 @@
         </div>
         <div>
           <router-link to="/my_cart">
-            <van-icon v-show="cartNum==0" name="shopping-cart-o" size="20px"/>
-            <van-icon v-show="cartNum!=0" name="shopping-cart-o" :info="cartNum" size="20px"/>
+            <van-icon v-show="$store.getters.getCartNum==0" name="shopping-cart-o" size="20px"/>
+            <van-icon v-show="$store.getters.getCartNum!=0" name="shopping-cart-o" :info="$store.getters.getCartNum" size="20px"/>
             <div>购物车</div>
           </router-link>
         </div>
@@ -392,45 +392,10 @@
                             shop: {}
                         },
                         "spec": [
-                            {
-                                "goods_spec_id": "",
-                                "goods_id": "",
-                                "goods_no": "",
-                                "goods_price": "",
-                                "integral_price": "",
-                                "give_integral": "",
-                                "line_price": "",
-                                "stock_num": "",
-                                "goods_sales": "",
-                                "goods_weight": "",
-                                "wxapp_id": "",
-                                "spec_sku_id": "",
-                                "create_time": "",
-                                "update_time": ""
-                            }
+                            
                         ],
                         "spec_rel": [
-                            {
-                                "spec_value_id": "",
-                                "spec_value": "",
-                                "spec_id": "",
-                                "wxapp_id": "",
-                                "create_time": "",
-                                "spec": {
-                                    "spec_id": "",
-                                    "spec_name": "",
-                                    "wxapp_id": "",
-                                    "create_time": ""
-                                },
-                                "pivot": {
-                                    "id": "",
-                                    "goods_id": "",
-                                    "spec_id": "",
-                                    "spec_value_id": "",
-                                    "wxapp_id": "",
-                                    "create_time": ""
-                                }
-                            }
+                            
                         ]
                     },
                     "buy_array": {
@@ -506,7 +471,6 @@
                     }
                 },
                 is_follow: 0,
-                cartNum: this.$store.getters.getCartNum,
             }
         },
 
@@ -788,7 +752,16 @@
                     .then((res) => {
                         // console.log(res.status)
                         if (res.status == 200) {
-                            this.cartNum = this.cartNum + 1;
+                            let ad_data = {
+                              method: 'get.goods.cart.count',
+                            };
+                            this.$post('/api/v1/GoodsCart', ad_data)
+                              .then((res) => {
+                                // console.log(res);
+                                this.$store.commit('setCartNum', res.data.num)
+                              }).catch(function (error) {
+                                console.log(error);
+                              });
                             this.$toast.success("添加成功");
                         } else {
                             this.$toast.fail("添加失败");
