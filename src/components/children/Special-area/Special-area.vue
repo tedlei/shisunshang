@@ -1,5 +1,11 @@
 <template>
   <div>
+    <van-dropdown-menu style="position: fixed;top: 0.55rem;height: 0.5rem;z-index: 9999;width: 100%" active-color="#009900">
+      <van-dropdown-item v-model="value1" :options="option1" @change="changeval(value1)"/>
+      <van-dropdown-item v-model="value2" :options="option2" @change="changeval(value2)"/>
+    </van-dropdown-menu>
+
+    <!--    -->
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
       <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
         <div class="common_box">
@@ -57,10 +63,31 @@
                 defaultcateid: '',
                 cateidarry: [],
                 active: '',
-                zhuan: {vip: '会员区', customer: '顾客区', retail: '零售区', shop: '商家区'}
+                zhuan: {vip: '会员区', customer: '顾客区', retail: '零售区', shop: '商家区'},
+                value1: 0,
+                value2: 'a',
+                option1: [
+                    {text: '全部', value: 0},
+                    {text: '顾客区', value: 1},
+                    {text: '会员区', value: 2},
+                    {text: '零售区', value: 3},
+                    {text: '商家区', value: 4},
+                ],
+                option2: [
+                    {text: '默认排序', value: 'a'},
+                    {text: '好评排序', value: 'b'},
+                    {text: '销量排序', value: 'c'},
+                ]
             }
         },
         methods: {
+            changeval(e) {
+                switch (e) {
+                    case 0:
+
+                        break
+                }
+            },
             //获取导航
             getgoods: function () {
                 let _this = this;
@@ -71,7 +98,7 @@
                     .then((response) => {
                         _this.navItems = response.data;
                         _this.defaultcateid = response.data[0].id;
-                        for (var i in response.data) {
+                        for (let i in response.data) {
                             _this.cateidarry.push(response.data[i].id)
                         }
                         _this.getlist()
@@ -82,6 +109,8 @@
             },
             //点击切换
             qiehuan(name, title) {
+                console.log(name)
+                console.log(title)
                 this.flag = true
                 this.defaultcateid = this.cateidarry[name];
                 this.getlist();
@@ -147,7 +176,7 @@
                     path: '/goodsdetails',
                     query: {
                         id: e,
-                        buy_type: this.$route.query.typeid,
+                        buy_type: '',
                     }
                 })
             }
@@ -164,7 +193,7 @@
 
 <style scoped lang="scss">
   .nav {
-    top: 0.55rem;
+    top: 1.05rem;
 
     /deep/ .van-tabs__wrap {
       position: fixed;
@@ -196,6 +225,7 @@
 
           .text {
             font-size: 0.14rem;
+            height: 0.38rem;
 
             .vip {
               background-color: #009900;
@@ -203,7 +233,7 @@
               display: inline-block;
               line-height: 14px;
               border-radius: 5px;
-              padding: 4px;
+              padding: 1px 4px;
               font-size: 0.12rem;
             }
           }

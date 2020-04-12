@@ -17,6 +17,11 @@ import qs from 'qs'
 import { post, patch, put } from './api/https'
 import 'mint-ui/lib/style.css'
 import { Api } from '../src/assets/js/verifyCodeTime.js'
+//复制到粘贴板插件
+import VueClipboard from 'vue-clipboard2'
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
+
 
 Api.init.call(Vue);
 
