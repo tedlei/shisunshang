@@ -82,10 +82,10 @@ export default {
           });
           break;
         case "实名认证":
-          // this.$router.push({
-          //     path: '/mine/certification',
-          // })
-          this.getUserrzxx();
+          this.$router.push({
+              path: '/mine/certification',
+          })
+          // this.getUserrzxx();
           break;
         case "设置支付密码":
           this.$router.push({
@@ -114,23 +114,23 @@ export default {
     },
 
     //获取用户信息
-    async getUserrzxx() {
-      let ad_data = { method: "get.user.auth.item" };
-      let data = await this.$post("/api/v1/userAuth", ad_data);
-      if (data && data.data) {
-        switch (data.data.status) {
-          case 0:
-            this.tc("认证信息审核中");
-            return;
-          case 1:
-            this.tc("实名认证已通过");
-            return;
-        }
-      }
-      this.$router.push({
-        path: "/mine/certification"
-      });
-    }
+    // async getUserrzxx() {
+    //   let ad_data = { method: "get.user.auth.item" };
+    //   let data = await this.$post("/api/v1/userAuth", ad_data);
+    //   if (data && data.data) {
+    //     switch (data.data.status) {
+    //       case 0:
+    //         this.tc("认证信息审核中");
+    //         return;
+    //       case 1:
+    //         this.tc("实名认证已通过");
+    //         return;
+    //     }
+    //   }
+    //   this.$router.push({
+    //     path: "/mine/certification"
+    //   });
+    // }
   },
   mounted() {}
 };

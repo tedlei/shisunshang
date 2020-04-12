@@ -267,13 +267,13 @@
                         num:''
 
                     },
-                    {
-                        img: 'sh',
-                        name: '已完成',
-                        router: '/goodsdetails/customerService',
-                        orderid: 5,
-                        num:''
-                    }
+                    // {
+                    //     img: 'sh',
+                    //     name: '已完成',
+                    //     router: '/goodsdetails/customerService',
+                    //     orderid: 5,
+                    //     num:''
+                    // }
                 ],
                 gjlists: [
                     {
@@ -561,6 +561,10 @@
     justify-content: center;
   }
 
+  .order_lists{
+    display: flex;
+    justify-content: space-between;
+  }
   .order_lists li {
     float: left;
     width: 20%;

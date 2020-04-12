@@ -12,7 +12,7 @@
         <div class="zheng">
           <div class="box">
             <!-- <van-uploader v-model="ZfileList" :after-read="ZafterRead" :max-count="1"/> -->
-            <uploader :maxCount="1" @imgUpData="imgUpData"></uploader>
+            <uploader :maxCount="1" @imgUpData="imgUpData" :imgUrl="imgList[0]"></uploader>
             <p>上传身份证正面</p>
           </div>
 
@@ -22,7 +22,7 @@
         <div class="fan clearfix">
           <div class="box">
             <!-- <van-uploader v-model="FfileList" :after-read="FafterRead" :max-count="1"/> -->
-            <uploader :maxCount="1" @imgUpData="imgUpDataTwo"></uploader>
+            <uploader :maxCount="1" @imgUpData="imgUpDataTwo" :imgUrl="imgList[1]"></uploader>
             <p>上传身份证反面</p>
           </div>
 
@@ -32,8 +32,9 @@
       </div>
 
       <!-- </van-form> -->
+      <div v-if="remark" class="text_re">{{remark}}</div>
 
-      <van-button type="primary" size="large" style="margin-top:20px;" @click="TapCommit">提交</van-button>
+      <van-button type="primary" size="large" v-if="isBtnClick" @click="TapCommit">提交</van-button>
 
       <div class="explain">
         <p class="ttl">为什么要实名认证？</p>
@@ -60,27 +61,40 @@ export default {
       ZfileList: [],
       FfileList: [],
 
-
-      isBtnClick:false  //按钮是否可点
+      imgList:[],   //图片路径
+      isBtnClick:false,   //按钮是否显示
+      remark:'',    //审核不通过提示消息
     };
   },
-  // created() {
-  //   this.getUserInfo();
-  // },
+  created() {
+    this.getUserrzxx();
+  },
   methods: {
     tc(message,type){
       this.$notify({ type: type?type:'warning', message});
     },
 
     //获取用户认证信息
-    // async getUserInfo() {
-    //   let ad_data = {
-    //     method: "get.user.auth.item"
-    //   };
-    //   let data = await this.$post("/api/v1/userAuth", ad_data);
-    //   if (!data.data) this.isBtnClick = true; 
-    //   else this.tc('认证信息审核中','success')
-    // },
+    async getUserrzxx() {
+      let ad_data = { method: "get.user.auth.item" };
+      let data = await this.$post("/api/v1/userAuth", ad_data);
+      if (data && data.data) {
+        console.log(data.data,123456)
+        let {truename,id_number,mobile,front_img,after_img,status,remark} = data.data;
+        this.username = truename;
+        this.number1 = id_number;
+        this.phone = mobile;
+        this.imgList = [front_img,after_img];
+        if(status===0||status===1){
+          this.isBtnClick = 0;
+          this.remark = '';
+        }else{
+          this.isBtnClick = true;
+          if(status===2) this.remark = remark;
+          else this.remark = '';
+        }
+      }
+    },
 
     //上传正面照
     imgUpData(file) {
@@ -94,7 +108,8 @@ export default {
 
     //保存提交表单
     async TapCommit() {
-      let { username, number1, phone, ZfileList, FfileList ,isBtnClick} = this;
+      let { username, number1, phone, ZfileList, FfileList ,isBtnClick,imgList} = this;
+      let front_img,after_img;
       if (!this.verifyName(username)) {
         this.tc("真实姓名未填写或格式错误");
         return;
@@ -115,28 +130,35 @@ export default {
         this.tc("身份证反面照未上传");
         return;
       }
-      let listImg = [...ZfileList,...FfileList];
-      let data = await imgUpload(listImg);
-      if (!data) {
+      // let listImg = [...ZfileList,...FfileList];
+      // let data = await imgUpload(listImg);
+      if(ZfileList[0].file){
+        let arr = await imgUpload(ZfileList);
+        front_img = arr[0];
+      }else front_img = imgList[0]
+
+      if(FfileList[0].file){
+        let arr = await imgUpload(FfileList);
+        after_img = arr[0];
+      }else after_img = imgList[1]
+      if (!front_img||!after_img) {
         this.tc("图片提交失败，请重新点击提交");
         return;
-      }
-      if(!isBtnClick){
-        this.tc("认证信息审核中，请勿重复提交");
-        return
       }
       let ad_data = {
         method: "add.user.auth.item",
         truename: username,
         mobile: phone,
         id_number: number1,
-        front_img: data[0],
-        after_img: data[1]
+        front_img,
+        after_img
       };
       let res = await this.$post("/api/v1/userAuth", ad_data);
       if (res) {
         this.tc("认证信息提交成功",'success');
-        this.$router.back(-1);
+        setTimeout(()=>{
+          this.$router.back(-1);
+        },500)
       }
     }
   },
@@ -192,6 +214,12 @@ export default {
         width: 80%;
       }
     }
+  }
+
+  .text_re{
+    padding:20px 10px;
+    color:red;
+    text-align: left;
   }
 
   .explain {
