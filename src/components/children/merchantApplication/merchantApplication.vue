@@ -46,6 +46,7 @@
         <imgOSSuploader :maxCount='3' @imgUpData='imgUpDataTwo'></imgOSSuploader>
       </div>
       <div class="btn" @click="upData">提交申请</div>
+      <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
 
     <van-popup
@@ -65,8 +66,6 @@
                   @confirm="confirm"
       />
     </van-popup>
-
-
     <van-popup
       v-model="show2"
       position="bottom"
@@ -78,7 +77,6 @@
                   @confirm="onConfirm"
       />
     </van-popup>
-
     <!--    <van-overlay :show="show">-->
     <!--      <div class="Mask">-->
 
@@ -99,6 +97,7 @@
     import imgOSSuploader from '../../children/imgOSS/uploader'
     import imgUpload from '../../../api/imgUpload'
     import AreaArr from '../../../api/user.json'
+    import ditu from '../../../assets/js/wechatConfig'
 
     export default {
         components: {
@@ -288,7 +287,9 @@
 
             },
 
-
+            ditu() {
+              ditu();
+            }
         },
         created() {
             this.getClassArr();
