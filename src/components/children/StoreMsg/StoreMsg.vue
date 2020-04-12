@@ -19,7 +19,7 @@
       <div class="adress">
 
         <span>地址：{{shops.address}}</span>
-        <span class="clo-g juli">距你3.63公里</span>
+        <!-- <span class="clo-g juli">距你3.63公里</span> -->
 
       </div>
 
@@ -49,15 +49,20 @@
                    style="border-radius: 0.4rem;color: #fff !important;margin: 0.3rem 0">上传小票
       </router-link>
     </div>
+    
     <div class="footer">
+      <a :href="'tel:' + shops.mobile">
       <div class="left_hujiao">
         <van-icon name="phone-o"/>
-        <span style="margin:0 0.1rem">呼叫</span>
+            <span style="margin:0 0.1rem">呼叫
+            </span>
       </div>
-<!--      <div class="right_daohang">-->
-<!--        <van-icon name="aim"/>-->
-<!--        <span style="margin:0 0.1rem">导航</span>-->
-<!--      </div>-->
+      </a>
+
+     <!-- <div class="right_daohang">
+       <van-icon name="aim"/>
+       <span style="margin:0 0.1rem">导航</span>
+     </div> -->
     </div>
   </div>
 </template>
@@ -78,7 +83,6 @@
                 starttime: '09:00',
                 endtime: '18:00',
                 adress: '重庆市江北区金渝大道168号',
-
             }
         },
         methods: {
@@ -139,7 +143,10 @@
                     ImagePreview([this.$refs.qrCode2.children[1].src])
                 },100)
 
-            }
+            },
+            //拨打电话
+            // CallUp() {
+            // },
         },
         mounted() {
             this.getData();
@@ -212,9 +219,10 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-
-      .left_hujiao {
+      >a{
         width: 100%;
+      }
+      .left_hujiao {
         background-color: #333;
         line-height: 0.5rem;
         display: flex;

@@ -14,13 +14,14 @@
       </div>
     </div>
     <!-- 有购物车 -->
+    <div class="hrdiv" v-show="isCart"></div>
     <div class="have_box" v-show="isCart">
       <div>
 	    	<div v-for="(item, index1) in goodsObj" :key="index1">
           <!-- 店铺详情 -->
           <div class="store_list" >
-              <div class="store_top">
-                <div :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index1)">
+              <div style="padding: 0.13rem 0;" class="store_top">
+                <div style="margin-left: 0.1rem;" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index1)">
                     <van-icon name="success" color="#fff"/>
                 </div>
                 <router-link class="" :to="{path:'/storeDetails',query:{id:item.shop_id}}">
@@ -34,10 +35,10 @@
               <div class="div1" v-for="(data, index) in item.list" :key="index">
                 <!-- 商品卡片 -->
                 <div class="goods_bot" >
-                    <div :class="data.checked ?'addRadioTwo':'addRadio'" @click="choose(index1, index)">
+                    <div style="margin-left:0.1rem;" :class="data.checked ?'addRadioTwo':'addRadio'" @click="choose(index1, index)">
                         <van-icon name="success" color="#fff"/>
                     </div>
-                    <div class="goods_lists">
+                    <div style="margin-right:0.1rem;" class="goods_lists">
                         <router-link :to="{path:'/goodsdetails',query:{id:data.id}}">
                         <van-image
                           width="0.8rem"
@@ -55,7 +56,7 @@
                             </router-link>
                             <div class="goodsprice">
                                 <span>￥{{data.price}}</span>
-                                <div class="progresses">
+                                <div style="margin-right:0.1rem;" class="progresses">
                                   <div class="progressesBtn" :class="{ 'disable' : data.num==1 }"
                                   @click="numChange(index1, index, -1, data.id, data.goods_sku_id)">
                                     <img v-if="data.num==1" src="../../assets/img/jhh.png" alt="">
@@ -72,6 +73,7 @@
                 </div>
 	    		    </div>
           </div>
+          <div class="hrdiv" v-show="isCart"></div>
 	    	</div>
       </div>
     </div>
@@ -550,7 +552,9 @@ body, html {
     background-color: #f2f2f2;
     // font-size: 0.2rem;
   }
-
+  .hrdiv{
+    height: 0.05rem  ;
+  }
   /deep/ .el-checkbox__inner {
     border-radius: 50%;
     width: 0.2rem;
@@ -625,7 +629,6 @@ body, html {
     
     .store_list {
         background-color: #fff;
-        padding:0 0.1rem;
     }
     label {
       margin: 0 0.1rem;
@@ -725,10 +728,6 @@ body, html {
         }
       }
     }
-
-    .store_list {
-      margin-bottom: 5px;
-    }
     label {
       margin: 0 0.1rem;
       height: 0.2rem;
@@ -783,10 +782,6 @@ body, html {
           }
         }
       }
-    }
-
-    .store_list {
-      margin-bottom: 0.05rem;
     }
 
   }
@@ -847,10 +842,6 @@ body, html {
           }
         }
       }
-    }
-
-    .store_list {
-      margin-bottom: 5px;
     }
 
   /* 推荐 */

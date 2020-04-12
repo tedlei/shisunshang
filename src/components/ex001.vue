@@ -7,10 +7,12 @@
           type="file"
           accept="video/*"
         />
+        <div @click="ditututu"></div>
     </div>
 </template>
 
 <script>
+    import wechatAuth from "../assets/js/wechatConfig";
 export default {
     components:{},
     props:{},
@@ -27,8 +29,10 @@ export default {
             console.log(file)
             var fileM = document.getElementById("imgFile").files[0];
             console.log(fileM)
-                   
         },
+        ditututu() {
+            wechatAuth();
+        }
     },
     created(){
         // this.getData();

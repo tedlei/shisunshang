@@ -36,7 +36,9 @@
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in bannermsg" :key="index">
-            <img :src="item.img" style="border-radius: 5px">
+            <router-link :to="{path:item.url}">
+              <img :src="item.img" style="border-radius: 5px">
+            </router-link>
           </div>
         </div>
 
@@ -73,7 +75,9 @@
         <span>{{item.module}}</span>
         <span class="text_rich">新款商品下单</span>
       </div>
-      <img :src="item.ad.img">
+      <router-link :to="{path:item.ad.url}">
+        <img :src="item.ad.img">
+      </router-link>
       <el-row class="goodslist">
         <router-link v-for="(goods, index) in item.goods" :key="index"
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">

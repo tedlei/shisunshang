@@ -34,43 +34,22 @@ const wechatAuth = async function (url, shareConfig) {
         });
         wx.ready(function () {
           //获取地理位置
-
           wx.getLocation(getLocation);
+          
+          wx.openLocation({
+            latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+            longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+            name: '', // 位置名
+            address: '', // 地址详情说明
+            scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+          });
 
-          0
-          //========老分享========
-          //好友
-          // wx.onMenuShareAppMessage({
-          //   title: shareConfig.title,
-          //   desc: shareConfig.desc,
-          //   link: location.href + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
-          //   imgUrl: shareConfig.imgUrl,
-          //   success: function () {//设置成功
-          //     console.log("分享成功");
-          //   },
-          //   cancel: function () {
-          //     console.log("取消分享");
-          //   }
-          // });
-          // //  朋友圈
-          // wx.onMenuShareTimeline({
-          //   title: shareConfig.title,
-          //   link: location.href + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
-          //   imgUrl: shareConfig.imgUrl,
-          //   success: function () {//设置成功
-          //     //shareSuccessCallback();
-          //   },
-          //   cancel: function () {
-          //     console.log("取消分享");
-          //   }
-          // });
-          //========新分享========
-
-          //好友
+          //  好友
           wx.updateAppMessageShareData({
             title: shareConfig.title,
             desc: shareConfig.desc,
-            link: shareConfig.link,
+            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
               console.log("分享成功");
@@ -82,7 +61,7 @@ const wechatAuth = async function (url, shareConfig) {
           // 朋友圈
           wx.updateTimelineShareData({
             title: shareConfig.title,
-            link: shareConfig.link,
+            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
               //shareSuccessCallback();
@@ -92,7 +71,6 @@ const wechatAuth = async function (url, shareConfig) {
             }
           });
         })
-
         // wx.error(function (res) {
         //   Toast("微信验证失败");
         // });
@@ -101,13 +79,14 @@ const wechatAuth = async function (url, shareConfig) {
     console.log(error);
   });
 
-
 };
 //将经纬度解析为详细的地址
 const geocoder = new qq.maps.Geocoder({
   complete: function (result) {
     let address = result.detail;  //保存result的详细地址信息
     console.log(result);//
+    console.log(result.detail.location);//
+    
   }
 });
 
