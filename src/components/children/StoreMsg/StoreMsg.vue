@@ -27,12 +27,10 @@
 
     <div class="common_box s_code">
       <span>商家二维码</span>
-      <div>
-        <div class="qrcode" @click="Previewcode">
-          <div id="qrCode" ref="qrCode"></div>
-        </div>
-        <img src="../../../assets/img/banner.png" style="width: 0.25rem">
-        <van-icon name="arrow"/>
+      <div style="display:flex;align-items: center">
+        <div style="display: inline-block;margin-right: 0.1rem" id="qrCode" class="qrconde"  @click="Previewcode"></div>
+        <div id="qrCode2" class="qrconde" ref="qrCode2"  v-show="false"></div>
+        <van-icon name="arrow" style="font-size: 0.14rem"/>
       </div>
 
     </div>
@@ -48,7 +46,7 @@
       </van-row>
       <router-link v-if="shops.is_promotion == 1" class="common_btn"
                    :to="{path:'/uploadpic',query:{store_id: shops.id}}"
-                   style="border-radius: 0.4rem;color: #fff !important;margin-top: 0.3rem">上传小票
+                   style="border-radius: 0.4rem;color: #fff !important;margin: 0.3rem 0">上传小票
       </router-link>
     </div>
     <div class="footer">
@@ -56,10 +54,10 @@
         <van-icon name="phone-o"/>
         <span style="margin:0 0.1rem">呼叫</span>
       </div>
-      <div class="right_daohang">
-        <van-icon name="aim"/>
-        <span style="margin:0 0.1rem">导航</span>
-      </div>
+<!--      <div class="right_daohang">-->
+<!--        <van-icon name="aim"/>-->
+<!--        <span style="margin:0 0.1rem">导航</span>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -68,12 +66,14 @@
     import {ImagePreview} from 'vant';
     import Uploadpic from "../uploadpic/uploadpic";
     import QRCode from 'qrcodejs2'
+    import html2canvas from 'html2canvas'
     export default {
         name: "StoreMsg",
         components: {Uploadpic},
         data() {
             return {
                 shops: {},
+                imgData:'',
                 name: '重庆石笋山公司',
                 starttime: '09:00',
                 endtime: '18:00',
@@ -89,7 +89,6 @@
                 };
                 this.$post('/api/v1/userStore', ad_data)
                     .then((res) => {
-                        console.log(res);
                         this.shops = res.data;
 
                     }).catch(function (error) {
@@ -105,7 +104,20 @@
                     height: 25,
                     colorDark: '#000000',
                     colorLight: '#ffffff',
+                    // render: 'table',
                     correctLevel: QRCode.CorrectLevel.H
+                });
+
+            },
+            createPicture () {
+                html2canvas(this.$refs.qrCodeDiv, {
+                    backgroundColor: null,
+                    width: 400,
+                    height: 400
+                }).then(canvas => {
+                    let imgData = canvas.toDataURL('image/jpeg')
+
+                    this.imgData = imgData
                 })
             },
             //图片阅览
@@ -113,13 +125,27 @@
                 ImagePreview(this.shops.album);
             },
             Previewcode: function () {
-                ImagePreview('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAABP0lEQVRIS51WQZLDMAir//9o7+AWV8gSzjaXZCYxAiFBxpxzvj7XGCMfj3t8lu/zGe9xAN9jzBEgKnhiq4MZUAFjdvm+BQkADBQBEPwxSJxjboDBTQED5Bn3LcbclSieux5klSWYqHxRi5V0QC5zrET1qoDcGo1qYVWhspDWfebdy29bfqFICaJUlSBOqlwBZ90p7qikM2IG4kRu/jp8ovzACuKgqukskDhTJNxRwVJ9asyVPPbkibFccJ4EmHAB6VzMCbCn1MzavWR1uRGjHI7KQ3FwArsS5daOvtsYsnR1puQKVcVuni11uQA46t3YUd8wjWWfOLzOHzfvLNp4MyrVqDXbGRFVuszIS8ttwv/OrNJfVwnr3oFgsx11cse73a0MyU2WyfEvEatIDTweIfzDcSSpesLUdMBuRaBY/gBbf93ymXqCxwAAAABJRU5ErkJggg==');
+                let QRcodeDomainName = location.href;
+                let qrCode = new QRCode('qrCode2', {
+                    text: QRcodeDomainName,// 需要转换为二维码的内容
+                    width: 400,
+                    height: 400,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    // render: 'table',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                setTimeout(()=>{
+                    ImagePreview([this.$refs.qrCode2.children[1].src])
+                },100)
+
             }
         },
         mounted() {
             this.getData();
             this.$nextTick(function () {
-                this.creatQrCode()
+                this.creatQrCode();
+
             })
         }
     }
@@ -188,7 +214,7 @@
       width: 100%;
 
       .left_hujiao {
-        width: 50%;
+        width: 100%;
         background-color: #333;
         line-height: 0.5rem;
         display: flex;

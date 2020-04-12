@@ -1,79 +1,91 @@
 <template>
   <div class="content">
     <ul class="share_list">
-      <li v-for="(item,index) in sharelists">
+      <li v-for="(item,index) in sharelists" @click="todetail(item.id)">
         <div class="left_img">
-          <img :src="require(`../../../assets/img/${item.goodsimg}.png`)">
+          <van-image
+            width="100%"
+            height=""
+            fit="cover"
+            :src="item.imgsrc"
+          />
         </div>
         <div class="right_msg">
-          <div class="name">
-            {{item.name}}
-          </div>
-          <div class="num">
-            销量{{item.num}}件
-          </div>
-          <div class="price">
-            <span>￥{{item.price}}</span>
-            <i class="el-icon-share"></i>
+          <div style="width: 100%">
+            <div class="name">
+              {{item.name}}
+            </div>
+            <div class="num">
+              销量{{item.num}}件
+            </div>
+            <div class="price">
+              <span>￥{{item.price}}</span>
+              <i class="el-icon-share" @click.stop="share"></i>
+            </div>
           </div>
         </div>
       </li>
     </ul>
+    <van-popup
+      v-model="shareshow"
+      :style="{ background:'none',padding:'0.1rem',width:'100%',borderRadius:'5px',height:'100%'}"
+      @click="closepop"
+    >
+      <div style="text-align: right">
+        <img src="../../../assets/img/zhi.png" class="zhi">
+      </div>
+      <div class="share_tips">
+        <strong>立即分享给好友吧</strong>
+        <p>点击屏幕右上角将本页面分享给好友</p>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "share",
-    data() {
-      return {
-        sharelists: [
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-          {
-            goodsimg: 'goods_img',
-            name: '现磨新米农家自产长香丝2.5kg煲仔饭丝苗米不抛光长粒香大米',
-            num: '998',
-            price: '560.00'
-          },
-        ]
-      }
+    export default {
+        name: "share",
+        data() {
+            return {
+                sharelists: [],
+                shareshow: false,
+            }
+        },
+        methods: {
+            getlist: function () {
+                let parms = {
+                    method: 'get.goods.share.list'
+                }
+                this.$post('/api/v1/goods', parms)
+                    .then((response) => {
+                        this.sharelists = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //分享
+            share: function () {
+                this.shareshow = true;
+
+            },
+            //关闭pop
+            closepop: function () {
+                this.shareshow = false;
+            },
+            todetail:function (e) {
+                this.$router.push({
+                    path:'/goodsdetails',
+                    query:{
+                        id:e
+
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.getlist()
+        }
     }
-  }
 </script>
 
 <style scoped lang="scss">
@@ -100,6 +112,8 @@
         .right_msg {
           width: 70vw;
           padding-left: 10px;
+          display: flex;
+          align-items: center;
 
           .name {
             font-size: 0.16rem;
@@ -124,9 +138,15 @@
             }
           }
         }
-
-
       }
+    }
+
+    .zhi {
+      width: 30%;
+    }
+
+    .share_tips {
+      color: #fff;
     }
   }
 </style>
