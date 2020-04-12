@@ -20,7 +20,7 @@
             </div>
             <div class="price">
               <span>￥{{item.price}}</span>
-              <i class="el-icon-share" @click.stop="share"></i>
+              <i class="el-icon-share" @click.stop="share(item.id)"></i>
             </div>
           </div>
         </div>
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+    import wechatAuth from '../../../assets/js/wechatConfig'
+
     export default {
         name: "share",
         data() {
@@ -64,20 +66,29 @@
                 });
             },
             //分享
-            share: function () {
+            share: function (e) {
                 this.shareshow = true;
-
+                let userinfo = JSON.parse(this.$store.getters.getuserinfo)
+                if (userinfo) {
+                    let shareConfig = {
+                        title: '国健生态平台',
+                        desc: '国健生态平台!Come on.!',
+                        link: location.host + '/goodsdetails' + '?id=' + e + '&state=' + userinfo.referee_number,
+                        imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
+                    };
+                    let url = location.href
+                    wechatAuth(url, shareConfig);
+                }
             },
             //关闭pop
             closepop: function () {
                 this.shareshow = false;
             },
-            todetail:function (e) {
+            todetail: function (e) {
                 this.$router.push({
-                    path:'/goodsdetails',
-                    query:{
-                        id:e
-
+                    path: '/goodsdetails',
+                    query: {
+                        id: e
                     }
                 })
             }

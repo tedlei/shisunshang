@@ -37,7 +37,7 @@ const wechatAuth = async function (url, shareConfig) {
 
           wx.getLocation(getLocation);
 
-0
+          0
           //========老分享========
           //好友
           // wx.onMenuShareAppMessage({
@@ -70,7 +70,7 @@ const wechatAuth = async function (url, shareConfig) {
           wx.updateAppMessageShareData({
             title: shareConfig.title,
             desc: shareConfig.desc,
-            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
+            link: shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
               console.log("分享成功");
@@ -82,7 +82,7 @@ const wechatAuth = async function (url, shareConfig) {
           // 朋友圈
           wx.updateTimelineShareData({
             title: shareConfig.title,
-            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
+            link: shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
               //shareSuccessCallback();

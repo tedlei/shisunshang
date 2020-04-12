@@ -2,15 +2,15 @@
   <div class="main_box main_height">
     <header ref="headerh">
       <!--扫码-->
-      <div @click="opensearch" style="width: 100%;margin-left:0.1rem">
+      <div @click="opensearch" style="width: 100%;margin:0 0.1rem">
         <search :dmsg="msg"></search>
       </div>
       <!--消息-->
-      <div class="news">
-        <router-link to="/news">
-          <i class="el-icon-chat-dot-round"></i>
-        </router-link>
-      </div>
+<!--      <div class="news">-->
+<!--        <router-link to="/news">-->
+<!--          <i class="el-icon-chat-dot-round"></i>-->
+<!--        </router-link>-->
+<!--      </div>-->
     </header>
 
     <div class="main_div">
