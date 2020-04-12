@@ -102,10 +102,9 @@
           <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<van-icon name="arrow" /></router-link>
         </span>
       </div>
-
       <ul class="order_lists clearfix">
         <li style="position: relative;" v-for="(item,index) in orderlists" :key="index">
-          <div v-show="item.num>0" class="order_lists_info">{{100>item.num?item.num:99}}</div>
+          <div v-show="item.num>0" class="order_lists_info">{{item.num>99?99:item.num}}</div>
           <!-- <router-link :to="{path: item.router, query:{orderid:item.orderid}}"> -->
             <div @click="CustomerService(item.router,item.orderid)" style="margin-bottom: 0.1rem">
               <img :src="require(`../../assets/img/${item.img}.png`)" style="height: 0.24rem;width: auto">
@@ -270,7 +269,7 @@
                     },
                     {
                         img: 'sh',
-                        name: '售后',
+                        name: '已完成',
                         router: '/goodsdetails/customerService',
                         orderid: 5,
                         num:''
@@ -315,7 +314,7 @@
                     {
                         img: 'gj8',
                         name: '关于我们',
-                        linkto: '/mine/ad'
+                        linkto: '/help/helpDetail?type=gy'
                     }],
                 gamelists: [
                     {

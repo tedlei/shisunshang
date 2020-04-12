@@ -64,23 +64,23 @@ export default {
       isBtnClick:false  //按钮是否可点
     };
   },
-  created() {
-    this.getUserInfo();
-  },
+  // created() {
+  //   this.getUserInfo();
+  // },
   methods: {
     tc(message,type){
       this.$notify({ type: type?type:'warning', message});
     },
 
     //获取用户认证信息
-    async getUserInfo() {
-      let ad_data = {
-        method: "get.user.auth.item"
-      };
-      let data = await this.$post("/api/v1/userAuth", ad_data);
-      if (!data) this.isBtnClick = true; 
-      else this.tc('认证信息审核中','success')
-    },
+    // async getUserInfo() {
+    //   let ad_data = {
+    //     method: "get.user.auth.item"
+    //   };
+    //   let data = await this.$post("/api/v1/userAuth", ad_data);
+    //   if (!data.data) this.isBtnClick = true; 
+    //   else this.tc('认证信息审核中','success')
+    // },
 
     //上传正面照
     imgUpData(file) {
@@ -135,7 +135,7 @@ export default {
       };
       let res = await this.$post("/api/v1/userAuth", ad_data);
       if (res) {
-        this.tc("认证信息提交成功");
+        this.tc("认证信息提交成功",'success');
         this.$router.back(-1);
       }
     }

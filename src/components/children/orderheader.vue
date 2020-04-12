@@ -22,11 +22,11 @@
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
-        <span v-else-if="this.bank" @click="add_bank">添加</span>
+        <!-- <span v-else-if="this.bank" @click="add_bank">添加</span> -->
         <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
         <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
         <span v-else-if="this.Atc && this.$route.meta.title != '实名认证'" @click='activeChild'>保存</span>
-        <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span>
+        <!-- <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span> -->
         <van-button  v-else-if="this.$route.meta.title==='财务记录'&&this.$route.query.recordid===1"
          type="primary" size="small" class="news_btn" @click="topUp">充值</van-button>
     </span>
@@ -100,11 +100,6 @@
             nobackss: function () {
                 Bus.$emit('val', this.noback);
                 this.noback = true;
-            },
-            add_bank: function () {
-                this.$router.push({
-                    path: '/Bank-card/add-bank-card'
-                });
             },
             activeChild: function () {
                 Bus.$emit('Atc', true)

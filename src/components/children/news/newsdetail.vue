@@ -2,7 +2,7 @@
   <div class="content">
     <div class="newsdetails">
       <div class="main" v-html="content"></div>
-      <div class="add_time">
+      <div class="add_time" v-if="!$route.query.type">
         <span>{{add_time}}</span>
         <span>阅读量：{{click_times}}</span>
       </div>
@@ -28,10 +28,17 @@
         },
         methods: {
             getnews: function () {
-                let news = {
+                let {id,type} = this.$route.query;
+                let news = null
+                if(id){
+                  news = {
                     method: this.datas == 'helpdetails' ? "get.help.item" : 'get.news.item',
-                    id: this.$route.query.id
-                };
+                    id
+                  };
+                }
+                if(type){
+                  news = {method:"get.contact.item"}
+                }
                 //获取新闻列表
                 this.$post('/api/v1/news', news)
                     .then((response) => {
@@ -40,7 +47,7 @@
                             this.add_time = response.data.add_time
                             this.click_times = response.data.click_times
                             this.updateImg(response.data.content)
-                            Bus.$emit('title', response.data.title)
+                            Bus.$emit('title', type?'关于我们':response.data.title)
                         } else {
                             this.$toast(response.message)
                         }
@@ -58,9 +65,7 @@
           let doc = document.getElementsByClassName('tapClass');
           for(let item of doc){
             this.imgUrlList.push(item.src)
-            item.onclick = ()=>{ImagePreview(this.imgUrlList);};  
-            
-            
+            item.onclick = ()=>{ImagePreview(this.imgUrlList)}; 
           }
         },
         destroyed() {
