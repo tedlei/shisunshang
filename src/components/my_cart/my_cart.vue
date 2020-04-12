@@ -338,13 +338,14 @@ export default {
 
     //判断删除和结算按钮是否启用
     isSettlement() {
-      let list = this.goodsObj.filter( item => {
-        return item.checked==true;
-      });
-      // console.log(list);
-      let listTwo = list.filter( item => {
-        return item.checked==true;
-      });
+      let listTwo = [];
+      for(let list of this.goodsObj){
+          for(let listSan of list.list){
+            if(listSan.checked){
+              listTwo.push(listSan);
+            }
+          }
+      }
       if(listTwo.length==0){
         this.Settlement = false; 
       }else{

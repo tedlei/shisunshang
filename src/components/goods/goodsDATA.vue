@@ -142,6 +142,10 @@
         <div class="shareUpHr"></div>
         <div class="shareUpcancel" @click="showTwo = false">取消</div>
       </van-action-sheet>
+      <!-- 店铺详情 -->
+      <div id="commoditEvaluate">
+        <shop :is_follow='is_follow'></shop>
+      </div>
       <!-- 海报 -->
       <div class="Cover" v-show="isQRcodeDomainName">
         <div v-show="!isPoster">
@@ -963,6 +967,7 @@
           border-radius: 28px;
           display: flex;
           align-items: center;
+          color: $sss-color;
           >img{
             width: 0.18rem;
             height: 0.18rem;
