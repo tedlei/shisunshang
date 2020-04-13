@@ -1,11 +1,13 @@
 <template>
   <div class="content">
+    <!-- 一楼状态图片 -->
     <div style="position: relative;color: #fff">
       <img src="../../../assets/img/icon3.png">
       <span style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%">
         {{orderData.status=='0'?'待付款':orderData.status=='1'?'待发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'已取消'}}
       </span>
     </div>
+    <!-- 收货地址 -->
     <div class="common_box adress">
       <div class="common">
         <div class="left">
@@ -21,9 +23,9 @@
         </div>
       </div>
     </div>
-
+    <!-- 店铺商品详情 -->
     <div class="common_box">
-      <div to="" class="common m_b_10">
+      <div to="" class="common m_b_10 common_border">
         <div class="left">
           <img src="../../../assets/img/stoe.png" style="width: 0.18rem">
           <span>
@@ -34,7 +36,7 @@
           {{orderData.status=='0'?'待付款':orderData.status=='1'?'待发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'已取消'}}
         </div>
       </div>
-      <div class="common goods" v-for="(item,index) of orderData.goods" :key="index">
+      <div class="common goods " v-for="(item,index) of orderData.goods" :key="index">
         <div class="left_img">
           <van-image
             width="0.8rem"
@@ -47,21 +49,26 @@
             <div class="fontWrap fontWrapTwo">
               {{item.name}}
             </div>
-            <div style="color: rgb(153, 153, 153);">
-              <span class="fontWrap fontWrapOne">规格：默认
-                <!-- {{item.sku}} -->
-              </span> 
-              <span>数量:
-                {{item.num}}
-              </span>
+            <div>
+              <div style="color: rgb(153, 153, 153);">
+                <!-- <span class="fontWrap fontWrapOne">规格：默认
+                  {{item.sku}}
+                </span>  -->
+                <span class="fontWrap fontWrapOne">购买方式：
+                  {{buy_types[item.buy_type]}}
+                </span> 
+                <span>数量:
+                  {{item.num}}
+                </span>
+              </div>
+              <div class="right_price">
+              ￥{{item.price}}
+              </div>
             </div>
-          <div data-v-46727266="" class="right_price">
-            ￥{{item.price}}
-          </div>
         </div>
       </div>
-      
     </div>
+    <!-- 配速方式 -->
     <div class="common_box">
       <div class="common">
         <div class="left">
@@ -72,6 +79,7 @@
         </div>
       </div>
     </div>
+    <!-- 发票信息 -->
     <div class="common_box">
       <div class="common m_b_10">
         <div>发票信息</div>
@@ -83,6 +91,7 @@
         </div>
       </div>
     </div>
+    <!-- 商品费用算法 -->
     <div class="common_box">
       <div class="common">
         <div class="left">
@@ -139,7 +148,6 @@
         </div>
       </div>
     </div>
-
     <!-- <div class="common_box">
       <div class="common service">
         <router-link to="">
@@ -149,7 +157,7 @@
         </router-link>
       </div>
     </div> -->
-
+    <!-- 订单描述.. -->
     <div class="common_box">
       <div class="common">
         <div class="left">
@@ -183,12 +191,12 @@
         </div>
       </div>
     </div>
-    
-    <!--  删除  -->
+    <!--  待付款取消订单和付款  -->
     <div class="delet" v-if="orderData.status=='0'">
       <div @click="cancelOrder">取消订单</div>
       <div @click="payment">付款</div>
     </div>
+    <div class="hrDiv" v-if="orderData.status=='0'"></div>
   </div>
 </template>
 
@@ -198,6 +206,7 @@
     data() {
       return {
         jsApiParameters: {},
+        buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
         orderData:{
           invoice_detail: {
             title: ''
@@ -310,7 +319,10 @@
 
 <style scoped lang="scss">
   .content {
-    padding-bottom: 50px;
+    padding-bottom: 0.2rem;
+    .hrDiv{
+      height: 0.3rem;
+    }
     i {
       font-size: 0.18rem;
     }
@@ -324,7 +336,9 @@
         justify-content: space-between;
         align-items: center;
         padding: 0 0.1rem 0.05rem 0.1rem;
-        // border-bottom: 1px solid #f2f2f2;
+      }
+      .common_border{
+        border-bottom: 1px solid #f2f2f2;
       }
 
       .left {
@@ -369,8 +383,6 @@
 
     .goods {
       display: flex;
-      margin: 10px 0;
-
       .left_img {
         width: 90px;
         margin-right: 10px;
@@ -378,17 +390,18 @@
 
       .center_text {
         width: calc(100% - 90px);
-        display: flex;
-        padding: 10px 0;
-
-        .link_div {
-          text-align: left;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          margin-right: 10px;
+        >div:first-child{
+          height: 0.4rem;
         }
-
+        >div:nth-child(2){
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          .right_price{
+            text-align: right;
+          }
+        }
+        
       }
     }
     .delet{

@@ -72,16 +72,13 @@ import imgUpload from '../../../api/imgUpload'
       .then((res) => {
         console.log(res);
         if(res.status==200){
-          this.$store.commit("setLoading");
-          this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+          this.$router.push({path: '/mine/myfootprint', query: {printid: 3}});
         }
-
       }).catch(function (error) {
           console.log(error);
       });
     },
     Submission () {
-      this.$store.commit("setLoading");
       let upimglist = [];
       let imglist = this.$store.getters.getloopUpimgs;
       // console.log(imglist);

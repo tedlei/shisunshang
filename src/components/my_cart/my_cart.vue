@@ -50,8 +50,11 @@
                         <div class="left_msg">
                             <router-link :to="{path:'/goodsdetails',query:{id:data.id}}">
                             <div>{{data.name}}</div>
-                            <div class="goodsspecs">规格：默认
-                              <!-- {{data.goods_attr}} -->
+                            <!-- <div class="goodsspecs">规格：默认
+                              {{data.goods_attr}}
+                            </div> -->
+                            <div class="goodsspecs">购买方式：
+                              {{buy_types[data.buy_type]}}
                             </div>
                             </router-link>
                             <div class="goodsprice">
@@ -163,6 +166,7 @@ export default {
         totalMoney : 0,
         totalFare : 0,
         allChecked : false,
+        buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
         Settlement: false
     }
   },
@@ -222,6 +226,7 @@ export default {
             price: list[n].price,
             num: list[n].total_num,
             imgsrc: list[n].imgsrc,
+            buy_type: list[n].buy_type,
             // goods_attr: list[n].goods_sku.goods_attr,
             // goods_sku_id: list[n].goods_sku.spec_sku_id,
           };

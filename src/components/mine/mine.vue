@@ -409,7 +409,7 @@
                         }
                         // console.log(this.orderlists)
                     }).catch(function (error) {
-                      console.log(error);
+                      // console.log(error);
                 });
             },
             //充值活动

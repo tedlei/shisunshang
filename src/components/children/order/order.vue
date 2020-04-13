@@ -47,8 +47,11 @@
                 </div>
               </div>
               <div class="Specifications" style="color: #999999">
-                <span>规格：默认
-                  <!-- {{goodsItem.sku}} -->
+                <!-- <span>规格：默认
+                  {{goodsItem.sku}}
+                </span> -->
+                <span>购买方式：
+                  {{buy_types[goodsItem.buy_type]}}
                 </span>
                 <span>数量:{{goodsItem.num}}</span>
               </div>
@@ -132,6 +135,7 @@
                 jsApiParameters: {},
                 shouhou: '',
                 isshouhou: false,
+                buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
                 navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
                 orderAllItem: [
                     {
@@ -172,6 +176,7 @@
 
             //订单列表
             getOderData(index) {
+                this.isNoorder = false;
                 let ad_data = {
                     method: 'get.order.list',
                     // type:
@@ -184,6 +189,7 @@
                 }
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
+                      console.log(res)
                         if (res.data.length == 0) {
                             this.isNoorder = false;
                             this.isKnoorder = true;
