@@ -24,7 +24,7 @@ let Api = {
     },
 
     //获取验证码时间
-    codeTime(itemNum, fn) {
+    codeTime(itemNum,isTime, fn) {
         if (fn && this[itemNum] > 0) return;
         let endItem = Api.getItem('endItem');
         let item = new Date().getTime();
@@ -37,6 +37,11 @@ let Api = {
             fn();
         }
         let seti = setInterval(() => {
+            if(!this[isTime]) {
+                num = 0;
+                Api.setItem('endItem', 0);
+                this[isTime] = true;
+            }
             this[itemNum] = num;
             if (num <= 0) {
                 clearInterval(seti);
@@ -69,7 +74,7 @@ let Api = {
         return idcard.test(value);
     },
 
-    tc(message, type = 'cross', duration = 1000) {
+    tc(message, type = 'fail', duration = 1500) {
         if (message.length > 27) message = message.slice(0, 25) + '…';
         const toastDom = new Hint({
             el: document.createElement('hint'),

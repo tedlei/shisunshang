@@ -111,7 +111,15 @@
                     // render: 'table',
                     correctLevel: QRCode.CorrectLevel.H
                 });
-
+                qrCode = new QRCode('qrCode2', {
+                    text: QRcodeDomainName,// 需要转换为二维码的内容
+                    width: 400,
+                    height: 400,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    // render: 'table',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
             },
             createPicture () {
                 html2canvas(this.$refs.qrCodeDiv, {
@@ -129,20 +137,7 @@
                 ImagePreview(this.shops.album);
             },
             Previewcode: function () {
-                let QRcodeDomainName = location.href;
-                let qrCode = new QRCode('qrCode2', {
-                    text: QRcodeDomainName,// 需要转换为二维码的内容
-                    width: 400,
-                    height: 400,
-                    colorDark: '#000000',
-                    colorLight: '#ffffff',
-                    // render: 'table',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                setTimeout(()=>{
-                    ImagePreview([this.$refs.qrCode2.children[1].src])
-                },100)
-
+              ImagePreview([this.$refs.qrCode2.children[1].src])
             },
             //拨打电话
             // CallUp() {

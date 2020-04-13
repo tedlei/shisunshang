@@ -23,9 +23,9 @@ export default {
     justify-content: center;
     align-items: center;
     .hint_main{
-        width: 1.3rem;
+        min-width: 1.3rem;
         height: 1.3rem;
-        padding:0 5px;
+        padding:20px 5px;
         background-color: rgba(0,0,0,0.7);
         border-radius: 10px;
         display: flex;
