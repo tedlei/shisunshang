@@ -23,21 +23,21 @@
     </div>
     <div class="r_c_box pay_box">
       <p>支付方式</p>
-      <van-radio-group v-model="radio">
+      <van-radio-group v-model="radio" style="margin-top:15px;">
         <van-cell-group>
-          <div class="pay_item">
+          <div class="pay_item" >
             <img src="../../../../assets/img/wx_icon.png" style="width: 24px">
             <van-cell title="微信支付" clickable @click="radio = '1'">
 
               <van-radio slot="right-icon" name="1"/>
             </van-cell>
           </div>
-          <div class="pay_item">
+          <!-- <div class="pay_item">
             <img src="../../../../assets/img/zfb_icon.png" style="width: 24px">
             <van-cell title="支付宝支付" clickable @click="radio = '2'">
               <van-radio slot="right-icon" name="2"/>
             </van-cell>
-          </div>
+          </div> -->
         </van-cell-group>
       </van-radio-group>
     </div>
@@ -186,9 +186,11 @@
     }
 
     .pay_box {
+      padding-bottom: 40px;
       text-align: left;
 
       .pay_item {
+        padding:4px 0;
         display: flex;
         align-items: center;
       }

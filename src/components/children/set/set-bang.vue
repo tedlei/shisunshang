@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <p class="tips" v-if="show">设置支付密码需认证身份信息</p>
-    <van-form @submit="onSubmit">
+    <!-- <van-form @submit="onSubmit"> -->
       <van-field
         v-model="phone"
         type="tel"
@@ -18,7 +18,7 @@
           placeholder="请输入短信验证码"
           :rules="[{ required: true, message: '请输入短信验证码' }]"
         />
-        <div class="getcode" @click="codeTime('surplusTime',getcode)">
+        <div class="getcode" :class="surplusTime?'getcodeBg':''" @click="codeTime('surplusTime',getcode)">
           {{surplusTime?surplusTime+'秒后获取':'获取验证码'}}
         </div>
       </div>
@@ -44,11 +44,12 @@
         v-if="show"
       />
       <div style="margin: 16px;">
-        <van-button block type="info" native-type="submit" style="background-color: #009900;border-color: #009900">
+        <van-button block type="info" @click="onSubmit" style="background-color: #009900;border-color: #009900">
+          <!-- native-type="submit" -->
           确认
         </van-button>
       </div>
-    </van-form>
+    <!-- </van-form> -->
 
   </div>
 </template>
@@ -93,29 +94,49 @@
               });
             },
             //提交
-            onSubmit(values) {
+            onSubmit() {
                 let _this = this;
-                let can = _this.show ? 'set.user.pay.password' : 'set.user.mobile';
+                let {show,phone,code,password1,password2} = _this;
+                let can = show ? 'set.user.pay.password' : 'set.user.mobile';
                 let url =  '/api/v1/user'
 
-                let addmsg = {
-                    method: can
+                if(!_this.verifyPhone(phone)){
+                  this.tc('手机号为空或格式错误');
+                  return;
                 }
-                values = Object.assign(addmsg, values);
-                console.log(values)
-                this.$post(url, values)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            _this.$toast('成功');
-                            setTimeout(() => {
-                                _this.$router.back(-1)
-                            }, 2000)
-                        } else {
-                            _this.$toast(response.message);
-                        }
-                        console.log(response)
-                    }).catch(function (error) {
-                    console.log(error);
+                if(!_this.verifyCode(code)){
+                  this.tc('验证码为空或格式错误');
+                  return;
+                }
+                if(!_this.verifyCode(password1)){
+                  this.tc('支付密码为空或格式错误');
+                  return;
+                }
+                if(!_this.verifyCode(password2)){
+                  this.tc('确认支付密码为空或格式错误');
+                  return;
+                }
+                if(password1!==password2){
+                  this.tc('支付密码和确认支付密码不一致');
+                  return;
+                }
+                let addmsg = {
+                    method: can,
+                    phone,
+                    code,
+                    pass2:password2
+                }
+                this.$post(url, addmsg)
+                  .then((response) => {
+                      if (response.status == 200) {
+                          _this.tc('成功','success');
+                          setTimeout(() => {
+                              _this.$router.back(-1)
+                          }, 2000)
+                      } else {
+                          _this.$toast(response.message);
+                      }
+                  }).catch(function (error) {
                 });
             },
         },
@@ -152,6 +173,10 @@
         line-height: 30px;
         border-radius: 30px;
         font-size: 0.12rem;
+      }
+      .getcodeBg{
+        background-color: #aaa;
+        color: #333;
       }
     }
   }

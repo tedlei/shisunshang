@@ -14,7 +14,8 @@ export default {
     components: {},
     props:[
         'maxCount',
-        'index'
+        'index',
+        'imgUrl'
     ],
     data () {
         return {
@@ -52,6 +53,7 @@ export default {
                 };
                 reader.readAsDataURL(file);
             }
+            console.log(this.fileList)
             this.$emit('imgUpData', this.fileList);
         },
         // 压缩图片
@@ -91,8 +93,10 @@ export default {
         // console.log(this.fileList);
         this.$emit('imgUpData', this.fileList);
     },
-    computed: {
-    
+    watch:{
+        imgUrl(url){
+            this.fileList.push({url})
+        }
     }
 }
 </script>
