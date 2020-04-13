@@ -16,7 +16,7 @@
     import SearchResult from "./components/children/searchResult/searchResult";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
-
+    import hint from './components/pages_lm/hint/hint.vue'
     export default {
         name: 'App',
         components: {SearchResult, Header, Footer, loading},

@@ -70,10 +70,6 @@ export default {
     this.getUserrzxx();
   },
   methods: {
-    tc(message,type){
-      this.$notify({ type: type?type:'warning', message});
-    },
-
     //获取用户认证信息
     async getUserrzxx() {
       let ad_data = { method: "get.user.auth.item" };
@@ -130,8 +126,6 @@ export default {
         this.tc("身份证反面照未上传");
         return;
       }
-      // let listImg = [...ZfileList,...FfileList];
-      // let data = await imgUpload(listImg);
       if(ZfileList[0].file){
         let arr = await imgUpload(ZfileList);
         front_img = arr[0];
