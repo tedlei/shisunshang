@@ -58,20 +58,12 @@ router.beforeEach((to, from, next) => {
           }
         }
         if(url.slice(url.length-1,url.length)==="&") url = url.slice(0,url.length-1)
-        console.log(url);
         let redirectUrl = encodeURIComponent(url);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=${phone}#wechat_redirect`
         return
-      } else {
-        next();
-      }
-    } else {
-      next();
+      } 
     }
-  } else {
-    next();
   }
-  ;
 
   // 解析url参数并获取code
   function getUrlParam(name) {   //name为要获取的参数名
