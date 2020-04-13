@@ -47,7 +47,19 @@ router.beforeEach((to, from, next) => {
         let phone = getUrlParam('state') || '';
         //请求微信授权,并跳转到 /WxAuth 路由
         let appId = 'wxf730b0b04586d06f'
-        let redirectUrl = encodeURIComponent('http://m.wjeys.com/author');
+        let url = 'http://m.wjeys.com';
+        let {path,query} = to
+        if(path==='/') url += '/author'
+        else {
+          url += path;
+          if(JSON.stringify(query)!=="{}") url+= '?' 
+          for(let name in query){
+            url += name+'='+query[name]+'&'
+          }
+        }
+        if(url.slice(url.length-1,url.length)==="&") url = url.slice(0,url.length-1)
+        console.log(url);
+        let redirectUrl = encodeURIComponent(url);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=${phone}#wechat_redirect`
         return
       } else {
