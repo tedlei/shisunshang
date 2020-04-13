@@ -10,7 +10,6 @@ const wechatAuth = async function (url, shareConfig,ditu) {
   //     console.log(res)
   //   }
   // });
-
   get("wxshare/wxconfig/myapi.php?urlparam=" + url)
     .then((response) => {
       if (response.data && response.status === 200) {
@@ -56,6 +55,7 @@ const wechatAuth = async function (url, shareConfig,ditu) {
             link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
+              console.log(location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,)
               console.log("分享成功");
             },
             cancel: function () {
