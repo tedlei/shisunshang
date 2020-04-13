@@ -82,13 +82,15 @@ export default {
         this.phone = mobile;
         this.imgList = [front_img,after_img];
         if(status===0||status===1){
-          this.isBtnClick = 0;
+          this.isBtnClick = false;
           this.remark = '';
         }else{
           this.isBtnClick = true;
           if(status===2) this.remark = remark;
           else this.remark = '';
         }
+      }else{
+        this.isBtnClick = true;
       }
     },
 

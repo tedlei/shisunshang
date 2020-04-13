@@ -41,12 +41,12 @@ export default {
           right: ""
         },
         {
-          left: "设置支付密码",
-          right: ""
-        },
-        {
           left: "绑定手机",
           right: JSON.parse(this.$store.getters.getuserinfo).phone
+        },
+        {
+          left: "设置支付密码",
+          right: ""
         },
         {
           left: "绑定银行卡",
@@ -71,9 +71,6 @@ export default {
     }
   },
   methods: {
-    tc(message, type) {
-      this.$notify({ type: type ? type : "warning", message });
-    },
     set: function(e) {
       switch (e) {
         case "绑定银行卡":
@@ -85,18 +82,12 @@ export default {
           this.$router.push({
               path: '/mine/certification',
           })
-          // this.getUserrzxx();
           break;
         case "设置支付密码":
-          this.$router.push({
-            path: "/set/set-pay-password"
-          });
+          this.getUserrzxx(2);
           break;
         case "绑定手机":
-          this.$router.push({
-            path: "/set/set-phone"
-          });
-
+          this.getUserrzxx(1);
           break;
         case "地址管理":
           this.$router.push({
@@ -114,25 +105,31 @@ export default {
     },
 
     //获取用户信息
-    // async getUserrzxx() {
-    //   let ad_data = { method: "get.user.auth.item" };
-    //   let data = await this.$post("/api/v1/userAuth", ad_data);
-    //   if (data && data.data) {
-    //     switch (data.data.status) {
-    //       case 0:
-    //         this.tc("认证信息审核中");
-    //         return;
-    //       case 1:
-    //         this.tc("实名认证已通过");
-    //         return;
-    //     }
-    //   }
-    //   this.$router.push({
-    //     path: "/mine/certification"
-    //   });
-    // }
-  },
-  mounted() {}
+    getUserrzxx(num) {
+      let data = this.$store.getters.getuserinfo;
+      console.log(JSON.parse(data))
+      if(data){
+        if(!JSON.parse(data).phone){
+          if(num===1){
+            this.$router.push({
+              path: "/set/set-phone"
+            });
+          }else this.tc('请绑定手机号后再试')
+        }else {
+          if(num===2){
+            this.$router.push({
+              path: "/set/set-pay-password"
+            });
+
+          }else{
+            this.tc('此账号已绑定手机号')
+          }
+        }
+      }
+
+
+    }
+  }
 };
 </script>
 

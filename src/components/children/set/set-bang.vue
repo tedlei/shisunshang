@@ -7,6 +7,7 @@
         type="tel"
         name="phone"
         label="手机号码"
+        :disabled="show"
         placeholder="请输入手机号码"
       />
 
@@ -18,7 +19,7 @@
           placeholder="请输入短信验证码"
           :rules="[{ required: true, message: '请输入短信验证码' }]"
         />
-        <div class="getcode" :class="surplusTime?'getcodeBg':''" @click="codeTime('surplusTime',getcode)">
+        <div class="getcode" :class="surplusTime?'getcodeBg':''" @click="codeTime('surplusTime','isTime',getcode)">
           {{surplusTime?surplusTime+'秒后获取':'获取验证码'}}
         </div>
       </div>
@@ -28,7 +29,7 @@
         type="password"
         name="pass2"
         label="设置支付密码"
-        placeholder="请输入支付密码"
+        placeholder="请输入支付密码(密码只能是6位数字)"
         :rules="[{ required: true, message: '请输入支付密码' }]"
         v-if="show"
       />
@@ -38,7 +39,7 @@
         type="password"
         name="pass2"
         label="再输入支付密码"
-        placeholder="请再输入支付密码"
+        placeholder="请再输入支付密码(密码只能是6位数字)"
         label-width='100px'
         :rules="[{ required: true, message: '请再输入支付密码' }]"
         v-if="show"
@@ -65,12 +66,13 @@
                 password2: '',
                 show: this.$route.meta.title == '绑定手机号' ? false : true,
                 surplusTime:0,  //剩余时间
+                isTime:true,  //剩余时间是否继续
             }
         },
         created(){
           let {getuserinfo} = this.$store.getters;
           if(getuserinfo) this.phone = JSON.parse(getuserinfo).phone;
-          this.codeTime('surplusTime');
+          this.codeTime('surplusTime','isTime');
         },
         methods: {
             //获取验证码
@@ -87,10 +89,10 @@
                           this.$toast(response.data.msg);
                       } else {
                           this.$toast(response.message);
+                          this.isTime = false
                       }
-                      console.log(response)
                   }).catch(function (error) {
-                  console.log(error);
+                    this.isTime = false
               });
             },
             //提交
@@ -108,38 +110,48 @@
                   this.tc('验证码为空或格式错误');
                   return;
                 }
-                if(!_this.verifyCode(password1)){
-                  this.tc('支付密码为空或格式错误');
-                  return;
-                }
-                if(!_this.verifyCode(password2)){
-                  this.tc('确认支付密码为空或格式错误');
-                  return;
-                }
-                if(password1!==password2){
-                  this.tc('支付密码和确认支付密码不一致');
-                  return;
-                }
                 let addmsg = {
                     method: can,
                     phone,
                     code,
-                    pass2:password2
+                }
+                if(show){
+                  if(!_this.verifyCode(password1)){
+                    this.tc('支付密码为空或格式错误，密码只能是6位数字');
+                    return;
+                  }
+                  if(!_this.verifyCode(password2)){
+                    this.tc('确认支付密码为空或格式错误，密码只能是6位数字');
+                    return;
+                  }
+                  if(password1!==password2){
+                    this.tc('支付密码和确认支付密码不一致');
+                    return;
+                  }
+                  addmsg.pass2=password2
                 }
                 this.$post(url, addmsg)
                   .then((response) => {
                       if (response.status == 200) {
                           _this.tc('成功','success');
-                          setTimeout(() => {
-                              _this.$router.back(-1)
-                          }, 2000)
+                          this.getUserInfo()
                       } else {
                           _this.$toast(response.message);
                       }
                   }).catch(function (error) {
                 });
             },
+
+            //获取用户信息
+            async getUserInfo(){
+              let ad_data = { method: "get.user.info" };
+              let data = await this.$post("/api/v1/user", ad_data);
+              if(data) this.$store.commit('userinfo',JSON.stringify(data.data));
+              this.$router.back(-1)
+            }
         },
+
+        //获取用户信息
         mounted() {
 
         }
