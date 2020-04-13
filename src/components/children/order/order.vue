@@ -86,17 +86,17 @@
               </div>
               <div v-show="num==2">
                 <!-- <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(item.id)">取消订单</van-button> -->
-                <van-button type="primary" size="small" color="#009900">提醒发货</van-button>
+                <!-- <van-button type="primary" size="small" color="#009900" @click="ReminderShipment(item.id)">提醒发货</van-button> -->
               </div>
               <div v-show="num==3">
-                <van-button plain type="primary" size="small" color="#009900">查看物流</van-button>
+                <van-button plain type="primary" size="small" color="#009900" @click="ViewLogistics(item.postnumber)">查看物流</van-button>
                 <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(item.id)">确认收货</van-button>
               </div>
               <div v-show="num==4">
                 <router-link :to="{path:'/goodsdetails/evaluate',query: {id: item.id}}">
                   <van-button plain type="primary" size="small" color="#009900">立即评价</van-button>
                 </router-link>
-                <van-button type="primary" size="small" color="#009900">再来一单</van-button>
+                <!-- <van-button type="primary" size="small" color="#009900">再来一单</van-button> -->
               </div>
             </el-row>
             <el-row v-show="isshouhou">
@@ -134,42 +134,6 @@
                 isshouhou: false,
                 navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] : ['全部', '待付款', '待发货', '待收货', '待评价'],
                 orderAllItem: [
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
-                    {
-                        storename: '富锦旗舰店',
-                        state: 2,
-                        price: '268.00',
-                        goodsimg: 'c_goods',
-                        detailes: '富锦年货特产坚果零食大礼包万事如意混合坚果公司送礼盒装',
-                        guige: '1000*10',
-                        num: 1,
-                        total: '268.00',
-                        totalnum: 1,
-                        add_time: '2020-01-13 10：02：42',
-                    },
                     {
                         storename: '富锦旗舰店',
                         state: 2,
@@ -303,6 +267,15 @@
                 }
             },
 
+            //提醒发货
+            ReminderShipment () {
+              this.$toast('功能暂未上线')
+            },
+            
+            //查看物流
+            ViewLogistics( id ) {
+              location.href="https://m.kuaidi100.com/result.jsp?nu=" + id;
+            },
             //确认收货
             Confirmreceipt(id) {
               let ad_data = {

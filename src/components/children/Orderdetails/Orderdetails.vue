@@ -7,18 +7,19 @@
       </span>
     </div>
     <div class="common_box adress">
-      <router-link to="" class="common">
+      <div class="common">
         <div class="left">
-          <i class="el-icon-location"></i>
+          <van-icon name="location-o" />
           <span>
-            <p>大哥&nbsp;15320495341</p>
-            <p style="color:#999999">重庆市&nbsp;江北区&nbsp;五里店</p>
+            <p>{{orderData.name}}&nbsp;{{orderData.phone}}</p>
+            <p style="color:#999999">{{orderData.province}}&nbsp;{{orderData.city}}&nbsp;{{orderData.area}}</p>
+            <p style="color:#999999">{{orderData.address}}</p>
           </span>
         </div>
         <div class="right">
-          <i class="el-icon-arrow-right"></i>
+          <!-- <van-icon name="arrow" /> -->
         </div>
-      </router-link>
+      </div>
     </div>
 
     <div class="common_box">
@@ -43,7 +44,6 @@
           />
         </div>
         <div class="center_text">
-          <a href="/goodsdetails/order" class="link_div router-link-active">
             <div class="fontWrap fontWrapTwo">
               {{item.name}}
             </div>
@@ -55,7 +55,6 @@
                 {{item.num}}
               </span>
             </div>
-          </a>
           <div data-v-46727266="" class="right_price">
             ￥{{item.price}}
           </div>
@@ -144,12 +143,9 @@
     <!-- <div class="common_box">
       <div class="common service">
         <router-link to="">
-          <i class="el-icon-service"></i>
           <span>联系客服</span>
         </router-link>
         <router-link to="">
-          <i class="el-icon-phone"></i>
-          <span>拨打电话</span>
         </router-link>
       </div>
     </div> -->
@@ -157,13 +153,13 @@
     <div class="common_box">
       <div class="common">
         <div class="left">
-          订单编号：<span style="color:#999999; width: 60%" class="fontWrap fontWrapOne">
+          订单编号：<span style="color:#999999; width: 70%" class="fontWrap fontWrapOne">
             {{orderData.order}}
           </span>...
         </div>
-        <div class="clo-g right copy">
+        <!-- <div class="clo-g right copy">
           复制
-        </div>
+        </div> -->
       </div>
       <div class="common">
         <div class="left">
@@ -188,7 +184,7 @@
       </div>
     </div>
     
-<!--  删除  -->
+    <!--  删除  -->
     <div class="delet" v-if="orderData.status=='0'">
       <div @click="cancelOrder">取消订单</div>
       <div @click="payment">付款</div>
@@ -252,7 +248,7 @@
         
       }, 
 
-      //支付
+      //付款
       payment () {
         let _id = this.$route.query.id;
         let ad_data = {
@@ -272,7 +268,8 @@
             console.log(error);
         });
       },
-      
+
+      //微信支付
       jsApiCall(){
 	      WeixinJSBridge.invoke(
 	      	'getBrandWCPayRequest',
@@ -287,7 +284,6 @@
 	      	}
 	      );
 	    },
-
 	    callpay(){
 		        if (typeof WeixinJSBridge == "undefined"){
 		            if( document.addEventListener ){

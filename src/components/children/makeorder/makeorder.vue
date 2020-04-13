@@ -6,7 +6,7 @@
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
     <div class="common_box adress">
-      <router-link :to="{path:'/mine/Address',query:{id: 'makeorder'}}" class="common">
+      <router-link :to="{path:'/mine/Address',query:{id: 'makeorder'}}" class="common commonTwo">
         <div class="left">
           <i style="margin-top:0.15rem" class="el-icon-location"></i>
           <span>
@@ -331,10 +331,10 @@
                     })
                   }else{
                     this.isloading = false;
-                    this.$dialog.alert({
-                        title: '提交失败',
-                        message: res.message
-                    })
+                    // this.$dialog.alert({
+                    //     title: '提交失败',
+                    //     message: res.message
+                    // })
                   }
                 }).catch(function (error) {
                   console.log(error);
@@ -473,15 +473,17 @@
 
     .common_box {
       text-align: left;
-
       .common {
+        border-bottom: 1px solid #f2f2f2;
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0.1rem 0;
       }
-
+      .commonTwo{
+        border: 0;
+      }
       .left {
         display: flex;
         align-items: center;

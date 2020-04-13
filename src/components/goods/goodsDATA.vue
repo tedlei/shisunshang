@@ -611,7 +611,7 @@
                 };
                 this.$post('/api/v1/goods', ad_data)
                     .then((res) => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.status == 200) {
                             // console.log(this.$route.meta);
                             document.title = res.data.goods_info.name;
@@ -761,7 +761,7 @@
                             });
                             this.$toast.success("添加成功");
                         } else {
-                            this.$toast.fail("添加失败");
+                            this.$toas(res.message);
                         }
                     }).catch((error) => {
                     console.log(error);

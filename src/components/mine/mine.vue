@@ -102,7 +102,6 @@
           <router-link :to="{path:'/goodsdetails/order', query:{orderid:0}}">全部订单<van-icon name="arrow" /></router-link>
         </span>
       </div>
-
       <ul class="order_lists clearfix">
         <li style="position: relative;" v-for="(item,index) in orderlists" :key="index">
           <div v-show="item.num>0" class="order_lists_info">{{100>item.num?item.num:99}}</div>
@@ -574,8 +573,8 @@
   /*  */
   .order_lists_info{
     position: absolute;
-    top: 2px;
-    right: 3px;
+    top: 5px;
+    right: 10px;
     width: 16px;
     height: 16px;
     background: red;
