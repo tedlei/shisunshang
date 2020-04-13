@@ -160,9 +160,13 @@
             <img v-show="isGoods_infoImgsrc" style="width:100%;height:235px" :src="goodsData.goods_info.imgsrc"
                  alt="海报图片">
             <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
-            <div class="PosterDivMoney">￥560.00</div>
+            <div class="PosterDivMoney">￥
+              {{goodsData.goods_info.price}}
+            </div>
             <div class="PosterDivQRcode">
-              <div>简单 仙魔香米号吃好好好好吃的2.5kg不抛光的向居民们的米</div>
+              <div>
+                {{goodsData.goods_info.keywords}}
+              </div>
               <div class="qrcode" id="qrCode" ref="qrCode"></div>
             </div>
           </div>
@@ -857,9 +861,8 @@
 
 <style scoped lang="scss">
   .swipeImgs {
-    width: 100%;
+    // width: 100%;
     height: 3.5rem;
-
   }
 
   .indicator {

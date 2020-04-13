@@ -9,7 +9,8 @@
       </ul>
     </div>
     <div v-show="isNoorder" class="content" :style="{'padding-top':shouhou}">
-      <div class="common_box item" v-for="(item,index) in wholeData" :key="index">
+      <div class="hrDiv"></div>
+      <div class="common_boxTwo item" v-for="(item,index) in wholeData" :key="index">
         <!-- 店铺标题 -->
         <div class="title">
           <div class="left_store">
@@ -53,10 +54,11 @@
                 <span>购买方式：
                   {{buy_types[goodsItem.buy_type]}}
                 </span>
-                <span>数量:{{goodsItem.num}}</span>
+                <span>数量：{{goodsItem.num}}</span>
               </div>
             </div>
           </div>
+          
         </router-link>
         <!-- 店铺合计 -->
         <div class="clearfix total_box">
@@ -67,7 +69,6 @@
             <span style="margin-right: 20px">共{{item.goods.length}}件商品</span>
             <span>合计：￥{{item.total_money}}</span>
           </div>
-
         </div>
         <div class="clearfix submit_box">
           <!-- <div class="left_dtime" v-show="num==1">
@@ -81,8 +82,8 @@
           </div>
           <el-row class="btn_box">
             <el-row v-show="!isshouhou">
-              <div v-show="num==1">
-                <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
+              <div class="btnDiv" v-show="num==1">
+                <router-link style="margin-right:0.05rem;" :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
                   <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                 </router-link>
                 <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">付款</van-button>
@@ -315,39 +316,45 @@
 </script>
 
 <style scoped lang="scss">
+  
   .content {
+    .hrDiv{
+      height: 0.1rem;
+    }
     .numactive {
       border-bottom: 3px solid #009900;
     }
-
+    .common_boxTwo{
+      background-color: #fff;
+      padding: 0.1rem 0;
+      margin-bottom: 0.1rem;
+    }
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
+      padding: 0 0.1rem;
       .state {
         color: #009900;
       }
     }
-
     .goods {
       display: flex;
+      align-items: center;
       margin: 0.1rem 0;
-
+      background-color: #f2f2f2;
+      padding: 0.1rem;
       .left_img {
         width: 0.9rem;
         margin-right: 0.1rem;
       }
-
       .center_text {
         width: 100%;
-
+        margin-left: 0.08rem;
         > div:first-child {
-          padding: 0 0.05rem;
           display: flex;
           width: 100%;
           justify-content: space-between;
-
           .goodsItemName {
             text-align: left;
             width: 70%;
@@ -356,17 +363,13 @@
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2; //超出几行显示
-            margin-bottom: 0.4rem;
           }
         }
-
         .Specifications {
           display: flex;
           text-align: left;
-
+          justify-content: space-between;
           > span:first-child {
-            margin-left: 0.1rem;
-            width: 70%;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -378,8 +381,7 @@
     }
 
     .total_box {
-      margin: 0.1rem 0;
-
+      margin: 0 0.1rem 0.1rem 0;
       .add_time {
         float: left;
       }
@@ -391,7 +393,7 @@
 
     .submit_box {
       line-height: 0.4rem;
-
+      margin-right: 0.1rem;
       .left_dtime {
         color: #009900;
         float: left;
