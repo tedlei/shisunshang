@@ -13,80 +13,65 @@
             return {}
         },
         created() {
-            let token = localStorage.getItem('token');
-            if (!token) {
-                // 如果连接中有微信返回的 code，则用此 code 调用后端接口，向微信服务器请求用户信息
-                // 如果不是从微信重定向过来的，没有带着微信的 code，则直接进入首页
-                if (this.$route.query.code) {
-                    let code = this.getUrlParam('code');
-                    let state = this.getUrlParam('state');
+
+            let ua = window.navigator.userAgent.toLocaleLowerCase();
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                 let code = this.getUrlParam('code');
+                if(!code){
+                    //请求微信授权,并跳转到 /WxAuth 路由
+                    let appId = 'wxf730b0b04586d06f'
+                    let url = 'http://m.wjeys.com/author';
+                    let redirectUrl = encodeURIComponent(url);
+                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state='state'#wechat_redirect`
+                }else{
+                    let state = sessionStorage.getItem('state');
                     let msg = {
                         method: 'login.wechat.oauth2.step2',
                         code: code,
                         referee_mobile: state,
                     };
                     this.$post('api/v1/user', msg)
-                        .then((response) => {
-                            if (response.status == 200) {
-                                this.$store.commit('isLogin', response.data.token);
-                                Bus.$emit('getHot', true);
-                                //获取用户信息并存储
-                                let userinfo = {
-                                    method: 'get.user.info'
-                                }
-                                this.$post('/api/v1/user', userinfo)
-                                    .then((response) => {
-                                        if (response.status == 200) {
-                                            let sourceUrl = localStorage.getItem('sourceUrl');
-                                            this.$store.commit('userinfo', JSON.stringify(response.data));
-                                            Bus.$emit('wechatAuth', true);
-                                            setTimeout(() => {
-                                                this.$router.push({
-                                                    path: sourceUrl
-                                                })
-                                            }, 2000);
-
-                                            // let phone = JSON.parse(store.getters.getuserinfo).phone;
-                                            // if (!phone) {
-                                            //   Dialog({
-                                            //     message: '去绑定手机号码',
-                                            //   }).then(() => {
-                                            //     router.push({
-                                            //       path: '/set/set-phone'
-                                            //     })
-                                            //   });
-                                            // }
-                                        }
-                                    }).catch(function (error) {
-                                    console.log(error);
-                                });
+                        .then((res) => {
+                            if (res.status == 200) {
+                                sessionStorage.setItem('usertoken',res.data.token);
+                                location.href="/";
+                                // Bus.$emit('getHot', true);
                             }
                         }).catch(function (error) {
                         console.log(error);
                     });
-
-                } else {
-                    this.$router.replace('/')
                 }
-            } else {
-                Bus.$emit('getHot', true);
-                this.$router.replace('/')
+            }else{
+                console.log(1);
+                let msg = {
+                    method: 'login.wechat.oauth2.test',
+                };
+                this.$post('api/v1/user', msg)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            sessionStorage.setItem('usertoken',res.data.token);
+                            location.href="/";
+                            // Bus.$emit('getHot', true);
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             }
-
-
+           
         },
 
         methods: {
             // 解析url参数并获取code
-            getUrlParam: function (name) {   //name为要获取的参数名
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var rrr = decodeURIComponent(window.location.search);
-                var r = rrr.substr(1).match(reg);
-                if (r != null) return unescape(r[2]);
-                return null;
+            getUrlParam: function (variable) {   //name为要获取的参数名
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                        var pair = vars[i].split("=");
+                        if(pair[0] == variable){return pair[1];}
+                }
+                return(false);
             },
-
-
         },
         mounted() {
 

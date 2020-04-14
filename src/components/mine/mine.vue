@@ -7,16 +7,16 @@
             <van-icon name="setting-o" size="20" />
           </router-link>
         </div>
-        <div class="user">
+        <div class="user" v-if="userinfo">
           <div style="display: flex">
             <div class="user_header">
               <router-link to="/mine/usermsg">
-                <img :src="portrait" class />
+                <img :src="userinfo.portrait" class />
               </router-link>
             </div>
             <div class="user_msg">
-              <span class="user_name">{{JSON.parse(this.$store.getters.getuserinfo).weixinname}}</span>
-              <span class="user_phone">{{phone}}</span>
+              <span class="user_name">{{userinfo.weixinname}}</span>
+              <span class="user_phone">{{userinfo.phone}}</span>
               <div class="vip_lv">
                 <span>
                   {{userinfo.level_name}}
@@ -92,8 +92,9 @@
           <router-link :to="{path:'/mine/record',query:{recordid:index + 1}}">
             <div
               style="padding-bottom: 0.05rem;margin-bottom: 0.05rem;border-bottom: 1px solid #999;display: inline-block"
-            >{{ item.num | moneyFormat}}</div>
-            <div style="margin-bottom: 0.1rem">{{ item.totalnum | moneyFormat}}</div>
+            >{{ item.num}}</div>
+            <!--  | moneyFormat -->
+            <div style="margin-bottom: 0.1rem">{{ item.totalnum}}</div>
             <div>{{item.name}}</div>
           </router-link>
         </li>
@@ -112,18 +113,20 @@
         </span>
       </div>
       <ul class="order_lists clearfix">
-        <li style="position: relative;" v-for="(item,index) in orderlists" :key="index">
-          <div v-show="item.num>0" class="order_lists_info">{{item.num>99?99:item.num}}</div>
-          <!-- <router-link :to="{path: item.router, query:{orderid:item.orderid}}"> -->
-          <div @click="CustomerService(item.router,item.orderid)" style="margin-bottom: 0.1rem">
-            <img
-              :src="require(`../../assets/img/${item.img}.png`)"
-              style="height: 0.24rem;width: auto"
-            />
-          </div>
-          <div>{{item.name}}</div>
-          <!-- </router-link> -->
-        </li>
+        <template v-for="(item,index) in orderlists">
+          <li style="position: relative;" v-if="index!==orderlists.length-1" :key="index">
+            <div v-show="item.num>0" class="order_lists_info">{{item.num>99?99:item.num}}</div>
+            <!-- <router-link :to="{path: item.router, query:{orderid:item.orderid}}"> -->
+            <div @click="CustomerService(item.router,item.orderid)" style="margin-bottom: 0.1rem">
+              <img
+                :src="require(`../../assets/img/${item.img}.png`)"
+                style="height: 0.24rem;width: auto"
+              />
+            </div>
+            <div>{{item.name}}</div>
+            <!-- </router-link> -->
+          </li>
+        </template>
       </ul>
     </div>
     <!--  我的工具  -->
@@ -184,17 +187,17 @@ export default {
   components: { Header },
   data() {
     return {
-      msg: "我的",
-      userinfo: JSON.parse(this.$store.getters.getuserinfo),
+      // msg: "我的",
+      // username: "",
+      // portrait: "",
+      // phone: "", 
+      // level_name: "",
+      userinfo: null,    //用户数据
       expireTime: "到期时间：",
-      username: "",
-      portrait: "",
-      phone: "",
-      level_name: "",
-      day_money: 0,
-      total_money: 0,
-      use_money: 0,
-      cashed_money: 0,
+      day_money: 0,   //收入
+      total_money: 0,  //收入
+      use_money: 0,    //消费
+      cashed_money: 0,   //提现
       headerlists: [
         {
           num: 0,
@@ -278,14 +281,14 @@ export default {
           router: "/goodsdetails/order",
           orderid: "evaluate",
           num: ""
+        },
+        {
+          img: "sh",
+          name: "已完成",
+          router: "/goodsdetails/customerService",
+          orderid: 5,
+          num: ""
         }
-        // {
-        //     img: 'sh',
-        //     name: '已完成',
-        //     router: '/goodsdetails/customerService',
-        //     orderid: 5,
-        //     num:''
-        // }
       ],
       gjlists: [
         {
@@ -379,63 +382,70 @@ export default {
   methods: {
     //订单跳转
     CustomerService(router, id) {
-      console.log(router, id);
       if (id == 5) {
         this.$toast("功能暂未上线");
       } else {
         this.$router.push({ path: router, query: { orderid: id } });
       }
     },
-    //获取用户信息并存储
-    getuserinfo: function() {
+    //获取用户信息
+    async getuserinfo() {
       let ad_data = {
         method: "get.user.info"
       };
-      this.$post("/api/v1/user", ad_data)
-        .then(res => {
-          let data = res.data;
-          this.$store.commit("userinfo", JSON.stringify(data));
-          for (let i in _this.zclists) {
-            _this.zclists[i].num = Number(data["money" + (Number(i) + 1)]);
-          }
-          _this.portrait = data.portrait;
-          _this.username = data.name;
-          _this.phone = data.phone;
-          _this.level_name = data.level_name;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      let { zclists } = this;
+      let { data } = await this.$post("/api/v1/user", ad_data);
+      if (data) {
+        this.userinfo = data;
+        for (let i in zclists) {
+          zclists[i].totalnum = parseInt(data["money" + (i * 1 + 1)]);
+        }
+      }
     },
     //获取收藏数量，累计
-    getuserindex: function() {
+    async getuserindex() {
       let _this = this;
       let userindex = {
         method: "get.user.index.data"
       };
-      this.$post("/api/v1/user", userindex)
-        .then(response => {
-          _this.headerlists[0].num = response.data.collect_goods_num;
-          _this.headerlists[1].num = response.data.collect_shops_num;
-          _this.headerlists[2].num = response.data.footprint_num;
-          _this.headerlists[3].num = response.data.comment_num;
-          _this.day_money = response.data.day_money;
-          _this.total_money = response.data.total_money;
-          _this.use_money = response.data.use_money;
-          _this.cashed_money = response.data.cashed_money;
-          for (let i in _this.zclists) {
-            _this.zclists[i].totalnum = Number(
-              response.data["money" + (Number(i) + 1)]
-            );
-          }
-          for (let n in response.data.order_array) {
-            this.orderlists[n].num = response.data.order_array[n];
-          }
-          // console.log(this.orderlists)
-        })
-        .catch(function(error) {
-          // console.log(error);
-        });
+      let { zclists, headerlists, orderlists } = this;
+      let { data } = await this.$post("/api/v1/user", userindex);
+      if (data) {
+        let {
+          collect_goods_num,
+          collect_shops_num,
+          footprint_num,
+          comment_num,
+          day_money,
+          total_money,
+          use_money,
+          cashed_money,
+          order_array
+        } = data;
+        headerlists[0].num = collect_goods_num; //收藏商品
+        headerlists[1].num = collect_shops_num; //关注店铺
+        headerlists[2].num = footprint_num; //浏览逐级
+        headerlists[3].num = comment_num; //我的评价
+
+        //收入
+        this.day_money = day_money;
+        this.total_money = total_money;
+
+        //累计消费
+        this.use_money = use_money;
+
+        //累计提现
+        this.cashed_money = cashed_money;
+
+        for (let i in zclists) {
+          zclists[i].num = parseInt(data["money" + (i * 1 + 1)]);
+        }
+
+        //订单数量
+        for (let n in order_array) {
+          orderlists[n].num = order_array[n];
+        }
+      }
     },
     //充值活动
     Recharge: function() {
@@ -450,7 +460,7 @@ export default {
       });
     }
   },
-  mounted() {
+  created() {
     this.getuserinfo();
     this.getuserindex();
   }
@@ -518,7 +528,7 @@ export default {
         .shengji {
           line-height: 0.18rem;
           border-radius: 0.18rem;
-          padding: 0 0.1rem;
+          padding: 0.03rem 0.1rem;
           font-size: 0.12rem;
           width: max-content;
         }
@@ -529,6 +539,7 @@ export default {
         }
 
         .shengji {
+          // margin-top:0.05rem;
           background-color: #235f23;
         }
       }

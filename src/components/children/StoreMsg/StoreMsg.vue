@@ -33,8 +33,8 @@
 
     <div class="common_box introduce">
       <p>{{shops.bus_scope}}</p>
-      <van-row class="introduce_img" :gutter="20" @click="Preview">
-        <van-col v-for="(item,index) in shops.album" :key="index" :span="24">
+      <van-row class="introduce_img" :gutter="20">
+        <van-col v-for="(item,index) in shops.album" :key="index" :span="24" @click="Preview(index)">
           <div class="grid-content bg-purple">
             <img :src="item" />
           </div>
@@ -106,7 +106,6 @@ export default {
       let QRcodeDomainName = location.href;
       let arr = QRcodeDomainName.split('/')
       let url = arr[0]+'//'+arr[2]+'/uploadpic?store_id='+this.$route.query.id
-      console.log(url)
       let qrCode = new QRCode("qrCode", {
         text: url, // 需要转换为二维码的内容
         width: 25,
@@ -150,9 +149,12 @@ export default {
       });
     },
     //图片阅览
-    Preview: function() {
-      ImagePreview(this.shops.album);
+    Preview: function(number) {
+      ImagePreview({images:this.shops.album,startPosition:number});
     },
+
+
+
     Previewcode: function(boo) {
       if(boo){
         setTimeout(()=>{
