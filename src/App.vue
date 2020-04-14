@@ -113,9 +113,28 @@
             }
         },
         mounted() {
-            this.path = this.$route.path;
-            this.shareConfig();
-            this.setgoindex();
+            let userinfo = {
+                method: 'get.user.info'
+            }
+            if(this.$route.path!='/author'){
+                this.$post('/api/v1/user', userinfo)
+                .then((response) => {
+                    console.log(response)
+                    if (response.status == 200) {
+                        let sourceUrl = sessionStorage.getItem('sourceUrl');
+                        sessionStorage.setItem("userinfo",JSON.stringify(response.data));
+                        // Bus.$emit('wechatAuth', true);
+                        this.$router.push({ path: sourceUrl})
+                    }else{
+                        sessionStorage.clear();
+                        location.href = sourceUrl;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            // this.shareConfig();
+            // this.setgoindex();
         },
     }
 </script>

@@ -15,8 +15,12 @@
               </router-link>
             </div>
             <div class="user_msg">
-              <span class="user_name">{{JSON.parse(this.$store.getters.getuserinfo).weixinname}}</span>
-              <span class="user_phone">{{phone}}</span>
+              <span class="user_name">
+                {{userinfo.weixinname}}
+              </span>
+              <span class="user_phone">
+                {{userinfo.phone}}
+              </span>
               <div class="vip_lv">
                 <span>
                   {{userinfo.level_name}}
@@ -150,27 +154,27 @@
       </ul>
     </div>
     <!--  游戏互动  -->
-    <!--    <div class="m_b_10 conmon_box my_game">-->
-    <!--      <div class="conmon_deader">-->
-    <!--        <span class="left_text">游戏互动</span>-->
-    <!--        <span class="right_link">-->
-    <!--          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>-->
-    <!--        </span>-->
-    <!--      </div>-->
-
-    <!--      <ul class="gj_lists clearfix">-->
-    <!--        <li v-for="(item,index) in gamelists" :key="item.index">-->
-    <!--          <router-link :to="{path:item.linkto}">-->
-    <!--            <div style="margin-bottom: 10px">-->
-    <!--              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">-->
-    <!--            </div>-->
-    <!--            <div>-->
-    <!--              <div>{{item.name}}</div>-->
-    <!--              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>-->
-    <!--            </div>-->
-    <!--          </router-link>-->
-    <!--        </li>-->
-    <!--      </ul>-->
+      <!--    <div class="m_b_10 conmon_box my_game">-->
+      <!--      <div class="conmon_deader">-->
+      <!--        <span class="left_text">游戏互动</span>-->
+      <!--        <span class="right_link">-->
+      <!--          <router-link to="">查看更多<i class="el-icon-arrow-right"></i></router-link>-->
+      <!--        </span>-->
+      <!--      </div>-->
+  
+      <!--      <ul class="gj_lists clearfix">-->
+      <!--        <li v-for="(item,index) in gamelists" :key="item.index">-->
+      <!--          <router-link :to="{path:item.linkto}">-->
+      <!--            <div style="margin-bottom: 10px">-->
+      <!--              <img :src="require(`../../assets/img/${item.img}.png`)" style="width: 34px">-->
+      <!--            </div>-->
+      <!--            <div>-->
+      <!--              <div>{{item.name}}</div>-->
+      <!--              <div style="color: #999;font-size: 0.12rem">{{item.text}}</div>-->
+      <!--            </div>-->
+      <!--          </router-link>-->
+      <!--        </li>-->
+      <!--      </ul>-->
     <!--    </div>-->
   </div>
 </template>
@@ -185,7 +189,7 @@ export default {
   data() {
     return {
       msg: "我的",
-      userinfo: JSON.parse(this.$store.getters.getuserinfo),
+      userinfo: {},
       expireTime: "到期时间：",
       username: "",
       portrait: "",
@@ -393,18 +397,18 @@ export default {
       };
       this.$post("/api/v1/user", ad_data)
         .then(res => {
+          console.log(res)
           let data = res.data;
-          this.$store.commit("userinfo", JSON.stringify(data));
+          this.userinfo = data;
+          console.log(this.userinfo);
+          sessionStorage.setItem('userinfo',JSON.stringify(data));
+          console.log(sessionStorage.getItem('userinfo'),1);
           for (let i in _this.zclists) {
-            _this.zclists[i].num = Number(data["money" + (Number(i) + 1)]);
+            this.zclists[i].num = Number(data["money" + (Number(i) + 1)]);
           }
-          _this.portrait = data.portrait;
-          _this.username = data.name;
-          _this.phone = data.phone;
-          _this.level_name = data.level_name;
         })
         .catch(function(error) {
-          console.log(error);
+          // console.log(error);
         });
     },
     //获取收藏数量，累计
@@ -451,6 +455,7 @@ export default {
     }
   },
   mounted() {
+    // console.log(sessionStorage.getItem('userinfo'))
     this.getuserinfo();
     this.getuserindex();
   }

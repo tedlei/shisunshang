@@ -11,8 +11,8 @@ let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
-  tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODY4MzM0OTYsIm5iZiI6MTU4NjIyODY5NiwiaWF0IjoxNTg2MjI4Njk2LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.W8MZDHV3QZQ78l2ofFshFTe3iFu-ljyPRVfdG2TKLxM';
-  store.commit('isLogin', tokens);
+  // tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODY4MzM0OTYsIm5iZiI6MTU4NjIyODY5NiwiaWF0IjoxNTg2MjI4Njk2LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.W8MZDHV3QZQ78l2ofFshFTe3iFu-ljyPRVfdG2TKLxM';
+  // store.commit('isLogin', tokens);
   let info = {
     money1: -175.00,
     money2: 0.00,
@@ -32,7 +32,7 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
     is_set_paypassword: 1,
     level_name: "会员"
   }
-  store.commit('userinfo', JSON.stringify(info));
+  // store.commit('userinfo', JSON.stringify(info));
 }
 
 const baseURL = 'http://test.gj.wjeys.com';
@@ -48,7 +48,7 @@ axios.interceptors.request.use(
 
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      'token': store.getters.isLogin,
+      'token': sessionStorage.getItem("usertoken"),
       // 'Content-Type': 'multipart/form-data'
     };
     return config;
@@ -124,9 +124,9 @@ axios.interceptors.response.use(
     if (response.data.status === 200) {
 
     } else if (response.data.status === 401 || response.data.status === 403) {
-
-      localStorage.removeItem('token');
+      sessionStorage.clear();
       Toast('会话已过期正在重新连接');
+      console.log(response);
       router.push({
         path: '/',
       }).catch(data => {
@@ -139,7 +139,8 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response.status == 401 || error.response.status === 403) {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      Toast('会话已过期正在重新连接');
       router.push({
         path: '/',
       }).catch(data => {

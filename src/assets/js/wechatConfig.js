@@ -52,10 +52,10 @@ const wechatAuth = async function (url, shareConfig,ditu) {
           wx.updateAppMessageShareData({
             title: shareConfig.title,
             desc: shareConfig.desc,
-            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
+            link: location.href + '?' + 'state=' + 101779,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
-              console.log(location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,)
+              console.log(location.href + '?' + 'state=' + 101779,'我是分享地址')
               console.log("分享成功");
             },
             cancel: function () {
