@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import hint from '../../components/pages_lm/hint/hint.vue'
-// import router from './router'
-
 const Hint = Vue.extend(hint)
 
 let Api = {
@@ -93,7 +91,7 @@ let Api = {
         document.body.appendChild(toastDom.$el)
         // 过了 duration 时间后隐藏
         setTimeout(() => { toastDom.show = false }, duration)
-    },
+    }
 }
 
 export { Api }

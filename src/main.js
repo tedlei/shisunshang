@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.name != 'author'){
     //sessionStorage.setItem('usertoken',12312321312);
-    let token = sessionStorage.getItem('usertoken'); //获取session里面的token
+    let token = sessionStorage.getItem('usertoken'); //获取VUEX里面的token
     // console.log(token)
     if(!token){
       sessionStorage.setItem('sourceUrl', to.fullPath);//记录当前访问的路由
