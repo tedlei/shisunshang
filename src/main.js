@@ -50,6 +50,15 @@ router.beforeEach((to, from, next) => {
       }
       return(false);
   }
+  function getUrlParam1 (variable) {   //name为要获取的参数名
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=vars.length-1;i>-1;i--) {
+              var pair = vars[i].split("=");
+              if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+  }
   // store.commit(SET_WX_JS_URL, document.URL);
   if (to.name != 'author'){
     // console.log("我不是授权页,就要判断有没有token")
@@ -57,21 +66,40 @@ router.beforeEach((to, from, next) => {
     // console.log(token)
     if(!token){
       sessionStorage.setItem('sourceUrl', location.href);//记录当前访问的路由
-      let state = getUrlParam('state');
+      let state = getUrlParam1('state');
+      // console.log(state)
       if(state==undefined) state = '';
-      localStorage.setItem("state",state);
+      sessionStorage.setItem("state",state);
       location.href="/author";
     }else{
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
-      console.log(sessionStorage.getItem('ios_share_url'),11111);
+      // console.log(sessionStorage.getItem('ios_share_url'),11111);
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      if(userinfo){
-        console.log('我去分享了')
+      if(userinfo && to.path!='/goodsdetails'){
         shareConfig(userinfo);
       } 
     }
-
-
+    function shareConfig (userinfo) {
+      let ua = window.navigator.userAgent.toLocaleLowerCase();
+      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        // console.log('我去分享了')
+        var url = '';
+         if(is_ios()){
+            console.log('IOS')
+            url = sessionStorage.getItem('ios_share_url').split('#')[0];
+         }else{
+            console.log('IOS否')
+            url = 'http://' + location.host + to.fullPath;
+         }
+        // console.log(url);
+        // let url = location.href.split('&')[0];
+        // Dialog({
+        //   message:'1'+is_ios()+'~'+url
+        // })
+        console.log(url,11111111111111111111)
+        wechatAuth(url,to,userinfo);
+      }
+    }
     function is_ios() {
         var u = navigator.userAgent;
         if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
@@ -80,26 +108,7 @@ router.beforeEach((to, from, next) => {
             return false;
     　   }
     }
-
-
-    function shareConfig (userinfo) {
-      let ua = window.navigator.userAgent.toLocaleLowerCase();
-      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-        // console.log('我去分享了')
-        var url = '';
-        if(is_ios()){
-          url = sessionStorage.getItem('ios_share_url').split('#')[0];
-        }else{
-          url = 'http://' + location.host + to.fullPath;
-        }
-        console.log(url);
-        // let url = location.href.split('&')[0];
-        // Dialog({
-        //   message:'1'+is_ios()+'~'+url
-        // })
-        wechatAuth(url,to,userinfo);
-      }
-    }
+    
 
     /*路由发生改变修改页面的title */
     if (to.meta.title == '首页') {

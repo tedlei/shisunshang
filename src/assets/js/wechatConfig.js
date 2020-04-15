@@ -23,39 +23,37 @@ const wechatAuth = async function (url, to, userinfo) {
           jsApiList: ["updateAppMessageShareData", "updateTimelineShareData", "onMenuShareAppMessage", "onMenuShareTimeline", "getLocation", 'openLocation']
         });
         wx.ready(function () {
-          // Toast('签名成功')
-          // if(ditu){
-          //   //获取地理位置
-          //   wx.getLocation({
-          //     type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-          //     success: function (res) {
-          //       let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          //       let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          //       var speed = res.speed; // 速度，以米/每秒计
-          //       var accuracy = res.accuracy; // 位置精度
-          //       geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
-          //       wx.openLocation({
-          //         latitude: latitude, // 纬度，浮点数，范围为90 ~ -90
-          //         longitude: longitude, // 经度，浮点数，范围为180 ~ -180。
-          //         name: '', // 位置名
-          //         address: '', // 地址详情说明
-          //         scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
-          //         infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
-          //       });
-          //     },
-          //   });
-          // }
+            // Toast('签名成功');
+          //if(ditu){
+            //   //获取地理位置
+            //   wx.getLocation({
+            //     type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            //     success: function (res) {
+            //       let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            //       let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            //       var speed = res.speed; // 速度，以米/每秒计
+            //       var accuracy = res.accuracy; // 位置精度
+            //       geocoder.getAddress(new qq.maps.LatLng(latitude, longitude));
+            //       wx.openLocation({
+            //         latitude: latitude, // 纬度，浮点数，范围为90 ~ -90
+            //         longitude: longitude, // 经度，浮点数，范围为180 ~ -180。
+            //         name: '', // 位置名
+            //         address: '', // 地址详情说明
+            //         scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            //         infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+            //       });
+            //     },
+            //   });
+          //}
           function is_ios() {
             var u = navigator.userAgent;
             if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
                 return true;
             } else {
                 return false;
-        　   }
-        }
-        let urls = '';
-          
-
+        　  }
+          }
+          let urls = '';
           if(is_ios()){
             urls = sessionStorage.getItem('ios_share_url');
             urls = urls.indexOf('?') > -1 ? urls+'&state='+userinfo.referee_number : urls+'?state='+userinfo.referee_number;
@@ -65,35 +63,35 @@ const wechatAuth = async function (url, to, userinfo) {
           }
           //  好友
             wx.updateAppMessageShareData({
-              title: '我是标题',
-              desc: url + '?' + 'state=' + userinfo.referee_number,
-              link: urls,//
-              // link: url + '?' + 'state=' + userinfo.referee_number,
-              imgUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+              title: '国健生态平台',
+              desc: urls,
+              // link: url,
+              link: urls,
+              imgUrl: 'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
               success: function () {//设置成功
                 // console.log(url + '?' + 'state=' + userinfo.referee_number,'我是分享地址')
-                console.log(urls,'我是分享地址')
-                console.log("分享成功");
+                // console.log(urls,'我是分享地址')
+                // console.log("分享成功");
               },
               cancel: function () {
                 console.log("取消分享");
               }
             });
-          // 朋友圈
-          // wx.updateTimelineShareData({
-          //   title: shareConfig.title,
-          //   link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
-          //   imgUrl: shareConfig.imgUrl,
-          //   success: function () {//设置成功
-          //     //shareSuccessCallback();
-          //   },
-          //   cancel: function () {
-          //     console.log("取消分享");
-          //   }
-          // });
+          //朋友圈
+            // wx.updateTimelineShareData({
+            //   title: '国健生态平台',
+            //   link: urls,
+            //   imgUrl: 'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
+            //   success:  () => {//设置成功
+            //     //shareSuccessCallback();
+            //   },
+            //   cancel: function () {
+            //     console.log("取消分享");
+            //   }
+            // });
         })
         wx.error(function (res) {
-          Toast("微信验证失败");
+          // Toast("微信验证失败");
         });
       }
     }).catch(function (error) {
