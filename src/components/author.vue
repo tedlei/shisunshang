@@ -21,7 +21,7 @@
                     let appId = 'wxf730b0b04586d06f'
                     let url = 'http://m.wjeys.com/author';
                     let redirectUrl = encodeURIComponent(url);
-                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=''#wechat_redirect`
+                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state='state'#wechat_redirect`
                 }else{
                     let state = sessionStorage.getItem('state');
                     let msg = {

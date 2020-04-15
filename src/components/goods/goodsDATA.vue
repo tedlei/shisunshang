@@ -513,7 +513,17 @@
 
             },
             Replication() {
-                this.$toast('功能暂未上线');
+              let url = location.href;
+              const input = document.createElement('input');
+              document.body.appendChild(input);
+              input.setAttribute('value', url);
+              input.select();
+              let copy = document.execCommand('copy')
+              if (copy) {
+                 this.tc('复制成功','success');
+               this.showTwo = false
+              }
+              document.body.removeChild(input);
             },
             showUrl() {
                 this.showTwo = false;

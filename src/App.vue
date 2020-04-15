@@ -6,6 +6,7 @@
     <loading v-show="$store.getters.getLoading" type="spinner"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
     <search-result></search-result>
+    <rapidNavig></rapidNavig>
   </div>
 </template>
 
@@ -16,10 +17,10 @@
     import SearchResult from "./components/children/searchResult/searchResult";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
-    import hint from './components/pages_lm/hint/hint.vue'
+    import rapidNavig from './components/pages_lm/rapidNavigation/rapidNavigation.vue'
     export default {
         name: 'App',
-        components: {SearchResult, Header, Footer, loading},
+        components: {SearchResult, Header, Footer, loading,rapidNavig},
         provide() {
             return {
                 reload: this.reload
