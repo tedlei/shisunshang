@@ -5,8 +5,8 @@
           <span>{{show?'收起':'展开'}}</span>
             <div class="navList">
                 <div class="list" v-for="(item,i) of list" :key="i" @click="taptz(item.path)">
-                    <van-icon style="font-size:16px;" :name="item.icon" />
-                    <span style="font-size:0.05rem;">{{item.title}}</span>
+                    <van-icon style="font-size:0.1rem" :name="item.icon" />
+                    <span style="font-size:0.1rem;">{{item.title}}</span>
                 </div>
             </div>
       </div>

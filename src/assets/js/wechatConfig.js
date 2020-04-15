@@ -11,8 +11,6 @@ const wechatAuth = async function (url, shareConfig,ditu) {
   //   }
   // });
 
-  //权限验证配置
-  console.log(url,123456);
   get("wxshare/wxconfig/myapi.php?urlparam=" + url)
     .then((response) => {
       if (response.data && response.status === 200) {
@@ -28,7 +26,6 @@ const wechatAuth = async function (url, shareConfig,ditu) {
         
           
         wx.ready(function () {
-          console.log('签名成功')
           if(ditu){
             //获取地理位置
             wx.getLocation({
@@ -56,10 +53,9 @@ const wechatAuth = async function (url, shareConfig,ditu) {
           wx.updateAppMessageShareData({
             title: shareConfig.title,
             desc: shareConfig.desc,
-            link: location.href + '?' + 'state=' + 101779,
+            link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + shareConfig.link,
             imgUrl: shareConfig.imgUrl,
             success: function () {//设置成功
-              console.log(location.href + '?' + 'state=' + 101779,'我是分享地址')
               console.log("分享成功");
             },
             cancel: function () {
@@ -79,10 +75,9 @@ const wechatAuth = async function (url, shareConfig,ditu) {
             }
           });
         })
-        wx.error(function (res) {
-          // Toast("微信验证失败");
-          console.log('签名失败')
-        });
+        // wx.error(function (res) {
+        //   Toast("微信验证失败");
+        // });
       }
     }).catch(function (error) {
       console.log(error);
@@ -100,5 +95,4 @@ const geocoder = new qq.maps.Geocoder({
 });
 
 export default wechatAuth;
-
 

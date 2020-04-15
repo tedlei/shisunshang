@@ -513,17 +513,7 @@
 
             },
             Replication() {
-              let url = location.href;
-              const input = document.createElement('input');
-              document.body.appendChild(input);
-              input.setAttribute('value', url);
-              input.select();
-              let copy = document.execCommand('copy')
-              if (copy) {
-                 this.tc('复制成功','success');
-               this.showTwo = false
-              }
-              document.body.removeChild(input);
+                this.$toast('功能暂未上线');
             },
             showUrl() {
                 this.showTwo = false;
@@ -840,7 +830,6 @@
             this.getDATA();
             this.Addfootprints();
             let user = JSON.parse(this.$store.getters.getuserinfo);
-            console.log(user,123456789)
             this.users = user;
             this.portrait = user.portrait;
             if (this.$route.query.buy_type) {

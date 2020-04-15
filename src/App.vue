@@ -1,12 +1,11 @@
 <template>
   <div id="app" :class="{app:$route.meta.showFooter}">
-
     <Footer v-show="$route.meta.showFooter"></Footer>
     <router-view v-if="isRouterAlive"></router-view>
     <loading v-show="$store.getters.getLoading" type="spinner"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
     <search-result></search-result>
-    <rapidNavig></rapidNavig>
+    <rqpidNav></rqpidNav>
   </div>
 </template>
 
@@ -17,10 +16,10 @@
     import SearchResult from "./components/children/searchResult/searchResult";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
-    import rapidNavig from './components/pages_lm/rapidNavigation/rapidNavigation.vue'
+    import rqpidNav from './components/pages_lm/rapidNavigation/rapidNavigation.vue'    
     export default {
         name: 'App',
-        components: {SearchResult, Header, Footer, loading,rapidNavig},
+        components: {SearchResult, Header, Footer, loading,rqpidNav},
         provide() {
             return {
                 reload: this.reload
@@ -114,28 +113,9 @@
             }
         },
         mounted() {
-            let userinfo = {
-                method: 'get.user.info'
-            }
-            if(this.$route.path!='/author'){
-                this.$post('/api/v1/user', userinfo)
-                .then((response) => {
-                    console.log(response)
-                    if (response.status == 200) {
-                        let sourceUrl = sessionStorage.getItem('sourceUrl');
-                        sessionStorage.setItem("userinfo",JSON.stringify(response.data));
-                        // Bus.$emit('wechatAuth', true);
-                        this.$router.push({ path: sourceUrl})
-                    }else{
-                        sessionStorage.clear();
-                        location.href = sourceUrl;
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            }
-            // this.shareConfig();
-            // this.setgoindex();
+            this.path = this.$route.path;
+            this.shareConfig();
+            this.setgoindex();
         },
     }
 </script>

@@ -30,12 +30,12 @@
                 finished-text="没有更多了"
                 offset="50"
                 @load="getData">
-        <div class="footprint" v-for="(item,index) in goodslist" :key="index" >
+        <div class="footprint" v-for="(item,index) in goodslist" :key="index" @click="todetail(index)">
           <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'"
                @click="chooseShopGoods(index)">
             <van-icon name="success" color="#fff"/>
           </div>
-          <div class="img_box" @click="todetail(index)">
+          <div class="img_box">
             <van-image
               width="0.9rem"
               height="0.9rem"
@@ -43,7 +43,7 @@
               :src="item.imgsrc"
             />
           </div>
-          <div class="right_msg" @click="todetail(index)">
+          <div class="right_msg">
             <p>{{item.name}}</p>
             <div>
               <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
@@ -184,6 +184,7 @@
                 flag1 == true ? this.checkAll = true : this.checkAll = false;
             },
             chooseShopGoods(index) {
+                // console.log(1)
                 this.goodslist[index].checked = !this.goodslist[index].checked
                 this.isChooseAll();
             },
@@ -235,6 +236,8 @@
                 let printid = this.$route.query.printid;
                 let list = this.goodslist;
                 let evaluation_lists = this.evaluation_lists;
+                console.log(printid)
+                console.log(list[e])
                 if (printid == '0' || printid == '2') {
                     this.$router.push({
                         path: '/goodsdetails',
@@ -423,7 +426,9 @@
                         method: "del.cuser.footprint.list",
                         id: _id
                     };
-                    console.log(ad_data);
+                    this.deleteList(_id)
+                    return
+                    // console.log(ad_data);
                     this.$post('/api/v1/UserFootprint', ad_data)
                         .then((res) => {
                             console.log(res);

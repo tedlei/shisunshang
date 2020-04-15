@@ -43,7 +43,6 @@ export default {
     },
     created(){
         // this.getData();
-        sessionStorage.setItem("usertoken",'')
     },
     mounted(){
     }

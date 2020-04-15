@@ -37,61 +37,70 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
-  // 解析url参数并获取code
-  function getUrlParam (variable) {   //name为要获取的参数名
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
-      for (var i=0;i<vars.length;i++) {
-              var pair = vars[i].split("=");
-              if(pair[0] == variable){return pair[1];}
-      }
-      return(false);
-  }
-  if (to.name != 'author'){
-    //sessionStorage.setItem('usertoken',12312321312);
-    let token = sessionStorage.getItem('usertoken'); //获取VUEX里面的token
-    // console.log(token)
-    if(!token){
-      sessionStorage.setItem('sourceUrl', to.fullPath);//记录当前访问的路由
-      let state = getUrlParam('state');
-      if(state==undefined) state = '';
-      sessionStorage.setItem("state",state);
-      location.href="/author";
+  //===== 判断是否为微信浏览器 =====
+  let ua = window.navigator.userAgent.toLocaleLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+    if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
+      let tokens = store.getters.isLogin;
+      localStorage.setItem('sourceUrl', to.fullPath);
+      if (!tokens) {
+        let phone = getUrlParam('state') || '';
+        //请求微信授权,并跳转到 /WxAuth 路由
+        let appId = 'wxf730b0b04586d06f'
+        let url = 'http://m.wjeys.com';
+        let {path,query} = to
+        if(path==='/') url += '/author'
+        else {
+          url += path;
+          if(JSON.stringify(query)!=="{}") url+= '?' 
+          for(let name in query){
+            url += name+'='+query[name]+'&'
+          }
+        }
+        if(url.slice(url.length-1,url.length)==="&") url = url.slice(0,url.length-1)
+        let redirectUrl = encodeURIComponent(url);
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=${phone}#wechat_redirect`
+        return
+      } 
     }
-    /*路由发生改变修改页面的title */
-    // if (to.meta.title == '首页') {
-    //   // console.log(post)
-    //   let ad_data = { method: 'get.web.info' };
-    //   post('/api/v1/sets', ad_data)
-    //     .then((res) => {
-    //       document.title = res.data.webtitle;
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    // } else if (to.name != 'Special-area' && to.meta.title) {
-    //   document.title = to.meta.title;
-    // }
-    // if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-    //   //购物车数量
-    //   let ad_data = {
-    //     method: 'get.goods.cart.count',
-    //   };
-    //   post('/api/v1/GoodsCart', ad_data)
-    //     .then((res) => {
-    //       // console.log(res);
-    //       store.commit('setCartNum', res.data.num)
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
-    // console.log('Min进来了')
-    // if(location.href.split('state=')[1]){
-    //     console.log('我是分享地址跳转')
-    //     // location.href='http://m.wjeys.com/';
-    //     // router.push({path:'/'})
-    // }
   }
+
+  // 解析url参数并获取code
+  function getUrlParam(name) {   //name为要获取的参数名
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var rrr = decodeURIComponent(window.location.search);
+    var r = rrr.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+  }
+
   window.scrollTo(0, 0);
+  /*路由发生改变修改页面的title */
+  if (to.meta.title == '首页') {
+    // console.log(post)
+    let ad_data = { method: 'get.web.info' };
+    post('/api/v1/sets', ad_data)
+      .then((res) => {
+        document.title = res.data.webtitle;
+      }).catch(function (error) {
+        console.log(error);
+      });
+  } else if (to.name != 'Special-area' && to.meta.title) {
+    document.title = to.meta.title;
+  }
+  if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
+    //购物车数量
+    let ad_data = {
+      method: 'get.goods.cart.count',
+    };
+    post('/api/v1/GoodsCart', ad_data)
+      .then((res) => {
+        // console.log(res);
+        store.commit('setCartNum', res.data.num)
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
   next();
 });
 

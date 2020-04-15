@@ -74,7 +74,6 @@ let Api = {
         return idcard.test(value);
     },
 
-    //提示窗
     tc(message, type = 'fail', duration = 1500) {
         if (message.length > 27) message = message.slice(0, 25) + '…';
         const toastDom = new Hint({
@@ -91,6 +90,7 @@ let Api = {
         document.body.appendChild(toastDom.$el)
         // 过了 duration 时间后隐藏
         setTimeout(() => { toastDom.show = false }, duration)
+
     }
 }
 
