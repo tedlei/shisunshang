@@ -66,9 +66,9 @@ export default {
     };
   },
   computed: {
-    userinfo() {
-      return JSON.parse(this.$store.getters.getuserinfo);
-    }
+    // userinfo() {
+    //   return JSON.parse(this.$store.getters.getuserinfo);
+    // }
   },
   methods: {
     set: function(e) {
@@ -129,6 +129,9 @@ export default {
 
 
     }
+  },
+  created(){
+    console.log(this.$store.getters.getuserinfo)
   }
 };
 </script>

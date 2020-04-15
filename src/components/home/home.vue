@@ -230,10 +230,12 @@
             }, 300)
         },
         mounted() {
+          let token = localStorage.getItem('usertoken');
+          if(token){
             this.getHomeMsg();
             this.getUserinfo();
         }
-
+        }
     }
 </script>
 

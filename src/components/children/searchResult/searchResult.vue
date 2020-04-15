@@ -113,6 +113,8 @@
             },
         },
         mounted() {
+          let token = localStorage.getItem("usertoken");
+          if(token){
             Bus.$on('searchval', (data) => {
                 if (data == true) {
                     this.tans = true
@@ -133,6 +135,7 @@
             }
             // localStorage.setItem('history', this.historylist)
         }
+    }
     }
 </script>
 

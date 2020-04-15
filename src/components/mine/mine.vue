@@ -187,12 +187,8 @@ export default {
   components: { Header },
   data() {
     return {
-      // msg: "我的",
-      // username: "",
-      // portrait: "",
-      // phone: "", 
-      // level_name: "",
-      userinfo: null,    //用户数据
+      msg: "我的",
+      userinfo: JSON.parse(sessionStorage.getItem('userinfo')),
       expireTime: "到期时间：",
       day_money: 0,   //收入
       total_money: 0,  //收入
