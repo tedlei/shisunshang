@@ -14,7 +14,7 @@
           </div>
           <div class="right_msg">
             <div class="name">
-              <div class="tt">{{item.title}}</div>
+              <div class="tt" style="font-weight: bold;">{{item.title}}</div>
               <div class="tt_name">{{item.desc}}</div>
             </div>
             <div class="time">

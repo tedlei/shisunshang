@@ -8,7 +8,7 @@
             <div class="navList">
                 <div class="list" v-for="(item,i) of list" :key="i" @click="taptz(item.path)">
                     <van-icon style="font-size:0.15rem" :name="item.icon" />
-                    <span style="font-size:0.1rem;">{{item.title}}</span>
+                    <span style="font-size:0.15rem;">{{item.title}}</span>
                 </div>
             </div>
       </div>
@@ -59,7 +59,6 @@ export default {
             if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
                 this.isPageShow = false
             }else this.isPageShow = true;
-            // console.log(to.path,123456789);
         }
     }
 }

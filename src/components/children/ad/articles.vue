@@ -1,13 +1,12 @@
 <template>
   <div class="content">
-    <van-field v-model="text" placeholder="填写文章标题" style="margin: 10px 0"/>
+    <van-field v-model="text" placeholder="填写文章标题" style="margin: 10px 0;font-weight: bold;"/>
     <div>
       <van-field
         v-model="message"
-        rows="2"
-        autosize
+        rows="4"
         type="textarea"
-        maxlength="30"
+        maxlength="500"
         placeholder="输入文章内容"
         show-word-limit
       />
@@ -116,6 +115,7 @@ export default {
 
       button {
         background-color: #009900;
+        
       }
     }
   }

@@ -84,10 +84,6 @@
   .content {
     .mycode {
       padding: 0.7rem 0.3rem 0 0.3rem;
-
-      .common_btn {
-
-      }
     }
 
     .content_div {
