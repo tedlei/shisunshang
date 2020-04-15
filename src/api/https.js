@@ -14,7 +14,7 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
   // store.commit('userinfo', JSON.stringify(info));
 }
 
-const baseURL = 'http://test.gj.wjeys.com';
+const baseURL = 'http://admin.gjst.net';
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;

@@ -654,7 +654,7 @@ export default {
             };
             this.$post("/api/v1/goods", ad_data)
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status == 200) {
                         // console.log(this.$route.meta);
                         document.title = res.data.goods_info.name;
@@ -907,7 +907,6 @@ export default {
         // console.log(this.$route.query.id)
         let user = JSON.parse(localStorage.getItem("userinfo"));
         this.users = user;
-        console.log(user)
         this.getDATA();
         this.Addfootprints();
         this.portrait = user.portrait;
