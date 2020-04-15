@@ -21,7 +21,7 @@ import { Api } from '../src/assets/js/verifyCodeTime.js'
 import VueClipboard from 'vue-clipboard2'
 //微信分享sdk
 import wechatAuth from './assets/js/wechatConfig'
-
+Vue.prototype.wechatAuth = wechatAuth;
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 
@@ -72,10 +72,24 @@ router.beforeEach((to, from, next) => {
       sessionStorage.setItem("state",state);
       location.href="/author";
     }else{
+      if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
+        //购物车数量
+        // console.log('数量')
+        let ad_data = {
+          method: 'get.goods.cart.count',
+        };
+        post('/api/v1/GoodsCart', ad_data)
+          .then((res) => {
+            //  console.log(res);
+            store.commit('setCartNum', res.data.num)
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
       // console.log(sessionStorage.getItem('ios_share_url'),11111);
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      if(userinfo && to.path!='/goodsdetails'){
+      if(userinfo && to.path!='/goodsdetails' && to.path != '/mine/ad/addetails'){
         shareConfig(userinfo);
       } 
     }
@@ -85,18 +99,12 @@ router.beforeEach((to, from, next) => {
         // console.log('我去分享了')
         var url = '';
          if(is_ios()){
-            console.log('IOS')
+            // console.log('IOS')
             url = sessionStorage.getItem('ios_share_url').split('#')[0];
          }else{
             console.log('IOS否')
             url = 'http://' + location.host + to.fullPath;
          }
-        // console.log(url);
-        // let url = location.href.split('&')[0];
-        // Dialog({
-        //   message:'1'+is_ios()+'~'+url
-        // })
-        console.log(url,11111111111111111111)
         wechatAuth(url,to,userinfo);
       }
     }
@@ -108,42 +116,34 @@ router.beforeEach((to, from, next) => {
             return false;
     　   }
     }
-    
 
-    /*路由发生改变修改页面的title */
-    if (to.meta.title == '首页') {
-      // console.log(post)
-      let ad_data = { method: 'get.web.info' };
-      post('/api/v1/sets', ad_data)
-        .then((res) => {
-          document.title = res.data.webtitle;
-        }).catch(function (error) {
-          console.log(error);
-        });
-    } else if (to.name != 'Special-area' && to.meta.title) {
-      document.title = to.meta.title;
-    }
-    // if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-    //   //购物车数量
-    //   let ad_data = {
-    //     method: 'get.goods.cart.count',
-    //   };
-    //   post('/api/v1/GoodsCart', ad_data)
-    //     .then((res) => {
-    //       // console.log(res);
-    //       store.commit('setCartNum', res.data.num)
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
-    // console.log('Min进来了')
-    // if(location.href.split('state=')[1]){
-    //     console.log('我是分享地址跳转')
-    //     // location.href='http://m.wjeys.com/';
-    //     // router.push({path:'/'})
-    // }
   }
+
+  // 解析url参数并获取code
+  function getUrlParam(name) {   //name为要获取的参数名
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var rrr = decodeURIComponent(window.location.search);
+    var r = rrr.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+  }
+
   window.scrollTo(0, 0);
+  /*路由发生改变修改页面的title */
+  if (to.name == 'home') {
+    // console.log(post)
+    // console.log('我是主页')
+    let ad_data = { method: 'get.web.info' };
+    post('/api/v1/sets', ad_data)
+      .then((res) => {
+        document.title = res.data.webtitle;
+      }).catch(function (error) {
+        console.log(error);
+      });
+  } else if (to.name != 'Special-area' && to.meta.title) {
+    document.title = to.meta.title;
+  }
+  
   next();
 });
 

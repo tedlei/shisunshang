@@ -3,7 +3,7 @@ import wx from 'weixin-js-sdk'
 import store from "../../store";
 import { Toast,Dialog } from 'vant';
 
-const wechatAuth = async function (url, to, userinfo) {
+const wechatAuth = async function (url, to, userinfo, goods) {
   // wx.checkJsApi({
   //   jsApiList: ["updateAppMessageShareData", "updateTimelineShareData", "onMenuShareAppMessage", "onMenuShareTimeline", "getLocation"], // 需要检测的JS接口列表，所有JS接口列表见附录2,
   //   success: function (res) {
@@ -63,11 +63,10 @@ const wechatAuth = async function (url, to, userinfo) {
           }
           //  好友
             wx.updateAppMessageShareData({
-              title: '国健生态平台',
-              desc: urls,
-              // link: url,
+              title: goods?goods.title:'国健生态平台',
+              desc: goods?goods.desc:'国健生态平台!Come on.!',
               link: urls,
-              imgUrl: 'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
+              imgUrl: goods?goods.imgUrl:'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
               success: function () {//设置成功
                 // console.log(url + '?' + 'state=' + userinfo.referee_number,'我是分享地址')
                 // console.log(urls,'我是分享地址')
@@ -78,17 +77,17 @@ const wechatAuth = async function (url, to, userinfo) {
               }
             });
           //朋友圈
-            // wx.updateTimelineShareData({
-            //   title: '国健生态平台',
-            //   link: urls,
-            //   imgUrl: 'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
-            //   success:  () => {//设置成功
-            //     //shareSuccessCallback();
-            //   },
-            //   cancel: function () {
-            //     console.log("取消分享");
-            //   }
-            // });
+            wx.updateTimelineShareData({
+              title: goods?goods.title:'国健生态平台',//朋友圈没有描述
+              link: urls,
+              imgUrl: goods?goods.imgUrl:'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
+              success:  () => {//设置成功
+                //shareSuccessCallback();
+              },
+              cancel: function () {
+                console.log("取消分享");
+              }
+            });
         })
         wx.error(function (res) {
           // Toast("微信验证失败");
@@ -110,5 +109,4 @@ const geocoder = new qq.maps.Geocoder({
 });
 
 export default wechatAuth;
-
 

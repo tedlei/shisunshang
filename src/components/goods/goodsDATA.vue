@@ -102,35 +102,35 @@
                 </div>
             </div>
             <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
-        <span class="left">选择</span>
-        <div class="right">
-          <span class="textLinefeed SpecificationsName">已选择：
-            {{initialName}}
-          </span>
-        </div>
+              <span class="left">选择</span>
+              <div class="right">
+                <span class="textLinefeed SpecificationsName">已选择：
+                  {{initialName}}
+                </span>
+              </div>
             </div>-->
             <!--   3   -->
             <!-- <div class="m_b_10 conmo_box box_three">
-        <span class="left">送至</span>
-        <div class="right">
-          <span>免运费</span>
-        </div>
-            </div>-->
-            <!--   4   -->
-            <!-- <div class="m_b_10 conmo_box box_four">
-        <div class="left store_head">
-          <img src="../../assets/img/store_head.png">
-        </div>
-        <div class="right">
-          <span>重庆网络科技自营店</span>
-        </div>
+              <span class="left">送至</span>
+              <div class="right">
+                <span>免运费</span>
+              </div>
+                  </div>-->
+                  <!--   4   -->
+                  <!-- <div class="m_b_10 conmo_box box_four">
+              <div class="left store_head">
+                <img src="../../assets/img/store_head.png">
+              </div>
+              <div class="right">
+                <span>重庆网络科技自营店</span>
+              </div>
             </div>-->
             <!--   5   -->
             <div
                 style="display: flex;justify-content: space-between;"
                 class="m_b_10 conmo_box"
                 @click="show=true"
-            >
+              >
                 <div class="left vip_head">购买方式：</div>
                 <div style="display: flex; align-items: center;" class="right">
                     <div>{{actionsName[isactions]}}</div>
@@ -314,41 +314,41 @@
         </div>
         <!-- 规格选择 -->
         <!-- <el-drawer
-      title=""
-      :visible.sync="drawer"
-      :before-close="handleClose"
-      :direction="direction"
-      :size="'auto'"
-      class="Specifications_box">
-      <div class="top_msg">
-        <div style="width: 100px;margin-top: -20px">
-          <img :src="require(`../../assets/img/banner.png`)">
-        </div>
-        <div class="right_msg">
-          <div class="clo-g price">￥
-          {{goodsData.goods_info.price}}
+          title=""
+          :visible.sync="drawer"
+          :before-close="handleClose"
+          :direction="direction"
+          :size="'auto'"
+          class="Specifications_box">
+          <div class="top_msg">
+            <div style="width: 100px;margin-top: -20px">
+              <img :src="require(`../../assets/img/banner.png`)">
+            </div>
+            <div class="right_msg">
+              <div class="clo-g price">￥
+              {{goodsData.goods_info.price}}
+              </div>
+              <p>库存：
+              {{goodsData.goods_info.kuchun}}
+              </p>
+            </div>
           </div>
-          <p>库存：
-          {{goodsData.goods_info.kuchun}}
-          </p>
-        </div>
-      </div>
-      <div class="Specifications_select" v-for="(item,n) of goodsData.specData.spec_attr" :key="n">
-        <p>{{item.group_name}}</p>
-        <actives :activeList="item.spec_items" :listIndex="n" :initial="initial" ></actives>
-      </div>
-      <div class="num_box">
-        <div>数量</div>
-        <el-input-number size="mini" v-model="nums"></el-input-number>
-      </div>
-      <div class="btn_bottom">
-        <div class="carts" @click="goodsCart">加入购物车</div>
-        <div class="buy">
-          <router-link :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial,buy_type: isactions}}">
-          立即购买
-          </router-link>
-        </div>
-      </div>
+          <div class="Specifications_select" v-for="(item,n) of goodsData.specData.spec_attr" :key="n">
+            <p>{{item.group_name}}</p>
+            <actives :activeList="item.spec_items" :listIndex="n" :initial="initial" ></actives>
+          </div>
+          <div class="num_box">
+            <div>数量</div>
+            <el-input-number size="mini" v-model="nums"></el-input-number>
+          </div>
+          <div class="btn_bottom">
+            <div class="carts" @click="goodsCart">加入购物车</div>
+            <div class="buy">
+              <router-link :to="{path:'/goodsdetails/makeorder',query:{id: goodsData.goods_info.id, num: nums, goods_sku_id: initial,buy_type: isactions}}">
+              立即购买
+              </router-link>
+            </div>
+          </div>
         </el-drawer>-->
     </div>
 </template>
@@ -527,7 +527,6 @@ export default {
             //     message: '您还不是会员，马上前往充值会员？'
             //   }).then((res) => {
             //     console.log(res)
-
             //   }).catch((err) => {
             //     console.log(err)
             //   });
@@ -655,7 +654,7 @@ export default {
             };
             this.$post("/api/v1/goods", ad_data)
                 .then(res => {
-                    // console.log(res)
+                    console.log(res);
                     if (res.status == 200) {
                         // console.log(this.$route.meta);
                         document.title = res.data.goods_info.name;
@@ -694,7 +693,7 @@ export default {
                         }
                         this.actions = actions;
                         this.getRecommend();
-                        
+                        this.shareConfig(this.users);
                     } else {
                     }
                 })
@@ -876,18 +875,23 @@ export default {
             done();
         },
 
-
         shareConfig(userinfo) {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
                 // console.log('我是商品分享了')
                 var url = "";
                 if (this.is_ios()) {
-                  url = sessionStorage.getItem("ios_share_url").split("#")[0];
+                    url = sessionStorage.getItem("ios_share_url").split("#")[0];
                 } else {
-                  url = "http://" + location.host + this.$route.fullPath;
+                    url = "http://" + location.host + this.$route.fullPath;
                 }
-                wechatAuth(url, this.$route, userinfo);
+                let goods = {
+                    title: this.goodsData.goods_info.name,
+                    desc: this.goodsData.goods_info.keywords,
+                    imgUrl: this.goodsData.goods_info.imgsrc
+                };
+                // console.log(goods);
+                wechatAuth(url, this.$route, userinfo, goods);
             }
         },
         is_ios() {
@@ -901,16 +905,15 @@ export default {
     },
     created() {
         // console.log(this.$route.query.id)
-        this.getDATA();
-        this.Addfootprints();
         let user = JSON.parse(localStorage.getItem("userinfo"));
         this.users = user;
+        console.log(user)
+        this.getDATA();
+        this.Addfootprints();
         this.portrait = user.portrait;
         if (this.$route.query.buy_type) {
             this.isactions = this.$route.query.buy_type;
         }
-        
-        this.shareConfig(user);
     },
     mounted() {
         this.imgHeight =

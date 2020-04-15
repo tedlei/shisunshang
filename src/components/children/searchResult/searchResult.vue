@@ -85,20 +85,21 @@
 
             //获取热门
             getHot: function () {
-                  let _this = this,
-                      parms = {
-                          method: 'get.hot.goods.keywords.list',
-                      };
-                  this.$post('/api/v1/GoodsSeach', parms)
-                      .then((response) => {
-                          _this.hotlist = response.data
-                      }).catch(function (error) {
-                      console.log(error);
-                  })
+                let _this = this,
+                    parms = {
+                        method: 'get.hot.goods.keywords.list',
+                    };
+                this.$post('/api/v1/GoodsSeach', parms)
+                    .then((response) => {
+                        _this.hotlist = response.data
+                    }).catch(function (error) {
+                    console.log(error);
+                })
             },
             boxsearch: function (e) {
                 this.$store.commit('sendVal', e);
             },
+
             //获取搜索历史列表
             getHistorylist(){
               let histort = localStorage.getItem('histort');
@@ -133,8 +134,8 @@
                 Bus.$emit('getHot', true);
             }
             // localStorage.setItem('history', this.historylist)
-          }
         }
+    }
     }
 </script>
 

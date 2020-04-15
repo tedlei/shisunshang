@@ -1,26 +1,25 @@
 <template>
   <div id="app" :class="{app:$route.meta.showFooter}">
-
     <Footer v-show="$route.meta.showFooter"></Footer>
     <router-view v-if="isRouterAlive"></router-view>
     <loading v-show="$store.getters.getLoading" type="spinner"></loading>
     <div style="height: 0.7rem" v-show="$route.meta.showFooter"></div>
     <search-result></search-result>
-    <rapidNavig></rapidNavig>
+    <rqpidNav></rqpidNav>
   </div>
 </template>
 
 <script>
     import Footer from './components/footer/footer.vue';
     import Header from "./components/header/header";
-    import loading from "./components/loading/loading";
-    import SearchResult from "./components/children/searchResult/searchResult";
+    import loading from "./components/loading/loading.vue";
+    import SearchResult from "./components/children/searchResult/searchResult.vue";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
-    import rapidNavig from './components/pages_lm/rapidNavigation/rapidNavigation.vue'
+    import rqpidNav from './components/pages_lm/rapidNavigation/rapidNavigation.vue'    
     export default {
         name: 'App',
-        components: {SearchResult, Header, Footer, loading,rapidNavig},
+        components: {SearchResult, Header, Footer, loading,rqpidNav},
         provide() {
             return {
                 reload: this.reload

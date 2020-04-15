@@ -362,7 +362,7 @@ export default {
 
     // 商品数量控制
     numChange (index1, index, numChange, id, goods_sku_id) {
-      // console.log(id,goods_sku_id)
+      console.log(id,goods_sku_id)
       // console.log(numChange)
       var goods = this.goodsObj[index1]['list'][index],
           oThis = this;
@@ -392,8 +392,6 @@ export default {
             // console.log(index1)
             // console.log(index)
             this.cal(index1);
-          }else{
-            this.isloading = false;
           }
         }).catch(function (error) {
           console.log(error);

@@ -44,7 +44,6 @@
                     admsg = {
                         method: _this.dmsg == 'myad' ? 'get.weixin.ad.user.list' : 'get.weixin.ad.list'
                     };
-
                 this.$post('/api/v1/weixinAd', admsg)
                     .then((response) => {
                         _this.adlists = response.data.items

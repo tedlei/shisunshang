@@ -112,7 +112,7 @@
     import Search from "../search/search";
     import Bus from "../../assets/js/bus";
     import Swiper from 'swiper';
-    import Signin from "../Signin/Signin";
+    import Signin from "../Signin/Signin.vue";
 
     export default {
         name: "home",
@@ -236,7 +236,6 @@
             this.getUserinfo();
           }
         }
-
     }
 </script>
 

@@ -57,7 +57,7 @@
         <ul class="bot_lists clearfix">
           <li v-for="(item,index) in headerlists" :key="item.index">
             <router-link :to="{path:'/mine/myfootprint',query: {printid:index}}">
-              <div style="margin: 13px 0 10px 0">{{item.num}}</div>
+              <div style="margin: 13px 0 5px 0">{{item.num}}</div>
               <div>{{item.name}}</div>
             </router-link>
           </li>
@@ -394,7 +394,8 @@ export default {
       if (data) {
         this.userinfo = data;
         for (let i in zclists) {
-          zclists[i].totalnum = parseInt(data["money" + (i * 1 + 1)]);
+          
+          zclists[i].totalnum = parseFloat(data["money" + (i * 1 + 1)]).toFixed(2);
         }
       }
     },
@@ -434,7 +435,8 @@ export default {
         this.cashed_money = cashed_money;
 
         for (let i in zclists) {
-          zclists[i].num = parseInt(data["money" + (i * 1 + 1)]);
+          console.log(data["money" + (i * 1 + 1)].toFixed(2),123)
+          zclists[i].num = data["money" + (i * 1 + 1)].toFixed(2);
         }
 
         //订单数量
@@ -553,9 +555,9 @@ export default {
     .leiji_list {
       padding: 0.1rem;
       background-color: rgba(0, 0, 0, 0.2);
-
+      display: flex;
       li {
-        float: left;
+        // float: left;
         width: 33.3333%;
       }
     }

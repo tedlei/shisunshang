@@ -1,12 +1,12 @@
 <template>
   <div class="content">
     <!--   添加银行卡     -->
-    <div class="add_bankcard" :style="show ?'padding: 0.4rem 0;background-color: #fff;':''">
+    <div class="add_bankcard" v-if="banklist.length>0" :style="show ?'padding: 0.4rem 0;background-color: #fff;':''">
       <!--   空   -->
-      <div v-show="show" style="background-color: #fff" @click="add_bank">
+      <!-- <div v-show="show" style="background-color: #fff" @click="add_bank">
         <van-icon name="add" class="add_bank clo-g" />
         <div class="clo-9" style="font-size: 0.18rem">添加银行卡</div>
-      </div>
+      </div> -->
 
       <div
         v-show="!show"
