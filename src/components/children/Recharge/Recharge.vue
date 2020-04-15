@@ -7,7 +7,7 @@
           <div class="Recharge_msg">
             <div class="text1">
               <strong>充值￥{{item.money}}</strong>
-              <span :class="'clo' + index">限充{{item.xc_num}}次</span>
+              <span :class="'clo' + index">限时充值</span>
             </div>
             <div class="text2">
 

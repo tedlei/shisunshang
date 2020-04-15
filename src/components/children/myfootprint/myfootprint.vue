@@ -30,7 +30,7 @@
                 finished-text="没有更多了"
                 offset="50"
                 @load="getData">
-        <div class="footprint" v-for="(item,index) in goodslist" :key="index" @click="todetail(index)">
+        <div class="footprint" v-for="(item,index) in goodslist" :key="index">
           <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'"
                @click="chooseShopGoods(index)">
             <van-icon name="success" color="#fff"/>
@@ -41,6 +41,7 @@
               height="0.9rem"
               fit="cover"
               :src="item.imgsrc"
+              @click="todetail(index)"
             />
           </div>
           <div class="right_msg">
@@ -227,7 +228,8 @@
                         name: goods ? goods.name : '',
                         imgsrc: goods ? goods.imgsrc : '',
                         price: goods ? goods.price : '',
-                        checked: false
+                        checked: false,
+                        goods_id:goods.id
                     })
                 }
             },
@@ -238,14 +240,21 @@
                 let evaluation_lists = this.evaluation_lists;
                 console.log(printid)
                 console.log(list[e])
-                if (printid == '0' || printid == '2') {
+                if (printid == '0') {
                     this.$router.push({
                         path: '/goodsdetails',
                         query: {
                             id: list[e].id
                         }
                     });
-                } else if (printid == '1') {
+                } else if(printid == '2'){
+                    this.$router.push({
+                        path: '/goodsdetails',
+                        query: {
+                            id: list[e].goods_id
+                        }
+                    });
+                }else if (printid == '1') {
                     this.$router.push({
                         path: '/storeDetails',
                         query: {
@@ -382,12 +391,11 @@
                 // }else{
                 // }
                 for (var i in this.goodslist) {
-                    console.log(this.goodslist[i].id[i])
                     if (this.goodslist[i].checked) {
                         _id.push(this.goodslist[i].id)
                     }
-                }
-                ;
+                };
+
                 // console.log(_id);
                 if (this.$route.query.printid == 0) {
                     let ad_data = {
@@ -427,7 +435,6 @@
                         id: _id
                     };
                     this.deleteList(_id)
-                    return
                     // console.log(ad_data);
                     this.$post('/api/v1/UserFootprint', ad_data)
                         .then((res) => {

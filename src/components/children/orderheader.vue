@@ -18,7 +18,7 @@
 
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>
-        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" @click="edit">编辑</span>
+        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f" @click="edit">编辑</span>
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>

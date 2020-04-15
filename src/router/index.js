@@ -265,7 +265,7 @@ const $router = new Router({
           path: '/mine/Recharge',
           name: 'Recharge',
           component: resolve => require(['@/components/children/Recharge/Recharge'], resolve),
-          meta: {title: '充值活动', showFooter: false, goods: false,}
+          meta: {title: '签到金在线充值', showFooter: false, goods: false,}
         },
         {
           path: '/mine/recommendedShop',

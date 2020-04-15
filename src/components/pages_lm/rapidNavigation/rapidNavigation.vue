@@ -1,12 +1,14 @@
 <template>
-  <div class="ranav_app" id='rapNavig' :class="show?'isShow':''" @click="tapIsShow" v-show="isPageShow">
+  <div class="ranav_app" id='rapNavig' :class="show?'isShow':''" 
+    @click="tapIsShow" v-show="isPageShow" @touchmove='aa'
+        :style="{top:wz>-1?wz+'px':'70%'}">
       <div class="ranavText" :class="show?'':'ranavShow'">
           <van-icon  :name="!show?'arrow-left':'arrow'" />
           <span>{{show?'收起':'展开'}}</span>
             <div class="navList">
                 <div class="list" v-for="(item,i) of list" :key="i" @click="taptz(item.path)">
-                    <van-icon style="font-size:0.1rem" :name="item.icon" />
-                    <span style="font-size:0.1rem;">{{item.title}}</span>
+                    <van-icon style="font-size:0.2rem" :name="item.icon" />
+                    <span style="font-size:0.2rem;">{{item.title}}</span>
                 </div>
             </div>
       </div>
@@ -26,7 +28,12 @@ export default {
             ],
             show:false,   //打开关闭
             isPageShow:false,  //显示隐藏
+            wz:-1,   //移动高度
+            maxgd:0,   //最大高度
         }
+    },
+    created(){
+        this.maxgd = document.documentElement.clientHeight || document.body.clientHeight;
     },
     methods:{
         tapIsShow(){
@@ -34,6 +41,12 @@ export default {
         },
         taptz(path){
             this.$router.push({path});
+        },
+        aa(e){  
+            let maxgd = this.maxgd;
+            let clientY = e.targetTouches[0].clientY;
+            clientY=clientY<0?0:clientY
+            this.wz = clientY>maxgd-40?maxgd-40:clientY
         }
     },
     watch:{
@@ -54,7 +67,7 @@ export default {
     height: 40px;
     position: fixed;
     left: calc(100vw - 50px);
-    top: 80%;
+    // top: 80%;
     z-index: 10001;
     // transition: all 0.5s;
     .ranavText{
@@ -105,7 +118,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.2);
-    top: 0;
+    top: 0 !important;;
     left: 0;
 }
 </style>
