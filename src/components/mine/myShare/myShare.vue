@@ -44,9 +44,11 @@
                 this.$toast('复制失败！')
             },
             creatQrCode() {
+                let arr = location.href.split('/')
+                let QRcodeDomainName = arr[0]+"://"+arr[2]
                 let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-                let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
                 this.urls = QRcodeDomainName + '?state=' + userinfo.referee_number
+
                 let qrCode = new QRCode('qrCode', {
                     text: QRcodeDomainName + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
                     width: 200,
