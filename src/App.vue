@@ -12,8 +12,8 @@
 <script>
     import Footer from './components/footer/footer.vue';
     import Header from "./components/header/header";
-    import loading from "./components/loading/loading";
-    import SearchResult from "./components/children/searchResult/searchResult";
+    import loading from "./components/loading/loading.vue";
+    import SearchResult from "./components/children/searchResult/searchResult.vue";
     import Bus from "./assets/js/bus";
     import wechatAuth from "./assets/js/wechatConfig";
     import rqpidNav from './components/pages_lm/rapidNavigation/rapidNavigation.vue'    

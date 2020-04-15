@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
       sessionStorage.setItem('sourceUrl', location.href);//记录当前访问的路由
       let state = getUrlParam('state');
       if(state==undefined) state = '';
-      localStorage.setItem("state",state);
+      sessionStorage.setItem("state",state);
       location.href="/author";
     }else{
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
@@ -71,6 +71,19 @@ router.beforeEach((to, from, next) => {
       } 
     }
 
+
+    // function getNum(){
+    //   console.log(123)
+    //   let ad_data = {
+    //     method: 'get.goods.cart.count',
+    //   };
+    //   post('/api/v1/GoodsCart', ad_data)
+    //     .then((res) => {
+    //       store.commit('setCartNum', res.data.num)
+    //     }).catch(function (error) {
+    //       console.log(error);
+    //     });
+    // }
 
     function is_ios() {
         var u = navigator.userAgent;
@@ -158,19 +171,19 @@ router.beforeEach((to, from, next) => {
   } else if (to.name != 'Special-area' && to.meta.title) {
     document.title = to.meta.title;
   }
-  if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-    //购物车数量
-    let ad_data = {
-      method: 'get.goods.cart.count',
-    };
-    post('/api/v1/GoodsCart', ad_data)
-      .then((res) => {
-        // console.log(res);
-        store.commit('setCartNum', res.data.num)
-      }).catch(function (error) {
-        console.log(error);
-      });
-  }
+  // if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
+  //   //购物车数量
+  //   let ad_data = {
+  //     method: 'get.goods.cart.count',
+  //   };
+  //   post('/api/v1/GoodsCart', ad_data)
+  //     .then((res) => {
+  //       // console.log(res);
+  //       store.commit('setCartNum', res.data.num)
+  //     }).catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }
   next();
 });
 

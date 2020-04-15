@@ -2,7 +2,7 @@
   <div>
     <van-popup
       v-model="show"
-      :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2' }"
+      :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2',paddingBottom: '0.1rem' }"
     >
       <header>
         <div class="top">
@@ -327,7 +327,6 @@
   header {
     background-color: #ff726a;
     color: #fff;
-
     .top {
       display: flex;
       justify-content: center;

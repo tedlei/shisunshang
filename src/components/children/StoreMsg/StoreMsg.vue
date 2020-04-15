@@ -33,13 +33,22 @@
 
     <div class="common_box introduce">
       <p>{{shops.bus_scope}}</p>
-      <van-row class="introduce_img" :gutter="20" @click="Preview">
-        <van-col v-for="(item,index) in shops.album" :key="index" :span="24">
+      <div class="introduce_img">
+        <div class="img_main">
+          <div style="width:30%;margin-left:2.48%;margin-top:0.1rem;"
+           v-for="(item,index) in shops.album" 
+           :key="index" :id="'imgHeight'+index" :ref="'imgHeight'+index"  @click="Preview(index)">
+            <img style="width:100%;height:100%" :src="item" @load="heightImg(index)" />
+          </div>
+        </div>
+      </div>
+      <!-- <van-row class="introduce_img" :gutter="20" @click="Preview">
+        <van-col style="width:33.333333%" v-for="(item,index) in shops.album" :key="index" :span="24">
           <div class="grid-content bg-purple">
             <img :src="item" />
           </div>
         </van-col>
-      </van-row>
+      </van-row> -->
       <router-link
         v-if="shops.is_promotion == 1"
         class="common_btn"
@@ -150,8 +159,8 @@ export default {
       });
     },
     //图片阅览
-    Preview: function() {
-      ImagePreview(this.shops.album);
+    Preview: function(num) {
+      ImagePreview(this.shops.album,num);
     },
     Previewcode: function(boo) {
       if(boo){
@@ -159,7 +168,16 @@ export default {
           this.qrCodeShow = false;
         },1000)
       }else this.qrCodeShow = true;
+    },
+
+    //获取图片
+    heightImg(num){
+      let doc1 = this.$refs['imgHeight'+num][0]; 
+      let doc = document.getElementById('imgHeight'+num);
+      doc.style.height=doc1.scrollWidth+'px'
     }
+
+    
 
 
   },
@@ -168,7 +186,7 @@ export default {
     this.$nextTick(function() {
       this.creatQrCode();
     });
-  }
+  },
 };
 </script>
 
@@ -219,6 +237,17 @@ export default {
       text-align: justify;
       line-height: 2;
       margin-bottom: 0.1rem;
+    }
+    .introduce_img{
+      padding:0.1rem 0;
+      .img_main{
+        padding-bottom: 0.1rem;
+        width: 100%;
+        background: rgba(0,0,0,0.05);
+        // border-radius: 5px;
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
   }
 

@@ -69,7 +69,24 @@
 
 <script>
     export default {
-        name: "Footer"
+        name: "Footer" ,
+        created(){
+          this.getNum();
+        },
+        methods:{
+          //返回购物车数据
+          getNum(){
+            let ad_data = {
+              method: 'get.goods.cart.count',
+            };
+            this.$post('/api/v1/GoodsCart', ad_data)
+              .then((res) => {
+                this.$store.commit('setCartNum', res.data.num)
+              }).catch(function (error) {
+                console.log(error);
+              });
+          }
+        }
     }
 </script>
 
