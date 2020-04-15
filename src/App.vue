@@ -143,7 +143,8 @@
             let userinfo = {
                 method: 'get.user.info'
             }
-            if(this.$route.path!='/author'){
+            let token = localStorage.getItem("usertoken");
+            if(this.$route.path!='/author' && token){
                 this.$post('/api/v1/user', userinfo)
                 .then((response) => {
                     if (response.status == 200) {

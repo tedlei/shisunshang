@@ -72,20 +72,6 @@ router.beforeEach((to, from, next) => {
       sessionStorage.setItem("state",state);
       location.href="/author";
     }else{
-      if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-        //购物车数量
-        // console.log('数量')
-        let ad_data = {
-          method: 'get.goods.cart.count',
-        };
-        post('/api/v1/GoodsCart', ad_data)
-          .then((res) => {
-            //  console.log(res);
-            store.commit('setCartNum', res.data.num)
-          }).catch(function (error) {
-            console.log(error);
-          });
-      }
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
       // console.log(sessionStorage.getItem('ios_share_url'),11111);
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));

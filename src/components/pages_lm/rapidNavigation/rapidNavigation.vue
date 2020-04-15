@@ -34,10 +34,10 @@ export default {
     },
     created(){
         this.maxgd = document.documentElement.clientHeight || document.body.clientHeight;
-        let {path} = this.$route;
-        if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
-            this.isPageShow = false
-        }else this.isPageShow = true;
+        let {path} = this.$route;
+        if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
+            this.isPageShow = false
+        }else this.isPageShow = true;
     },
     methods:{
         tapIsShow(){

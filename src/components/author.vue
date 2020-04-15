@@ -18,7 +18,7 @@
                  let code = this.getUrlParam('code');
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由
-                    let appId = 'wxf730b0b04586d06f'
+                    let appId = 'wx5e4b4e507ac2fbd2'
                     let url = 'http://www.gjst.net/author';
                     let redirectUrl = encodeURIComponent(url);
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect`

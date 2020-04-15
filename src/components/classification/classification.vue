@@ -6,15 +6,15 @@
         <search :dmsg="msg"></search>
       </div>
       <!--消息-->
-<!--      <div class="news">-->
-<!--        <router-link to="/news">-->
-<!--          <i class="el-icon-chat-dot-round"></i>-->
-<!--        </router-link>-->
-<!--      </div>-->
+      <!--      <div class="news">-->
+          <!--        <router-link to="/news">-->
+          <!--          <i class="el-icon-chat-dot-round"></i>-->
+          <!--        </router-link>-->
+      <!--      </div>-->
     </header>
 
     <div class="main_div">
-      <div class="left" v-if="typelist.length>0">
+      <div class="left" v-if="typelist">
         <div
           class="left_li"
           v-for="(item,leftindex) in typelist"
@@ -26,7 +26,7 @@
 
       <div class="right">
         <img src="../../assets/img/banner2.png" />
-        <template v-if="typelist[num].sub.length>0">
+        <template v-if="typelist">
           <div v-for="(item,index) in typelist[num].sub" :key="index">
             <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import Axios from "axios";
 import Header from "../header/header";
 import Search from "../search/search";
 import Bus from "../../assets/js/bus";
@@ -71,12 +70,8 @@ export default {
       height: "100px",
       sss: "sssss",
       imgH: "",
-      num: 0,
-      typelist: [
-        {
-          sub: []
-        }
-      ]
+      num: sessionStorage.getItem('classNum')?sessionStorage.getItem('classNum'):0,
+      typelist: null
     };
   },
   created() {},
@@ -105,6 +100,7 @@ export default {
     //  切换商品
     getNum: function(index) {
       this.num = index;
+      sessionStorage.setItem('classNum',index);
     },
     //    跳转
     todetile: function(e) {

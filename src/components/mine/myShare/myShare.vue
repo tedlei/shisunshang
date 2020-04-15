@@ -44,13 +44,12 @@
                 this.$toast('复制失败！')
             },
             creatQrCode() {
-                let arr = location.href.split('/')
-                let QRcodeDomainName = arr[0]+"://"+arr[2]
-                let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-                this.urls = QRcodeDomainName + '?state=' + userinfo.referee_number
-
+                let arr = location.href.split('/')
+                let QRcodeDomainName = arr[0]+"//"+arr[2]
+                let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+                this.urls = QRcodeDomainName + '/?state=' + userinfo.referee_number
                 let qrCode = new QRCode('qrCode', {
-                    text: QRcodeDomainName + '?state=' + userinfo.referee_number, // 需要转换为二维码的内容
+                    text: QRcodeDomainName + '/?state=' + userinfo.referee_number, // 需要转换为二维码的内容
                     width: 200,
                     height: 200,
                     colorDark: '#000000',
@@ -85,10 +84,6 @@
   .content {
     .mycode {
       padding: 0.7rem 0.3rem 0 0.3rem;
-
-      .common_btn {
-
-      }
     }
 
     .content_div {
