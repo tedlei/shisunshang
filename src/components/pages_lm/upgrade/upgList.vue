@@ -7,7 +7,7 @@
           <span style="margin-left:0.05rem">{{parseInt(item.money)}}</span>
       </p>
       <p>充值余额</p>
-      <div class="upgl_cz">{{userMoney}}</div>
+      <div class="upgl_cz">{{parseFloat(userMoney).toFixed(2)}}</div>
   </div>
 </template>
 
@@ -24,6 +24,7 @@
     tapSel(i,t){
       if(t){
         this.$notify({ type: 'success', message: '您已开通此等级或之上的会员，请勿重复选择' });
+        
         return
       }
       this.$emit('tapSel',i)
