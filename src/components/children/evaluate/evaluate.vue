@@ -16,7 +16,7 @@
             <van-cell>
                 <van-field 
                   v-model="value[index]" 
-                  placeholder="宝贝瞒住你的期待吗？说说它美中不住的地方吧" 
+                  placeholder="宝贝满足你的期待吗？说说它美中不足的地方吧" 
                   :border="false"
                   autosize
                   rows="3"
