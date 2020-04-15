@@ -7,7 +7,7 @@
             <van-icon name="setting-o" size="20" />
           </router-link>
         </div>
-        <div class="user">
+        <div class="user" v-if="userinfo">
           <div style="display: flex">
             <div class="user_header">
               <router-link to="/mine/usermsg">
@@ -189,7 +189,7 @@ export default {
   data() {
     return {
       msg: "我的",
-      userinfo: {},
+      userinfo: JSON.parse(sessionStorage.getItem('userinfo')),
       expireTime: "到期时间：",
       username: "",
       portrait: "",

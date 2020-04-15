@@ -45,7 +45,7 @@ export default {
 
   userinfo(state, res) {
     state.userinfo = res
-    localStorage.setItem('userinfo', res)
+    // localStorage.setItem('userinfo', res)
   },
   isLogin(state, token) {
     localStorage.setItem('token', token);

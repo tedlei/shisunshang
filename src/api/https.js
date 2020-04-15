@@ -11,27 +11,6 @@ let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
-  // tokens = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODY4MzM0OTYsIm5iZiI6MTU4NjIyODY5NiwiaWF0IjoxNTg2MjI4Njk2LCJjbGllbnRfaWQiOjE3NzMsImNsaWVudF9uYW1lIjoiMTIzNDU2In0.W8MZDHV3QZQ78l2ofFshFTe3iFu-ljyPRVfdG2TKLxM';
-  // store.commit('isLogin', tokens);
-  let info = {
-    money1: -175.00,
-    money2: 0.00,
-    money3: 0.00,
-    money4: 0.00,
-    money5: 542.00,
-    money6: 0.00,
-    level: 2,
-    name: "【-空-】",
-    level_type: 1,
-    level_end_time: 1589405466,
-    phone:18716271713,
-    weixinname: "【-空-】",
-    portrait: "http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq8WibsnK03ibFskf6RJnFVDvovhUhdHPuYeVkdryC6hwaIDy9mUyrrkBz5unQE8eCD5ribuOicm3ha9w/132",
-    add_time: "2020-03-31 14:34:28",
-    referee_number: 101777,
-    is_set_paypassword: 1,
-    level_name: "会员"
-  }
   // store.commit('userinfo', JSON.stringify(info));
 }
 
@@ -45,10 +24,9 @@ axios.interceptors.request.use(
   config => {
     // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
-
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      'token': sessionStorage.getItem("usertoken"),
+      'token': localStorage.getItem("usertoken"),
       // 'Content-Type': 'multipart/form-data'
     };
     return config;
@@ -124,13 +102,14 @@ axios.interceptors.response.use(
     if (response.data.status === 200) {
 
     } else if (response.data.status === 401 || response.data.status === 403) {
-      sessionStorage.clear();
+      localStorage.clear();
       Toast('会话已过期正在重新连接');
       console.log(response);
-      router.push({
-        path: '/',
-      }).catch(data => {
-      })
+      location.href="/";
+      // router.push({
+      //   path: '/',
+      // }).catch(data => {
+      // })
 
     } else if (response.data.status === 500) {
       Toast(response.data.message);
@@ -139,12 +118,13 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response.status == 401 || error.response.status === 403) {
-      sessionStorage.removeItem('token');
+      localStorage.clear();
       Toast('会话已过期正在重新连接');
-      router.push({
-        path: '/',
-      }).catch(data => {
-      })
+      location.href="/";
+      // router.push({
+      //   path: '/',
+      // }).catch(data => {
+      // })
     } else if (error.response.status === 500) {
       // 服务器错误
       // do something

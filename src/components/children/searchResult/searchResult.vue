@@ -112,7 +112,7 @@
             },
         },
         mounted() {
-          let token = sessionStorage.getItem("usertoken");
+          let token = localStorage.getItem("usertoken");
           if(token){
             Bus.$on('searchval', (data) => {
                 if (data == true) {

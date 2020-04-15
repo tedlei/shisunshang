@@ -13,7 +13,6 @@
             return {}
         },
         created() {
-
             let ua = window.navigator.userAgent.toLocaleLowerCase();
             if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                  let code = this.getUrlParam('code');
@@ -33,8 +32,9 @@
                     this.$post('api/v1/user', msg)
                         .then((res) => {
                             if (res.status == 200) {
-                                sessionStorage.setItem('usertoken',res.data.token);
-                                location.href="/";
+                                localStorage.setItem('usertoken',res.data.token);
+                                //location.href="/";
+                                location.replace('/');
                                 // Bus.$emit('getHot', true);
                             }
                         }).catch(function (error) {
@@ -42,16 +42,17 @@
                     });
                 }
             }else{
-                console.log(1);
                 let msg = {
                     method: 'login.wechat.oauth2.test',
                 };
                 this.$post('api/v1/user', msg)
                     .then((res) => {
-                        console.log(res);
+                        // console.log(res);
                         if (res.status == 200) {
-                            sessionStorage.setItem('usertoken',res.data.token);
-                            location.href="/";
+                            localStorage.setItem('usertoken',res.data.token);
+                            console.log('授权完毕')
+                            location.replace('/');
+                            //location.href="/";
                             // Bus.$emit('getHot', true);
                         }
                     }).catch(function (error) {

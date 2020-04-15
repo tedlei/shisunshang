@@ -40,30 +40,57 @@
             // 监听 $route 变化调用分享链接
             '$route'(to, from) {
                 // console.log(1111111111111)
-                let ua = window.navigator.userAgent.toLocaleLowerCase();
-                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-                    if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
-                        let urls = location.href;
-                        if (this.GetQueryString(urls)) {
-                            let url = urls.split('state')[0].substring(0, urls.split('state')[0].length - 1);
-                            history.pushState(null, null, url);
-                        };
-                        let userinfo = JSON.parse(this.$store.getters.getuserinfo)
-                        if (userinfo) {
-                            let shareConfig = {
-                                title: '国健生态平台',
-                                desc: '国健生态平台!Come on.!',
-                                link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + userinfo.referee_number,
-                                imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
-                            };
-                            let url = location.href
-                            wechatAuth(url, shareConfig);
-                        }
-                    }
-                }
+                // let ua = window.navigator.userAgent.toLocaleLowerCase();
+                // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                //     if (to.name != 'author') {//判断当前是否是新建的auth路由空白页面
+                //         let urls = location.href;
+                //         if (this.GetQueryString(urls)) {
+                //             let url = urls.split('state')[0].substring(0, urls.split('state')[0].length - 1);
+                //             history.pushState(null, null, url);
+                //         };
+                //         let userinfo = JSON.parse(this.$store.getters.getuserinfo)
+                //         if (userinfo) {
+                //             let shareConfig = {
+                //                 title: '国健生态平台',
+                //                 desc: '国健生态平台!Come on.!',
+                //                 link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + userinfo.referee_number,
+                //                 imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
+                //             };
+                //             let url = location.href
+                //             wechatAuth(url, shareConfig);
+                //         }
+                //     }
+                // }
             }
         },
         methods: {
+            parseURL(url) { 
+                var a = document.createElement('a'); 
+                a.href = url; 
+                return { 
+                    source: url, 
+                    protocol: a.protocol.replace(':',''), 
+                    host: a.hostname, 
+                    port: a.port, 
+                    query: a.search, 
+                    params: (function(){ 
+                        var ret = {}, 
+                        seg = a.search.replace(/^\?/,'').split('&'), 
+                        len = seg.length, i = 0, s; 
+                        for (;i<len;i++) { 
+                            if (!seg[i]) { continue; } 
+                            s = seg[i].split('='); 
+                            ret[s[0]] = s[1]; 
+                        } 
+                        return ret; 
+                    })(), 
+                    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1], 
+                    hash: a.hash.replace('#',''), 
+                    path: a.pathname.replace(/^([^\/])/,'/$1'), 
+                    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1], 
+                    segments: a.pathname.replace(/^\//,'').split('/') 
+                }
+            },
             reload() {
                 this.isRouterAlive = false;            //先关闭，
                 this.$nextTick(function () {
@@ -119,17 +146,38 @@
             if(this.$route.path!='/author'){
                 this.$post('/api/v1/user', userinfo)
                 .then((response) => {
-                    console.log(response)
+                    
                     if (response.status == 200) {
+                        this.$store.commit('userinfo',JSON.stringify(response.data));
+                        console.log(this.$store.getters.getuserinfo)
                         let sourceUrl = sessionStorage.getItem('sourceUrl');
-                        sessionStorage.setItem("userinfo",JSON.stringify(response.data));
-                        // Bus.$emit('wechatAuth', true);
-                        this.$router.push({ path: sourceUrl})
+                        localStorage.setItem("userinfo",JSON.stringify(response.data));
+                        if(sourceUrl){
+                            
+                            // Bus.$emit('wechatAuth', true);
+                            var data = this.parseURL(sourceUrl);
+                            if(data.path == '/goodsdetails'){
+                                sourceUrl = data.path+'?id='+data.params.id;
+                                //this.$router.push({ path: sourceUrl})
+                                location.href=sourceUrl;
+                            }else{
+                                sourceUrl = '/';
+                                //this.$router.push({ path: sourceUrl})
+                                location.href=sourceUrl;
+                            }
+                            sessionStorage.setItem('sourceUrl','');
+                        }
+                        //location.href = '/';
                     }else{
                         sessionStorage.clear();
-                        location.href = sourceUrl;
+                        localStorage.clear();
+                        location.href = '/';
                     }
                 }).catch(function (error) {
+                    let sourceUrl = sessionStorage.getItem('sourceUrl');
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = '/';
                     console.log(error);
                 });
             }

@@ -535,11 +535,10 @@
 
             //海报二维码
             getQRcodeDomainName() {
-                let userinfo = JSON.parse(this.$store.getters.getuserinfo);
                 let QRcodeDomainName = this.$store.getters.getQRcodeDomainName;
                 let routes = this.$route.path + '?id=' + this.$route.query.id;
                 let qrCode = new QRCode('qrCode', {
-                    text: QRcodeDomainName + routes + '&state=' + userinfo.referee_number, // 需要转换为二维码的链接
+                    text: QRcodeDomainName + routes + '&state=' + this.users.referee_number, // 需要转换为二维码的链接
                     width: 70,
                     height: 70,
                     colorDark: '#000000',
@@ -829,7 +828,7 @@
             // console.log(this.$route.query.id)
             this.getDATA();
             this.Addfootprints();
-            let user = JSON.parse(this.$store.getters.getuserinfo);
+            let user = JSON.parse(localStorage.getItem('userinfo'));
             this.users = user;
             this.portrait = user.portrait;
             if (this.$route.query.buy_type) {
