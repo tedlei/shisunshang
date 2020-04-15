@@ -36,7 +36,7 @@
           {{orderData.status=='0'?'待付款':orderData.status=='1'?'待发货':orderData.status=='2'?'待收货':orderData.status=='3'?'待评价':'已取消'}}
         </div>
       </div>
-      <div class="common goods " v-for="(item,index) of orderData.goods" :key="index">
+      <div class="common goods " v-for="(item,index) of orderData.goods" @click="tapDetail(item.goods_id)" :key="index">
         <div class="left_img">
           <van-image
             width="0.8rem"
@@ -304,7 +304,12 @@
 		        }else{
 		            this.jsApiCall();
 		        }
-	    },
+      },
+      
+      //跳转到详情
+      tapDetail(id){
+        this.$router.push('/goodsdetails?id='+id);
+      }
     },
     created () {
       // console.log(this.$route.query.id)

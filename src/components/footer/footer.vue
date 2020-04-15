@@ -79,6 +79,8 @@
             let ad_data = {
               method: 'get.goods.cart.count',
             };
+            let token = localStorage.getItem("usertoken");
+            if(!token) return
             this.$post('/api/v1/GoodsCart', ad_data)
               .then((res) => {
                 this.$store.commit('setCartNum', res.data.num)

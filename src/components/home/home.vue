@@ -234,7 +234,7 @@
           if(token){
             this.getHomeMsg();
             this.getUserinfo();
-        }
+          }
         }
     }
 </script>
