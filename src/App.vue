@@ -32,7 +32,7 @@
             }
         },
         beforeUpdate() {
-            this.path = this.$route.path
+            this.path = this.$route.path;
         },
         created() {
         },
@@ -148,7 +148,7 @@
                 .then((response) => {
                     if (response.status == 200) {
                         this.$store.commit('userinfo',JSON.stringify(response.data));
-                        console.log(this.$store.getters.getuserinfo)
+                        // console.log(this.$store.getters.getuserinfo)
                         let sourceUrl = sessionStorage.getItem('sourceUrl');
                         localStorage.setItem("userinfo",JSON.stringify(response.data));
                         if(sourceUrl){

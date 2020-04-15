@@ -21,7 +21,7 @@ import { Api } from '../src/assets/js/verifyCodeTime.js'
 import VueClipboard from 'vue-clipboard2'
 //微信分享sdk
 import wechatAuth from './assets/js/wechatConfig'
-
+Vue.prototype.wechatAuth = wechatAuth;
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 
@@ -50,6 +50,15 @@ router.beforeEach((to, from, next) => {
       }
       return(false);
   }
+  function getUrlParam1 (variable) {   //name为要获取的参数名
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=vars.length-1;i>-1;i--) {
+              var pair = vars[i].split("=");
+              if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+  }
   // store.commit(SET_WX_JS_URL, document.URL);
   if (to.name != 'author'){
     // console.log("我不是授权页,就要判断有没有token")
@@ -57,34 +66,48 @@ router.beforeEach((to, from, next) => {
     // console.log(token)
     if(!token){
       sessionStorage.setItem('sourceUrl', location.href);//记录当前访问的路由
-      let state = getUrlParam('state');
+      let state = getUrlParam1('state');
+      // console.log(state)
       if(state==undefined) state = '';
       sessionStorage.setItem("state",state);
       location.href="/author";
     }else{
+      if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
+        //购物车数量
+        // console.log('数量')
+        let ad_data = {
+          method: 'get.goods.cart.count',
+        };
+        post('/api/v1/GoodsCart', ad_data)
+          .then((res) => {
+            //  console.log(res);
+            store.commit('setCartNum', res.data.num)
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
-      console.log(sessionStorage.getItem('ios_share_url'),11111);
+      // console.log(sessionStorage.getItem('ios_share_url'),11111);
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      if(userinfo){
-        console.log('我去分享了')
+      if(userinfo && to.path!='/goodsdetails' && to.path != '/mine/ad/addetails'){
         shareConfig(userinfo);
       } 
     }
-
-
-    // function getNum(){
-    //   console.log(123)
-    //   let ad_data = {
-    //     method: 'get.goods.cart.count',
-    //   };
-    //   post('/api/v1/GoodsCart', ad_data)
-    //     .then((res) => {
-    //       store.commit('setCartNum', res.data.num)
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
-
+    function shareConfig (userinfo) {
+      let ua = window.navigator.userAgent.toLocaleLowerCase();
+      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        // console.log('我去分享了')
+        var url = '';
+         if(is_ios()){
+            // console.log('IOS')
+            url = sessionStorage.getItem('ios_share_url').split('#')[0];
+         }else{
+            console.log('IOS否')
+            url = 'http://' + location.host + to.fullPath;
+         }
+        wechatAuth(url,to,userinfo);
+      }
+    }
     function is_ios() {
         var u = navigator.userAgent;
         if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
@@ -94,58 +117,6 @@ router.beforeEach((to, from, next) => {
     　   }
     }
 
-
-    function shareConfig (userinfo) {
-      let ua = window.navigator.userAgent.toLocaleLowerCase();
-      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-        // console.log('我去分享了')
-        var url = '';
-        if(is_ios()){
-          url = sessionStorage.getItem('ios_share_url').split('#')[0];
-        }else{
-          url = 'http://' + location.host + to.fullPath;
-        }
-        console.log(url);
-        // let url = location.href.split('&')[0];
-        // Dialog({
-        //   message:'1'+is_ios()+'~'+url
-        // })
-        wechatAuth(url,to,userinfo);
-      }
-    }
-
-    /*路由发生改变修改页面的title */
-    if (to.meta.title == '首页') {
-      // console.log(post)
-      let ad_data = { method: 'get.web.info' };
-      post('/api/v1/sets', ad_data)
-        .then((res) => {
-          document.title = res.data.webtitle;
-        }).catch(function (error) {
-          console.log(error);
-        });
-    } else if (to.name != 'Special-area' && to.meta.title) {
-      document.title = to.meta.title;
-    }
-    // if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-    //   //购物车数量
-    //   let ad_data = {
-    //     method: 'get.goods.cart.count',
-    //   };
-    //   post('/api/v1/GoodsCart', ad_data)
-    //     .then((res) => {
-    //       // console.log(res);
-    //       store.commit('setCartNum', res.data.num)
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
-    // console.log('Min进来了')
-    // if(location.href.split('state=')[1]){
-    //     console.log('我是分享地址跳转')
-    //     // location.href='http://m.wjeys.com/';
-    //     // router.push({path:'/'})
-    // }
   }
 
   // 解析url参数并获取code
@@ -159,8 +130,9 @@ router.beforeEach((to, from, next) => {
 
   window.scrollTo(0, 0);
   /*路由发生改变修改页面的title */
-  if (to.meta.title == '首页') {
+  if (to.name == 'home') {
     // console.log(post)
+    // console.log('我是主页')
     let ad_data = { method: 'get.web.info' };
     post('/api/v1/sets', ad_data)
       .then((res) => {
@@ -171,19 +143,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.name != 'Special-area' && to.meta.title) {
     document.title = to.meta.title;
   }
-  // if (['home', 'mine', 'my_cart', 'business', 'classification', 'goodsDATA'].includes(to.name)) {
-  //   //购物车数量
-  //   let ad_data = {
-  //     method: 'get.goods.cart.count',
-  //   };
-  //   post('/api/v1/GoodsCart', ad_data)
-  //     .then((res) => {
-  //       // console.log(res);
-  //       store.commit('setCartNum', res.data.num)
-  //     }).catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
+  
   next();
 });
 

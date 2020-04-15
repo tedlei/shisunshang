@@ -15,7 +15,6 @@
             :style="'padding:0 0 0 0.2rem'"></search>
     <!--    -->
 
-
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>
         <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f" @click="edit">编辑</span>
@@ -110,7 +109,7 @@
         },
         mounted() {
             // 用$on事件来接收参数
-            var _this = this
+            var _this = this;
             Bus.$on('val', (data) => {
                 if (data == true) {
                     _this.noback = false

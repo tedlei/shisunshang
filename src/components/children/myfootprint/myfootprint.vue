@@ -185,9 +185,9 @@
                 flag1 == true ? this.checkAll = true : this.checkAll = false;
             },
             chooseShopGoods(index) {
-                // console.log(1)
+                console.log(1)
                 this.goodslist[index].checked = !this.goodslist[index].checked
-                this.isChooseAll();
+                // this.isChooseAll();
             },
 
             myfootprintDataPush(data) {

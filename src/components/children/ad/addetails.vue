@@ -29,6 +29,7 @@
                 add_time: '',
                 weixinname: '',
                 portrait: '',
+                Advertisement: {}
             }
         },
         methods: {
@@ -38,24 +39,54 @@
                         method: 'get.weixin.ad.item',
                         id: _this.$route.query.id
                     }
-
                 this.$post('/api/v1/weixinAd', admsg)
                     .then((response) => {
+                        console.log(response);
+                        this.Advertisement = response.data;
                         _this.desc = response.data.desc
                         _this.add_time = response.data.add_time
                         _this.weixinname = response.data.user.weixinname
                         _this.portrait = response.data.user.portrait
-                        Bus.$emit('title', response.data.title)
+                        Bus.$emit('title', response.data.title);
+                        let user = JSON.parse(localStorage.getItem("userinfo"));
+                        this.shareConfig(user);
                     }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            shareConfig(userinfo) {
+                let ua = window.navigator.userAgent.toLocaleLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    // console.log('我是商品分享了')
+                    var url = "";
+                    if (this.is_ios()) {
+                        url = sessionStorage.getItem("ios_share_url").split("#")[0];
+                    } else {
+                        url = "http://" + location.host + this.$route.fullPath;
+                    }
+                    let goods = {
+                        title: this.Advertisement.share_title,
+                        desc: this.Advertisement.share_desc,
+                        imgUrl: this.Advertisement.share_img
+                    };
+                    // console.log(goods);
+                    this.wechatAuth(url, this.$route, userinfo, goods);
+                }
+            },
+            is_ios() {
+                var u = navigator.userAgent;
+                if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         },
         destroyed() {
             Bus.$emit('title', '')
         },
         mounted() {
-            this.getdetails()
+            this.getdetails();
         }
     }
 </script>

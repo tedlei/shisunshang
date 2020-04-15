@@ -16,6 +16,9 @@ export default {
     // console.log(totalprice);
     return totalprice;
   },
+  getGoodsData(state){
+    return state.cart.goodsData;
+  },
   getSpecifications(state) {
     let initialName = '';
     let list = state.cart.goodsData.specData.spec_attr;

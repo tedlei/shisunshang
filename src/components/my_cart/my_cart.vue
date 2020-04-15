@@ -187,7 +187,7 @@ export default {
       let ad_data = {method: 'get.goods.recommend.list'};
       this.$post('/api/v1/goods', ad_data)
       .then((res) => {
-        // console.log(res);
+        console.log(res,'我是推荐列表');
         this.goodsitem = [];
         for(let i in res.data){
           this.goodsitem.push({
