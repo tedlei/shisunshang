@@ -4,7 +4,7 @@
     <div
       class="tips"
       v-show="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined && isTips"
-    >
+      >
       <span class="clo-g">应国家快递实名制规定，收件人须填写真实信息。</span>
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
@@ -45,7 +45,7 @@
     <!-- 商品详情 -->
     <div class="common_box allmsg" v-for="(shop,index) in orderData.shops" :key="index">
       <!-- 店铺名称 -->
-      <router-link to="business/storemsg" class="common m_b_10">
+      <router-link :to="{path:'/storeDetails',query:{id: shop.id}}" class="common m_b_10">
         <div class="left">
           <img src="../../../assets/img/stoe.png" style="width: 18px" />
           <span>
@@ -443,10 +443,10 @@ export default {
               });
           } else {
             this.isloading = false;
-            this.$dialog.alert({
-              title: "提交失败",
-              message: "请重新提交"
-            });
+            // this.$dialog.alert({
+            //   title: "提交失败",
+            //   message: "请重新提交"
+            // });
           }
         })
         .catch(function(error) {
