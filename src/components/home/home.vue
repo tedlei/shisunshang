@@ -83,12 +83,13 @@
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">
           <el-col :span="12">
             <div class="item">
-              <van-image
-                width="100%"
-                height="1.92rem"
-                fit="cover"
-                :src="goods.imgsrc"
-              />
+              <div style="width:100%;overflow: hidden;" ref="imgWidth" :id="'imgId'+index">
+                <van-image
+                  width="100%"
+                  :src="goods.imgsrc" @load="imgLoad(index)"
+                />
+                  <!-- fit="cover" -->
+              </div>
               <div style="">
                 <div class="goodsdtt">{{goods.name}}</div>
                 <div class="goodsprice clo-g">{{goods.price}}</div>
@@ -115,7 +116,7 @@
     import Signin from "../Signin/Signin.vue";
 
     export default {
-        name: "home",
+        name: "home", 
         //2.然后,在components中写入子组件
         components: {Signin, Search, Carousel},
         data() {
@@ -129,6 +130,14 @@
             }
         },
         methods: {
+            imgLoad(index){
+              let doc = document.getElementById('imgId'+index);
+              let width = this.$refs.imgWidth[index].clientWidth;
+              console.log(width)
+              doc.style.height = width+'px';
+              
+            },
+
             //获取首页
             getHomeMsg: function () {
                 const ad_data = {method: 'get.ad.banner.list'},
@@ -283,6 +292,7 @@
     // justify-content: space-between;
     align-items: center;
     text-align: left;
+    
 
     .el-carousel {
       width: 80%;

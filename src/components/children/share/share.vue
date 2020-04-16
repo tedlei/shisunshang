@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <ul class="share_list">
-      <li v-for="(item,index) in sharelists" @click="todetail(item.id)">
+      <li v-for="(item,index) in sharelists" :key="index" @click="todetail(item.id)">
         <div class="left_img">
           <van-image
             width="100%"
