@@ -159,7 +159,7 @@
       <div class="left_text">实付款：￥
         {{!checked?orderData.order_pay_price:orderData.user_money>=orderData.order_pay_price?0:orderData.order_pay_price-orderData.user_money}}
       </div>
-      <div class="right_btn" @click="uploadOrder">
+      <div class="right_btn" @click="useSingin">
         提交订单
       </div>
     </div>
@@ -269,6 +269,26 @@
               }).catch(function (error) {
                 console.log(error);
               });
+          },
+
+          //是否使用签到金
+          useSingin(){
+            let orderData = parseFloat(this.orderData.user_money)
+            if(orderData>0){
+              this.$dialog.confirm({
+              message: '有可使用充值金,是否使用'
+              })
+              .then(() => {
+                setTimeout(() => {
+                  this.checked = true;
+                  this.uploadOrder()
+                }, 100);
+              })
+              .catch(() => {
+                this.uploadOrder()
+              });
+
+            }else this.uploadOrder()
           },
 
           //提交订单
