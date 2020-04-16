@@ -41,7 +41,7 @@ export default {
     },
     methods:{
         tapIsShow(){
-            this.show = false;
+            this.show = !this.show;
         },
         taptz(path){
             this.$router.push({path});
@@ -55,10 +55,10 @@ export default {
     },
     watch:{
         $route(to,from){
-            this.show = !this.show;
+            this.show = false;
             let {path} = to;
             if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
-                this.isPageShow = false
+                this.isPageShow = false;
             }else this.isPageShow = true;
         }
     }
