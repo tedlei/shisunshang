@@ -15,7 +15,7 @@
               </router-link>
             </div>
             <div class="user_msg">
-              <span class="user_name">{{userinfo.weixinname}}</span>
+              <p class="user_name">{{userinfo.weixinname}}</p>
               <span class="user_phone">{{userinfo.phone}}</span>
               <div class="vip_lv">
                 <span>
@@ -498,7 +498,12 @@ export default {
 
       .user_msg {
         text-align: left;
-
+        .user_name{
+          width: 1.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
         .vip_lv {
           margin-top: 5px;
         }
