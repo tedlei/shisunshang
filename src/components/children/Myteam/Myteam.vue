@@ -56,9 +56,12 @@
             <div>{{item.phone}}</div>
           </td>
           <td>{{item.add_time}}</td>
-          <td>{{item.referee_name == null ? '-':item.referee_name}}</td>
+          <td>{{item.referee_name == null ? '-':item.referee_name.substr(0,1)+'XX'}}</td>
         </tr>
       </table>
+      <div v-if="team_dtllists.length>0">
+        没有更多了
+      </div>
     </div>
     
   </div>
@@ -172,6 +175,7 @@
   }
 
   .team_dtl {
+    padding-bottom: 0.3rem;
     table {
       width: 100%;
       tr td {

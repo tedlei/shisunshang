@@ -23,11 +23,11 @@
         <van-cell v-for="item in list" :key="item.id" class="moneylist">
           <span>
             <div>{{names[item.money_type_id - 1]}}</div>
-            <div class="clo-9">{{item.content}}</div>
+            <!-- <div class="clo-9">{{item.content}}</div> -->
           </span>
           <span>
             <div>{{item.content}}</div>
-            <div class="clo-9">{{item.add_time}}</div>
+            <div class="clo-9 fontWrap fontWrapOne">{{item.add_time}}</div>
           </span>
           <span class="last">
             <div>{{moneytext[item.money_type_id - 1]}}</div>
@@ -67,6 +67,7 @@
                 };
                 this.$post('/api/v1/userMoney', Money)
                     .then((response) => {
+                        console.log(response)
                         this.list = this.list.concat(response.data.items)
                         // 加载状态结束
                         console.log(this.list)
@@ -153,18 +154,19 @@
       div.van-cell__value {
         display: flex;
         justify-content: space-between;
-
-        span {
-          width: 40%;
-
-          div {
-            padding: 5px 0;
-          }
-        }
-
-        span.last {
+        text-align: center;
+        >span:first-child{
           width: 20%;
         }
+        >span:nth-child(2){
+          width: 60%;
+        }
+        >span:nth-child(3){
+          width: 20%;
+        }
+        
+
+        
       }
     }
 
