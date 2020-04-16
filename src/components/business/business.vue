@@ -18,7 +18,6 @@
                 </div>
             </div>
 
-
             <div class="right">
                 <div v-show="isUlliTwo&&navChildren.length>0" class="left_ul">
                     <div
@@ -84,15 +83,14 @@ export default {
         return {
             msg: "附近商家",
             height: "1rem",
-            num: 0,
+            num: sessionStorage.getItem('businessNum')?sessionStorage.getItem('businessNum'):0,
             isUlliTwo: true,
             isUlliTwoHeight: 1,
             leftlists: [],   //一级导航列表
             navChildren: [],  //二级导航列表
             cpylist: [],    //商家列表
-            listNum:0,
+            listNum: 0,
             keywords: '',
-
             loading:false,
             finished:false,
             page:0,  //数据条数
@@ -102,6 +100,7 @@ export default {
     methods: {
         //选择一级导航列表时
         getNum(index, children) {
+            sessionStorage.setItem("businessNum",index);
             this.listNum = index
             this.num = index;
             this.navChildren = children;
@@ -131,7 +130,6 @@ export default {
                 children: []
             });
         },
-
 
         //获取导航列表
         getData() {
@@ -180,6 +178,8 @@ export default {
 
         //点击二级导航列表时
         isUlliTwoAdd(id) {
+            console.log(id)
+            sessionStorage.setItem('businessNumId',id);
             this.finished = false;
             this.isUlliTwo = false;
             this.navigation = id;
@@ -195,14 +195,20 @@ export default {
     },
     created() {
         this.getData();
-        Bus.$on('searchD', (data) => {
-            this.finished = false;
-            this.page = 0;
-            this.navigation = false;
-            this.cpylist=[];
-            this.keywords = data;
-            this.getDataTwo();
-        });
+        if(sessionStorage.getItem("businessNum")){
+            let id = sessionStorage.getItem('businessNumId');
+            this.isUlliTwoAdd(id);
+        }else{
+            Bus.$on('searchD', (data) => {
+                this.finished = false;
+                this.page = 0;
+                this.navigation = false;
+                this.cpylist=[];
+                this.keywords = data;
+                this.getDataTwo();
+            });
+        }
+        
     },
     // mounted() {
         // let clientW = clientWw.clientWw();

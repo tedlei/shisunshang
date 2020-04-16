@@ -1,4 +1,4 @@
-import { get } from '../../api/https'
+import { get,post } from '../../api/https'
 import wx from 'weixin-js-sdk'
 import store from "../../store";
 import { Toast,Dialog } from 'vant';
@@ -67,10 +67,21 @@ const wechatAuth = async function (url, to, userinfo, goods) {
               desc: goods?goods.desc:'国健生态平台!Come on.!',
               link: urls,
               imgUrl: goods?goods.imgUrl:'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
-              success: function () {//设置成功
+              success:  () => {//设置成功
                 // console.log(url + '?' + 'state=' + userinfo.referee_number,'我是分享地址')
                 // console.log(urls,'我是分享地址')
                 // console.log("分享成功");
+                let msg = {
+                  method: 'add.sign.share.item',
+                };
+                post('/api/v1/userSign', msg)
+                    .then((res) => {
+                        console.log(res);
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+
+
               },
               cancel: function () {
                 console.log("取消分享");
