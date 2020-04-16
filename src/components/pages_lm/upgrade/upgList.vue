@@ -93,6 +93,6 @@
   background-color: #FFFAF1;
 }
 .bgh{
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.05);
 }
 </style>
