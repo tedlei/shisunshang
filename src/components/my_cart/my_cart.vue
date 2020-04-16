@@ -392,6 +392,8 @@ export default {
             // console.log(index1)
             // console.log(index)
             this.cal(index1);
+          }else{
+            this.isloading = false;
           }
         }).catch(function (error) {
           console.log(error);

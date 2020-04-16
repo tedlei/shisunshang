@@ -121,7 +121,7 @@ export default {
 <style scoped lang="scss">
 footer {
   width: 100%;
-  height: 0.7rem;
+  height: 0.65rem;
   position: fixed;
   bottom: 0;
   background-color: #fff;
@@ -130,7 +130,6 @@ footer {
   border-top: 1px solid #f2f2f2;
   display: flex;
   align-items: center;
-
   span {
     color: #999999;
   }
