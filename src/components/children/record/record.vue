@@ -31,7 +31,7 @@
           </span>
           <span class="last">
             <div>{{moneytext[item.money_type_id - 1]}}</div>
-            <div class="clo-9">￥{{item.money}}</div>
+            <div class="clo-9">￥{{item.money | moneyFormat}}</div>
           </span>
         </van-cell>
       </van-list>
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+    import '../../../assets/js/filter'
     export default {
         name: "record",
         data() {
@@ -159,10 +160,10 @@
           width: 20%;
         }
         >span:nth-child(2){
-          width: 60%;
+          width: 55%;
         }
         >span:nth-child(3){
-          width: 20%;
+          width: 25%;
         }
         
 

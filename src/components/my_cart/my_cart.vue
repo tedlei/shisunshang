@@ -70,15 +70,7 @@
                                     <van-icon name="plus" color="#fff"/>
                                   </div>
                                   <!-- 商品数量编辑器键盘 -->
-                                  <!-- <van-number-keyboard
-                                    :show="isCartNumEdit"
-                                    @blur="isCartNumEdit = false"
-                                    close-button-text="完成"
-                                    :maxlength="2"
-                                    @input="onInput"
-                                    @delete="onDelete"
-                                    z-index='1000'
-                                  /> -->
+                                 
                                 </div>
                             </div>
                         </div>
@@ -178,7 +170,7 @@ export default {
         allChecked : false,
         buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
         Settlement: false,
-        goodsNumEdit: '',//商品数量编辑器数量
+        goodsNumEdit: 0,//商品数量编辑器数量
         isCartNumEdit: false,//商品数量编辑器键盘
     }
   },
@@ -416,22 +408,8 @@ export default {
 
     // 商品数据编辑器控制
     CartNumEdit(){
-      this.isCartNumEdit = true;
+      // this.isCartNumEdit = true;
     },
-    onInput(e){
-      // console.log(e)
-      this.goodsNumEdit+=e;
-      if(this.goodsNumEdit<1){
-        this.$toast('商品数量不能小于1');
-      }else if(this.goodsNumEdit>99){
-        this.$toast('最多购买99份')
-      }else{
-        
-      }
-      console.log(this.goodsNumEdit);
-      
-    },
-    onDelete(){},
     // 用户填写容错处理
 
 
