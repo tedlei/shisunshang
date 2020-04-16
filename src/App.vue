@@ -35,6 +35,7 @@
             this.path = this.$route.path;
         },
         created() {
+            this.inputHint()
         },
         watch: {
             // 监听 $route 变化调用分享链接

@@ -7,7 +7,7 @@
           <div class="right">
             <img :src="item.right" v-if="index==0" />
             <span v-else>{{item.right}}</span>
-            <i class="el-icon-arrow-right" v-show="index!=1&&index!=0"></i>
+            <i class="el-icon-arrow-right" v-show="index!=1&&index!=0&&index!==2"></i>
           </div>
         </li>
       </ul>
@@ -28,8 +28,12 @@ export default {
           right: JSON.parse(this.$store.getters.getuserinfo).portrait
         },
         {
-          left: "用户名",
+          left: "真实姓名",
           right: JSON.parse(this.$store.getters.getuserinfo).name
+        },
+        {
+          left: "微信昵称",
+          right: JSON.parse(this.$store.getters.getuserinfo).weixinname
         },
 
         {

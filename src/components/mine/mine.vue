@@ -491,8 +491,8 @@ export default {
         height: 0.6rem;
         margin-right: 0.2rem;
         img {
-          width: 0.6rem;
-          height: 0.6rem;
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
         }
       }

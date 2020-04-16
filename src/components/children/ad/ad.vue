@@ -22,11 +22,12 @@
             <div class="time">
               <span>时间：{{item.add_time}}</span>
               <span>来源：{{item.users_id}}</span>
-              <i
+              <div class="font_fx" @click.stop="share(item.id)">分享</div>
+              <!-- <i
                 class="el-icon-share"
                 style="font-size:0.2rem;float:right;"
                 @click.stop="share(item.id)"
-              ></i>
+              ></i> -->
             </div>
           </div>
         <!-- </router-link> -->
@@ -147,6 +148,15 @@ export default {
           .time {
             color: #999999;
             font-size: 0.12rem;
+            .font_fx{
+              width: 0.5rem;
+              height: 0.25rem;
+              float: right;
+              text-align: center;
+              line-height: 0.25rem;
+              font-size: 0.14rem;
+              color: #009900;
+            }
           }
         }
       }

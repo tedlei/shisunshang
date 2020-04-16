@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import hint from '../../components/pages_lm/hint/hint.vue'
+import inhin from '../../components/pages_lm/inputHint/inputHint.vue'
 const Hint = Vue.extend(hint)
+const Inhin = Vue.extend(inhin)
 
 let Api = {
     //初始化
@@ -11,6 +13,7 @@ let Api = {
         this.prototype.verifyPhone = Api.verifyPhone;
         this.prototype.verifyCode = Api.verifyCode;
         this.prototype.tc = Api.tc;
+        this.prototype.inputHint = Api.inputHint
     },
     setItem(name, value) {
         let type = typeof value;
@@ -90,7 +93,23 @@ let Api = {
         document.body.appendChild(toastDom.$el)
         // 过了 duration 时间后隐藏
         setTimeout(() => { toastDom.show = false }, duration)
+    },
 
+    //弹出输入框
+    inputHint(max,min=0,valueName) {
+        const inhin = new Inhin({
+            el: document.createElement('inphin'),
+            data() {
+                return {
+                    show: true,
+                    text:'',
+                }
+            }
+        })
+        // // 把 实例化的 toast.vue 添加到 body 里
+        document.body.appendChild(inhin.$el)
+        // 过了 duration 时间后隐藏
+        // setTimeout(() => { toastDom.show = false }, duration)
     }
 }
 

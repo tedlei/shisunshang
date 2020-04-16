@@ -20,7 +20,8 @@
             </div>
             <div class="price">
               <span>￥{{item.price}}</span>
-              <i class="el-icon-share" @click.stop="share(item.id)"></i>
+              <div class="font_fx" @click.stop="share(item.id)">分享</div>
+              <!-- <i class="el-icon-share" @click.stop="share(item.id)"></i> -->
             </div>
           </div>
         </div>
@@ -144,6 +145,14 @@
 
             i {
               color: #999999;
+            }
+            .font_fx{
+              width: 0.5rem;
+              height: 0.25rem;
+              text-align: center;
+              line-height: 0.25rem;
+              font-size: 0.14rem;
+              color: #009900;
             }
           }
         }
