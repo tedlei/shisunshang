@@ -90,7 +90,6 @@ export default {
       userMoney: 0, //用户余额
       autoHmoney: false, //自动续费
       userInfo: null, //用户信息
-      isTapbtn: true, //是否可点击
       titleList: [
         "一、免费注册体验平台会员：平台赠送168元签到金购。成功为平台分享一个体验顾客平台奖励10元签到金，签到金到平台直接购买商品。",
         "二、升级90元平台会员：<br/>1、平台赠送云阖·永川秀芽【初心】，价值298元+送200元签到金。<br/>2、成功分享一个普通会员公司奖励升级会员费的30%，领取4、6、8、10C随机分红3元。",
@@ -129,18 +128,12 @@ export default {
 
     //开通会员
     tapKthu() {
-      let { topUpList, topUpNum, autoHmoney, isTapbtn } = this;
+      let { topUpList, topUpNum, autoHmoney } = this;
       let _this = this;
-      if (!isTapbtn)
-        _this.$notify({ type: "success", message: "请勿重复点击" });
       if (topUpList[topUpNum].is_prohibit) {
-        _this.$notify({
-          type: "success",
-          message: "您已开通此等级或之上的会员，请勿重复选择"
-        });
+        _this.tc( "您已开通此等级或之上的会员，请勿重复选择");
         return;
       }
-      _this.isTapbtn = false;
       _this.$dialog
         .confirm({
           title: "提示",
@@ -157,20 +150,17 @@ export default {
             .$post("/api/v1/userLevel", ad_data)
             .then(res => {
               if (res.data) {
-                _this.$notify({ type: "success", message: "会员开通成功" });
-                _this.isTapbtn = true;
+                _this.tc("会员开通成功","success");
                 _this.getUserInfo();
                 this.$router.back(-1);
               }
             })
             .catch(function(error) {
-              _this.isTapbtn = true;
               console.log(error);
             });
         })
         .catch(() => {
-          _this.isTapbtn = true;
-          _this.$notify({ type: "success", message: "用户取消操作" });
+          _this.tc("用户取消操作" );
         });
     },
 
@@ -181,7 +171,6 @@ export default {
       this.$post("/api/v1/user", ad_data)
         .then(res => {
           this.$store.commit("userinfo", JSON.stringify(res.data));
-          console.log(JSON.parse(this.$store.getters.getuserinfo));
         })
         .catch(function(error) {
           console.log(error);

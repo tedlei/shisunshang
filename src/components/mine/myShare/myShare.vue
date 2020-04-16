@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="mycode">
-      <div class="common_btn">我要分享</div>
+      <!-- <div class="common_btn">我要分享</div> -->
 
       <div class="qrcode">
         <div id="qrCode" ref="qrCode"></div>

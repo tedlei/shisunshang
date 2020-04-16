@@ -239,15 +239,15 @@ export default {
           totalnum: 0
         },
         {
+            num: 0,
+            name: '原始股账户',
+              totalnum:0,
+        },
+        {
           num: 0,
           name: "生态币账户",
           totalnum: 0
         }
-        // {
-        //     num: 0,
-        //     name: '原始股账户',
-        //      totalnum:0,
-        // },
       ],
       orderlists: [
         {
@@ -435,7 +435,6 @@ export default {
         this.cashed_money = cashed_money;
 
         for (let i in zclists) {
-          console.log(data["money" + (i * 1 + 1)].toFixed(2),123)
           zclists[i].num = data["money" + (i * 1 + 1)].toFixed(2);
         }
 
