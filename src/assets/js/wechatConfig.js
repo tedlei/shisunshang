@@ -76,7 +76,7 @@ const wechatAuth = async function (url, to, userinfo, goods) {
                 };
                 post('/api/v1/userSign', msg)
                     .then((res) => {
-                        console.log(res);
+                        // console.log(res);
                     }).catch(function (error) {
                     console.log(error);
                 });

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <ul class="share_list">
-      <li v-for="(item,index) in sharelists" :key="index" @click="todetail(item.id)">
+      <li v-for="item in sharelists" :key="item.id" @click="todetail(item.id)">
         <div class="left_img">
           <van-image
             width="100%"
@@ -43,8 +43,6 @@
 </template>
 
 <script>
-    import wechatAuth from '../../../assets/js/wechatConfig'
-
     export default {
         name: "share",
         data() {
@@ -68,17 +66,17 @@
             //分享
             share: function (e) {
                 this.shareshow = true;
-                let userinfo = JSON.parse(this.$store.getters.getuserinfo)
-                if (userinfo) {
-                    let shareConfig = {
-                        title: '国健生态平台',
-                        desc: '国健生态平台!Come on.!',
-                        link: location.host + '/goodsdetails' + '?id=' + e + '&state=' + userinfo.referee_number,
-                        imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
-                    };
-                    let url = location.href
-                    wechatAuth(url, shareConfig);
-                }
+                // let userinfo = JSON.parse(this.$store.getters.getuserinfo)
+                // if (userinfo) {
+                //     let shareConfig = {
+                //         title: '国健生态平台',
+                //         desc: '国健生态平台!Come on.!',
+                //         link: location.host + '/goodsdetails' + '?id=' + e + '&state=' + userinfo.referee_number,
+                //         imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
+                //     };
+                //     let url = location.href
+                //     wechatAuth(url, shareConfig);
+                // }
             },
             //关闭pop
             closepop: function () {

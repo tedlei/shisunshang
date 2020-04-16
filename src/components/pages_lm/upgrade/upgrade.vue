@@ -54,9 +54,7 @@
       <div class="btn" @click="tapKthu">开通会员</div>
     </div>
 
-    <div
-      class="upg_explain"
-    >
+    <div class="upg_explain">
       <!-- :style="{backgroundImage:'url('+require('../../../assets/img/czBg1.png')+') '}" -->
       <!-- <div class="upg_d d-t-l"></div>
       <div class="upg_d d-t-r"></div>
@@ -85,6 +83,7 @@ export default {
   components: { upgList },
   data() {
     return {
+      jsApiParameters: {},
       topUpList: [], //充值选项列表
       topUpNum: 0, //控制充值选项
       userMoney: 0, //用户余额
@@ -111,10 +110,10 @@ export default {
       };
       this.$post("/api/v1/userLevel", ad_data)
         .then(res => {
+          // console.log(res);
           let { list, user_money } = res.data;
           this.topUpList = list;
           this.userMoney = user_money;
-          console.log(res);
         })
         .catch(function(error) {
           console.log(error);
@@ -124,6 +123,21 @@ export default {
     //切换充值模式
     tapSel(i) {
       this.topUpNum = i;
+    },
+
+    getUserInfo() {
+      let ad_data = {
+        method: "get.user.info"
+      };
+      this.$post("/api/v1/user", ad_data)
+        .then(res => {
+          this.$store.commit("userinfo", JSON.stringify(res.data));
+          let { getuserinfo } = this.$store.getters;
+          if (getuserinfo) this.userInfo = JSON.parse(getuserinfo);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     //开通会员
@@ -149,11 +163,25 @@ export default {
           _this
             .$post("/api/v1/userLevel", ad_data)
             .then(res => {
-              if (res.data) {
+              if (res.status == 200 && res.data.is_wx_pay == 1) {
+                    this.jsApiParameters = res.data.payment;
+                    this.callpay();
+              } else if (res.status == 200 && res.data.is_wx_pay == 0){
                 _this.tc("会员开通成功","success");
-                _this.getUserInfo();
                 this.$router.back(-1);
+                _this.getUserInfo();
+              }else{
+                // this.$dialog.alert({
+                //     title: '提交失败',
+                //     message: res.message
+                // })
               }
+              // if (res.data) {
+              //   _this.tc("会员开通成功","success");
+              //   _this.getUserInfo();
+              //   this.$router.back(-1);
+              
+              // }
             })
             .catch(function(error) {
               console.log(error);
@@ -164,18 +192,37 @@ export default {
         });
     },
 
-    getUserInfo() {
-      let ad_data = {
-        method: "get.user.info"
-      };
-      this.$post("/api/v1/user", ad_data)
-        .then(res => {
-          this.$store.commit("userinfo", JSON.stringify(res.data));
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
+    //微信支付
+    jsApiCall(){
+	    	WeixinJSBridge.invoke(
+	    		'getBrandWCPayRequest',
+	    		this.jsApiParameters,
+	    		(res)=>{
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              //跳转到支付成功页面
+              this.getUserInfo();
+              this.$router.back(-1);
+	    			}else{
+
+            }
+	    		
+	    		}
+	    	);
+	  },
+	  callpay(){
+		  if (typeof WeixinJSBridge == "undefined"){
+		      if( document.addEventListener ){
+		          document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+		      }else if (document.attachEvent){
+		          document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
+		          document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+		      }
+		  }else{
+		      this.jsApiCall();
+		  }
+    },
+    
+    
   },
   computed: {},
   watch: {}

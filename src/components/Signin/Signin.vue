@@ -82,7 +82,7 @@
       </div>
       <div class="submitsign" v-if="isshow" @click="submitsign">我要签到</div>
       <div class="submitsign" v-else style="background-color: #eca69f">今日已签到</div>
-
+      <div class="hrDiv"></div>
     </van-popup>
     <van-popup
       v-model="shareshow"
@@ -308,10 +308,9 @@
     }
 
     .leiji_ul {
-      height: 1.2rem;
+      height: 1.1rem;
       font-size: 0.12rem;
-      margin-top: 0.2rem;
-
+      margin-top: 0.1rem;
       li {
         .lei_num {
           font-size: 0.2rem;
@@ -367,17 +366,12 @@
     justify-content: space-around;
   }
 
-
-  .choose-year {
-
-  }
-
   .choose-month {
     text-align: center;
   }
 
   .arrow {
-    padding: 0.3rem;
+    padding: 0.15rem 0.3rem;
   }
 
 
@@ -414,8 +408,7 @@
     display: inline-block;
     width: 14.2%;
     text-align: center;
-    padding-bottom: 0.15rem;
-    padding-top: 0.15rem;
+    padding: 0.1rem 0;
     font-size: 0.1rem;
     color: #000;
   }
@@ -451,7 +444,9 @@
     color: #fff;
     font-size: 0.2rem;
   }
-
+  .hrDiv{
+    height: 0.3rem;
+  }
   .my_share {
     padding: 0.05rem;
     border-radius: 5px;

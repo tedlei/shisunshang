@@ -44,8 +44,8 @@
                 this.$toast('复制失败！')
             },
             creatQrCode() {
-                let arr = location.href.split('/')
-                let QRcodeDomainName = arr[0]+"//"+arr[2]
+                let arr = location.href.split('/');
+                let QRcodeDomainName = arr[0]+"//"+arr[2];
                 let userinfo = JSON.parse(this.$store.getters.getuserinfo);
                 this.urls = QRcodeDomainName + '/?state=' + userinfo.referee_number
                 let qrCode = new QRCode('qrCode', {
