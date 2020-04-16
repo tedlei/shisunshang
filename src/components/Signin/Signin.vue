@@ -3,7 +3,7 @@
     <van-popup
       v-model="show"
       :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2',paddingBottom: '0.1rem' }"
-    >
+      >
       <header>
         <div class="top">
           <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
@@ -88,7 +88,7 @@
       v-model="shareshow"
       :style="{ background:sharebox ? '#fff':'none',padding:'0.1rem',width:sharebox?'50%':'100%',borderRadius:'5px',height: sharebox ? 'auto':'100%'}"
       @click="closepop"
-    >
+      >
 
       <div class="share_box" v-if="sharebox">
         <div class="qdjesuccess" v-show="frist">签到成功!</div>
@@ -115,7 +115,6 @@
 <script>
     import Header from "../header/header";
     import Bus from "../../assets/js/bus";
-    import wechatAuth from "../../assets/js/wechatConfig";
 
     export default {
         name: "Signin",
@@ -170,32 +169,8 @@
             },
             //点击分享签到
             myshare: function (e) {
-                let _this = this;
-                let shareConfig = {
-                    title: '签到赢好礼哟',
-                    desc: '国健生态平台!Come on.!签到赢好礼哟！',
-                    link: JSON.parse(this.$store.getters.getuserinfo).referee_number,
-                    imgUrl: 'http://m.wjeys.com/dist/static/img/liwu.f4a143f.png',
-                };
-                let url = location.href
-                wechatAuth(url, shareConfig);
-                _this.sharebox = false
-                // let msg = {
-                //     method: 'add.sign.share.item',
-                //     id: this.log_id
-                // };
-                // this.$post('/api/v1/userSign', msg)
-                //     .then((response) => {
-                //         if (response.status == 200) {
-                //             this.$toast('分享成功');
-                //             this.show = false;
-                //             this.shareshow = false;
-                //
-                //         }
-                //     }).catch(function (error) {
-                //     console.log(error);
-                // });
-
+                this.sharebox = false
+                
             },
             //提交签到
             submitsign: function () {
@@ -286,17 +261,7 @@
             isVerDate(v) {
                 return this.arrDate.includes(v)
             },
-            // pickPre: function (year, month) {
-            //     var d = new Date(this.formatDate(year, month, 1));
-            //     d.setDate(0);
-            //     this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
-            // },
-            // pickNext: function (year, month) {
-            //     var d = new Date(this.formatDate(year, month, 1));
-            //     d.setDate(42);
-            //     this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
-            // },
-
+            
             // 返回 类似 2016-01-02 格式的字符串
             formatDate: function (year, month, day) {
                 var y = year;

@@ -11,7 +11,7 @@
           <div style="display: flex">
             <div class="user_header">
               <router-link to="/mine/usermsg">
-                <img :src="userinfo.portrait" class />
+                <img :src="userinfo.portrait"/>
               </router-link>
             </div>
             <div class="user_msg">
@@ -490,8 +490,9 @@ export default {
         width: 0.6rem;
         height: 0.6rem;
         margin-right: 0.2rem;
-
         img {
+          width: 0.6rem;
+          height: 0.6rem;
           border-radius: 50%;
         }
       }
