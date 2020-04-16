@@ -8,6 +8,7 @@
                 <div class="Last"></div>
             </div>
             <div id="allmerchandise">
+                <!-- :autoplay="3000" -->
                 <van-swipe :autoplay="3000" @change="onChange" ref="imgCheckbox">
                     <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
                         <img
@@ -940,8 +941,8 @@ export default {
 
 <style scoped lang="scss">
 .swipeImgs {
-    // width: 100%;
-    height: 3.5rem;
+    width: 100%;
+    // height: 3.5rem;
 }
 
 .indicator {
