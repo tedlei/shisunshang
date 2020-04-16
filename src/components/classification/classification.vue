@@ -150,7 +150,7 @@ export default {
   .main_div {
     width: 100%;
     height: 100%;
-    padding-bottom: 1.3rem;
+    padding-bottom: 1.2rem;
     display: flex;
     background-color: #f2f2f2;
     .left {

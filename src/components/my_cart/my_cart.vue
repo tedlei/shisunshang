@@ -65,10 +65,20 @@
                                     <img v-if="data.num==1" src="../../assets/img/jhh.png" alt="">
                                     <img v-else src="../../assets/img/jh.png" alt="">
                                   </div>
-                                  <div>{{data.num}}</div>
+                                  <div @click="CartNumEdit">{{data.num}}</div>
                                   <div class="progressesBtn" @click="numChange(index1, index, 1, data.id, data.goods_sku_id)">
                                     <van-icon name="plus" color="#fff"/>
                                   </div>
+                                  <!-- 商品数量编辑器键盘 -->
+                                  <!-- <van-number-keyboard
+                                    :show="isCartNumEdit"
+                                    @blur="isCartNumEdit = false"
+                                    close-button-text="完成"
+                                    :maxlength="2"
+                                    @input="onInput"
+                                    @delete="onDelete"
+                                    z-index='1000'
+                                  /> -->
                                 </div>
                             </div>
                         </div>
@@ -167,7 +177,9 @@ export default {
         totalFare : 0,
         allChecked : false,
         buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
-        Settlement: false
+        Settlement: false,
+        goodsNumEdit: '',//商品数量编辑器数量
+        isCartNumEdit: false,//商品数量编辑器键盘
     }
   },
   watch:{},
@@ -187,7 +199,7 @@ export default {
       let ad_data = {method: 'get.goods.recommend.list'};
       this.$post('/api/v1/goods', ad_data)
       .then((res) => {
-        console.log(res,'我是推荐列表');
+        // console.log(res,'我是推荐列表');
         this.goodsitem = [];
         for(let i in res.data){
           this.goodsitem.push({
@@ -245,7 +257,7 @@ export default {
       };
       this.$post('/api/v1/goodsCart', ad_data)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.cartData = res.data;
         if(res.data.shops!=undefined && res.data.shops.length!=0){
         // if(res.data.shops!=undefined){
@@ -360,7 +372,7 @@ export default {
       }
     },
 
-    // 商品数量控制
+    // 商品数量进步器控制
     numChange (index1, index, numChange, id, goods_sku_id) {
       console.log(id,goods_sku_id)
       // console.log(numChange)
@@ -392,6 +404,8 @@ export default {
             // console.log(index1)
             // console.log(index)
             this.cal(index1);
+          }else{
+            this.isloading = false;
           }
         }).catch(function (error) {
           console.log(error);
@@ -400,6 +414,24 @@ export default {
 
     },
 
+    // 商品数据编辑器控制
+    CartNumEdit(){
+      this.isCartNumEdit = true;
+    },
+    onInput(e){
+      // console.log(e)
+      this.goodsNumEdit+=e;
+      if(this.goodsNumEdit<1){
+        this.$toast('商品数量不能小于1');
+      }else if(this.goodsNumEdit>99){
+        this.$toast('最多购买99份')
+      }else{
+        
+      }
+      console.log(this.goodsNumEdit);
+      
+    },
+    onDelete(){},
     // 用户填写容错处理
 
 
@@ -690,6 +722,7 @@ body, html {
             position: absolute;
             right: 0;
             display: flex;
+            align-items: center;
             .progressesBtn{
               width: 0.23rem;
               height: 0.23rem;
@@ -868,7 +901,7 @@ body, html {
   .settlement {
     position: fixed;
     width: 100%;
-    bottom: 0.678rem;
+    bottom: 0.65rem;
     font-size: 0.16rem;
     color: #fff;
     display: flex;

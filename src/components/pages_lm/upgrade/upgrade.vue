@@ -222,7 +222,6 @@ export default {
 		  }
     },
     
-    
   },
   computed: {},
   watch: {}
