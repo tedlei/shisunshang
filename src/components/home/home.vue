@@ -133,7 +133,7 @@
             imgLoad(index){
               let doc = document.getElementById('imgId'+index);
               let width = this.$refs.imgWidth[index].clientWidth;
-              console.log(width)
+              // console.log(width)
               doc.style.height = width+'px';
               
             },

@@ -393,7 +393,7 @@ export default {
       let { data } = await this.$post("/api/v1/user", ad_data);
       if (data) {
         this.userinfo = data;
-        console.log(this.userinfo)
+        // console.log(this.userinfo)
         this.$store.commit('userinfo',JSON.stringify(data));
         for (let i in zclists) {
           zclists[i].totalnum = parseFloat(data["money" + (i * 1 + 1)]).toFixed(2);
