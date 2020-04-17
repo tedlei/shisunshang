@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import hint from '../../components/pages_lm/hint/hint.vue'
-import inhin from '../../components/pages_lm/inputHint/inputHint.vue'
+import inputH from '../../components/pages_lm/inputHint/inputHint.vue'
 const Hint = Vue.extend(hint)
-const Inhin = Vue.extend(inhin)
+const InputH = Vue.extend(inputH)
 
 let Api = {
     //初始化
@@ -95,21 +95,27 @@ let Api = {
         setTimeout(() => { toastDom.show = false }, duration)
     },
 
-    //弹出输入框
-    inputHint(max,min=0,valueName) {
-        const inhin = new Inhin({
-            el: document.createElement('inphin'),
+    /**
+     * 
+     * @param {*回调函数} obj 
+     * @param {*最大值} max 
+     * @param {*最小值} min 
+     */
+    inputHint(obj,max,min) {
+        const toastDom = new InputH({
+            el: document.createElement('inputId'),
             data() {
                 return {
                     show: true,
-                    text:'',
+                    value:'',
+                    max:max?max:1,   //最大值
+                    min:min?min:0,   //最小值
+                    obj   //回调
                 }
             }
         })
         // // 把 实例化的 toast.vue 添加到 body 里
-        document.body.appendChild(inhin.$el)
-        // 过了 duration 时间后隐藏
-        // setTimeout(() => { toastDom.show = false }, duration)
+        document.body.appendChild(toastDom.$el)
     }
 }
 

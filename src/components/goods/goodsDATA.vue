@@ -830,6 +830,7 @@ export default {
             if (this.isactions == "vip" && this.users.level == 1) {
                 this.$dialog
                     .confirm({
+                        title:'商品价格:'+this.goodsData.goods_info.price,
                         message: "您还不是会员，是否前往充值会员？"
                     })
                     .then(res => {
