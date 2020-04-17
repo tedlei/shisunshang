@@ -154,7 +154,6 @@ export default {
         height: 400
       }).then(canvas => {
         let imgData = canvas.toDataURL("image/jpeg");
-
         this.imgData = imgData;
       });
     },

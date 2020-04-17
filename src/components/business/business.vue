@@ -95,6 +95,8 @@ export default {
             finished:false,
             page:0,  //数据条数
             navigation:false,   //导航id  
+
+
         };
     },
     methods: {
@@ -147,18 +149,21 @@ export default {
 
         //获取商家列表
         getDataTwo() {
-            let {page,navigation,keywords,cpylist} = this;
+            let {page,navigation,keywords,cpylist,latitude,longitude} = this;
             let ad_data = {
                 method: "get.user.store.list",
                 cate_id: 0,
                 page,
-                page_size: 10
+                page_size: 10,
+                // latitude,
+                // longitude
             };
-            if(navigation) ad_data.cate_id = navigation;
+            if(navigation) ad_data.cate_id = navigation?navigation:0;
             if(keywords) ad_data.keywords = keywords;
             this.loading = true;
             this.$post("/api/v1/userStore", ad_data)
                 .then(res => {
+            console.log(res,123456789)
                     this.loading = false;
                     let {data} = res;
                     if(!data||data.length<=0) this.finished = true;  //数据全部加载完成
@@ -194,6 +199,7 @@ export default {
         }
     },
     created() {
+        // this.getLocation();
         this.getData();
         if(sessionStorage.getItem("businessNum")){
             let id = sessionStorage.getItem('businessNumId');

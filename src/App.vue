@@ -34,8 +34,6 @@
         beforeUpdate() {
             this.path = this.$route.path;
         },
-        created() {
-        },
         watch: {
             // 监听 $route 变化调用分享链接
             '$route'(to, from) {

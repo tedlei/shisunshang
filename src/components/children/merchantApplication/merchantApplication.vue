@@ -287,11 +287,24 @@
 
             },
 
-            ditu() {
-              ditu();
+            //获取坐标
+            isGteLocation(value){
+              if(!value){
+                this.$dialog.alert({
+                  title: '提示',
+                  message: '获取位置失败,是否重新获取',
+                }).then(() => {
+                  this.getLocation(this.isGteLocation); 
+                }) .catch(() => {
+                })
+              }else{
+                this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
+              }
             }
         },
         created() {
+            this.getLocation(this.isGteLocation);   //获取坐标
+
             this.getClassArr();
         },
         mounted(){
