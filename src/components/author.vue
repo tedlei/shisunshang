@@ -35,7 +35,7 @@
                                 localStorage.setItem('usertoken',res.data.token);
                                 //location.href="/";
                                 location.replace('/');
-                                // Bus.$emit('getHot', true);
+                                Bus.$emit('getHot', true);
 
                             }
                         }).catch(function (error) {
@@ -54,7 +54,7 @@
                             console.log('授权完毕')
                             location.replace('/');
                             //location.href="/";
-                            // Bus.$emit('getHot', true);
+                            Bus.$emit('getHot', true);
                         }
                     }).catch(function (error) {
                     console.log(error);

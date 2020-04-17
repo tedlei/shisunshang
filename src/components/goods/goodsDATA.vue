@@ -584,10 +584,7 @@ export default {
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
-            console.log(QRcodeDomainName +
-                    routes +
-                    "&state=" +
-                    this.users.referee_number);
+            
         },
 
         //生成海报
@@ -909,6 +906,7 @@ export default {
     },
     created() {
         // console.log(this.$route.query.id)
+        
         let user = JSON.parse(localStorage.getItem("userinfo"));
         this.users = user;
         this.getDATA();
@@ -945,7 +943,7 @@ export default {
 <style scoped lang="scss">
 .swipeImgs {
     width: 100%;
-    height: 3.5rem;
+    // height: 3.5rem;
 }
 
 .indicator {

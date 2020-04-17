@@ -83,9 +83,10 @@
                      :to="{path:'/goodsdetails',query:{id:goods.id}}">
           <el-col :span="12">
             <div class="item">
-              <div style="width:100%;overflow: hidden;" ref="imgWidth" :id="'imgId'+index">
+              <div style="width:100%;heigth: 1.74rem;" ref="imgWidth" :id="'imgId'+index">
                 <van-image
                   width="100%"
+                  height="1.74rem"
                   :src="goods.imgsrc" @load="imgLoad(index)"
                 />
                   <!-- fit="cover" -->
