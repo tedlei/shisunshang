@@ -28,12 +28,14 @@
                     >{{item1.cate_name}}</div>
                 </div>
                 <div class="right_ul">
+                    <div :style="'height:'+isvalist*0.925+'rem'" class="right_ul_cer" v-show='isUlliTwo&&navChildren.length>0'></div>
                     <van-list
                     v-model="loading"
                     :finished="finished"
                     offset="50"
                     finished-text="没有更多了"
-                    @load="getDataTwo">
+                    @load="getDataTwo"
+                    >
                     <div class="right_li" v-for="(item,index) in cpylist" :key="index">
                         <div class="right_route" @click="tapRoute({path:'/business/storemsg',query:{id: item.id}})">
                             <div class="imgDiv">
@@ -56,7 +58,6 @@
                             </div>
                         </div>
                     </div>
-
                     </van-list>
                 </div>
             </div>
@@ -94,6 +95,7 @@ export default {
             loading:false,
             finished:false,
             page:0,  //数据条数
+            isvalist:11,
             navigation:false,   //导航id  
 
 
@@ -102,13 +104,14 @@ export default {
     methods: {
         //选择一级导航列表时
         getNum(index, children) {
-            sessionStorage.setItem("businessNum",index);
             this.listNum = index
             this.num = index;
             this.navChildren = children;
             this.isUlliTwoHeight = index;
             this.isUlliTwo = true;
             if(!index){
+                sessionStorage.removeItem('businessNum');
+                sessionStorage.removeItem('businessNumId');
                 this.finished = false;
                 this.page = 0;
                 this.navigation = false;
@@ -140,6 +143,7 @@ export default {
             };
             this.$post("/api/v1/UserStoreCategory", ad_data) 
             .then(res => {
+                // console.log(res);
                 this.navPush(res.data);
             })
             .catch(function(error) {
@@ -163,7 +167,7 @@ export default {
             this.loading = true;
             this.$post("/api/v1/userStore", ad_data)
                 .then(res => {
-            console.log(res,123456789)
+                    // console.log(res)
                     this.loading = false;
                     let {data} = res;
                     if(!data||data.length<=0) this.finished = true;  //数据全部加载完成
@@ -174,6 +178,9 @@ export default {
                     }
                     if(cpylist.length<10){
                         this.finished = true;  //数据全部加载完成
+                        this.isvalist = 11;
+                    }else{
+                        this.isvalist = cpylist.length+1;
                     }
                 })
                 .catch(function(error) {
@@ -183,8 +190,9 @@ export default {
 
         //点击二级导航列表时
         isUlliTwoAdd(id) {
-            console.log(id)
+            // console.log(id)
             sessionStorage.setItem('businessNumId',id);
+            sessionStorage.setItem("businessNum",this.num);
             this.finished = false;
             this.isUlliTwo = false;
             this.navigation = id;
@@ -199,7 +207,7 @@ export default {
         }
     },
     created() {
-        // this.getLocation();
+        // console.log(this.num)
         this.getData();
         if(sessionStorage.getItem("businessNum")){
             let id = sessionStorage.getItem('businessNumId');
@@ -297,6 +305,13 @@ export default {
                 padding: 0.05rem 0.05rem;
                 padding-bottom: 0;
                 overflow-y: auto;
+                position: relative;
+                .right_ul_cer{
+                    position: absolute;
+                    z-index: 20;
+                    width: 100%;
+                    background-color: rgba(0,0,0,0.2);;
+                }
                 .right_li {
                     width: 100%;
                     background-color: #fff;

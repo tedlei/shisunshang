@@ -95,8 +95,11 @@
           <el-col :span="12">
             <div class="item">
               <div style="width:100%;heigth: 1.74rem;" ref="imgWidth" :id="'imgId'+index">
-                <van-image width="100%" :src="goods.imgsrc" @load="imgLoad(index)" />
-                <!-- fit="cover" -->
+                <van-image
+                  width="100%"
+                  :src="goods.imgsrc" @load="imgLoad(index)"
+                />
+                  <!-- fit="cover" -->
               </div>
               <div style>
                 <div class="goodsdtt">{{goods.name}}</div>
