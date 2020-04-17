@@ -31,14 +31,14 @@ export default {
             console.log(fileM)
         },
         ditututu() {
-            let shareConfig = {
-                title: '国健生态平台',
-                desc: '国健生态平台!Come on.!',
-                link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + userinfo.referee_number,
-                imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
-            };
-            let url = location.href;
-            wechatAuth(url,shareConfig,1);
+            // let shareConfig = {
+            //     title: '国健生态平台',
+            //     desc: '国健生态平台!Come on.!',
+            //     link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + userinfo.referee_number,
+            //     imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
+            // };
+            // let url = location.href;
+            // wechatAuth(url,shareConfig,1);
         }
     },
     created(){

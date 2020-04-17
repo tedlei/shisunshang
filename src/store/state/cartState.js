@@ -1,7 +1,7 @@
 export default {
     state:{
         isLoading: false,
-        QRcodeDomainName: 'http://www.gjst.net',
+        QRcodeDomainName: 'http://www.gjst.net', 
         cartdata: [
             {
               storename: '富锦旗舰店',
