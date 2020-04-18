@@ -3,7 +3,7 @@
     <van-popup
       v-model="show"
       :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2',paddingBottom: '0.1rem' }"
-      >
+    >
       <header>
         <div class="top">
           <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
@@ -76,7 +76,8 @@
             <span>今日</span>
           </span>
           </div>
-          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false,sharebox = true" v-show="!isshow">分享签到
+          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false,sharebox = true"
+               v-show="!isshow">分享签到
           </div>
         </div>
       </div>
@@ -88,7 +89,7 @@
       v-model="shareshow"
       :style="{ background:sharebox ? '#fff':'none',padding:'0.1rem',width:sharebox?'50%':'100%',borderRadius:'5px',height: sharebox ? 'auto':'100%'}"
       @click="closepop"
-      >
+    >
 
       <div class="share_box" v-if="sharebox">
         <div class="qdjesuccess" v-show="frist">签到成功!</div>
@@ -170,7 +171,7 @@
             //点击分享签到
             myshare: function (e) {
                 this.sharebox = false
-                
+
             },
             //提交签到
             submitsign: function () {
@@ -261,7 +262,7 @@
             isVerDate(v) {
                 return this.arrDate.includes(v)
             },
-            
+
             // 返回 类似 2016-01-02 格式的字符串
             formatDate: function (year, month, day) {
                 var y = year;
@@ -292,6 +293,7 @@
   header {
     background-color: #ff726a;
     color: #fff;
+
     .top {
       display: flex;
       justify-content: center;
@@ -311,6 +313,7 @@
       height: 1.1rem;
       font-size: 0.12rem;
       margin-top: 0.1rem;
+
       li {
         .lei_num {
           font-size: 0.2rem;
@@ -444,9 +447,11 @@
     color: #fff;
     font-size: 0.2rem;
   }
-  .hrDiv{
+
+  .hrDiv {
     height: 0.3rem;
   }
+
   .my_share {
     padding: 0.05rem;
     border-radius: 5px;

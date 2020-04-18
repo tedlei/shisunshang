@@ -130,13 +130,11 @@
     display: flex;
     justify-content: center;
     padding: 0.13rem 0.15rem;
-    background-color: #fff;
-    position: relative;
+    background-color: #f5f5f5;
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 9;
-    border-bottom: 1px solid #f2f2f2;
-
     i, .news, .footprint {
       font-size: 0.28rem;
       position: absolute;

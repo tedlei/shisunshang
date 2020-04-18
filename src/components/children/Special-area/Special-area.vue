@@ -19,12 +19,17 @@
             <el-row class="introduce_img" :gutter="10">
               <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
                 <div class="grid-content bg-purple" @click="gotodetail(item.id)">
-                  <van-image
-                    width="100%"
-                    height="1.8rem"
-                    fit="cover"
-                    :src="item.imgsrc"
-                  />
+                  <div class="goodsk" ref="imgW" :style="{'height':imgH}">
+                    <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
+                    <p class="goodsk_price">￥{{Number(item.price)}}</p>
+                    <p class="goodsk_p">签到金可订购</p>
+                    <van-image
+                      fit="cover"
+                      :src="item.imgsrc"
+                      class="goods_img"
+                    />
+                  </div>
+
                   <div class="msg">
                     <div class="text fontWrap fontWrapTwo">
                       <span class="vip">{{zhuan[$route.query.typeid]}}</span>
@@ -52,6 +57,7 @@
             return {
                 Fnum: 0,
                 num: 0,
+                imgH: "",
                 loading: false,
                 finished: false,
                 error: false,
@@ -191,6 +197,9 @@
             }
         },
         mounted() {
+            setTimeout(() => {
+                this.imgH = this.$refs.imgW[0].offsetWidth + "px";
+            }, 1000);
             document.title = this.zhuan[this.$route.query.typeid]
             this.getgoods();
             //    初始选项
@@ -258,6 +267,45 @@
         background-color: #fff;
         border-radius: 3px;
         overflow: hidden;
+
+
+        .goodsk {
+          position: relative;
+          overflow: hidden;
+
+          .goods_img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+
+          }
+
+          .goodsk_img {
+            position: absolute;
+            z-index: 1;
+          }
+
+          .goodsk_p {
+            position: absolute;
+            z-index: 2;
+            bottom: 1px;
+            font-size: 0.1rem;
+            color: #fff;
+            right: 0.3rem;
+            letter-spacing: 2px;
+          }
+
+          .goodsk_price {
+            position: absolute;
+            left: 2px;
+            bottom: 3px;
+            z-index: 2;
+            color: #fff;
+            font-weight: bold;
+          }
+        }
+
 
         .msg {
           padding: 10px;

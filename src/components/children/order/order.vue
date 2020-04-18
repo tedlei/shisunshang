@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="navigation" v-show="this.$route.query.orderid != 4">
       <ul class="clearfix">
         <li v-for="(item,index) in navItems" :key="index"
@@ -8,7 +8,7 @@
         </li>
       </ul>
     </div>
-    <div v-show="isNoorder" class="content" :style="{'padding-top':shouhou}">
+    <div v-show="isNoorder" :style="{'padding-top':shouhou}">
       <div class="hrDiv"></div>
       <div class="common_boxTwo item" v-for="(item,index) in wholeData" :key="index">
         <!-- 店铺标题 -->
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          
+
         </router-link>
         <!-- 店铺合计 -->
         <div class="clearfix total_box">
@@ -83,7 +83,8 @@
           <el-row class="btn_box">
             <el-row v-show="!isshouhou">
               <div class="btnDiv" v-show="num==1">
-                <router-link style="margin-right:0.05rem;" :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
+                <router-link style="margin-right:0.05rem;"
+                             :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
                   <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                 </router-link>
                 <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">付款</van-button>
@@ -93,8 +94,11 @@
                 <!-- <van-button type="primary" size="small" color="#009900" @click="ReminderShipment(item.id)">提醒发货</van-button> -->
               </div>
               <div v-show="num==3">
-                <van-button plain type="primary" size="small" color="#009900" @click="ViewLogistics(item.postnumber)">查看物流</van-button>
-                <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(item.id)">确认收货</van-button>
+                <van-button plain type="primary" size="small" color="#009900" @click="ViewLogistics(item.postnumber)">
+                  查看物流
+                </van-button>
+                <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(item.id)">确认收货
+                </van-button>
               </div>
               <div v-show="num==4">
                 <router-link :to="{path:'/goodsdetails/evaluate',query: {id: item.id}}">
@@ -111,17 +115,16 @@
         </div>
       </div>
     </div>
-    <div class="EmptyDiv" v-show="isKnoorder">
-      <Empty></Empty>
-    </div>
-    <div v-show="isNoorder">
-      没有更多订单了
-    </div>
+    <!--  空  -->
+    <Empty v-show="isKnoorder"></Empty>
+
+
   </div>
 </template>
 <script>
     import Headerback from "../../headerback/headerback";
     import Empty from "../empty/empty";
+
     export default {
         name: "order",
         components: {Empty, Headerback},
@@ -190,7 +193,7 @@
                 }
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
-                      console.log(res)
+                        console.log(res)
                         if (res.data.length == 0) {
                             this.isNoorder = false;
                             this.isKnoorder = true;
@@ -275,27 +278,27 @@
             },
 
             //提醒发货
-            ReminderShipment () {
-              this.$toast('功能暂未上线')
+            ReminderShipment() {
+                this.$toast('功能暂未上线')
             },
-            
+
             //查看物流
-            ViewLogistics( id ) {
-              location.href="https://m.kuaidi100.com/result.jsp?nu=" + id;
+            ViewLogistics(id) {
+                location.href = "https://m.kuaidi100.com/result.jsp?nu=" + id;
             },
             //确认收货
             Confirmreceipt(id) {
-              let ad_data = {
-                  method: 'confirm.order.goods.item',
-                  order_id: id
-              }
-              this.$post('/api/v1/order', ad_data)
-                  .then((res) => {
-                      console.log(res);
-                      this.getOderData(3);
-                  }).catch(function (error) {
-                  console.log(error);
-              });
+                let ad_data = {
+                    method: 'confirm.order.goods.item',
+                    order_id: id
+                }
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        this.getOderData(3);
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
         },
         created() {
@@ -316,45 +319,54 @@
 </script>
 
 <style scoped lang="scss">
-  
+
   .content {
-    .hrDiv{
+    .hrDiv {
       height: 0.1rem;
     }
+
     .numactive {
       border-bottom: 3px solid #009900;
     }
-    .common_boxTwo{
+
+    .common_boxTwo {
       background-color: #fff;
       padding: 0.1rem 0;
       margin-bottom: 0.1rem;
     }
+
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 0.1rem;
+
       .state {
         color: #009900;
       }
     }
+
     .goods {
       display: flex;
       align-items: center;
       margin: 0.1rem 0;
       background-color: #f2f2f2;
       padding: 0.1rem;
+
       .left_img {
         width: 0.9rem;
         margin-right: 0.1rem;
       }
+
       .center_text {
         width: 100%;
         margin-left: 0.08rem;
+
         > div:first-child {
           display: flex;
           width: 100%;
           justify-content: space-between;
+
           .goodsItemName {
             text-align: left;
             width: 70%;
@@ -365,10 +377,12 @@
             -webkit-line-clamp: 2; //超出几行显示
           }
         }
+
         .Specifications {
           display: flex;
           text-align: left;
           justify-content: space-between;
+
           > span:first-child {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -382,6 +396,7 @@
 
     .total_box {
       margin: 0 0.1rem 0.1rem 0;
+
       .add_time {
         float: left;
       }
@@ -394,6 +409,7 @@
     .submit_box {
       line-height: 0.4rem;
       margin-right: 0.1rem;
+
       .left_dtime {
         color: #009900;
         float: left;
@@ -419,8 +435,4 @@
     }
   }
 
-  .EmptyDiv {
-    background-color: #fff;
-    min-height: 100vh;
-  }
 </style>

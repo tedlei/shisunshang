@@ -1,5 +1,5 @@
 <template>
-  <div class="content" :style="{'padding-top':(this.issearch ? '0' : '')}">
+  <div class="content" :style="{'padding-top':(gainsearchVal ? '0' : '')}">
     <van-list
       v-model="loading"
       :finished="finished"
@@ -53,7 +53,6 @@
                 finished: false,
                 error: false,
                 havedata: true,
-                issearch: false,
                 text: '',
                 pages: 0,
                 goods_list: []
@@ -79,14 +78,15 @@
                     parms = {
                         method: 'get.goods.category.list',
                         keywords: _this.gainsearchVal,
-                        cate_id: _this.$route.query.id == undefined ? 0 : _this.$route.query.id,
+                        cate_id: _this.gainsearchVal ? 0 : _this.$route.query.id,
                         page: this.pages,
                         page_size: 20,
+                        keywords:'酒'
                     };
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
                         if (response.status == 200 && response.data) {
-                            this.goods_list = _this.issearch ? response.data : this.goods_list.concat(response.data);
+                            this.goods_list = _this.goods_list.concat(response.data);
                             _this.havedata = true;
                             this.pages += response.data.length;
                             _this.text = '没有更多了';
@@ -109,8 +109,7 @@
             onLoad() {
                 // 异步更新数据
                 setTimeout(() => {
-                    console.log(321)
-                    // this.getlist();
+                    this.getlist();
                 }, 1000);
             },
             // 去详情页面
@@ -157,7 +156,7 @@
         },
         mounted() {
             this.getlist();
-            this.gainsearchVal ? this.issearch = true : this.issearch = false
+            console.log(this.gainsearchVal)
         }
     }
 </script>

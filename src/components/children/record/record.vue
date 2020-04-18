@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <div class="navigation" v-show="!this.$route.query.recordid">
       <!-- <ul class="clearfix">
         <li v-for="(item,index) in navItems" :key="index" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
@@ -10,37 +10,42 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        finished-text="没有更多了"
-        :error.sync="error"
-        :immediate-check="false"
-        error-text="请求失败，点击重新加载"
-        @load="onLoad"
-      >
-        <van-cell v-for="item in list" :key="item.id" class="moneylist">
+    <div class="content" :style="this.$route.query.recordid ? '':'margin-top: 0.47rem'">
+
+      <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          :error.sync="error"
+          error-text="请求失败，点击重新加载"
+          @load="onLoad"
+          class="common_box"
+        >
+          <van-cell v-for="item in list" :key="item.id" class="moneylist" style="width: auto">
           <span>
             <div>{{names[item.money_type_id - 1]}}</div>
             <!-- <div class="clo-9">{{item.content}}</div> -->
           </span>
-          <span>
+            <span>
             <div>{{item.content}}</div>
             <div class="clo-9 fontWrap fontWrapOne">{{item.add_time}}</div>
           </span>
-          <span class="last">
+            <span class="last">
             <div>{{moneytext[item.money_type_id - 1]}}</div>
             <div class="clo-9">￥{{item.money | moneyFormat}}</div>
           </span>
-        </van-cell>
-      </van-list>
+          </van-cell>
+        </van-list>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
     import '../../../assets/js/filter'
+
     export default {
         name: "record",
         data() {
@@ -68,10 +73,8 @@
                 };
                 this.$post('/api/v1/userMoney', Money)
                     .then((response) => {
-                        console.log(response)
                         this.list = this.list.concat(response.data.items)
                         // 加载状态结束
-                        console.log(this.list)
                         this.loading = false;
                         this.pages += response.data.items.length;
                         // 数据全部加载完成
@@ -124,55 +127,49 @@
 
 <style scoped lang="scss">
   .navigation {
-    overflow-x: scroll;
-    background-color: #fff;
-    top: 0.43rem;
+    top: 0.47rem;
     padding: 0 0.1rem;
-    border-bottom: 1px solid #f2f2f2;
+    width: auto;
+    left: 0.1rem;
+    right: 0.1rem;
+    background-color: #fff;
+    border-radius: 5px;
 
-    ul {
-      width: max-content;
-      border: none;
+    > > > .van-tabs__line {
+      background-color: #009900;
+    }
+  }
 
-      li {
-        padding: 0.18rem 0.1rem;
-        width: auto;
+  .content {
+
+    .moneybox {
+      .moneylist {
+        div.van-cell__value {
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+
+          > span:first-child {
+            width: 20%;
+          }
+
+          > span:nth-child(2) {
+            width: 55%;
+          }
+
+          > span:nth-child(3) {
+            width: 25%;
+          }
+
+
+        }
+      }
+
+      .van-cell:not(:last-child)::after {
+        left: 0;
       }
     }
   }
 
-  /deep/ .van-tabs__line {
-    background-color: #009900;
-  }
 
-  .moneybox {
-    position: absolute;
-    top: 1.04rem;
-    left: 0;
-    right: 0;
-
-    .moneylist {
-      div.van-cell__value {
-        display: flex;
-        justify-content: space-between;
-        text-align: center;
-        >span:first-child{
-          width: 20%;
-        }
-        >span:nth-child(2){
-          width: 55%;
-        }
-        >span:nth-child(3){
-          width: 25%;
-        }
-        
-
-        
-      }
-    }
-
-    .van-cell:not(:last-child)::after {
-      left: 0;
-    }
-  }
 </style>
