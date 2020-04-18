@@ -13,7 +13,7 @@
       </div>
       <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
-      <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/>
+      <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
         <div>
@@ -52,7 +52,7 @@
     <van-popup
       v-model="show"
       position="bottom"
-    >
+      >
       <!-- <van-area 
         :area-list="areaList"
         confirm-button-text="保存"
@@ -261,7 +261,7 @@
                         city_id: this.province[4],
                         area: this.province[2],
                         area_id: this.province[5],
-                        referee: this.Recommender,
+                        // referee: this.Recommender,
                         address: this.input2,
                         mobile: this.input3,
                         bus_scope: this.message,

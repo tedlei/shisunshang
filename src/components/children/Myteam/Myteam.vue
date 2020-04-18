@@ -22,7 +22,7 @@
         <ul class="team_list">
           <li @click="openteamTwo">
             <div class="left">
-              推荐附近商家:
+              我的附近商家:
               {{business_num}}
               家
             </div>
@@ -88,7 +88,7 @@ export default {
 
     //查看2
     openteamTwo() {
-      this.$router.push({ path: "/mine/MyteamBusiness" });
+      this.$router.push({ path: "/mine/nearby" });
     }
   },
   mounted() {
