@@ -100,11 +100,16 @@
         class="common m_b_10">
         <div>发票信息</div>
         <div class="right">
+          <!-- <span v-if="this.infor == 1">不开具发票</span> -->
           <span v-if="this.infor == 1">不开具发票</span>
-          <span v-else>开具发票</span>
+          <span v-else>{{$store.getters.getinvoice.title}}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </router-link>
+      <!-- <div v-show='$store.state.IvcMsg!=1' style="color:rgb(153, 153, 153);" class="common m_b_10">
+        <div>发票抬头名称：</div>
+        <div class="right"></div>
+      </div> -->
       <a class="common m_b_10">
         <div>充值金</div>
         <div class="right">
@@ -232,7 +237,7 @@
               };
               this.$post('/api/v1/order', ad_data)
               .then((res) => {
-                console.log(res);
+                // console.log(res);
                 // return false;
                 if(res.status==200){
                   this.orderData = res.data;
@@ -328,9 +333,10 @@
                     is_cz_price: is_cz_price,
                     remark: this.input,
                     is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
-                    invoice_detail: invoice_detail
+                    invoice_detail: this.$store.state.IvcMsg==1?[]:invoice_detail
                 };
                 // console.log(ad_data);
+                // return;
                 this.isloading = true;
                 this.$post('/api/v1/order', ad_data)
                 .then((res) => {
@@ -366,7 +372,7 @@
             }
           },
 
-          //购物车提交
+          //购物车订单提交
           ploadOrderTwo() {
             let is_cz_price = this.checked ? 1 : 0;
             let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
@@ -392,9 +398,9 @@
                 is_cz_price: is_cz_price,
                 remark: this.input,
                 is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
-                invoice_detail: invoice_detail
+                invoice_detail: this.$store.state.IvcMsg==1?[]:invoice_detail
             };
-            console.log(ad_data)
+            // console.log(ad_data)
             this.$post('/api/v1/order', ad_data)
             .then((res) => {
                 console.log(res);
@@ -469,7 +475,7 @@
           }
         },
         created() {
-          // console.log(this.$store.state.IvcMsg);
+          console.log(this.$store.state.IvcMsg);
           // console.log(this.$store.getters.getreceivingAddress.id)
         },
 

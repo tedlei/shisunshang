@@ -131,7 +131,7 @@ export default {
     }
   },
   created(){
-    console.log(this.$store.getters.getuserinfo)
+    // console.log(this.$store.getters.getuserinfo)
   }
 };
 </script>

@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
       sessionStorage.setItem('ios_share_url', location.href);//记录当前访问的路由
       // console.log(sessionStorage.getItem('ios_share_url'),11111);
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      if(userinfo && to.path!='/goodsdetails' && to.path != '/mine/ad/addetails'){
+      if(userinfo && to.path!='/goodsdetails' && to.path != '/mine/ad/addetails' && to.path != '/Signin'){
         shareConfig(userinfo);
       } 
     }
@@ -129,7 +129,10 @@ router.beforeEach((to, from, next) => {
   } else if (to.name != 'Special-area' && to.meta.title) {
     document.title = to.meta.title;
   }
-  
+  if(!['/goodsdetails/makeorder','/mine/invoice','/mine/myinvoice'].includes(to.path)){
+    // console.log('我不是发票')
+    store.commit('sendIvcMsg', 1);
+  }
   next();
 });
 

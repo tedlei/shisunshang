@@ -15,7 +15,6 @@
         <div @click="opensearch" style="width: 100%">
           <search :dmsg='msg'></search>
         </div>
-
         <!--扫码-->
         <!-- <div class="sao">
           <i class="el-icon-full-screen"></i>
@@ -100,7 +99,7 @@
       </el-row>
     </div>
     <!--  -->
-    <signin></signin>
+    <!-- <signin></signin> -->
 
   </div>
 
@@ -183,7 +182,9 @@
                         path: '/Luckdraw'
                     })
                 } else if (e == 7) {
-                    Bus.$emit('signtans', true)
+                  this.$router.push({
+                        path: '/Signin'
+                  })
                 } else if (e == 8) {
                     this.$router.push({
                         path: '/help'
@@ -239,6 +240,7 @@
             }, 300)
         },
         mounted() {
+          console.log(1)
           let token = localStorage.getItem('usertoken');
           if(token){
             this.getHomeMsg();

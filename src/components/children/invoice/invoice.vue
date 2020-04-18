@@ -8,15 +8,10 @@
           </div>
           <div class="radios">
             <van-radio name="2" checked-color="#07c160">开具发票</van-radio>
+            <div @click="myinvoice" class="radios_btn" v-show='radio==2' >我的发票</div>
           </div>
         </van-radio-group>
-        <div class="tips">
-          <p>填写发票信息前，请仔细阅读
-            <span style="color: #2528e7;" @click="show = true">
-              《发票须知》
-            </span>
-          </p>
-        </div>
+        
       </div>
       <van-form @submit="onSubmit">
         <div v-show="radio=='2'">
@@ -116,10 +111,18 @@
             />
           </div>
         </div>
+        <div class="tips">
+          <p>填写发票信息前，请仔细阅读
+            <span style="color: #2528e7;" @click="show = true">
+              《发票须知》
+            </span>
+          </p>
+        </div>
         <div class="primaryBtn">
           <van-button type="primary" color="#009900" :block="true" native-type="submit">保存</van-button>
         </div>
       </van-form>
+      
     </div>
     <van-overlay :show="show">
       <div class="wrapper" @click.stop>
@@ -158,60 +161,61 @@
         },
         methods: {
             onSubmit(values) {
+              // console.log(values);
+              if(this.radioTwo=='1'&&this.radio!='1'){
+                if(!this.companyInput){
+                this.$toast('公司抬头不能为空')
+                  return;
+                }else if(!this.companyInput2){
+                  this.$toast('公司税号不能为空')
+                  return;
+                }
+              }
               if(this.radio=='1'){
                 console.log("返回")
                 this.$store.commit('sendIvcMsg', this.radio);
                 this.$router.back(-1)
                 return;
               }
-                let invoice = {
-                  type: this.radioTwo,
-                  title: this.companyInput,
-                  number: this.companyInput2,
-                  company_address: this.companyInput3,
-                  conpany_phone: this.companyInput4,
-                  conpany_bank: this.companyInput6,
-                  conpany_bank_number: this.companyInput7,
-                }
-                if(this.radioTwo=='2'){
-                  invoice = {
-                    type: this.radioTwo,
-                    title: this.personalInput
-                  }
-                }
-                let parms = {
-                    method: 'add.invoice.item',
-                    type: Number(this.radio),
-                    is_default: 1
-                };
-                values = Object.assign(parms, values)
-                this.$post('/api/v1/Invoice', values)
-                    .then((res) => {
-                        if (res.status == 200) {
-                          this.$store.commit('sendIvcMsg', this.radio);
-                          this.$store.commit('setinvoice',invoice);
-                            this.$toast('添加成功')
-                            this.$router.back(-1);
-                        } else {
-                            this.$toast(res.message)
-                        }
-
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-
-                //调用router回退页面
+              let parms = {
+                  method: 'add.invoice.item',
+                  type: Number(this.radioTwo),
+                  is_default: 1
+              };
+              values = Object.assign(parms, values)
+              // console.log(values);
+              this.$post('/api/v1/Invoice', values)
+                  .then((res) => {
+                      if (res.status == 200) {
+                        this.$store.commit('sendIvcMsg', this.radio);
+                        this.$store.commit('setinvoice',values);
+                        // console.log(this.$store.getters.getinvoice)
+                          this.$toast('添加成功')
+                          this.$router.back(-1);
+                      } else {
+                          this.$toast(res.message)
+                      }
+                  }).catch(function (error) {
+                  console.log(error);
+              });
+              //调用router回退页面
 
             },
             change: function (e) {
                 
+            },
+            myinvoice() {
+              this.$router.push({
+                path:'/mine/myinvoice',
+                query:{entrance: 0}
+              })
             }
         },
         mounted() {
             this.$route.query.state == 1 ? this.$store.commit('sendIvc', true) : this.$store.commit('sendIvc', false);
-            console.log(this.$store.state.IvcMsg.toString())
+            // console.log(this.$store.state.IvcMsg.toString())
             this.radio = this.$route.query.state == 0 ? this.$store.state.IvcMsg.toString() : '2'
-            console.log(this.radio)
+            // console.log(this.radio)
         },
         destroyed() {
             Bus.$off();
@@ -225,22 +229,31 @@
   .contentRadio {
     background-color: #f2f2f2;
     text-align: left;
-
+    .tips {
+      padding: 0.1rem 0.1rem;
+      line-height: 0.3rem;
+      margin-bottom: 0.2rem;
+    }
     .radios {
       width: 100%;
       padding: 0 0.1rem;
       height: 0.5rem;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: #fff;
+      .radios_btn{
+        width: 1rem;
+        height: 0.3rem;
+        line-height: 0.3rem;
+        text-align: center;
+        background-color: #07c160;
+        color: #fff;
+        border-radius: 5px;
+      }
     }
 
     > div {
-      .tips {
-        padding: 0.1rem 0.1rem;
-        line-height: 0.3rem;
-        margin-bottom: 0.2rem;
-
-      }
 
       > p {
         > span {
