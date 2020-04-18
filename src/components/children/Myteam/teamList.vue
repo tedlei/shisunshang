@@ -59,7 +59,7 @@ export default {
       let teammsg = {
         method: "get.user.team.list",
         level,
-        page: 0,
+        page: this.page,
         page_size: 10
       };
       this.$post("/api/v1/UserTeam", teammsg)
@@ -67,10 +67,10 @@ export default {
           this.loading = false;
           let items = response.data.items;
           if (items.length > 0) {
-            this.page = page + items.length;
+            this.page+=items.length
             this.team_dtllists = team_dtllists.concat(items);
           }
-          if (items.length > 0 || team_dtllists.length < 10) {
+          if (items.length < 10) {
             this.finished = true;
           }
         })
