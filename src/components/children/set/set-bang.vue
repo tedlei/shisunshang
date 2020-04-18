@@ -3,6 +3,15 @@
     <p class="tips" v-if="show">设置支付密码需认证身份信息</p>
     <!-- <van-form @submit="onSubmit"> -->
       <van-field
+        v-if="!show"
+        v-model="name"
+        type="text"
+        name="name"
+        label="真实姓名"
+        :disabled="show"
+        placeholder="请输入真实姓名"
+      />
+      <van-field
         v-model="phone"
         type="tel"
         name="phone"
@@ -60,6 +69,7 @@
         name: "set-bang",
         data() {
             return {
+                name:'',
                 phone: '',
                 code: '',
                 password1: '',
@@ -98,10 +108,17 @@
             //提交
             onSubmit() {
                 let _this = this;
-                let {show,phone,code,password1,password2} = _this;
+                let {name,show,phone,code,password1,password2} = _this;
                 let can = show ? 'set.user.pay.password' : 'set.user.mobile';
                 let url =  '/api/v1/user'
-
+                let addmsg = {method: can}
+                if(!show){
+                  if(!_this.verifyName(name)){
+                    this.tc('真实姓名为空或格式错误');
+                    return;
+                  }
+                  addmsg.name= name
+                }
                 if(!_this.verifyPhone(phone)){
                   this.tc('手机号为空或格式错误');
                   return;
@@ -110,11 +127,8 @@
                   this.tc('验证码为空或格式错误');
                   return;
                 }
-                let addmsg = {
-                    method: can,
-                    phone,
-                    code,
-                }
+                addmsg.phone= phone
+                addmsg.code= code
                 if(show){
                   if(!_this.verifyCode(password1)){
                     this.tc('支付密码为空或格式错误，密码只能是6位数字');

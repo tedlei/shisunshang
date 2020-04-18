@@ -115,7 +115,7 @@ export default {
       let QRcodeDomainName = location.href;
       let arr = QRcodeDomainName.split('/')
       let url = arr[0]+'//'+arr[2]+'/uploadpic?store_id='+this.$route.query.id
-      console.log(url)
+      // console.log(url)
       let qrCode = new QRCode("qrCode", {
         text: url, // 需要转换为二维码的内容
         width: 25,
@@ -154,7 +154,6 @@ export default {
         height: 400
       }).then(canvas => {
         let imgData = canvas.toDataURL("image/jpeg");
-
         this.imgData = imgData;
       });
     },

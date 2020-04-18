@@ -11,7 +11,7 @@
           <div style="display: flex">
             <div class="user_header">
               <router-link to="/mine/usermsg">
-                <img :src="userinfo.portrait"/>
+                <img :src="userinfo.portrait" />
               </router-link>
             </div>
             <div class="user_msg">
@@ -188,12 +188,12 @@ export default {
   data() {
     return {
       msg: "我的",
-      userinfo: JSON.parse(sessionStorage.getItem('userinfo')),
+      userinfo: JSON.parse(sessionStorage.getItem("userinfo")),
       expireTime: "到期时间：",
-      day_money: 0,   //收入
-      total_money: 0,  //收入
-      use_money: 0,    //消费
-      cashed_money: 0,   //提现
+      day_money: 0, //收入
+      total_money: 0, //收入
+      use_money: 0, //消费
+      cashed_money: 0, //提现
       headerlists: [
         {
           num: 0,
@@ -239,9 +239,9 @@ export default {
           totalnum: 0
         },
         {
-            num: 0,
-            name: '原始股账户',
-              totalnum:0,
+          num: 0,
+          name: "原始股账户",
+          totalnum: 0
         },
         {
           num: 0,
@@ -393,10 +393,23 @@ export default {
       let { data } = await this.$post("/api/v1/user", ad_data);
       if (data) {
         this.userinfo = data;
-        // console.log(this.userinfo)
-        this.$store.commit('userinfo',JSON.stringify(data));
+        this.$store.commit("userinfo", JSON.stringify(data));
         for (let i in zclists) {
-          zclists[i].totalnum = parseFloat(data["money" + (i * 1 + 1)]).toFixed(2);
+          zclists[i].totalnum = parseFloat(data["money" + (i * 1 + 1)]).toFixed(
+            2
+          );
+        }
+
+        //未绑定手机号时跳转
+        if (!data.phone) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "未绑定手机号，是否去绑定？"
+            })
+            .then(() => {
+              this.$router.push({path: "/set/set-phone"});
+            });
         }
       }
     },
@@ -492,15 +505,15 @@ export default {
         height: 0.6rem;
         margin-right: 0.2rem;
         img {
-          width: 0.6rem;
-          height: 0.6rem;
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
         }
       }
 
       .user_msg {
         text-align: left;
-        .user_name{
+        .user_name {
           width: 1.5rem;
           overflow: hidden;
           text-overflow: ellipsis;

@@ -61,15 +61,12 @@
       <div class="upg_d d-b-l"></div>
       <div class="upg_d d-b-r"></div> -->
       <img class="exp_img" :src="require('../../../assets/img/sjsm.png')" alt />
-      <div class="upg_p_list" v-for="(item,i) of titleList" :key="i">
+      <!-- <div class="upg_p_list" v-for="(item,i) of titleList" :key="i">
         <div class="upg_dd"></div>
         <p class="upg-l-p" v-html="item"></p>
-      </div>
+      </div> -->
+      <div class="upg_p_list" v-html="content"></div>
       <!-- <div class="upg_p_list">
-        <div class="upg_dd"></div>
-        <p class="upg-l-p"></p>
-      </div>
-      <div class="upg_p_list">
         <div class="upg_dd"></div>
         <p class="upg-l-p"></p>
       </div> -->
@@ -89,18 +86,14 @@ export default {
       userMoney: 0, //用户余额
       autoHmoney: false, //自动续费
       userInfo: null, //用户信息
-      titleList: [
-        "一、免费注册体验平台会员：平台赠送168元签到金。成功为平台分享一个体验顾客平台奖励10元签到金，签到金到平台直接购买商品。",
-        "二、升级90元平台会员：<br/>1、平台赠送云阖·永川秀芽【初心】，价值298元+送200元签到金。<br/>2、成功分享一个普通会员公司奖励升级会员费的30%，领取4、6、8、10C随机分红3元。",
-        "三、升级代理商420元：<br/>1、平台赠送价值788元的纯天然红心猕猴桃原浆红酒【寻味匠心】一瓶+“云阖”永川秀芽·炒青（绿茶）一包（250克）价值98元,+送1000元签到现金。<br/>2、成功分享一个代理公司奖励代理费的30%、二级 10%，领取4、6、8、10、12、14、16C随机分红3元。",
-        "四、升级合伙人1080元：<br/>1、平台赠送价值788元的纯天然红心猕猴桃原浆红酒【寻味匠心】一瓶+云阖·情山飘雪红茶一包（120克）价值258元+云阖·永川秀芽【初心】价值298元+送3000元签到现金+两天一夜4A级风景区吃住免费旅游，价值468元（公司统一组织，允许带一个朋友）<br/>2、成功分享一个合伙人公司奖励升级合伙人费的30%、二D 10%、三D 10%。领取4、6、8、10、12、14、16、18、20、22C随机分红3元。"
-      ]
+      content: '',   //说明
     };
   },
   created() {
     let { getuserinfo } = this.$store.getters;
     if (getuserinfo) this.userInfo = JSON.parse(getuserinfo);
     this.getPageInfo();
+    this.getSm();
   },
   methods: {
     //获取页面信息
@@ -120,11 +113,25 @@ export default {
         });
     },
 
+    //获取说明
+    getSm(){
+      let ad_data = {
+        method: "get.upgrade.item"
+      };
+      this.$post("/api/v1/news", ad_data)
+        .then(res => {
+          console.log(res.data);
+          this.content = res.data.content;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     //切换充值模式
     tapSel(i) {
       this.topUpNum = i;
     },
-
+    //获取用户数据
     getUserInfo() {
       let ad_data = {
         method: "get.user.info"
@@ -404,26 +411,27 @@ export default {
     .upg_p_list {
       padding: 0.17rem 0;
       padding-bottom: 0;
-      display: flex;
+      text-align: left;
+      // display: flex;
       // align-items: top;
-      .upg_dd {
-        margin-top: 5px;
-        width: 8px;
-        height: 8px;
-        background-color: $sss-color;
-        border-radius: 50%;
-      }
-      .upg-l-p {
-        flex: 1;
-        margin-left: 0.15rem;
-        font-size: 0.14rem;
-        color: #54524c;
-        text-align: left;
+      // .upg_dd {
+      //   margin-top: 5px;
+      //   width: 8px;
+      //   height: 8px;
+      //   background-color: $sss-color;
+      //   border-radius: 50%;
+      // }
+      // .upg-l-p {
+      //   flex: 1;
+      //   margin-left: 0.15rem;
+      //   font-size: 0.14rem;
+      //   color: #54524c;
+      //   text-align: left;
         // text-indent: 2em;
         // overflow: hidden;
         // text-overflow: ellipsis;
         // white-space: nowrap;
-      }
+      // }
     }
     // margin-bottom: 0;
 

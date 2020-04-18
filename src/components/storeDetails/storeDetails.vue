@@ -88,6 +88,7 @@
                 </van-tab>
                 <van-tab title="店铺详情" :title-style="active==2?'color: #009900;':'color: #999999;'">
                     <div class="main_list">
+                        <div style="height:0.1rem;width:100%;background-color:rgb(242,242,242)"></div>
                         <div class="column">
                             <div>
                                 <span>掌柜名</span>
@@ -106,15 +107,17 @@
                                 <span>{{shopData.address}}</span>
                             </div>
                             <div class="columnFoter">
-                                <div>
+                                <div class="font">
                                     <p>{{shopData.score_ms}}</p>
                                     <span>描述相符</span>
                                 </div>
-                                <div>
+                                <div class="xian"></div>
+                                <div class="font">
                                     <p>{{shopData.score_fw}}</p>
                                     <span>服务态度</span>
                                 </div>
-                                <div>
+                                <div class="xian"></div>
+                                <div class="font">
                                     <p>{{shopData.score_fh}}</p>
                                     <span>发货速度</span>
                                 </div>
@@ -313,10 +316,15 @@ export default {
                         position: absolute;
                     }
                     .column {
-                        margin-top: 0.1rem;
-                        padding: 0.1rem;
                         background-color: #fff;
                         text-align: left;
+                        >div{
+                            padding:0.07rem 0.2rem;
+                            border-bottom: 1px solid rgb(242,242,242);
+                        }
+                        >div:last-child{
+                            border:0;
+                        }
                         > div > span {
                             line-height: 0.35rem;
                             color: #999999;
@@ -329,12 +337,18 @@ export default {
                             display: flex;
                             margin-top: 0.2rem;
                             color: #999999;
-                            > div {
+                            align-items: center;
+                            .font {
                                 width: 33%;
                                 text-align: center;
                                 > p {
                                     color: #009900;
                                 }
+                            }
+                            .xian{
+                                width: 2px;
+                                height: 25px;
+                                background: rgb(242,242,242);
                             }
                         }
                     }

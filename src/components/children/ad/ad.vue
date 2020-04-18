@@ -22,11 +22,12 @@
             <div class="time">
               <span>时间：{{item.add_time}}</span>
               <span>来源：{{item.users_id}}</span>
-              <i
+              <div class="font_fx" @click.stop="tapTz({path:'/mine/ad/addetails',query:{id:item.id,type:true}})">分享</div>
+              <!-- <i
                 class="el-icon-share"
                 style="font-size:0.2rem;float:right;"
                 @click.stop="share(item.id)"
-              ></i>
+              ></i> -->
             </div>
           </div>
         <!-- </router-link> -->
@@ -34,7 +35,7 @@
       </li>
     </ul>
 
-    <van-popup
+    <!-- <van-popup
       v-model="shareshow"
       :style="{ background:'none',padding:'0.1rem',width:'100%',borderRadius:'5px',height:'100%'}"
       @click="closepop"
@@ -46,12 +47,11 @@
         <strong>立即分享给好友吧</strong>
         <p>点击屏幕右上角将本页面分享给好友</p>
       </div>
-    </van-popup>
+    </van-popup> -->
   </div>
 </template>
 
 <script>
-import wechatAuth from '../../../assets/js/wechatConfig'
 export default {
   name: "ad",
   props: ["dmsg"],
@@ -79,36 +79,10 @@ export default {
       this.$post("/api/v1/weixinAd", admsg)
         .then(response => {
           _this.adlists = response.data.items;
-          console.log(response);
         })
         .catch(function(error) {
           console.log(error);
         });
-    },
-    closepop: function() {
-      this.shareshow = false;
-    },
-    //分享
-    share: function(e) {
-      this.shareshow = true;
-      let userinfo = JSON.parse(this.$store.getters.getuserinfo);
-      if (userinfo) {
-        let shareConfig = {
-          title: "国健生态平台",
-          desc: "国健生态平台!Come on.!",
-          link:
-            location.host +
-            "/goodsdetails" +
-            "?id=" +
-            e +
-            "&state=" +
-            userinfo.referee_number,
-          imgUrl:
-            "http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg"
-        };
-        let url = location.href;
-        wechatAuth(url, shareConfig);
-      }
     }
   },
   mounted() {
@@ -147,6 +121,15 @@ export default {
           .time {
             color: #999999;
             font-size: 0.12rem;
+            .font_fx{
+              width: 0.5rem;
+              height: 0.25rem;
+              float: right;
+              text-align: center;
+              line-height: 0.25rem;
+              font-size: 0.14rem;
+              color: #009900;
+            }
           }
         }
       }

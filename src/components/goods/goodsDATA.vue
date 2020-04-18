@@ -9,7 +9,7 @@
             </div>
             <div id="allmerchandise">
                 <!-- :autoplay="3000" -->
-                <van-swipe :autoplay="3000" @change="onChange" ref="imgCheckbox">
+                <van-swipe  @change="onChange" ref="imgCheckbox">
                     <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
                         <img
                             v-show="item!='' && item!=undefined && item != null"
@@ -827,6 +827,7 @@ export default {
             if (this.isactions == "vip" && this.users.level == 1) {
                 this.$dialog
                     .confirm({
+                        title:'商品价格:'+this.goodsData.goods_info.price,
                         message: "您还不是会员，是否前往充值会员？"
                     })
                     .then(res => {
