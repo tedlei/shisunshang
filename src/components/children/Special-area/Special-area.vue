@@ -12,17 +12,20 @@
             :finished="finished"
             finished-text="没有更多了"
             :error.sync="error"
-            :immediate-check="false"
             error-text="请求失败，点击重新加载"
             @load="onLoad"
           >
-            <el-row class="introduce_img" :gutter="10">
-              <el-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
+            <van-row class="introduce_img" :gutter="10">
+              <van-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
                 <div class="grid-content bg-purple" @click="gotodetail(item.id)">
-                  <div class="goodsk" ref="imgW" :style="{'height':imgH}">
-                    <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
-                    <p class="goodsk_price">￥{{Number(item.price)}}</p>
-                    <p class="goodsk_p">签到金可订购</p>
+                  <div class="goodsk" ref="imgW"
+                       :style="{'height':imgH}">
+                    <div v-if="$route.query.typeid == 'customer' || ($route.query.typeid == 'vip'&&item.vip_show == 1)">
+                      <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
+                      <p class="goodsk_price">￥{{Number(item.qd_price)}}</p>
+                      <p class="goodsk_p">签到金可订购</p>
+                    </div>
+
                     <van-image
                       fit="cover"
                       :src="item.imgsrc"
@@ -39,8 +42,8 @@
                     <div class="clo-g price">￥{{item.price}}</div>
                   </div>
                 </div>
-              </el-col>
-            </el-row>
+              </van-col>
+            </van-row>
           </van-list>
         </div>
       </van-tab>
@@ -107,14 +110,19 @@
                 };
                 this.$post('/api/v1/goodsCategory', parms)
                     .then((response) => {
-                        response.data.unshift({id: 0, cate_name: '全部'})
-
-                        _this.navItems = response.data
-                        _this.defaultcateid = response.data[0].id;
-                        for (let i in response.data) {
-                            _this.cateidarry.push(response.data[i].id)
+                        if (response.status == 200) {
+                            if (response.data) {
+                                response.data.unshift({id: 0, cate_name: '全部'})
+                                _this.navItems = response.data
+                                _this.defaultcateid = response.data[0].id;
+                                for (let i in response.data) {
+                                    _this.cateidarry.push(response.data[i].id)
+                                }
+                            }
+                        } else {
+                            _this.$toast(response.message)
                         }
-                        _this.getlist()
+
 
                     }).catch(function (error) {
                     console.log(error);
@@ -122,8 +130,7 @@
             },
             //点击切换
             qiehuan(name, title) {
-                console.log(name)
-                console.log(title)
+
                 this.flag = true
                 this.defaultcateid = this.cateidarry[name];
                 this.getlist();
@@ -145,6 +152,9 @@
                             if (response.status == 200) {
                                 if (response.data) {
                                     this.list = response.data
+                                    _this.$nextTick(() => {
+                                        this.imgH = this.$refs.imgW[0].offsetWidth + "px";
+                                    })
                                 } else {
                                     this.list = []
                                     this.finished = true;
@@ -156,7 +166,10 @@
                         } else {
                             if (response.status == 200) {
                                 if (response.data) {
-                                    this.list = this.list.concat(response.data)
+                                    this.list = this.list.concat(response.data);
+                                    _this.$nextTick(() => {
+                                        this.imgH = this.$refs.imgW[0].offsetWidth + "px";
+                                    })
                                 } else {
                                     this.finished = true;
                                 }
@@ -172,6 +185,7 @@
                             }
                         }
 
+
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -179,6 +193,7 @@
 
             //下拉加载
             onLoad() {
+                console.log(this.$route.query.typeid)
                 // 异步更新数据
                 setTimeout(() => {
                     this.flag = false
@@ -186,7 +201,6 @@
                 }, 1000);
             },
             gotodetail: function (e) {
-                console.log(e)
                 this.$router.push({
                     path: '/goodsdetails',
                     query: {
@@ -197,15 +211,12 @@
             }
         },
         mounted() {
-            setTimeout(() => {
-                this.imgH = this.$refs.imgW[0].offsetWidth + "px";
-            }, 1000);
+
             document.title = this.zhuan[this.$route.query.typeid]
             this.getgoods();
             //    初始选项
             for (let i in this.firstNav) {
                 if (this.firstNav[i].typeid == this.$route.query.typeid) {
-                    console.log(i)
                     this.Fnum = this.firstNav[i].value
                 }
 
@@ -244,105 +255,29 @@
   .nav {
     top: 1.05rem;
 
-    /deep/ .van-tabs__wrap {
+    > > > .van-tabs__wrap {
       position: fixed;
       left: 0;
       right: 0;
       z-index: 999;
     }
 
-    /deep/ .van-tabs__content {
+    > > > .van-tabs__content {
       padding-top: 44px;
       text-align: left;
     }
 
-    /deep/ .van-tabs__line {
+    > > > .van-tabs__line {
       background-color: #009900;
     }
 
-    .lists {
-      margin-bottom: 10px;
 
-      .grid-content {
-        background-color: #fff;
-        border-radius: 3px;
-        overflow: hidden;
-
-
-        .goodsk {
-          position: relative;
-          overflow: hidden;
-
-          .goods_img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-
-          }
-
-          .goodsk_img {
-            position: absolute;
-            z-index: 1;
-          }
-
-          .goodsk_p {
-            position: absolute;
-            z-index: 2;
-            bottom: 1px;
-            font-size: 0.1rem;
-            color: #fff;
-            right: 0.3rem;
-            letter-spacing: 2px;
-          }
-
-          .goodsk_price {
-            position: absolute;
-            left: 2px;
-            bottom: 3px;
-            z-index: 2;
-            color: #fff;
-            font-weight: bold;
-          }
-        }
-
-
-        .msg {
-          padding: 10px;
-          text-align: left;
-
-          .text {
-            font-size: 0.14rem;
-            height: 0.38rem;
-
-            .vip {
-              background-color: #009900;
-              color: #fff;
-              display: inline-block;
-              line-height: 14px;
-              border-radius: 5px;
-              padding: 1px 4px;
-              font-size: 0.12rem;
-            }
-          }
-
-          .yishou {
-            font-size: 0.12rem;
-            color: #999999;
-            margin: 0.05rem 0;
-            text-align: right;
-          }
-
-        }
-
-      }
-
-    }
   }
 
   .common_box {
     background: none;
     margin-bottom: 0;
+    padding: 0;
   }
 
 </style>

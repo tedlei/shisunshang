@@ -30,6 +30,7 @@ a {
   width: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+
   > > > .van-field__label {
     text-align: left;
   }
@@ -88,6 +89,84 @@ a {
   border-radius: 3px;
   border: none;
 }
+
+.lists {
+  margin-bottom: 10px;
+
+  .grid-content {
+    background-color: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+
+    .goodsk {
+      position: relative;
+      overflow: hidden;
+
+      .goods_img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+
+      }
+
+      .goodsk_img {
+        position: absolute;
+        z-index: 1;
+      }
+
+      .goodsk_p {
+        position: absolute;
+        z-index: 2;
+        bottom: 1px;
+        font-size: 0.1rem;
+        color: #fff;
+        right: 0.3rem;
+        letter-spacing: 2px;
+      }
+
+      .goodsk_price {
+        position: absolute;
+        left: 2px;
+        bottom: 3px;
+        z-index: 2;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+
+    .msg {
+      padding: 10px;
+      text-align: left;
+
+      .text {
+        font-size: 0.14rem;
+        height: 0.38rem;
+
+        .vip {
+          background-color: #009900;
+          color: #fff;
+          display: inline-block;
+          line-height: 14px;
+          border-radius: 5px;
+          padding: 1px 4px;
+          font-size: 0.12rem;
+        }
+      }
+
+      .yishou {
+        font-size: 0.12rem;
+        color: #999999;
+        margin: 0.05rem 0;
+        text-align: right;
+      }
+
+    }
+
+  }
+
+}
+
 
 //多选框修改样式
 .mycheck {
