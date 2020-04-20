@@ -62,6 +62,9 @@
 
       </div>
     </div>
+    <div class="btn">
+      <van-button type="primary" block @click="baocun">保存</van-button>
+    </div>
   </div>
 
 </template>
@@ -169,6 +172,7 @@
             },
             //保存
             baocun: function (newValue) {
+              // console.log(newValue)
                 var flag = 0,
                     _this = this;
                 for (let key in _this.allinput) {
@@ -302,5 +306,9 @@
       height: 100px;
       overflow: auto;
     }
+  }
+  .btn{
+    margin: 0.2rem 0;
+    padding: 0 0.2rem;
   }
 </style>

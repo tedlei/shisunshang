@@ -66,7 +66,11 @@
             },
             //分享
             share: function (e) {
-                this.shareshow = true;
+                console.log(e);
+                // this.shareshow = true;
+                this.$router.push({
+                  path:'/goodsdetails?id='+e
+                })
                 // let userinfo = JSON.parse(this.$store.getters.getuserinfo)
                 // if (userinfo) {
                 //     let shareConfig = {

@@ -8,7 +8,7 @@
         justify="space-between"
         style="align-items: center;width: 100%"
       >
-        <el-dropdown trigger="click">
+        <!-- <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             重庆
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -16,7 +16,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item icon="el-icon-plus">重庆</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
         <!--  搜索组件    -->
         <div @click="opensearch" style="width: 100%">
           <search :dmsg="msg"></search>

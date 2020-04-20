@@ -395,7 +395,7 @@
                 method: "buy.goods.cart",
                 goods: this.$route.query.id,
                 address_id: address_id,
-                is_cz_price: is_cz_price,
+                is_cz_price: is_cz_price,//is_qd_price
                 remark: this.input,
                 is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
                 invoice_detail: this.$store.state.IvcMsg==1?[]:invoice_detail

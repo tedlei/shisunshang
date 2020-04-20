@@ -20,7 +20,7 @@
         <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f" @click="edit">编辑</span>
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
-        <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
+        <!-- <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span> -->
         <!-- <span v-else-if="this.bank" @click="add_bank">添加</span> -->
         <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
         <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
@@ -82,6 +82,7 @@
                 }
             },
             baocun: function (id) {
+                console.log(id)
                 var _this = this
                 _this.$store.commit('addressid', id);
                 setTimeout(function () {

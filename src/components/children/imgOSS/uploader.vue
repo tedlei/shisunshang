@@ -44,7 +44,6 @@ export default {
                             let imgTwo = self.base64UrlToBlob(this.firImg);
                             self.fileList[i].file = imgTwo;
                             // if(self.type) self.fileList[i].type = self.type;
-                            
                         }
                     }else{
                         console.log(this.fileList)

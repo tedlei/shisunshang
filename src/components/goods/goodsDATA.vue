@@ -35,6 +35,9 @@
                     </template>
                 </van-swipe>
             </div>
+            <div class="AdvertisingRoll">
+                <AdvertisingRoll></AdvertisingRoll>
+            </div>
             <!-- 1 -->
             <div class="m_b_10 conmo_box box_one">
                 <div class="name textLinefeed commodityName">{{goodsData.goods_info.name}}</div>
@@ -359,14 +362,15 @@ import actives from "./actives/active";
 import shop from "./actives/shop";
 import QRCode from "qrcodejs2";
 import html2canvas from "html2canvas";
-import "../../assets/js/filter";
 import wechatAuth from "../../assets/js/wechatConfig";
+import AdvertisingRoll from "./AdvertisingRoll/AdvertisingRoll";
 
 export default {
     name: "goodsDATA",
     components: {
         actives: actives,
-        shop: shop
+        shop: shop,
+        AdvertisingRoll: AdvertisingRoll
     },
     data() {
         return {
@@ -942,6 +946,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.AdvertisingRoll{
+    width: 100%;
+    position: absolute;
+    top: 0.7rem;
+    display: flex;
+    justify-content: center;
+}
 .swipeImgs {
     width: 100%;
     // height: 3.5rem;
