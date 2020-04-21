@@ -109,7 +109,7 @@
               </div>
               <div class="msg">
                 <div class="text fontWrap fontWrapTwo">{{goods.name}}</div>
-                <div class="clo-g price">{{goods.price}}</div>
+<!--                <div class="clo-g price">{{goods.price}}</div>-->
               </div>
 
             </div>

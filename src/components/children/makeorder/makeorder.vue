@@ -4,17 +4,19 @@
     <div
       class="tips"
       v-show="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined && isTips"
-      >
+    >
       <span class="clo-g">应国家快递实名制规定，收件人须填写真实信息。</span>
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
+    <!--  地址  -->
     <div class="common_box adress">
       <router-link :to="{path:'/mine/Address',query:{id: 'makeorder'}}" class="common commonTwo">
         <div class="left">
           <i style="margin-top:0.15rem" class="el-icon-location"></i>
           <span>
             <!-- {{$store.getters.getreceivingAddress.name?'有':orderData.address_default}} -->
-            <p style="color:red" v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
+            <p style="color:red"
+               v-if="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined">请选择收货地址</p>
             <p v-else-if="orderData.address_default!=''">
               {{$store.getters.getreceivingAddress.name?$store.getters.getreceivingAddress.name:
               orderData==''?'':orderData.address_default.name}}&nbsp;
@@ -56,31 +58,71 @@
         </div>
       </router-link>
       <!-- 商品卡片 -->
-      <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}" 
-      v-for="(goods,index1) of shop.goods" :key="index1">
-      <div class="card">
-        <van-image
-          width="1rem"
-          height="1rem"
-          fit="cover"
-          :src="goods.imgsrc"
-        />
-        <div class="cardMsg">
-          <p class="fontWrap fontWrapTwo">
-            {{goods.name}}
-          </p>
-          <span class="fontWrap fontWrapOne">购买方式：
+      <router-link :to="{path:'/goodsdetails',query:{id: goods.id}}"
+                   v-for="(goods,index1) of shop.goods" :key="index1">
+        <div class="card">
+          <van-image
+            width="1rem"
+            height="1rem"
+            fit="cover"
+            :src="goods.imgsrc"
+          />
+          <div class="cardMsg">
+            <p class="fontWrap fontWrapTwo">
+              {{goods.name}}
+            </p>
+            <span class="fontWrap fontWrapOne">购买方式：
             {{buy_types[goods.buy_type]}}
           </span>
-          <div>￥
-            {{goods.price}}
-          </div>
-          <div class="cardMsgNum">X
-            {{goods.total_num}}
+            <div>￥
+              {{goods.price}}
+            </div>
+            <div class="cardMsgNum">X
+              {{goods.total_num}}
+            </div>
           </div>
         </div>
-      </div>
       </router-link>
+      <div class="price">
+        <div class="left">
+          <span>商品金额</span>
+          <span class="clo-g shopgoodman">￥
+            {{orderData.shops[index].total_goods_money_old}}
+          </span>
+        </div>
+        <div class="right">
+          <span>签到金</span>
+          <span style="color:#0f0f0f !important;" class="clo-g">￥
+            {{orderData.shops[index].total_qd_money}}
+          </span>
+        </div>
+        <div class="right">
+          <span>充值金</span>
+          <span class="clo-g">+￥
+            {{orderData.shops[index].total_goods_money}}
+          </span>
+        </div>
+        <div class="right">
+          <span>保价金</span>
+          <span class="clo-g">+￥
+            {{orderData.shops[index].total_offer_money}}
+          </span>
+        </div>
+        <div class="right">
+          <span>运费</span>
+          <span class="clo-g">+￥
+            {{orderData.shops[index].total_postage}}
+          </span>
+        </div>
+
+        <div class="" style="text-align: right;border-top: 1px solid #f2f2f2">
+          <span style="font-weight: bold">小计:</span>
+          <span class="">￥
+            {{orderData.shops[index].total_postage + orderData.shops[index].total_offer_money+orderData.shops[index].total_goods_money}}
+          </span>
+        </div>
+
+      </div>
     </div>
     <div style="padding-bottom: 0.5rem;" class="common_box allmsg">
       <div class="common delivery">
@@ -119,10 +161,10 @@
             元
           </span>
           <van-switch v-show="orderData.user_money>0?true:false"
-          v-model="checked" 
-          size="0.2rem" 
-          active-color="#009900" 
-          inactive-color="#999999"/>
+                      v-model="checked"
+                      size="0.2rem"
+                      active-color="#009900"
+                      inactive-color="#999999"/>
         </div>
       </a>
       <div class="price">
@@ -156,7 +198,7 @@
             {{orderData.total_postage}}
           </span>
         </div>
-        
+
       </div>
     </div>
     <!--  底部提交  -->
@@ -183,11 +225,12 @@
         },
         data() {
             return {
+                activeNames: ['1'],
                 isloading: false,
                 goods_id: '',
                 goods_num: '',
                 goods_sku_id: [],
-                buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区',shop: '商家专区'},
+                buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
                 infor: this.$store.state.IvcMsg,
                 buy_type: '',
                 isTips: true,
@@ -195,10 +238,11 @@
                 checked: false,
                 orderData: {
                     address_default: {
-                      name:''
+                        name: ''
                     },
                     shops: [
-                         {  total_num:'',
+                        {
+                            total_num: '',
                             goods: [
                                 {
                                     id: '',
@@ -209,7 +253,7 @@
                                 },
                             ],
                             shop: {
-                              shop_name: ''
+                                shop_name: ''
                             }
                         }
                     ]
@@ -219,264 +263,263 @@
         },
         computed: {},
         methods: {
-          //获取订单
-          getDATA() {
-            
-              let goods_id = this.$route.query.id;
-              let goods_num = this.$route.query.num;
-              // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
-              let buy_type = this.$route.query.buy_type;
-              let address_id = this.$store.getters.getreceivingAddress.id;
-              let ad_data = {
-                  method: 'get.buy.goods.now',
-                  goods_id: goods_id,
-                  goods_num: goods_num,
-                  // goods_sku_id: goods_sku_id,
-                  buy_type: buy_type,
-                  address_id: address_id?address_id:0,
-              };
-              this.$post('/api/v1/order', ad_data)
-              .then((res) => {
-                // console.log(res);
-                // return false;
-                if(res.status==200){
-                  this.orderData = res.data;
-                  
-                }else{
-                  this.$router.back(-1);
-                  this.$toast(res.message);
-                }
-              }).catch(function (error) {
-                console.log(error);
-              });
-          },
-
-          //购物车入口跳转获取订单
-          getDataTwo () {
-              let list = this.$route.query.id;
-              let address_id = this.$store.getters.getreceivingAddress.id;
-              let ad_data = {
-                  method: 'get.buy.goods.cart',
-                  goods: list,
-                  address_id: address_id?address_id:0,
-              };
-              // console.log(ad_data)
-              this.$post('/api/v1/order', ad_data)
-              .then((res) => {
-                  console.log(res);
-                  if(res.status==200){
-                    this.orderData = res.data;
-                    // console.log(this.orderData)
-                  }else{
-                    this.$router.back(-1);
-                    this.$toast(res.message);
-                  }
-              }).catch(function (error) {
-                console.log(error);
-              });
-          },
-
-          //是否使用签到金
-          useSingin(){
-            let orderData = parseFloat(this.orderData.user_money)
-            if(orderData>0){
-              this.$dialog.confirm({
-              message: '有可使用充值金,是否使用'
-              })
-              .then(() => {
-                setTimeout(() => {
-                  this.checked = true;
-                  this.uploadOrder()
-                }, 100);
-              })
-              .catch(() => {
-                this.uploadOrder()
-              });
-
-            }else this.uploadOrder()
-          },
-
-          //提交订单
-          uploadOrder() {
-            if(this.$route.query.iscart == 1) {
-              this.ploadOrderTwo();
-            }else{
+            //获取订单
+            getDATA() {
                 let goods_id = this.$route.query.id;
                 let goods_num = this.$route.query.num;
                 // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
                 let buy_type = this.$route.query.buy_type;
-                let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
-                let is_cz_price = this.checked ? 1 : 0;
-                // console.log(address_id);
-                //发票信息
-                let invoice = this.$store.getters.getinvoice;
-                let invoice_detail = [];
-                if(invoice.type=='2'){
-                  invoice_detail['type'] = invoice.type;
-                  invoice_detail['title'] = invoice.title;
-                }else{
-                  invoice_detail['type'] = invoice.type;
-                  invoice_detail['title'] = invoice.title;
-                  invoice_detail['number'] = invoice.number;
-                  invoice_detail['company_address'] = invoice.company_address;
-                  invoice_detail['conpany_phone'] = invoice.conpany_phone;
-                  invoice_detail['conpany_bank'] = invoice.conpany_bank;
-                  invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
-                }
+                let address_id = this.$store.getters.getreceivingAddress.id;
                 let ad_data = {
-                    method: "buy.goods.now",
+                    method: 'get.buy.goods.now',
                     goods_id: goods_id,
                     goods_num: goods_num,
                     // goods_sku_id: goods_sku_id,
                     buy_type: buy_type,
-                    address_id: address_id,
-                    is_cz_price: is_cz_price,
-                    remark: this.input,
-                    is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
-                    invoice_detail: this.$store.state.IvcMsg==1?[]:invoice_detail
+                    address_id: address_id ? address_id : 0,
                 };
-                // console.log(ad_data);
-                // return;
-                this.isloading = true;
                 this.$post('/api/v1/order', ad_data)
-                .then((res) => {
-                  console.log(res)
-                  if (res.status == 200 && res.data.is_wx_pay == 1) {
-                    this.isloading = false;
-                    if(res.data.is_wx_pay == 1){
-                      console.log(res.data.payment)
-                      this.jsApiParameters = res.data.payment;
-                      this.oderPay = res.data.pay_no;
-                      this.callpay();
-                    }
-                  } else if (res.status == 200 && res.data.is_wx_pay == 0){
-                    this.isloading = false;
-                    this.$dialog.alert({
-                        title: '付款成功',
-                        message: '使用充值金付款成功'
-                    }).then((res) => {
-                        if (res == 'confirm') {
-                          this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
+                    .then((res) => {
+                        // console.log(res);
+                        // return false;
+                        if (res.status == 200) {
+                            this.orderData = res.data;
+
+                        } else {
+                            this.$router.back(-1);
+                            this.$toast(res.message);
                         }
-                    })
-                  }else{
-                    this.isloading = false;
-                    // this.$dialog.alert({
-                    //     title: '提交失败',
-                    //     message: res.message
-                    // })
-                  }
-                }).catch(function (error) {
-                  console.log(error);
+                    }).catch(function (error) {
+                    console.log(error);
                 });
-            }
-          },
+            },
 
-          //购物车订单提交
-          ploadOrderTwo() {
-            let is_cz_price = this.checked ? 1 : 0;
-            let address_id = this.$store.getters.getreceivingAddress.id?this.$store.getters.getreceivingAddress.id:this.orderData.address_default.id;
-            let invoice_detail = [];
-            let invoice = this.$store.getters.getinvoice;
-            // console.log(invoice);
-            if(invoice.type=='2'){
-              invoice_detail['type'] = invoice.type;
-              invoice_detail['title'] = invoice.title;
-            }else{
-              invoice_detail['type'] = invoice.type;
-              invoice_detail['title'] = invoice.title;
-              invoice_detail['number'] = invoice.number;
-              invoice_detail['company_address'] = invoice.company_address;
-              invoice_detail['conpany_phone'] = invoice.conpany_phone;
-              invoice_detail['conpany_bank'] = invoice.conpany_bank;
-              invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
-            }
-            let ad_data = {
-                method: "buy.goods.cart",
-                goods: this.$route.query.id,
-                address_id: address_id,
-                is_cz_price: is_cz_price,//is_qd_price
-                remark: this.input,
-                is_invoice: this.$store.state.IvcMsg==1?'0':'1',  //发票信息0不要
-                invoice_detail: this.$store.state.IvcMsg==1?[]:invoice_detail
-            };
-            // console.log(ad_data)
-            this.$post('/api/v1/order', ad_data)
-            .then((res) => {
-                console.log(res);
-                if (res.status == 200 && res.data.is_wx_pay == 1) {
-                    this.isloading = false;
-                    if(res.data.is_wx_pay == 1){
-                      console.log(res.data.payment)
-                    	this.jsApiParameters = res.data.payment;
-                      this.callpay();
-                    }
-                  } else if (res.status == 200 && res.data.is_wx_pay == 0){
-                    this.isloading = false;
-                    this.$dialog.alert({
-                        title: '付款成功',
-                        message: '使用充值金付款成功'
-                    }).then((res) => {
-                        if (res == 'confirm') {
-                          this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
+            //购物车入口跳转获取订单
+            getDataTwo() {
+                let list = this.$route.query.id;
+                let address_id = this.$store.getters.getreceivingAddress.id;
+                let ad_data = {
+                    method: 'get.buy.goods.cart',
+                    goods: list,
+                    address_id: address_id ? address_id : 0,
+                };
+                // console.log(ad_data)
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200) {
+                            this.orderData = res.data;
+                            // console.log(this.orderData)
+                        } else {
+                            this.$router.back(-1);
+                            this.$toast(res.message);
                         }
-                    })
-                  }else{
-                    this.isloading = false;
-                    // this.$dialog.alert({
-                    //     title: '提交失败',
-                    //     message: '请重新提交'
-                    // })
-                  }
-            }).catch(function (error) {
-              console.log(error);
-            });
-          },
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
 
-          //微信支付
-          jsApiCall(){
-	          	WeixinJSBridge.invoke(
-	          		'getBrandWCPayRequest',
-	          		this.jsApiParameters,
-	          		(res)=>{
-                  if (res.err_msg == "get_brand_wcpay_request:ok") {
-	          				//跳转到支付成功页面
-                    this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
-	          			}else{
-                    this.$router.push({path: '/goodsdetails/order', query: {orderid: '1'}});
-                  }
-	          		
-	          		}
-	          	);
-	        },
-	        callpay(){
-		        if (typeof WeixinJSBridge == "undefined"){
-		            if( document.addEventListener ){
-		                document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
-		            }else if (document.attachEvent){
-		                document.attachEvent('WeixinJSBridgeReady', this.jsApiCall); 
-		                document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
-		            }
-		        }else{
-		            this.jsApiCall();
-		        }
-	        },
+            //是否使用签到金
+            useSingin() {
+                let orderData = parseFloat(this.orderData.user_money)
+                if (orderData > 0) {
+                    this.$dialog.confirm({
+                        message: '有可使用充值金,是否使用'
+                    })
+                        .then(() => {
+                            setTimeout(() => {
+                                this.checked = true;
+                                this.uploadOrder()
+                            }, 100);
+                        })
+                        .catch(() => {
+                            this.uploadOrder()
+                        });
+
+                } else this.uploadOrder()
+            },
+
+            //提交订单
+            uploadOrder() {
+                if (this.$route.query.iscart == 1) {
+                    this.ploadOrderTwo();
+                } else {
+                    let goods_id = this.$route.query.id;
+                    let goods_num = this.$route.query.num;
+                    // let goods_sku_id = this.$route.query.goods_sku_id.join('_');
+                    let buy_type = this.$route.query.buy_type;
+                    let address_id = this.$store.getters.getreceivingAddress.id ? this.$store.getters.getreceivingAddress.id : this.orderData.address_default.id;
+                    let is_cz_price = this.checked ? 1 : 0;
+                    // console.log(address_id);
+                    //发票信息
+                    let invoice = this.$store.getters.getinvoice;
+                    let invoice_detail = [];
+                    if (invoice.type == '2') {
+                        invoice_detail['type'] = invoice.type;
+                        invoice_detail['title'] = invoice.title;
+                    } else {
+                        invoice_detail['type'] = invoice.type;
+                        invoice_detail['title'] = invoice.title;
+                        invoice_detail['number'] = invoice.number;
+                        invoice_detail['company_address'] = invoice.company_address;
+                        invoice_detail['conpany_phone'] = invoice.conpany_phone;
+                        invoice_detail['conpany_bank'] = invoice.conpany_bank;
+                        invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
+                    }
+                    let ad_data = {
+                        method: "buy.goods.now",
+                        goods_id: goods_id,
+                        goods_num: goods_num,
+                        // goods_sku_id: goods_sku_id,
+                        buy_type: buy_type,
+                        address_id: address_id,
+                        is_cz_price: is_cz_price,
+                        remark: this.input,
+                        is_invoice: this.$store.state.IvcMsg == 1 ? '0' : '1',  //发票信息0不要
+                        invoice_detail: this.$store.state.IvcMsg == 1 ? [] : invoice_detail
+                    };
+                    // console.log(ad_data);
+                    // return;
+                    this.isloading = true;
+                    this.$post('/api/v1/order', ad_data)
+                        .then((res) => {
+                            console.log(res)
+                            if (res.status == 200 && res.data.is_wx_pay == 1) {
+                                this.isloading = false;
+                                if (res.data.is_wx_pay == 1) {
+                                    console.log(res.data.payment)
+                                    this.jsApiParameters = res.data.payment;
+                                    this.oderPay = res.data.pay_no;
+                                    this.callpay();
+                                }
+                            } else if (res.status == 200 && res.data.is_wx_pay == 0) {
+                                this.isloading = false;
+                                this.$dialog.alert({
+                                    title: '付款成功',
+                                    message: '使用充值金付款成功'
+                                }).then((res) => {
+                                    if (res == 'confirm') {
+                                        this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
+                                    }
+                                })
+                            } else {
+                                this.isloading = false;
+                                // this.$dialog.alert({
+                                //     title: '提交失败',
+                                //     message: res.message
+                                // })
+                            }
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            },
+
+            //购物车订单提交
+            ploadOrderTwo() {
+                let is_cz_price = this.checked ? 1 : 0;
+                let address_id = this.$store.getters.getreceivingAddress.id ? this.$store.getters.getreceivingAddress.id : this.orderData.address_default.id;
+                let invoice_detail = [];
+                let invoice = this.$store.getters.getinvoice;
+                // console.log(invoice);
+                if (invoice.type == '2') {
+                    invoice_detail['type'] = invoice.type;
+                    invoice_detail['title'] = invoice.title;
+                } else {
+                    invoice_detail['type'] = invoice.type;
+                    invoice_detail['title'] = invoice.title;
+                    invoice_detail['number'] = invoice.number;
+                    invoice_detail['company_address'] = invoice.company_address;
+                    invoice_detail['conpany_phone'] = invoice.conpany_phone;
+                    invoice_detail['conpany_bank'] = invoice.conpany_bank;
+                    invoice_detail['conpany_bank_number'] = invoice.conpany_bank_number;
+                }
+                let ad_data = {
+                    method: "buy.goods.cart",
+                    goods: this.$route.query.id,
+                    address_id: address_id,
+                    is_cz_price: is_cz_price,//is_qd_price
+                    remark: this.input,
+                    is_invoice: this.$store.state.IvcMsg == 1 ? '0' : '1',  //发票信息0不要
+                    invoice_detail: this.$store.state.IvcMsg == 1 ? [] : invoice_detail
+                };
+                // console.log(ad_data)
+                this.$post('/api/v1/order', ad_data)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.status == 200 && res.data.is_wx_pay == 1) {
+                            this.isloading = false;
+                            if (res.data.is_wx_pay == 1) {
+                                console.log(res.data.payment)
+                                this.jsApiParameters = res.data.payment;
+                                this.callpay();
+                            }
+                        } else if (res.status == 200 && res.data.is_wx_pay == 0) {
+                            this.isloading = false;
+                            this.$dialog.alert({
+                                title: '付款成功',
+                                message: '使用充值金付款成功'
+                            }).then((res) => {
+                                if (res == 'confirm') {
+                                    this.$router.push({path: '/goodsdetails/order', query: {orderid: '2'}});
+                                }
+                            })
+                        } else {
+                            this.isloading = false;
+                            // this.$dialog.alert({
+                            //     title: '提交失败',
+                            //     message: '请重新提交'
+                            // })
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            //微信支付
+            jsApiCall() {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    this.jsApiParameters,
+                    (res) => {
+                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+                            //跳转到支付成功页面
+                            this.$router.push({path: '/goodsdetails/successfulPayment', query: {id: this.oderPay}});
+                        } else {
+                            this.$router.push({path: '/goodsdetails/order', query: {orderid: '1'}});
+                        }
+
+                    }
+                );
+            },
+            callpay() {
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', this.jsApiCall);
+                        document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+                    }
+                } else {
+                    this.jsApiCall();
+                }
+            },
         },
         mounted() {
-          // console.log(this.$route.query.id)
-          if(this.$route.query.buy_type){
-            this.goods_id = this.$route.query.id;
-            this.goods_num = this.$route.query.num;
-            this.buy_type = this.$route.query.buy_type;
-            this.getDATA();
-          }else{
-            this.getDataTwo();
-            // console.log('购物车')
-          }
+            // console.log(this.$route.query.id)
+            if (this.$route.query.buy_type) {
+                this.goods_id = this.$route.query.id;
+                this.goods_num = this.$route.query.num;
+                this.buy_type = this.$route.query.buy_type;
+                this.getDATA();
+            } else {
+                this.getDataTwo();
+                // console.log('购物车')
+            }
         },
         created() {
-          console.log(this.$store.state.IvcMsg);
-          // console.log(this.$store.getters.getreceivingAddress.id)
+            console.log(this.$store.state.IvcMsg);
+            // console.log(this.$store.getters.getreceivingAddress.id)
         },
 
     }
@@ -495,6 +538,7 @@
       justify-content: space-between;
       /*align-items: center;*/
       line-height: 0.4rem;
+
       i {
         line-height: 0.4rem;
         color: #999999;
@@ -503,6 +547,7 @@
 
     .common_box {
       text-align: left;
+
       .common {
         border-bottom: 1px solid #f2f2f2;
         width: 100%;
@@ -511,9 +556,11 @@
         align-items: center;
         padding: 0.1rem 0;
       }
-      .commonTwo{
+
+      .commonTwo {
         border: 0;
       }
+
       .left {
         display: flex;
         align-items: center;
@@ -576,6 +623,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin: 0.05rem 0;
+
     .cardMsg {
       width: 70%;
       position: relative;
@@ -606,8 +654,9 @@
     font-size: 0.14rem;
     // transform: scale(0.95);
   }
-  .shopgoodman{
-    text-decoration:line-through;
+
+  .shopgoodman {
+    text-decoration: line-through;
     color: #999999 !important;
   }
 </style>

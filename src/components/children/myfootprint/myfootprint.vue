@@ -366,11 +366,8 @@
             },
             //下拉无限加载
             onLoad() {
-
                 // 异步更新数据
-
-                    this.getData();
-
+                this.getData();
             },
 
 

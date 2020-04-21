@@ -110,7 +110,7 @@
                 this.$router.push({path: "/goodslist", query: {id: e}});
             },
             getHeight: function () {
-                let clientW = clientWw.clientWw();
+                let clientW = clientWw.clientWw()[2];
                 let h =
                     window.innerHeight ||
                     document.documentElement.clientHeight ||

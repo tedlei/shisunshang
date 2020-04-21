@@ -6,45 +6,48 @@
     <!--    -->
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
       <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
-        <div class="common_box">
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            finished-text="没有更多了"
-            :error.sync="error"
-            error-text="请求失败，点击重新加载"
-            @load="onLoad"
-          >
-            <van-row class="introduce_img" :gutter="10">
-              <van-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-                <div class="grid-content bg-purple" @click="gotodetail(item.id)">
-                  <div class="goodsk" ref="imgW"
-                       :style="{'height':imgH}">
-                    <div v-if="item.is_show == 1">
-                      <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
-                      <p class="goodsk_price">￥{{Number(item.price)}}</p>
-                      <p class="goodsk_p">签到金可订购</p>
+        <div class="content" :style="{'height':content_H}" id="chatContent">
+          <div class="common_box" ref="chatContent">
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              :error.sync="error"
+              error-text="请求失败，点击重新加载"
+              @load="onLoad"
+              :immediate-check="false"
+            >
+              <van-row class="introduce_img" :gutter="10">
+                <van-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
+                  <div class="grid-content bg-purple" @click="gotodetail(item.id)">
+                    <div class="goodsk" ref="imgW"
+                         :style="{'height':imgH}">
+                      <div v-if="item.is_show == 1">
+                        <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
+                        <p class="goodsk_price">￥{{Number(item.price)}}</p>
+                        <p class="goodsk_p">签到金可订购</p>
+                      </div>
+
+                      <van-image
+                        fit="cover"
+                        :src="item.imgsrc"
+                        class="goods_img"
+                      />
                     </div>
 
-                    <van-image
-                      fit="cover"
-                      :src="item.imgsrc"
-                      class="goods_img"
-                    />
-                  </div>
-
-                  <div class="msg">
-                    <div class="text fontWrap fontWrapTwo">
-                      <span class="vip">{{zhuan[$route.query.typeid]}}</span>
-                      {{item.name}}
+                    <div class="msg">
+                      <div class="text fontWrap fontWrapTwo">
+                        <span class="vip">{{zhuan[$route.query.typeid]}}</span>
+                        {{item.name}}
+                      </div>
+                      <div class="yishou">已售：{{item.xiaoliang}}件</div>
+                      <div class="clo-g price">￥{{item.price}}</div>
                     </div>
-                    <div class="yishou">已售：{{item.xiaoliang}}件</div>
-                    <div class="clo-g price">￥{{item.price}}</div>
                   </div>
-                </div>
-              </van-col>
-            </van-row>
-          </van-list>
+                </van-col>
+              </van-row>
+            </van-list>
+          </div>
         </div>
       </van-tab>
     </van-tabs>
@@ -53,11 +56,12 @@
 
 <script>
     import Bus from "../../../assets/js/bus";
-
+    import clientW from "../../../assets/js/conmon"
     export default {
         name: "Special-area",
         data() {
             return {
+                content_H:'',
                 Fnum: 0,
                 num: 0,
                 imgH: "",
@@ -82,6 +86,7 @@
         },
         methods: {
             changeval(e) {
+                document.getElementById('chatContent').scrollTop = 0;
                 switch (e) {
                     case 0:
                         this.$router.replace({query: {typeid: 'customer'}});
@@ -130,18 +135,18 @@
             },
             //点击切换
             qiehuan(name, title) {
-
                 this.flag = true
                 this.defaultcateid = this.cateidarry[name];
                 this.getlist();
             },
             //获取商品
             async getlist() {
+                // this.finished = true;
                 let _this = this,
                     parms = {
                         method: 'get.goods.map.list',
                         map: _this.$route.query.typeid,
-                        page: this.pages,
+                        page: _this.flag ? 0 : this.pages,
                         page_size: 20,
                         cate_id: _this.defaultcateid,
                         keywords: _this.keywords
@@ -149,8 +154,10 @@
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
                         if (_this.flag) {
+                            this.pages = 0;
                             if (response.status == 200) {
                                 if (response.data) {
+                                    this.finished = false;
                                     this.list = response.data
                                     _this.$nextTick(() => {
                                         this.imgH = this.$refs.imgW[0].offsetWidth + "px";
@@ -159,7 +166,6 @@
                                     this.list = []
                                     this.finished = true;
                                 }
-                                this.pages = 0;
                             } else {
                                 _this.$toast(response.message)
                             }
@@ -175,6 +181,7 @@
                                 }
                                 // 加载状态结束
                                 this.loading = false;
+                                console.log(this.pages)
                                 this.pages += response.data.length;
                                 // 数据全部加载完成
                                 if (response.data.length < 20) {
@@ -184,8 +191,6 @@
                                 _this.$toast(response.message)
                             }
                         }
-
-
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -193,12 +198,11 @@
 
             //下拉加载
             onLoad() {
-                console.log(this.$route.query.typeid)
                 // 异步更新数据
                 setTimeout(() => {
                     this.flag = false
                     this.getlist();
-                }, 1000);
+                }, 500);
             },
             gotodetail: function (e) {
                 this.$router.push({
@@ -211,7 +215,6 @@
             }
         },
         mounted() {
-
             document.title = this.zhuan[this.$route.query.typeid]
             this.getgoods();
             //    初始选项
@@ -219,7 +222,6 @@
                 if (this.firstNav[i].typeid == this.$route.query.typeid) {
                     this.Fnum = this.firstNav[i].value
                 }
-
             }
             Bus.$on('searchD', (data) => {
                 this.keywords = data;
@@ -227,6 +229,7 @@
                 this.flag = true;
                 this.getlist();
             });
+            this.content_H = ((clientW.clientWw()[1] / clientW.clientWw()[2] - 1.1)*clientW.clientWw()[2] - 44) + 'px'
         },
         destroyed() {
 
@@ -274,10 +277,16 @@
 
   }
 
-  .common_box {
-    background: none;
-    margin-bottom: 0;
-    padding: 0;
+  .content{
+    position: relative;
+    top: 0;
+    .common_box {
+      background: none;
+      margin-bottom: 0;
+      padding: 0;
+    }
   }
+
+
 
 </style>
