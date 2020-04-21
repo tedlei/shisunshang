@@ -11,7 +11,6 @@
       </van-tabs>
     </div>
     <div class="content" :style="this.$route.query.recordid ? '':'margin-top: 0.47rem'">
-
       <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">
         <van-list
           v-model="loading"

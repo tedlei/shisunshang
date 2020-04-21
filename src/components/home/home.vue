@@ -97,10 +97,12 @@
             <div class="grid-content bg-purple">
               <div class="goodsk" ref="imgWidth"
                    :style="{'height':boxheight}">
-                <img src="../../assets/img/goodsk.jpg" class="goodsk_img">
-                <p class="goodsk_price">￥{{Number(goods.qd_price)}}</p>
-                <p class="goodsk_p">签到金可订购</p>
+                <div v-if="goods.is_show == 1">
 
+                  <img src="../../assets/img/goodsk.jpg" class="goodsk_img">
+                  <p class="goodsk_price">￥{{Number(goods.price)}}</p>
+                  <p class="goodsk_p">签到金可订购</p>
+                </div>
                 <van-image
                   width="100%"
                   :src="goods.imgsrc"

@@ -1,13 +1,17 @@
 <template>
   <div>
     <div class="content">
-      <div class="store_banner">
+      <div class="store_banner" style="font-size: 0">
         <van-image width="100%" height="3rem" fit="fill" :src="shops.imgurl"/>
       </div>
       <div class="common_box store_msg">
         <div class="name">
-          <span class="left_name fontWrap fontWrapOne">{{shops.name}}</span>
-          <img src="../../../assets/img/cx.jpg" v-if="shops.is_promotion == 1" @click="Previewcx">
+          <div style="display: flex">
+            <span class="left_name fontWrap fontWrapOne">{{shops.name}}</span>
+            <img src="../../../assets/img/cx.jpg" v-if="shops.is_promotion == 1" @click="Previewcode(false,'cx')">
+          </div>
+
+          <span class="cx_jin">商家促销金:{{shops.promotion_money}}</span>
         </div>
         <div class="time">营业时间：{{shops.bus_hours}}</div>
         <div class="adress">
@@ -22,8 +26,9 @@
           <div
             style="display: inline-block;margin-right: 0.1rem"
             id="qrCode"
+            ref="qrCode"
             class="qrconde"
-            @click="Previewcode(false)"
+            @click="Previewcode(false,'qrcode')"
           ></div>
 
           <!--  -->
@@ -50,22 +55,40 @@
             </div>
           </van-col>
         </van-row> -->
-        <router-link
-          v-if="shops.is_promotion == 1"
-          class="common_btn"
-          :to="{path:'/uploadpic',query:{store_id: shops.id}}"
-          style="border-radius: 0.4rem;color: #fff !important;margin: 0.3rem 0"
-        >上传小票
-        </router-link>
+      </div>
+
+      <div class="common_box record_integral" v-if="shops.pay_list.length > 0">
+        <div class="record_ttl clo-g">
+          <span>上传人数：{{shops.pay_count}}</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span>分发金额：{{shops.pay_total_money}}</span>
+        </div>
+        <div class="record_content">
+          <ul>
+            <li>
+              <div style="display: flex;align-items: center">
+                <van-icon name="label" class="tip"/>
+                <div>{{shops.pay_list[0].add_time}}</div>
+              </div>
+              <div>
+                ￥:{{shops.pay_list[0].money}}
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
-      <!--        <div id="qrCode2" class="qrconde" ref="qrCode2"></div>-->
-      <div class="cx_box">
+      <div id="qrCode2" v-show="codes" class="qrconde" ref="qrCode2"></div>
+      <div v-show="cx" class="cx_box">
         <p class="cx_name">{{shops.name}}</p>
         <img src="../../../assets/img/cx.jpg">
-        <img src="../../../assets/img/zhang.png" class="zhang">
-        <p class="cx_time">{{shops.utime}}</p>
+        <div class="cx_btm">
+          <p class="cx_t">石笋山生态平台</p>
+          <p class="cx_time">{{shops.utime}}</p>
+          <img src="../../../assets/img/zhang.png" class="zhang">
+        </div>
+
       </div>
 
     </div>
@@ -82,6 +105,17 @@
        <span style="margin:0 0.1rem">导航</span>
       </div>-->
     </div>
+
+    <router-link
+      v-if="shops.is_promotion == 1"
+      class="uploadpic"
+      :to="{path:'/uploadpic',query:{store_id: shops.id}}"
+    >
+      <div class="uploadpic_icon">
+        <van-icon name="plus" class=""/>
+      </div>
+      <div class="uploadpic_text">上传小票</div>
+    </router-link>
   </div>
 </template>
 
@@ -103,8 +137,10 @@
                 endtime: "18:00",
                 adress: "重庆市江北区金渝大道168号",
                 qrCodeShow: false,
+                codes: false,
+                cx: false
             }
-                ;
+
         },
         methods: {
             getData() {
@@ -115,6 +151,7 @@
                 this.$post("/api/v1/userStore", ad_data)
                     .then(res => {
                         this.shops = res.data;
+                        console.log(res.data)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -126,7 +163,7 @@
                 let arr = QRcodeDomainName.split('/')
                 let url = arr[0] + '//' + arr[2] + '/uploadpic?store_id=' + this.$route.query.id
                 console.log(url)
-                let qrCode = new QRCode("qrCode", {
+                let qrCode = new QRCode(this.$refs.qrCode, {
                     text: url, // 需要转换为二维码的内容
                     width: 25,
                     height: 25,
@@ -158,17 +195,6 @@
                     return image;
                 }
             },
-            createPicture() {
-                html2canvas(this.$refs.qrCodeDiv, {
-                    backgroundColor: null,
-                    width: 400,
-                    height: 400
-                }).then(canvas => {
-                    let imgData = canvas.toDataURL("image/jpeg");
-
-                    this.imgData = imgData;
-                });
-            },
             //图片阅览
             Previewcx: function () {
 
@@ -176,10 +202,20 @@
             Preview: function (num) {
                 ImagePreview(this.shops.album, num);
             },
-            Previewcode: function (boo) {
-                if (boo) {
+
+
+            Previewcode: function (boo, e) {
+                if (!boo && e == 'qrcode') {
+                    this.codes = true
+                    this.qrCodeShow = true;
+                } else if (!boo && e == 'cx') {
+                    this.cx = true
+                    this.qrCodeShow = true;
+                } else {
                     this.qrCodeShow = false;
-                } else this.qrCodeShow = true;
+                    this.codes = false;
+                    this.cx = false;
+                }
             },
 
             //获取图片
@@ -193,9 +229,9 @@
         },
         mounted() {
             this.getData();
-            this.$nextTick(function () {
+            setTimeout(() => {
                 this.creatQrCode();
-            });
+            },1000);
         },
     };
 </script>
@@ -216,10 +252,21 @@
         font-size: 0.18rem;
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         img {
           margin: 0 0.1rem;
-          width: 0.5rem;
+          width: auto;
+          height: 0.24rem;
+        }
+
+        .cx_jin {
+          background-color: #009900;
+          line-height: 0.2rem;
+          border-radius: 0.2rem;
+          color: #fff;
+          padding: 2px 0.05rem;
+          font-size: 0.12rem;
         }
       }
 
@@ -289,8 +336,80 @@
         left: 0;
         right: 0;
         font-size: 0.2rem;
-
       }
+
+      .cx_btm {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.4rem;
+        font-size: 0.1rem;
+
+        .zhang {
+          width: 0.5rem;
+          transform: translate(-50%, -50%);
+          position: absolute;
+          top: 50%;
+        }
+
+        .cx_time {
+
+        }
+      }
+
+    }
+  }
+
+  .record_integral {
+    .record_ttl {
+      font-size: 0.16rem;
+    }
+    .record_content {
+      padding: 0.1rem;
+      border: 1px dashed #009900;
+      border-radius: 5px;
+      margin-top: 0.1rem;
+
+      ul {
+        li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.05rem 0;
+
+          > > > .tip {
+            margin-right: 5px;
+            color: #009900;
+          }
+        }
+      }
+    }
+  }
+
+  .uploadpic {
+    position: fixed;
+    padding: 0.05rem 0;
+    color: #fff !important;
+    right: 0;
+    bottom: 1rem;
+    display: block !important;
+    z-index: 1;
+    font-size: 0.1rem;
+
+    .uploadpic_icon {
+      width: 0.4rem;
+      line-height: 0.4rem;
+      font-size: 0.2rem;
+      height: 0.4rem;
+      border-radius: 50%;
+      background-color: rgba(0, 153, 0, 0.7);
+      margin: 0 auto;
+    }
+
+    .uploadpic_text {
+      background-color: rgba(0, 153, 0, 0.7);
+      padding: 2px 0.05rem;
+      border-radius: 0.5rem;
+      margin-top: 0.05rem;
     }
   }
 
@@ -323,5 +442,7 @@
       line-height: 0.5rem;
       width: 50%;
     }
+
+
   }
 </style>

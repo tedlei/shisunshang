@@ -2,7 +2,7 @@
   <div class="content">
     <div class="footprint_box" :class="{p_b_50:!isEmpty}">
       <!--  足迹，收藏，店铺  -->
-      <div v-if="$route.query.printid != 3 && isData">
+      <div v-if="$route.query.printid != 3">
         <van-list
           v-model="loading"
           :finished="finished"
@@ -255,9 +255,9 @@
             },
             //获取数据
             async getData(num) {
-                console.log(num)
                 if (this.$route.query.printid == 0) {
-                    this.loading = true;
+                    console.log(1111111111)
+                    // this.loading = true;
                     let ad_data = {
                         method: 'get.collect.goods.list',
                         page: num ? this.goodslist.length + num : this.page,
@@ -269,7 +269,7 @@
                             let {items} = res.data
                             this.page += items.length;
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.myfootprintDataPush(items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -296,7 +296,7 @@
                             this.page += items.length;
                             // this.goodslist = [];
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.collectionShop(res.data.items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -322,7 +322,7 @@
                             this.page += items.length;
                             // this.goodslist = [];
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.footprintPush(items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -348,7 +348,7 @@
                             let items = res.data
                             if (items && items.length > 0) {
                                 this.page += items.length;
-                                this.isData = true;
+                                // this.isData = true;
                                 this.evaluation_lists = this.evaluation_lists.concat(items);
                                 if (this.evaluation_lists.length < 10) {
                                     this.finished = true;
@@ -366,10 +366,11 @@
             },
             //下拉无限加载
             onLoad() {
+
                 // 异步更新数据
-                setTimeout(() => {
+
                     this.getData();
-                }, 1000);
+
             },
 
 
@@ -387,7 +388,6 @@
                 }
                 ;
 
-                // console.log(_id);
                 if (this.$route.query.printid == 0) {
                     let ad_data = {
                         method: "del.collect.goods.list",
@@ -398,7 +398,7 @@
                         .then((res) => {
                             console.log(res);
                             if (res.status == 200) {
-                                // this.getData();
+
                                 this.deleteList(_id);
                             }
                         }).catch(function (error) {
@@ -495,12 +495,11 @@
             //取消关注店铺
         },
         created() {
-            console.log(this.$route.query);
             let index = this.$route.query.printid;
             document.title = this.titlelist[index];
         },
         mounted() {
-            this.getData()
+
         }
     }
 </script>

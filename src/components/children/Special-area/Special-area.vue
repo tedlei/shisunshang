@@ -20,9 +20,9 @@
                 <div class="grid-content bg-purple" @click="gotodetail(item.id)">
                   <div class="goodsk" ref="imgW"
                        :style="{'height':imgH}">
-                    <div v-if="$route.query.typeid == 'customer' || ($route.query.typeid == 'vip'&&item.vip_show == 1)">
+                    <div v-if="item.is_show == 1">
                       <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
-                      <p class="goodsk_price">￥{{Number(item.qd_price)}}</p>
+                      <p class="goodsk_price">￥{{Number(item.price)}}</p>
                       <p class="goodsk_p">签到金可订购</p>
                     </div>
 
