@@ -44,27 +44,27 @@
               v-show="$route.path=='/my_cart'&&$store.getters.getCartNum>0"
               name="shopping-cart"
               color="#099000"
-              size="20"
+              size="21"
               :info="$store.getters.getCartNum"
             />
             <van-icon
               v-show="$route.path=='/my_cart'&&$store.getters.getCartNum==0"
               name="shopping-cart"
               color="#099000"
-              size="20"
+              size="21"
             />
             <van-icon
               v-show="$route.path!='/my_cart'&&$store.getters.getCartNum>0"
               name="shopping-cart-o"
               color="#999999"
-              size="20"
+              size="21"
               :info="$store.getters.getCartNum"
             />
             <van-icon
               v-show="$route.path!='/my_cart'&&$store.getters.getCartNum==0"
               name="shopping-cart-o"
               color="#999999"
-              size="20"
+              size="21"
             />
           </span>
           <span>购物车</span>

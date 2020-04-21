@@ -216,11 +216,11 @@
                 if(this.input==''){
                   this.$toast('公司名称不能为空');
                    this.$store.commit('setLoading');
-
                   return;
                 }else if(this.input1==''){
                   this.$toast('营业时间不能为空');
                   this.$store.commit('setLoading');
+
                   return;
 
                 }else if(this.province[0]=='选择省'){
@@ -284,7 +284,7 @@
                         imgurl: imgurls[0],
                         album: album
                     };
-                    console.log(ad_data)
+                    // console.log(ad_data)
                     this.$post('/api/v1/userStore', ad_data)
                         .then((res) => {
                             console.log(res);

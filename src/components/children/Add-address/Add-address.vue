@@ -25,6 +25,7 @@
     <van-popup
       v-model="areashow"
       position="bottom"
+      :lazy-render='false'
     >
       <!-- <van-area
         :area-list="areaList"
@@ -39,6 +40,7 @@
                   confirm-button-text="保存"
                   @cancel="areashow=false"
                   @confirm="confirm"
+                  ref="picker"
       />
     </van-popup>
 
@@ -121,7 +123,7 @@
                             _this.allinput.input2 = addressmsg[i].phone
                             _this.allinput.input4 = addressmsg[i].address
 
-                            _this.Areas = addressmsg[i].province + "," + addressmsg[i].city + "," + addressmsg[i].area
+                            _this.Areas = addressmsg[i].province + "/" + addressmsg[i].city + "/" + addressmsg[i].area
                             _this.defaultCode = addressmsg[i].province_id + ',' + addressmsg[i].city_id + ',' + addressmsg[i].area_id
                             _this.chooseAreasCode.province = addressmsg[i].province
                             _this.chooseAreasCode.city = addressmsg[i].city
@@ -136,7 +138,8 @@
             },
             // 底部选择省市弹窗
             showPopup() {
-                this.areashow = true;
+              this.$refs.picker.setValues(["北京市", "北京市", "西城区"]);
+              this.areashow = true;
             },
             // 底部选择省市弹窗 确定按钮
             confirm(e) {
@@ -168,7 +171,7 @@
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {
-                this.areashow = false;
+              this.areashow = false;
             },
             //保存
             baocun: function (newValue) {
@@ -183,8 +186,7 @@
                     } else {
                         flag = 0
                     }
-                }
-                ;
+                };
                 if (flag == 1) {
                     this.$toast({
                         message: '请填写完整哦',
@@ -248,10 +250,12 @@
         },
 
         mounted() {
+            // let value = this.$refs.picker.getValues();
+            // console.log(value)
             if (this.$route.query.addressid != 'add') {
-                this.getmsg()
+                this.getmsg();
             }
-
+            
         },
 
     }

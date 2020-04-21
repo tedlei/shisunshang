@@ -92,9 +92,9 @@
           <router-link :to="{path:'/mine/record',query:{recordid:index + 1}}">
             <div
               style="padding-bottom: 0.05rem;margin-bottom: 0.05rem;border-bottom: 1px solid #999;display: inline-block"
-            >{{ item.num}}</div>
+            >{{ item.totalnum}}</div>
             <!--  | moneyFormat -->
-            <div style="margin-bottom: 0.1rem">{{ item.totalnum}}</div>
+            <div style="margin-bottom: 0.1rem">{{ item.num}}</div>
             <div>{{item.name}}</div>
           </router-link>
         </li>

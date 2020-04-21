@@ -65,7 +65,7 @@
                             {
                                 img: 'mgj8',
                                 text: '卡券管理',
-                                linkto:''
+                                linkto:'/kajuan'
                             },
                         ]
                     },
@@ -145,7 +145,7 @@
         methods:{
           pathAdd(path){
             // console.log(path)
-            if(path=='/huanfu') {
+            if(path=='/huanfu' || path=='/kajuan') {
               this.$toast('功能上线中')
             }else{
               this.$router.push(path);

@@ -519,14 +519,14 @@
 
   .common_box {
     padding: 0;
-    padding-top: 43px;
-    margin-bottom: 0;
+    padding-top: 47px;
+    margin: 0;
     // height: 100%;
     // background-color: #fff;
     .footprint {
       display: flex;
       align-items: center;
-      padding: 10px;
+      padding: 12px 10px 10px 10px;
       border-bottom: 1px solid #f2f2f2;
 
       .img_box {

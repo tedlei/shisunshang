@@ -83,31 +83,39 @@
         <span class="text_rich">{{item.message}}</span>
       </div>
       <router-link :to="{path:item.ad.url}">
-        <img :src="item.ad.img" />
+        <img :src="item.ad.img" style="padding-bottom: 0.1rem"/>
       </router-link>
-      <el-row class="goodslist">
+
+      <van-row class="introduce_img">
         <router-link
           v-for="(goods, index) in item.goods"
           :key="index"
           :to="{path:'/goodsdetails',query:{id:goods.id}}"
         >
-          <el-col :span="12">
-            <div class="item">
-              <div style="width:100%;heigth: 1.74rem;" ref="imgWidth" :id="'imgId'+index">
+          <van-col :span="12" class="lists">
+            <div class="grid-content bg-purple">
+              <div class="goodsk" ref="imgWidth"
+                   :style="{'height':boxheight}">
+                <div v-if="goods.is_show == 1">
+
+                  <img src="../../assets/img/goodsk.jpg" class="goodsk_img">
+                  <p class="goodsk_price">￥{{Number(goods.price)}}</p>
+                  <p class="goodsk_p">签到金可订购</p>
+                </div>
                 <van-image
                   width="100%"
-                  :src="goods.imgsrc" @load="imgLoad(index)"
+                  :src="goods.imgsrc"
                 />
-                  <!-- fit="cover" -->
               </div>
-              <div style>
-                <div class="goodsdtt">{{goods.name}}</div>
-                <div class="goodsprice clo-g">{{goods.price}}</div>
+              <div class="msg">
+                <div class="text fontWrap fontWrapTwo">{{goods.name}}</div>
+                <div class="clo-g price">{{goods.price}}</div>
               </div>
+
             </div>
-          </el-col>
+          </van-col>
         </router-link>
-      </el-row>
+      </van-row>
     </div>
     <!--  -->
     <!-- <signin></signin> -->
@@ -154,6 +162,7 @@ export default {
       bannermsg: [],
       lists: [],
       news: [],
+      boxheight: '',
       qrCodeShow: false
     };
   },
@@ -198,6 +207,9 @@ export default {
       this.$post("/api/v1/ad", goods)
         .then(response => {
           this.lists = response.data;
+          this.$nextTick(() => {
+                            this.boxheight = this.$refs.imgWidth[0].offsetWidth + 'px'
+                        });
         })
         .catch(function(error) {
           console.log(error);
@@ -338,7 +350,25 @@ header {
   img {
     width: 20px;
   }
+
 }
+
+  
+  .introduce_img {
+    text-align: left;
+    background-color: #f2f2f2;
+    margin: 0 -.1rem;
+    padding: .1rem .1rem 0;
+    font-size: .12rem;
+
+    .lists {
+      padding: 5px;
+
+      .price {
+        padding: 5px;
+      }
+    }
+  }
 
 .el-carousel__indicators--vertical {
   display: none !important;
