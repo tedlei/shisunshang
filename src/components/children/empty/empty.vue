@@ -75,7 +75,7 @@
     height: 100%;
     img {
       width: 33.333%;
-      margin: 50px;
+      margin: 40px;
     }
 
     pre {
@@ -84,8 +84,8 @@
     }
 
     .tolink {
-      line-height: 50px;
-      border-radius: 50px;
+      line-height: 40px;
+      border-radius: 10px;
       background-color: #009900;
       color: #fff;
       width: 40%;

@@ -2,12 +2,10 @@
   <div class="content">
     <div class="myinvoice" v-if="myinvoicelists">
       <ul class="myinvoice_ul">
-        <li class="common_style" v-for="(item,index) in myinvoicelists" :key="index">
+        <li @click="entranceAdd(item)" class="common_style" v-for="(item,index) in myinvoicelists" :key="index">
           <van-swipe-cell ref="vanswipe">
             <van-cell :border="false" :title="item.title" :value="'税号：'+item.number"/>
-
             <template #right>
-
               <van-button square type="default" text="设为默认"
                           :style="{'background-color': '#ccc', 'color': '#fff !important'}"/>
               <van-button square type="default" text="删除" @click="beforeDelet(item.id)"
@@ -84,6 +82,18 @@
                 });
             },
             //    设为默认
+
+            //订单选择发票跳转
+            entranceAdd( data ) {
+              // console.log(data)
+              if(this.$route.query.entrance==0){
+                // console.log(this.$route.query.entrance)
+                this.$store.commit('sendIvcMsg', 2);
+                this.$store.commit('setinvoice',data);
+                // console.log(this.$store.getters.getinvoice);
+                this.$router.go(-2)
+              }
+            }
         },
         mounted() {
             this.getmsg()

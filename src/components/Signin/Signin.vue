@@ -3,7 +3,7 @@
     <van-popup
       v-model="show"
       :style="{ height: '100%',width:'100%',backgroundColor:'#f2f2f2',paddingBottom: '0.1rem' }"
-    >
+      >
       <header>
         <div class="top">
           <i class="el-icon-arrow-left back" @click="Popup" style="left: 5px;"></i>
@@ -76,8 +76,7 @@
             <span>今日</span>
           </span>
           </div>
-          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false,sharebox = true"
-               v-show="!isshow">分享签到
+          <div class="share_btn" style="color: #ff6a69;" @click="shareshow = true,frist = false,sharebox = true" v-show="!isshow">分享签到
           </div>
         </div>
       </div>
@@ -89,8 +88,7 @@
       v-model="shareshow"
       :style="{ background:sharebox ? '#fff':'none',padding:'0.1rem',width:sharebox?'50%':'100%',borderRadius:'5px',height: sharebox ? 'auto':'100%'}"
       @click="closepop"
-    >
-
+      >
       <div class="share_box" v-if="sharebox">
         <div class="qdjesuccess" v-show="frist">签到成功!</div>
         <div class="qdje">今日获得签到金:{{sign_money}}</div>
@@ -143,6 +141,48 @@
         },
 
         methods: {
+            shareConfig(userinfo, data) {
+                let ua = window.navigator.userAgent.toLocaleLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    var url = "";
+                    if (this.is_ios()) {
+                        url = sessionStorage.getItem("ios_share_url").split("#")[0];
+                    } else {
+                        url = "http://" + location.host + this.$route.fullPath;
+                    }
+                    let goods = {
+                        title: data.title,
+                        desc: data.desc,
+                        imgUrl: data.img
+                    };
+                    console.log(goods);
+                    this.wechatAuth(url, this.$route, userinfo, goods);
+                }
+            },
+            is_ios() {
+                var u = navigator.userAgent;
+                if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            //我是一条随机广告
+            getAdvertisement(){
+              let ad_data = {
+                method: "get.rand.weixin.ad.item",
+              };
+              this.$post("/api/v1/weixinAd", ad_data)
+                  .then(res => {
+                      console.log(res);
+                      let userinfo = JSON.parse(localStorage.getItem("userinfo"));
+                      // console.log(userinfo)
+                      this.shareConfig(userinfo,res.data)
+                  })
+                  .catch(function(error) {
+                      console.log(error);
+                  });
+            },
             //获取签到历史
             getsign: function () {
                 let msg = {
@@ -171,7 +211,6 @@
             //点击分享签到
             myshare: function (e) {
                 this.sharebox = false
-
             },
             //提交签到
             submitsign: function () {
@@ -274,15 +313,19 @@
             },
             //弹窗消失
             Popup: function () {
-                this.show = false;
+                this.$router.push({
+                    path: '/'
+                })
             },
         },
         mounted() {
+          this.getAdvertisement();
             Bus.$on('signtans', (data) => {
                 if (data == true) {
                     this.show = true
                 }
             });
+            Bus.$emit('signtans', true)
             this.initData(null);
             this.getsign();
         }
@@ -293,7 +336,6 @@
   header {
     background-color: #ff726a;
     color: #fff;
-
     .top {
       display: flex;
       justify-content: center;
@@ -313,7 +355,6 @@
       height: 1.1rem;
       font-size: 0.12rem;
       margin-top: 0.1rem;
-
       li {
         .lei_num {
           font-size: 0.2rem;
@@ -447,11 +488,9 @@
     color: #fff;
     font-size: 0.2rem;
   }
-
-  .hrDiv {
+  .hrDiv{
     height: 0.3rem;
   }
-
   .my_share {
     padding: 0.05rem;
     border-radius: 5px;

@@ -412,7 +412,6 @@ export default {
     },
     // 用户填写容错处理
 
-
     // 计算每个店铺的商品总额
     calEveryStore (index) {
       // console.log(2)

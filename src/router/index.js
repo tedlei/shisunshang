@@ -16,6 +16,7 @@ import storeDetails from '../components/storeDetails/storeDetails'
 import applicationcs from '../components/children/applicationcs/applicationcs'
 import articles from '../components/children/ad/articles'
 import myad from '@/components/children/ad/myad'
+import Signin from '../components/Signin/Signin'
 import certification from '@/components/children/More-tools/certification/certification'
 import Trans from '@/components/children/More-tools/Trans/Trans'
 import withdrawRecord from '@/components/children/More-tools/Cash-withdrawal/withdrawRecord'
@@ -66,6 +67,12 @@ const $router = new Router({
       name: 'home',
       component: home,
       meta: {title: '首页', showFooter: true, allowShare: true}
+    },
+    {
+      path: '/Signin',
+      name: 'Signin',
+      component: Signin,
+      meta: {title: '签到', showFooter: false}
     },
     {
       path: '/classification',

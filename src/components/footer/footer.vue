@@ -44,27 +44,27 @@
               v-show="$route.path=='/my_cart'&&$store.getters.getCartNum>0"
               name="shopping-cart"
               color="#099000"
-              size="20"
+              size="21"
               :info="$store.getters.getCartNum"
             />
             <van-icon
               v-show="$route.path=='/my_cart'&&$store.getters.getCartNum==0"
               name="shopping-cart"
               color="#099000"
-              size="20"
+              size="21"
             />
             <van-icon
               v-show="$route.path!='/my_cart'&&$store.getters.getCartNum>0"
               name="shopping-cart-o"
               color="#999999"
-              size="20"
+              size="21"
               :info="$store.getters.getCartNum"
             />
             <van-icon
               v-show="$route.path!='/my_cart'&&$store.getters.getCartNum==0"
               name="shopping-cart-o"
               color="#999999"
-              size="20"
+              size="21"
             />
           </span>
           <span>购物车</span>
@@ -88,132 +88,117 @@
 </template>
 
 <script>
-    export default {
-        name: "Footer",
-        created() {
-            this.getNum();
-        },
-        methods: {
-            //返回购物车数据
-            getNum() {
-                let ad_data = {
-                    method: "get.goods.cart.count"
-                };
-                let token = localStorage.getItem("usertoken");
-                if (!token) return;
-                this.$post("/api/v1/GoodsCart", ad_data)
-                    .then(res => {
-                        this.$store.commit("setCartNum", res.data.num);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-        },
-        watch: {
-            $route() {
-                this.getNum();
-            }
-        }
-    };
+export default {
+  name: "Footer",
+  created() {
+    // this.getNum();
+  },
+  methods: {
+
+  },
+  watch: {
+    $route() {
+      // this.getNum();
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  footer {
-    width: 100%;
-    height: 0.65rem;
-    position: fixed;
-    bottom: 0;
-    background-color: #fff;
-    padding: 0 0.08rem;
-    z-index: 999;
-    border-top: 1px solid #f2f2f2;
-    display: flex;
-    align-items: center;
-
-    span {
-      color: #999999;
-    }
+footer {
+  width: 100%;
+  height: 0.65rem;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  padding: 0 0.08rem;
+  z-index: 999;
+  border-top: 1px solid #f2f2f2;
+  display: flex;
+  align-items: center;
+  span {
+    color: #999999;
   }
+}
 
-  .footer_guide {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-  }
+.footer_guide {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
 
-  .guide_item {
+.guide_item {
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.item_icon {
+  display: inline-block;
+
+  i {
     display: inline-block;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    background-size: auto 300%;
   }
+}
 
-  .item_icon {
-    display: inline-block;
+.icon-home {
+  width: 0.21rem;
+  height: 0.21rem;
+  background: url("../../assets/img/nav_icon.png") no-repeat;
+  background-position: -0.32rem -0.42rem;
+}
 
-    i {
-      display: inline-block;
-      background-size: auto 300%;
-    }
-  }
+.icon-fenlei {
+  width: 0.22rem;
+  height: 0.21rem;
+  background: url("../../assets/img/nav_icon.png") no-repeat;
+  background-position: 0 -0.42rem;
+}
 
-  .icon-home {
-    width: 0.21rem;
-    height: 0.21rem;
-    background: url("../../assets/img/nav_icon.png") no-repeat;
-    background-position: -0.32rem -0.42rem;
-  }
+.icon-fujin {
+  width: 0.21rem;
+  height: 0.21rem;
+  background: url("../../assets/img/nav_icon.png") no-repeat;
+  background-position: -0.585rem -0.42rem;
+}
 
-  .icon-fenlei {
-    width: 0.22rem;
-    height: 0.21rem;
-    background: url("../../assets/img/nav_icon.png") no-repeat;
-    background-position: 0 -0.42rem;
-  }
+.icon-cart {
+  width: 0.21rem;
+  height: 0.21rem;
+  background: url("../../assets/img/nav_icon.png") no-repeat;
+  background-position: -0.85rem -0.42rem;
+}
 
-  .icon-fujin {
-    width: 0.21rem;
-    height: 0.21rem;
-    background: url("../../assets/img/nav_icon.png") no-repeat;
-    background-position: -0.585rem -0.42rem;
-  }
+.icon-mine {
+  width: 0.21rem;
+  height: 0.21rem;
+  background: url("../../assets/img/nav_icon.png") no-repeat;
+  background-position: -1.16rem -0.42rem;
+}
 
-  .icon-cart {
-    width: 0.21rem;
-    height: 0.21rem;
-    background: url("../../assets/img/nav_icon.png") no-repeat;
-    background-position: -0.85rem -0.42rem;
-  }
+.on span {
+  color: #009900;
+}
 
-  .icon-mine {
-    width: 0.21rem;
-    height: 0.21rem;
-    background: url("../../assets/img/nav_icon.png") no-repeat;
-    background-position: -1.16rem -0.42rem;
-  }
+.on .icon-home {
+  background-position: -0.32rem 0;
+}
 
-  .on span {
-    color: #009900;
-  }
+.on .icon-fenlei {
+  background-position: 0 0;
+}
 
-  .on .icon-home {
-    background-position: -0.32rem 0;
-  }
+.on .icon-fujin {
+  background-position: -0.585rem 0;
+}
 
-  .on .icon-fenlei {
-    background-position: 0 0;
-  }
+.on .icon-cart {
+  background-position: -0.85rem 0;
+}
 
-  .on .icon-fujin {
-    background-position: -0.585rem 0;
-  }
-
-  .on .icon-cart {
-    background-position: -0.85rem 0;
-  }
-
-  .on .icon-mine {
-    background-position: -1.16rem 0;
-  }
+.on .icon-mine {
+  background-position: -1.16rem 0;
+}
 </style>

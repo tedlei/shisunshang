@@ -9,14 +9,14 @@
     </header>
     <div class="main_text">{{desc}}</div>
     <div style="width:100%;height:35px;">
-      <div class="font_fx" @click.stop="tapShare(Advertisement.id)">分享</div>
+      <div class="font_fx"></div>
     </div>
 
     <van-popup
       v-model="shareshow"
       :style="{ background:'none',padding:'0.1rem',width:'100%',borderRadius:'5px',height:'100%'}"
       @click="closepop"
-    >
+      >
       <div style="text-align: right">
         <img style="width:auto;" src="../../../assets/img/zhi.png" class="zhi" />
       </div>
@@ -25,6 +25,9 @@
         <p>点击屏幕右上角将本页面分享给好友</p>
       </div>
     </van-popup>
+    <div class="btn">
+      <van-button style="margin:20px 0" type="primary" @click.stop="tapShare(Advertisement.id)">立即分享</van-button>
+    </div>
   </div>
 </template>
 
@@ -46,7 +49,7 @@ export default {
   created(){
     let {id,type} = this.$route.query;
     this.getdetails(id);
-    if(type) this.tapShare(id);
+    // if(type) this.tapShare(id);
   },
   methods: {
     getdetails: function() {
@@ -161,5 +164,8 @@ export default {
     font-size: 0.14rem;
     color: #009900;
   }
+}
+.btn{
+  background-color: #f2f2f2;
 }
 </style>

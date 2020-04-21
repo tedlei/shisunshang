@@ -81,7 +81,6 @@ const wechatAuth = async function (url, to, userinfo, goods) {
                     console.log(error);
                 });
 
-
               },
               cancel: function () {
                 console.log("取消分享");

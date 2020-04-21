@@ -13,7 +13,7 @@
       </div>
       <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
-      <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/>
+      <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
         <div>
@@ -43,16 +43,16 @@
       <div class="hrDiv"></div>
       <div class="uploaderImgs">
         <p>上传商家展示宣传照：</p>
-        <imgOSSuploader :maxCount='3' @imgUpData='imgUpDataTwo'></imgOSSuploader>
+        <imgOSSuploader :maxCount='9' @imgUpData='imgUpDataTwo'></imgOSSuploader>
       </div>
-      <div class="btn" @click="upData">提交申请</div>
+      <div :class="btnBk?'btn btnTwo':'btn'" @click="upData">提交申请</div>
       <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
 
     <van-popup
       v-model="show"
       position="bottom"
-    >
+      >
       <!-- <van-area 
         :area-list="areaList"
         confirm-button-text="保存"
@@ -98,6 +98,7 @@
     import imgUpload from '../../../api/imgUpload'
     import AreaArr from '../../../api/user.json'
     import ditu from '../../../assets/js/wechatConfig'
+    import {Throttle} from "../../../assets/js/utils";
 
     export default {
         components: {
@@ -125,6 +126,7 @@
                 upfileList: [],
                 upfileListTwo: [],
                 imgurls: [],
+                btnBk: false
             }
         },
         methods: {
@@ -204,45 +206,57 @@
                 this.upfileListTwo = data;
 
             },
-
-            upData() {
+            //提交按钮节流后提交
+            upData:Throttle( function() {
+                // console.log(this);
+                this.btnBk= true;
+                this.$store.commit('setLoading');
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
                 if(this.input==''){
                   this.$toast('公司名称不能为空');
+                   this.$store.commit('setLoading');
                   return;
                 }else if(this.input1==''){
                   this.$toast('营业时间不能为空');
+                  this.$store.commit('setLoading');
+
                   return;
 
                 }else if(this.province[0]=='选择省'){
                   this.$toast('请选择公司地址');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.input2==''){
                   this.$toast('详细地址不能为空');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.input3==''){
                   this.$toast('公司电话不能为空');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.classList=='请选择公司经营分类'){
                   this.$toast('请选择公司经营分类');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.message==''){
                   this.$toast('经营范围不能为空');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.upfileList==0){
                   this.$toast('封面不能为空');
+                  this.$store.commit('setLoading');
                   return;
 
                 }else if(this.upfileListTwo==0){
                   this.$toast('宣传照不能为空');
+                  this.$store.commit('setLoading');
                   return;
-
                 }
                 imgUpload(imglist).then(imgurls => {
                     // console.log(imgurls)
@@ -261,7 +275,7 @@
                         city_id: this.province[4],
                         area: this.province[2],
                         area_id: this.province[5],
-                        referee: this.Recommender,
+                        // referee: this.Recommender,
                         address: this.input2,
                         mobile: this.input3,
                         bus_scope: this.message,
@@ -270,23 +284,25 @@
                         imgurl: imgurls[0],
                         album: album
                     };
-                    console.log(ad_data)
+                    // console.log(ad_data)
                     this.$post('/api/v1/userStore', ad_data)
                         .then((res) => {
                             console.log(res);
                             if (res.status == 200) {
                                 this.$notify({ type: 'success', message: '入驻成功' });
+                                this.$store.commit('setLoading');
+                                this.btnBk= false;
                                 this.$router.push({path: '/mine/nearby'});
                             } else {
+                                this.$store.commit('setLoading');
+                                this.btnBk= false;
                                 this.$toast(res.message);
                             }
                         }).catch(function (error) {
                         console.log(error);
                     });
                 })
-
-            },
-
+              },1500),
             //获取坐标
             isGteLocation(value){
               if(!value){
@@ -303,8 +319,7 @@
             }
         },
         created() {
-            this.getLocation(this.isGteLocation);   //获取坐标
-
+            // this.getLocation(this.isGteLocation);   //获取坐标
             this.getClassArr();
         },
         mounted(){
@@ -375,5 +390,8 @@
     background-color: $sss-color;
     border-radius: 5px;
     color: #fff;
+  }
+  .btnTwo{
+    background-color: #9d9f9f;
   }
 </style>

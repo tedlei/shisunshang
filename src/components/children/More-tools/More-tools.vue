@@ -4,14 +4,14 @@
       <strong class="tll">{{item.tll}}</strong>
       <ul class="clearfix">
         <li v-for="(itemli,liindex) in item.list" :key="liindex">
-          <router-link :to="{path:itemli.linkto}">
-            <div style="margin-bottom: 10px">
+          <!-- <router-link :to="{path:itemli.linkto}"> -->
+            <div style="margin-bottom: 10px" @click="pathAdd(itemli.linkto)">
               <img :src="require(`../../../assets/img/${itemli.img}.png`)" style="width: 34px">
             </div>
             <div>
               {{itemli.text}}
             </div>
-          </router-link>
+          <!-- </router-link> -->
         </li>
       </ul>
     </div>
@@ -55,7 +55,7 @@
                             {
                                 img: 'mgj6',
                                 text: '主题换肤',
-                                linkto:''
+                                linkto:'/huanfu'
                             },
                             {
                                 img: 'mgj7',
@@ -65,7 +65,7 @@
                             {
                                 img: 'mgj8',
                                 text: '卡券管理',
-                                linkto:''
+                                linkto:'/kajuan'
                             },
                         ]
                     },
@@ -142,7 +142,16 @@
                 ]
             }
         },
-
+        methods:{
+          pathAdd(path){
+            // console.log(path)
+            if(path=='/huanfu' || path=='/kajuan') {
+              this.$toast('功能上线中')
+            }else{
+              this.$router.push(path);
+            }
+          }
+        }
     }
 </script>
 

@@ -12,25 +12,21 @@
     <!--  搜索组件    -->
     <search v-if="this.$route.name == 'Special-area'"
             :dmsg='true'
-            :style="'padding:0 0 0 0.2rem'"
-            class="childSearch"
-    ></search>
+            :style="'padding:0 0 0 0.2rem'"></search>
     <!--    -->
 
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>
-        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f"
-              @click="edit">编辑</span>
+        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f" @click="edit">编辑</span>
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
-        <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span>
-      <!-- <span v-else-if="this.bank" @click="add_bank">添加</span> -->
+        <!-- <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span> -->
+        <!-- <span v-else-if="this.bank" @click="add_bank">添加</span> -->
         <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
         <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
         <span v-else-if="this.Atc && this.$route.meta.title != '实名认证'" @click='activeChild'>保存</span>
-      <!-- <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span> -->
-        <van-button v-else-if="this.$route.meta.title==='财务记录'" type="primary" size="small" class="news_btn"
-                    @click="topUp">充值</van-button>
+        <!-- <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span> -->
+        <van-button  v-else-if="this.$route.meta.title==='财务记录'" type="primary" size="small" class="news_btn" @click="topUp">充值</van-button>
     </span>
   </header>
 </template>
@@ -79,13 +75,14 @@
             routerback() {
                 if (this.$route.query.goindex === 'true') {
                     this.$router.push('/')
-                } else if (this.$route.name == 'order' || this.$route.name == 'successfulPayment') {
+                }else if(this.$route.name=='order' || this.$route.name=='successfulPayment'){
                     this.$router.push('/mine')
                 } else {
                     this.$router.back(-1)
                 }
             },
             baocun: function (id) {
+                console.log(id)
                 var _this = this
                 _this.$store.commit('addressid', id);
                 setTimeout(function () {
@@ -106,8 +103,8 @@
             activeChild: function () {
                 Bus.$emit('Atc', true)
             },
-            topUp() {
-                this.$router.push({path: '/mine/Rechargemoney'})
+            topUp(){
+                this.$router.push({path:'/mine/Rechargemoney'})
             }
         },
         mounted() {
@@ -134,11 +131,12 @@
     display: flex;
     justify-content: center;
     padding: 0.13rem 0.15rem;
-    background-color: #f5f5f5;
+    background-color: #fff;
+    position: relative;
     position: fixed;
-    top: 0;
     width: 100%;
     z-index: 9;
+    border-bottom: 1px solid #f2f2f2;
 
     i, .news, .footprint {
       font-size: 0.28rem;
@@ -148,19 +146,12 @@
       color: #999999;
     }
 
-    .childSearch {
-      background: none;
-      >>>.van-search__content{
-        background-color: #fff;
-      }
-    }
-
     .news, .footprint {
       font-size: 0.14rem;
       right: 0.05rem;
     }
 
-    > > > .el-input {
+    /deep/ .el-input {
       margin: 0 0.3rem;
     }
   }

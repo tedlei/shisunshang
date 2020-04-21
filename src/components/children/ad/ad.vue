@@ -22,7 +22,7 @@
             <div class="time">
               <span>时间：{{item.add_time}}</span>
               <span>来源：{{item.users_id}}</span>
-              <div class="font_fx" @click.stop="tapTz({path:'/mine/ad/addetails',query:{id:item.id,type:true}})">分享</div>
+              <div class="font_fx" @click.stop="tapTz({path:'/mine/ad/addetails',query:{id:item.id,type:true}})">点击分享</div>
               <!-- <i
                 class="el-icon-share"
                 style="font-size:0.2rem;float:right;"
@@ -122,7 +122,7 @@ export default {
             color: #999999;
             font-size: 0.12rem;
             .font_fx{
-              width: 0.5rem;
+              width: 0.7rem;
               height: 0.25rem;
               float: right;
               text-align: center;
