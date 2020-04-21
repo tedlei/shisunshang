@@ -291,9 +291,11 @@
                             if (res.status == 200) {
                                 this.$notify({ type: 'success', message: '入驻成功' });
                                 this.$store.commit('setLoading');
+                                this.btnBk= false;
                                 this.$router.push({path: '/mine/nearby'});
                             } else {
                                 this.$store.commit('setLoading');
+                                this.btnBk= false;
                                 this.$toast(res.message);
                             }
                         }).catch(function (error) {
@@ -318,7 +320,6 @@
         },
         created() {
             // this.getLocation(this.isGteLocation);   //获取坐标
-
             this.getClassArr();
         },
         mounted(){

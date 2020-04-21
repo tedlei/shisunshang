@@ -124,6 +124,8 @@
                             _this.allinput.input4 = addressmsg[i].address
 
                             _this.Areas = addressmsg[i].province + "/" + addressmsg[i].city + "/" + addressmsg[i].area
+                            // console.log(_this.Areas);
+                            // _this.$refs.picker.setValues(['重庆市', '重庆市', '江北区']);
                             _this.defaultCode = addressmsg[i].province_id + ',' + addressmsg[i].city_id + ',' + addressmsg[i].area_id
                             _this.chooseAreasCode.province = addressmsg[i].province
                             _this.chooseAreasCode.city = addressmsg[i].city
@@ -138,7 +140,8 @@
             },
             // 底部选择省市弹窗
             showPopup() {
-              this.$refs.picker.setValues(["北京市", "北京市", "西城区"]);
+              // console.log(this.chooseAreasCode.province)
+              // this.$refs.picker.setValues(['重庆市', '重庆市', '江北区']);
               this.areashow = true;
             },
             // 底部选择省市弹窗 确定按钮
@@ -149,8 +152,10 @@
                 this.chooseAreasCode.province = e[0];
                 this.chooseAreasCode.city = e[1];
                 this.chooseAreasCode.area = e[2];
+                // this.$refs.picker.setValues([e[0], e[1], e[2]]);
                 for (let i in this.areaList) {
                     if (this.areaList[i].text == e[0]) {
+                      console.log(this.areaList[i].id);
                         this.chooseAreasCode.province_id = this.areaList[i].id;
                         let list = this.areaList[i].children;
                         for (let n in list) {
@@ -168,6 +173,7 @@
                         }
                     }
                 }
+                // console.log(this.chooseAreasCode)
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {
@@ -211,13 +217,12 @@
                         let newaddress = Object.assign(address, _this.chooseAreasCode)
                         _this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                _this.$toast({
-                                    message: '添加成功',
-                                    type: 'success',
-                                    onClose: function () {
-                                        _this.$router.back(-1);
-                                    }
-                                });
+                              if(response.status==200){
+                                this.$toast('添加成功');
+                                // this.$router.back(-1);
+                              }else{
+                                this.$toast(response.message);
+                              }
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -232,15 +237,15 @@
                             default: this.value1 == false ? 0 : 1
                         };
                         let newaddress = Object.assign(address, _this.chooseAreasCode)
+                        console.log(_this.chooseAreasCode);
                         this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                                _this.$toast({
-                                    message: '修改成功',
-                                    type: 'success',
-                                    onClose: function () {
-                                        _this.$router.back(-1);
-                                    }
-                                });
+                               if(response.status==200){
+                                this.$toast('修改成功');
+                                // this.$router.back(-1);
+                              }else{
+                                this.$toast(response.message);
+                              }
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -251,11 +256,12 @@
 
         mounted() {
             // let value = this.$refs.picker.getValues();
-            // console.log(value)
+            // console.log(value);
+            // this.$refs.picker.setValues(["四川省", "成都市", "锦江区"]);
             if (this.$route.query.addressid != 'add') {
                 this.getmsg();
             }
-            
+
         },
 
     }
