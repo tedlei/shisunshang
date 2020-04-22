@@ -81,21 +81,22 @@
 </script>
 
 <style scoped lang="scss">
-  .content {
-    .mycode {
-      padding: 0.7rem 0.3rem 0 0.3rem;
-    }
+    .content {
+        background-color: #fff;
+        .mycode {
+            padding: 0.7rem 0.3rem 0 0.3rem;
+        }
 
-    .content_div {
-      line-height: 0.5rem;
-      border-bottom: 1px solid #f2f2f2;
-    }
+        .content_div {
+            line-height: 0.5rem;
+            border-bottom: 1px solid #f2f2f2;
+        }
 
-    .qrcode {
-      display: inline-block;
-      padding: 0.08rem;
-      background-color: #fff;
-      margin: 0.3rem 0;
+        .qrcode {
+            display: inline-block;
+            padding: 0.08rem;
+            background-color: #fff;
+            margin: 0.3rem 0;
+        }
     }
-  }
 </style>
