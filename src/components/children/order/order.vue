@@ -219,7 +219,7 @@
                                 // 加载状态结束
                                 setTimeout(() => {
                                     this.loading = false;
-                                    this.finished = false;
+                                    this.finished = true;
                                 }, 1000)
                             } else {
                                 _this.$toast(response.message)

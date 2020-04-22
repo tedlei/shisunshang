@@ -6,7 +6,7 @@
       </div>
       <div class="common_box store_msg">
         <div class="name">
-          <div style="display: flex">
+          <div style="display: flex;flex: 1">
             <span class="left_name fontWrap fontWrapOne">{{shops.name}}</span>
             <img src="../../../assets/img/cx.jpg" v-if="shops.is_promotion == 1" @click="Previewcode(false,'cx')">
           </div>
@@ -267,6 +267,7 @@
           color: #fff;
           padding: 2px 0.05rem;
           font-size: 0.12rem;
+          width: max-content;
         }
       }
 
