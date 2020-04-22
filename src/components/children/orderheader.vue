@@ -12,7 +12,9 @@
     <!--  搜索组件    -->
     <search v-if="this.$route.name == 'Special-area'"
             :dmsg='true'
-            :style="'padding:0 0 0 0.2rem'"></search>
+            :style="'padding:0 0 0 0.2rem'"
+            class="childSearch"
+    ></search>
     <!--    -->
 
     <span class="news">
@@ -131,12 +133,11 @@
     display: flex;
     justify-content: center;
     padding: 0.13rem 0.15rem;
-    background-color: #fff;
-    position: relative;
+    background-color: #f5f5f5;
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 9;
-    border-bottom: 1px solid #f2f2f2;
 
     i, .news, .footprint {
       font-size: 0.28rem;
@@ -144,6 +145,13 @@
       top: 50%;
       transform: translateY(-50%);
       color: #999999;
+    }
+
+    .childSearch {
+      background: none;
+      >>>.van-search__content{
+        background-color: #fff;
+      }
     }
 
     .news, .footprint {

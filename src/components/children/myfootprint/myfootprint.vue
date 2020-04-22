@@ -1,143 +1,128 @@
 <template>
+  <div class="content">
+    <div class="footprint_box" :class="{p_b_50:!isEmpty}">
+      <!--  足迹，收藏，店铺  -->
+      <div v-if="$route.query.printid != 3">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+        >
+          <div class="common_box footprint" v-for="(item,index) in goodslist" :key="index"
+               @click="todetail(index)">
+            <div style="display: flex;align-items: center" @click.stop="chooseShopGoods(index)">
+              <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'">
+                <van-icon name="success" color="#fff"/>
+              </div>
+            </div>
+            <div class="r_msg">
+              <div class="img_box">
+                <van-image
+                  width="0.9rem"
+                  height="0.9rem"
+                  fit="cover"
+                  :src="item.imgsrc"
 
-  <div class="common_box">
-    <!--  足迹，收藏，店铺  -->
-    <div v-if="$route.query.printid != 3 && isData">
-
-      <!-- <div class="footprint" v-for="(item,index) in goodslist" :key="index">
-        <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'" @click="chooseShopGoods(index)">
-            <van-icon name="success" color="#fff"/>
-        </div>
-        <div class="img_box">
-          <van-image
-            width="0.9rem"
-            height="0.9rem"
-            fit="cover"
-            :src="item.imgsrc"
-          />
-        </div>
-        <div class="right_msg">
-          <p>{{item.name}}</p>
-          <div>
-            <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
-            <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
-          </div>
-        </div>
-      </div> -->
-
-      <van-list v-model="loading"
-                :finished="finished"
-                finished-text="没有更多了"
-                offset="50"
-                @load="getData">
-        <div class="footprint" v-for="(item,index) in goodslist" :key="index">
-          <div v-show="$store.getters.getEmpty" :class="item.checked ?'addRadioTwo':'addRadio'"
-               @click="chooseShopGoods(index)">
-            <van-icon name="success" color="#fff"/>
-          </div>
-          <div class="img_box">
-            <van-image
-              width="0.9rem"
-              height="0.9rem"
-              fit="cover"
-              :src="item.imgsrc"
-              @click="todetail(index)"
-            />
-          </div>
-          <div class="right_msg">
-            <p>{{item.name}}</p>
-            <div>
-              <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
-              <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
+                />
+              </div>
+              <div class="right_msg">
+                <p class="fontWrap fontWrapTwo">{{item.name}}</p>
+                <div>
+                  <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
+                  <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </van-list>
-
-
-      <div class="bottom_box" v-show="$store.getters.getEmpty">
-        <div class="mycheck left_check">
-          <!-- <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
-            style="margin-right: 0.1rem"></el-checkbox> -->
-          <div :class="checkAll ?'allElection':'allElectionShow'" @click="handleCheckAllChange">
-            <div v-show="checkAll">
-              <van-icon name="success" color="#fff"/>
+        </van-list>
+        <div class="bottom_box" v-show="$store.getters.getEmpty">
+          <div class="mycheck left_check">
+            <!-- <el-checkbox class="all" v-model="checkAll" @change="handleCheckAllChange"
+              style="margin-right: 0.1rem"></el-checkbox> -->
+            <div :class="checkAll ?'allElection':'allElectionShow'" @click="handleCheckAllChange">
+              <div v-show="checkAll">
+                <van-icon name="success" color="#fff"/>
+              </div>
             </div>
+            <span>全选</span>
           </div>
-          <span>全选</span>
-        </div>
-        <div class="right_delet" @click="deleteCollection">
-          删除
+          <div class="right_delet" @click="deleteCollection">
+            删除
+          </div>
         </div>
       </div>
+
+
+      <!-- 评价   -->
+      <div v-if="$route.query.printid == 3 && isData">
+        <van-list v-model="loading"
+                  :finished="finished"
+                  finished-text="没有更多了"
+                  offset="100"
+                  @load="onLoad">
+          <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index" @click="todetail(index)">
+            <div class="left_img">
+              <!-- <img :src="item.goods.imgsrc"> -->
+              <div>
+                <van-image
+                  width="0.5rem"
+                  height="0.5rem"
+                  fit="cover"
+                  :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
+                />
+              </div>
+              <div class="one">
+                <div>
+                  <span
+                    class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</span>
+                  <span>{{item.add_time}}</span>
+                </div>
+                <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
+                <div class="evaluationicon" @click.stop="tapDelete(item.id)">
+                  <van-icon size="20" name="delete"/>
+                </div>
+              </div>
+            </div>
+            <div class="right_msg">
+              <ul>
+                <li>
+                  <div>
+                    <span class="fontWrap fontWrapTwo">评价：{{item.content}}</span>
+                    <!-- <span>符合度：{{item.fhd}}</span>
+                    <span>态度：{{item.td}}</span>
+                    <span>物流：{{item.wl}}</span> -->
+                  </div>
+                </li>
+                <li>
+                  <p>{{item.liuyan}}</p>
+                  <div class="pei" v-if="item.imgarr.length>0">
+                    <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
+                  </div>
+                </li>
+                <!-- <li class="goods_li">
+                  <router-link to="">
+                    <img :src="require('../../../assets/img/pei1.png')">
+                    <div class="left_g_msg">
+                      {{item.msg}}
+                    </div>
+                    <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
+                  </router-link>
+                </li> -->
+                <li v-if="item.huifu">
+                  <span>商家回复：</span>{{item.huifu}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </van-list>
+      </div>
+
     </div>
     <!--  空  -->
     <empty v-show="isEmpty"></empty>
-
-    <!-- 评价   -->
-    <div v-if="$route.query.printid == 3 && isData">
-      <van-list v-model="loading"
-                :finished="finished"
-                finished-text="没有更多了"
-                offset="100"
-                @load="getData">
-        <div class="evaluation" v-for="(item,index) in evaluation_lists" :key="index">
-          <div class="left_img" @click="todetail(index)">
-            <!-- <img :src="item.goods.imgsrc"> -->
-            <div>
-              <van-image
-                width="0.5rem"
-                height="0.5rem"
-                fit="cover"
-                :src="item.goods==undefined||item.goods==null?'':item.goods.imgsrc"
-              />
-            </div>
-            <div class="one">
-              <div>
-                <span class="fontWrap fontWrapOne">{{item.goods==undefined||item.goods==null?'':item.goods.name}}</span>
-                <span>{{item.add_time}}</span>
-              </div>
-              <!-- <div class="evaluationicon" @click="deleteCollection(item.id)"> -->
-              <div class="evaluationicon" @click.stop="tapDelete(item.id)">
-                <van-icon size="20" name="delete"/>
-              </div>
-            </div>
-          </div>
-          <div class="right_msg">
-            <ul>
-              <li>
-                <div>
-                  <span class="fontWrap fontWrapTwo">评价：{{item.content}}</span>
-                  <!-- <span>符合度：{{item.fhd}}</span>
-                  <span>态度：{{item.td}}</span>
-                  <span>物流：{{item.wl}}</span> -->
-                </div>
-              </li>
-              <li>
-                <p>{{item.liuyan}}</p>
-                <div class="pei" v-if="item.imgarr.length>0">
-                  <img v-for="(imgitem,index) in item.imgarr" :src="imgitem" :key="index">
-                </div>
-              </li>
-              <!-- <li class="goods_li">
-                <router-link to="">
-                  <img :src="require('../../../assets/img/pei1.png')">
-                  <div class="left_g_msg">
-                    {{item.msg}}
-                  </div>
-                  <i data-v-c66815a2="" class="el-icon-arrow-right"></i>
-                </router-link>
-              </li> -->
-              <li v-if="item.huifu">
-                <span>商家回复：</span>{{item.huifu}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </van-list>
-    </div>
-
   </div>
+
 </template>
 
 <script>
@@ -148,6 +133,8 @@
         components: {Empty},
         data() {
             return {
+                loading: false,   //是否正在获取数据
+                finished: false,   //数据是否获取完成
                 titlelist: ['我的收藏', '我的关注', '我的足迹', '我的评价'],
                 isEmpty: false,
                 isData: false,
@@ -155,9 +142,6 @@
                 goodslist: [],  //我的收藏、我的关注、我的足迹列表
                 evaluation_lists: [],   //评价列表
                 page: 0,
-                loading: false,   //是否正在获取数据
-                finished: false   //数据是否获取完成
-
             }
         },
         methods: {
@@ -229,7 +213,7 @@
                         imgsrc: goods ? goods.imgsrc : '',
                         price: goods ? goods.price : '',
                         checked: false,
-                        goods_id:goods.id
+                        goods_id: goods.id
                     })
                 }
             },
@@ -238,8 +222,6 @@
                 let printid = this.$route.query.printid;
                 let list = this.goodslist;
                 let evaluation_lists = this.evaluation_lists;
-                console.log(printid)
-                console.log(list[e])
                 if (printid == '0') {
                     this.$router.push({
                         path: '/goodsdetails',
@@ -247,21 +229,21 @@
                             id: list[e].id
                         }
                     });
-                } else if(printid == '2'){
+                } else if (printid == '2') {
                     this.$router.push({
                         path: '/goodsdetails',
                         query: {
                             id: list[e].goods_id
                         }
                     });
-                }else if (printid == '1') {
+                } else if (printid == '1') {
                     this.$router.push({
                         path: '/storeDetails',
                         query: {
                             id: list[e].id
                         }
                     });
-                }else if (printid == '3'){
+                } else if (printid == '3') {
                     this.$router.push({
                         path: '/goodsdetails',
                         query: {
@@ -271,10 +253,11 @@
 
                 }
             },
-
             //获取数据
-            getData(num) {
+            async getData(num) {
                 if (this.$route.query.printid == 0) {
+                    console.log(1111111111)
+                    // this.loading = true;
                     let ad_data = {
                         method: 'get.collect.goods.list',
                         page: num ? this.goodslist.length + num : this.page,
@@ -285,9 +268,8 @@
                             this.loading = false;   //是否处于加载状态  否
                             let {items} = res.data
                             this.page += items.length;
-                            // this.goodslist = [];
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.myfootprintDataPush(items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -314,7 +296,7 @@
                             this.page += items.length;
                             // this.goodslist = [];
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.collectionShop(res.data.items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -340,7 +322,7 @@
                             this.page += items.length;
                             // this.goodslist = [];
                             if (items.length > 0) {
-                                this.isData = true;
+                                // this.isData = true;
                                 this.footprintPush(items);
                                 if (this.goodslist.length < 10) {
                                     this.finished = true;
@@ -366,7 +348,7 @@
                             let items = res.data
                             if (items && items.length > 0) {
                                 this.page += items.length;
-                                this.isData = true;
+                                // this.isData = true;
                                 this.evaluation_lists = this.evaluation_lists.concat(items);
                                 if (this.evaluation_lists.length < 10) {
                                     this.finished = true;
@@ -382,6 +364,12 @@
                 }
 
             },
+            //下拉无限加载
+            onLoad() {
+                // 异步更新数据
+                this.getData();
+            },
+
 
             //删除收藏商品
             deleteCollection(evaluationid) {
@@ -394,9 +382,9 @@
                     if (this.goodslist[i].checked) {
                         _id.push(this.goodslist[i].id)
                     }
-                };
+                }
+                ;
 
-                // console.log(_id);
                 if (this.$route.query.printid == 0) {
                     let ad_data = {
                         method: "del.collect.goods.list",
@@ -407,7 +395,7 @@
                         .then((res) => {
                             console.log(res);
                             if (res.status == 200) {
-                                // this.getData();
+
                                 this.deleteList(_id);
                             }
                         }).catch(function (error) {
@@ -504,10 +492,8 @@
             //取消关注店铺
         },
         created() {
-            console.log(this.$route.query);
             let index = this.$route.query.printid;
             document.title = this.titlelist[index];
-            this.getData();
         },
         mounted() {
 
@@ -517,39 +503,41 @@
 
 <style scoped lang="scss">
 
-  .common_box {
-    padding: 0;
-    padding-top: 47px;
-    margin: 0;
-    // height: 100%;
-    // background-color: #fff;
+  .footprint_box {
+    margin-bottom: 0;
+
     .footprint {
       display: flex;
-      align-items: center;
-      padding: 12px 10px 10px 10px;
-      border-bottom: 1px solid #f2f2f2;
 
-      .img_box {
-        width: 90px;
-        margin: 0 15px 0 10px;
-      }
+      .r_msg {
+        display: flex;
+        align-items: center;
 
-      .right_msg {
-        text-align: left;
-        width: calc(100% - 115px);
+        .img_box {
+          width: 90px;
+          margin-right: 0.15rem;
+          font-size: 0;
+        }
 
-        div {
-          margin-top: 5px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        .right_msg {
+          text-align: left;
+          width: calc(100% - 0.15rem);
 
-          i {
-            font-size: 0.18rem;
-            color: #999999;
+          div {
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            i {
+              font-size: 0.18rem;
+              color: #999999;
+            }
           }
         }
       }
+
+
     }
 
     .bottom_box {
@@ -563,16 +551,16 @@
       .left_check {
         display: flex;
         align-items: center;
-        padding-left: 10px;
+        padding-left: 0.2rem;
         background-color: #333;
-        line-height: 50px;
+        line-height: 0.5rem;
         width: 70%;
         text-align: left;
       }
 
       .right_delet {
         background-color: #009900;
-        line-height: 50px;
+        line-height: 0.5rem;
         width: 30%;
       }
 
@@ -622,7 +610,7 @@
 
         li {
           text-align: left;
-          margin-bottom: 10px;
+          margin-bottom: 0.1rem;
 
 
           .pei {
@@ -655,6 +643,7 @@
   .addRadio, .addRadioTwo {
     width: 0.18rem;
     height: 0.18rem;
+    margin-right: 0.1rem;
     border: 1px solid #999999;
     border-radius: 50%;
   }

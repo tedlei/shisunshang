@@ -697,7 +697,7 @@ export default {
                             });
                         }
                         this.actions = actions;
-                        this.getRecommend();
+                        this.getRecommend()
                         this.shareConfig(this.users);
                     } else {
                     }
@@ -887,7 +887,8 @@ export default {
                 // console.log('我是商品分享了')
                 var url = "";
                 if (this.is_ios()) {
-                    url = sessionStorage.getItem("ios_share_url").split("#")[0];
+                    console.log(this.$route.fullPath)
+                    url = "http://" + location.host + this.$route.fullPath;
                 } else {
                     url = "http://" + location.host + this.$route.fullPath;
                 }

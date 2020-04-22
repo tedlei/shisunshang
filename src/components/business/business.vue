@@ -19,7 +19,7 @@
             </div>
 
             <div class="right">
-                <div v-show="isUlliTwo&&navChildren.length>0&&isvalistTwo" class="left_ul">
+                <div v-show="isUlliTwo&&navChildren.length>0" class="left_ul">
                     <div
                         class="left_ul_li"
                         v-for="(item1,index1) in navChildren"
@@ -28,8 +28,8 @@
                     >{{item1.cate_name}}</div>
                 </div>
                 <div class="right_ul">
-                    <!-- <div :style="'height:'+isvalist*0.925+'rem'" class="right_ul_cer" v-show='isUlliTwo&&navChildren.length>0'></div> -->
-                    <van-list v-show="!isvalistTwo"
+                    <div :style="'height:'+isvalist*0.925+'rem'" class="right_ul_cer" v-show='isUlliTwo&&navChildren.length>0'></div>
+                    <van-list
                     v-model="loading"
                     :finished="finished"
                     offset="50"
@@ -96,8 +96,7 @@ export default {
             finished:false,
             page:0,  //数据条数
             isvalist:11,
-            isvalistTwo:false,
-            navigation:false,   //导航id  
+            navigation:false,   //导航id
 
 
         };
@@ -105,7 +104,6 @@ export default {
     methods: {
         //选择一级导航列表时
         getNum(index, children) {
-            
             this.listNum = index
             this.num = index;
             this.navChildren = children;
@@ -119,11 +117,6 @@ export default {
                 this.navigation = false;
                 this.cpylist=[];
                 this.getDataTwo();
-            }
-            if(index==0){
-                this.isvalistTwo = false;
-            }else{
-                this.isvalistTwo = true;
             }
         },
 
@@ -148,7 +141,7 @@ export default {
             let ad_data = {
                 method: "get.user.strre.category.list"
             };
-            this.$post("/api/v1/UserStoreCategory", ad_data) 
+            this.$post("/api/v1/UserStoreCategory", ad_data)
             .then(res => {
                 // console.log(res);
                 this.navPush(res.data);
@@ -202,7 +195,6 @@ export default {
             sessionStorage.setItem("businessNum",this.num);
             this.finished = false;
             this.isUlliTwo = false;
-            this.isvalistTwo = false;
             this.navigation = id;
             this.page = 0;
             this.cpylist = [];
@@ -230,7 +222,7 @@ export default {
                 this.getDataTwo();
             });
         }
-        
+
     },
     // mounted() {
         // let clientW = clientWw.clientWw();

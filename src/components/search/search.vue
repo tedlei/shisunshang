@@ -64,7 +64,7 @@
                 if (!histort) histort = [];
                 else histort = JSON.parse(histort);
                 if (histort.length >= 10) histort.pop()
-                if (histort.indexOf(searchVal)) histort.unshift(searchVal);
+                if (histort.indexOf(searchVal) <= -1) histort.unshift(searchVal);
                 localStorage.setItem('histort', JSON.stringify(histort));
                 this.$emit('getHistorylist')
                 this.$store.commit('sendsearchVal', searchVal);

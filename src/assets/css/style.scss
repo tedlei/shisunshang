@@ -23,6 +23,23 @@ a {
   font-size: 0.18rem;
 }
 
+.content {
+  position: absolute;
+  top: 0.47rem;
+  bottom: 0;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  > > > .van-field__label {
+    text-align: left;
+  }
+}
+
+.p_b_50 {
+  padding-bottom: 0.5rem;
+}
+
 .common_box {
   background-color: #fff;
   padding: 0.1rem;
@@ -30,13 +47,6 @@ a {
   border-radius: 5px;
 }
 
-.content {
-  padding-top: 0.48rem;
-
-  /deep/ .van-field__label {
-    text-align: left;
-  }
-}
 
 .bottom_fixed {
   position: fixed;
@@ -79,6 +89,7 @@ a {
   border-radius: 3px;
   border: none;
 }
+
 .lists {
   margin-bottom: 10px;
 
@@ -155,6 +166,7 @@ a {
   }
 
 }
+
 
 //多选框修改样式
 .mycheck {
@@ -264,6 +276,7 @@ a {
 .fontWrapTwo {
   -webkit-line-clamp: 2;
 }
+
 .fontWrapSan {
   -webkit-line-clamp: 3;
 }

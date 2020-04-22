@@ -94,7 +94,7 @@ export default {
     // this.getNum();
   },
   methods: {
-    
+
   },
   watch: {
     $route() {

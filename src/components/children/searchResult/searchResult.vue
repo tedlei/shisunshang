@@ -37,10 +37,10 @@
         <div class="search_result" v-if="this.gainsearchVal">
           <goodslist :gainsearchVal="gainsearchVal"></goodslist>
         </div>
-        <!--      搜索空-->
-        <div class="none" v-show="false">
-          <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">
-        </div>
+<!--        &lt;!&ndash;      搜索空&ndash;&gt;-->
+<!--        <div class="none" v-show="false">-->
+<!--          <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">-->
+<!--        </div>-->
       </div>
 
     </van-popup>
@@ -126,13 +126,14 @@
                 }
             });
             Bus.$on('getHot', (data) => {
+                console.log(data)
                 if (data == true) {
                     this.getHot();
                 }
             });
-            if (this.$store.getters.isLogin){
-                Bus.$emit('getHot', true);
-            }
+            // if (this.$store.getters.isLogin){
+            //     Bus.$emit('getHot', true);
+            // }
             // localStorage.setItem('history', this.historylist)
         }
     }

@@ -301,7 +301,7 @@
             isVerDate(v) {
                 return this.arrDate.includes(v)
             },
-            
+
             // 返回 类似 2016-01-02 格式的字符串
             formatDate: function (year, month, day) {
                 var y = year;
