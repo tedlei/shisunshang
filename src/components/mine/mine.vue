@@ -275,7 +275,7 @@ export default {
           img: "dpj",
           name: "待评价",
           router: "/goodsdetails/order",
-          orderid: "evaluate",
+          orderid: 4,
           num: ""
         },
         {

@@ -155,11 +155,10 @@
                 shouhou: '',
                 isshouhou: false,
                 buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
-                navItems: this.$route.query.orderid == 4 ? ['办理中', '退款成功', '退款成功', '退款成功', '退款成功'] :
-                    [{text: '全部', wholeData: []}, {text: '待付款', wholeData: []}, {
+                navItems: [{text: '全部', wholeData: []}, {text: '待付款', wholeData: []}, {
                         text: '待发货',
                         wholeData: []
-                    }, {text: '待收货', wholeData: []}],
+                    }, {text: '待收货', wholeData: []}, {text: '待评价', wholeData: []}],
                 orderAllItem: [],
                 wholeData: [],
                 oderPay: '',//付款成功跳转传参
@@ -179,13 +178,11 @@
             onLoad() {
                 // 异步更新数据
                 this.flag = false
-                if (this.$route.query.orderid == 'evaluate') {
-                    this.getNum(4);
-                } else {
-                    let Index = this.$route.query.orderid;
-                    this.num = Index;
-                    this.getOderData(Index);
-                }
+
+                let Index = this.$route.query.orderid;
+                this.num = Index;
+                this.getOderData(Index);
+
             },
             //订单列表
             async getOderData(index) {
