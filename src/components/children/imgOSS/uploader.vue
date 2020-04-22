@@ -2,6 +2,7 @@
     <div>
         <van-uploader 
             :after-read="afterRead" 
+            :before-delete= 'beforeDelete'
             v-model="fileList" 
             multiple 
             :max-count="maxCount"
@@ -14,6 +15,7 @@ export default {
     components: {},
     props:[
         'maxCount',
+        'reading',
         'index',
         'imgUrl'
     ],
@@ -23,36 +25,53 @@ export default {
         }
     },
     methods: {
+        //文件选择回调
         afterRead ( file ) {
             this.createImage();
         },
-        beforeDelete( e ) {
+        //文件删除回调
+        beforeDelete(e, item) {
+            // console.log(e);
+            // console.log(item.index);
+            if(this.$route.query.state!='edit'){
+                this.fileList.splice(item.index,1);
+            }else{
+                this.fileList.splice(item.index,1);
+                if(this.reading.length==1){
+                    this.$store.commit('setMerchantApplicationObjimgF','1');
+                }else{
+                    this.$store.commit('setMerchantApplicationObjimgX',this.fileList);
+                }
+            }
             // this.createImage();
         },
+        //图片处理后向父组件抛出
         createImage( ) {
             let self = this;
             for( let i in this.fileList){
-                let file = this.fileList[i].file;
-                let reader = new FileReader();
-                reader.onload = e => {
-                    let result = e.target.result;
-                    let img = new Image();
-                    img.src = result;
-                    if(result.length/1024 > 50){
-                        img.onload = function() {
-                           this.firImg = self.compress(img, 0.7);
-                            let imgTwo = self.base64UrlToBlob(this.firImg);
-                            self.fileList[i].file = imgTwo;
-                            // if(self.type) self.fileList[i].type = self.type;
+                if(this.fileList[i].file){
+                    let file = this.fileList[i].file;
+                    let reader = new FileReader();
+                    reader.onload = e => {
+                        let result = e.target.result;
+                        let img = new Image();
+                        img.src = result;
+                        if(result.length/1024 > 50){
+                            img.onload = function() {
+                               this.firImg = self.compress(img, 0.7);
+                                let imgTwo = self.base64UrlToBlob(this.firImg);
+                                self.fileList[i].file = imgTwo;
+                                // if(self.type) self.fileList[i].type = self.type;
+                            }
+                        }else{
+                            // console.log(this.fileList)
+                            this.firImg = result
                         }
-                    }else{
-                        console.log(this.fileList)
-                        this.firImg = result
-                    }
-                };
-                reader.readAsDataURL(file);
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
-            console.log(this.fileList)
+            // console.log(this.fileList)
             this.$emit('imgUpData', this.fileList);
         },
         // 压缩图片
@@ -85,8 +104,21 @@ export default {
             return new File([u8arr], filename, {type: mime})
         },
     },
+    created() {
+        // console.log(this.$route.query.state=='edit');
+        // console.log(this.maxCount);
+        if(this.$route.query.state=='edit'){
+            if(this.reading){
+                // console.log(this.reading)
+                for(let item of this.reading){
+                    this.fileList.push({ url: item})
+                }
+            }
+        }
+    },
     mounted () {
         // console.log(this.index)
+        
     },
     updated() {
         // console.log(this.fileList);

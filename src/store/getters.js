@@ -75,5 +75,9 @@ export default {
   },
   getCartNum(state) {
     return state.cart.cartNum;
-  }
+  },
+  getMerchantApplicationObj(state) {
+    return state.cart.merchantApplicationObj;
+  },
+  
 }

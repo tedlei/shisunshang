@@ -221,7 +221,6 @@
         methods: {
           //获取订单
           getDATA() {
-            
               let goods_id = this.$route.query.id;
               let goods_num = this.$route.query.num;
               // let goods_sku_id = this.$route.query.goods_sku_id.join('_');

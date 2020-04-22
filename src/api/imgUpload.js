@@ -8,7 +8,10 @@ export default function OSS ( imgList ) {
             let token = res.data.token;
             let domain = res.data.domain;
             let upimgs = [];
+            let num = 0;
             for(let i in imgList){
+                if(imgList[i].file){
+                num+=1;
                 const qiniu = require('qiniu-js');
                 let postfix = imgList[i].file.name.substring(imgList[i].file.name.lastIndexOf('.'), imgList[i].file.name.length);
                 let name = new Date().getTime() + Math.ceil(Math.random()*100)+postfix;
@@ -28,14 +31,17 @@ export default function OSS ( imgList ) {
                       console.log(errResult)
                     },
                     complete: (result) => {
-                      console.log(result)
+                    //   console.log(result)
                       let add = domain+result.key;
                       upimgs.push(add);
-                      if(upimgs.length == imgList.length){
+                    //   if(upimgs.length == imgList.length){
+                      if(upimgs.length == num){
                         resolve(upimgs);
                       }
                     }
                 })
+
+                }
             }
         }).catch(function (error) {
             reject({data:false})

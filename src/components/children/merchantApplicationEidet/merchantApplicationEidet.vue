@@ -200,7 +200,7 @@
             },
 
             imgUpData(data) {
-                console.log(data);
+                // console.log(data);
                 this.upfileList = data;
             },
             imgUpDataTwo(data) {
@@ -255,33 +255,37 @@
                   this.btnBk= false;
                   return;
 
-                }else if(this.upfileList.length==0){
+                }else if(this.upfileList.length==0 && this.$store.getters.getMerchantApplicationObj.imgurl=='1'){
                     this.$toast('封面不能为空');
                     this.$store.commit('setLoading');
                     this.btnBk= false;
                     return;
 
-                }else if(this.upfileListTwo.length==0){
+                }else if(this.upfileListTwo.length==0 && this.$store.getters.getMerchantApplicationObj.album.length==0){
                   this.$toast('宣传照不能为空');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;
                 }
-                if(imglist.length==0){
-                    this.$store.commit('setLoading');
-                    this.btnBk= false;
-                    return;
+                //判断2个文件上传到底有没有添加新的图片
+                let isUp = true;
+                for(let isindex in imglist){
+                    if(imglist[isindex].file){
+                        isUp = false;
+                    }
                 }
-                imgUpload(imglist).then(imgurls => {
-                    console.log(imgurls)
-                    let album = [];
-                    for (var i in imgurls) {
-                        if (i != 0) {
-                            album.push(imgurls[i]);
+                //如果没有添加新的图片就不用再次提交七牛云
+                if(imglist.length==0 || isUp){
+                    //将数组中的有些{}中的url拿出来去掉{}得到最后要上传的正确url
+                    let album = this.$store.getters.getMerchantApplicationObj.album;
+                    for(let i in album){
+                        if(album[i].url){
+                            album[i] = album[i].url
                         }
                     }
                     let ad_data = {
-                        method: "add.user.store.item",
+                        method: "set.user.store.item",
+                        id: this.$store.getters.getMerchantApplicationObj.id,
                         name: this.input,
                         province: this.province[0],
                         province_id: this.province[3],
@@ -295,15 +299,14 @@
                         bus_scope: this.message,
                         cate_id: this.upclassId,
                         bus_hours: this.input1,
-                        imgurl: imgurls[0],
+                        imgurl: this.$store.getters.getMerchantApplicationObj.imgurl,
                         album: album
                     };
-                    // console.log(ad_data)
+                    console.log(ad_data,'没有新图片');
                     this.$post('/api/v1/userStore', ad_data)
                         .then((res) => {
-                            // console.log(res);
+                            console.log(res);
                             if (res.status == 200) {
-                                this.$notify({ type: 'success', message: '入驻成功' });
                                 this.$store.commit('setLoading');
                                 this.btnBk= false;
                                 this.$router.push({path: '/mine/nearby'});
@@ -315,13 +318,75 @@
                         }).catch(function (error) {
                         console.log(error);
                     });
-                })
+                }else{ //如果有新的图片就将新的图片上传七牛云
+                    //如果封面上传没有改变就不用再次上传图片
+                    if(this.upfileList.length==0){
+                        imglist.unshift(this.$store.getters.getMerchantApplicationObj.imgurl)
+                    }
+                    //如果宣传上传没有改变就不用再次上传图片
+                    let list = this.$store.getters.getMerchantApplicationObj.album;
+                    if(this.upfileListTwo.length==0){
+                        for(let index2 in list){
+                            imglist.push(list[index2].url);
+                        }
+                    }
+                    // console.log(imglist);
+                    imgUpload(imglist).then(imgurls => {
+                        // console.log(imgurls);
+                        //将返回的url放入数组的原文件位置
+                        let index = 0;
+                        for(let m in imglist){
+                            if(imglist[m].file){
+                                imglist[m] = imgurls[index];
+                                index+=1;
+                            }
+                        }
+                        //将数组中的有些{}中的url拿出来去掉{}得到最后要上传的正确url
+                        for(let n in imglist){
+                            if(imglist[n].url){
+                                imglist[n] = imglist[n].url;
+                            }
+                        }
+                        // console.log(imglist);
+                        let ad_data = {
+                            method: "set.user.store.item",
+                            id: this.$store.getters.getMerchantApplicationObj.id,
+                            name: this.input,
+                            province: this.province[0],
+                            province_id: this.province[3],
+                            city: this.province[1],
+                            city_id: this.province[4],
+                            area: this.province[2],
+                            area_id: this.province[5],
+                            // referee: this.Recommender,
+                            address: this.input2,
+                            mobile: this.input3,
+                            bus_scope: this.message,
+                            cate_id: this.upclassId,
+                            bus_hours: this.input1,
+                            imgurl: imglist[0],
+                            album: imglist.slice(1)
+                        };
+                        console.log(ad_data,"有新图上传")
+                        this.$post('/api/v1/userStore', ad_data)
+                            .then((res) => {
+                                // console.log(res);
+                                if (res.status == 200) {
+                                    this.$store.commit('setLoading');
+                                    this.btnBk= false;
+                                    this.$router.push({path: '/mine/nearby'});
+                                } else {
+                                    this.$store.commit('setLoading');
+                                    this.btnBk= false;
+                                    this.$toast(res.message);
+                                }
+                            }).catch(function (error) {
+                            console.log(error);
+                        });
+                    })
+                }
+                
             },1500),
-            //编辑保存
-            editAdd() {
-
-            },
-          
             //获取坐标
             isGteLocation(value){
               if(!value){
@@ -338,23 +403,23 @@
             }
         },
         created() {
-            // this.getLocation(this.isGteLocation);   //获取坐标
-            // console.log(this.$store.getters.getMerchantApplicationObj)
-            // console.log(this.$route.query.id)
-            // if(this.$route.query.id){
-            //   let obj = this.$store.getters.getMerchantApplicationObj;
-            //   this.input = obj.name;
-            //   this.input1 = obj.bus_hours;
-            //   this.province[0] = obj.province;
-            //   this.province[1] = obj.city;
-            //   this.province[2] = obj.area;
-            //   this.input2 = obj.address;
-            //   this.input3 = obj.mobile;
-            //   this.classList = obj.category1.cate_name+ '/' +obj.category.cate_name;
-            //   this.message = obj.bus_scope;
-            //   this.readingF[0] = obj.imgurl;
-            //   this.readingX = obj.album;
-            // }
+            let obj = this.$store.getters.getMerchantApplicationObj;
+            console.log(obj);
+            this.input = obj.name;
+            this.input1 = obj.bus_hours;
+            this.province[0] = obj.province;
+            this.province[1] = obj.city;
+            this.province[2] = obj.area;
+            this.province[3] = obj.province_id;
+            this.province[4] = obj.city_id;
+            this.province[5] = obj.area_id;
+            this.input2 = obj.address;
+            this.input3 = obj.mobile;
+            this.classList = obj.category1.cate_name+ '/' +obj.category.cate_name;
+            this.upclassId = obj.cate_id,
+            this.message = obj.bus_scope;
+            this.readingF[0] = obj.imgurl;
+            this.readingX = obj.album;
             this.getClassArr();
         },
         mounted(){

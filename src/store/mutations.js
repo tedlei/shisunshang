@@ -94,5 +94,14 @@ export default {
   },
   setCartNum(state, data) {
     state.cart.cartNum = data;
-  }
+  },
+  setMerchantApplicationObj(state, data) {
+    state.cart.merchantApplicationObj = data;
+  },
+  setMerchantApplicationObjimgF(state, imgF) {
+      state.cart.merchantApplicationObj.imgurl = imgF;
+  },
+  setMerchantApplicationObjimgX(state, imgX) {
+    state.cart.merchantApplicationObj.album = imgX;
+},
 }

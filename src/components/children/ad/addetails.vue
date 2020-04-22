@@ -137,7 +137,7 @@ export default {
 <style scoped lang="scss">
 .content {
   background-color: #fff;
-
+  // margin-bottom: 0.6rem;
   header {
     display: flex;
     justify-content: space-between;

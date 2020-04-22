@@ -65,7 +65,12 @@ export default {
         {
           left: "关于商城",
           right: ""
-        }
+        },
+
+        {
+          left: "反馈中心",
+          right: ""
+        },
       ]
     };
   },
@@ -103,6 +108,11 @@ export default {
           this.$toast({
             message: "清除成功"
           });
+          break;
+        case "反馈中心":
+        //   this.$router.push({
+        //       path: '/mine/certification',
+        //   })
           break;
         default:
       }
@@ -170,10 +180,15 @@ export default {
       color: inherit;
     }
 
-    li:nth-last-child(2),
-    li:nth-last-child(7) {
+    li:nth-last-child(3),
+    li:nth-last-child(8) {
       margin-top: 10px;
     }
+
+    >li:nth-child(11){
+        margin: 10px 0;
+    }
+    
   }
 }
 

@@ -112,7 +112,7 @@
       background-color: #fff;
       padding: 10px;
       text-align: left;
-
+      margin-bottom: 0.6rem;
       li {
         margin-bottom: 20px;
         display: flex;

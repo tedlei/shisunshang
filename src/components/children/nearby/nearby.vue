@@ -3,32 +3,41 @@
         <div class="hrDiv"></div>
         <ul class="ad_list">
             <li v-for="(item,index) in adlists" :key="index">
-            <router-link to="">
-              <div class="left_img">
+              <router-link to="">
+                <div class="left_img">
                  <van-image
                   width="0.8rem"
                   height="0.8rem"
                   fit="cover"
                   :src="item.imgurl"
                 /> 
-              </div>
-              <div class="right_msg">
-                <div class="name">
-                    <div class="tt fontWrap fontWrapTwo">
-                      {{item.name}}
-                    </div>
-                  <div class="tt_name fontWrap fontWrapOne">地址：{{item.address}}</div>
                 </div>
-                <div class="time">
-                  <span>电话：{{item.mobile}}</span>
-                  <!-- {{item.status}} 0待审核 1不显示 2审核失败  -->
+                <div class="right_msg">
+                  <div class="name">
+                      <div class="tt fontWrap fontWrapTwo">
+                        {{item.name}}
+                      </div>
+                    <div class="tt_name fontWrap fontWrapOne">地址：{{item.address}}</div>
+                  </div>
+                  <div class="time">
+                    <span>电话：{{item.mobile}}</span>
+                    <!-- {{item.status}} 0待审核 1不显示 2审核失败  -->
+                  </div>
+                </div>
+                <div class="imgDiv">
+                  <img v-if="item.status==0" src="../../../assets/img/shz.png" alt="#">
+                  <img v-else src="../../../assets/img/shsb.png" alt="#">
+                </div>
+              </router-link>
+              <div class="Divider"></div>
+              <div class="EditDelete">
+                <div @click="editAdd(item.id,item)">
+                  <van-icon style="margin:0 0.05rem;" name="edit" size="15"/>编辑
+                </div>
+                <div @click="deleteAdd(item.id)">
+                  <van-icon style="margin:0 0.05rem 0 0.2rem;" name="delete" size="15"/>删除
                 </div>
               </div>
-              <div class="imgDiv">
-                  <img v-show="item.status==0" src="../../../assets/img/shz.png" alt="#">
-                  <img v-show="item.status==2" src="../../../assets/img/shsb.png" alt="#">
-              </div>
-            </router-link>
             </li>
         </ul>
         <div class="addTo">
@@ -61,12 +70,50 @@
                 };
             this.$post('/api/v1/userStore', admsg)
                 .then((response) => {
-                    console.log(response)
-                    this.adlists = response.data;
+                    // console.log(response)
+                    if(response.status==200){
+                      this.adlists = response.data;
+                    }else{
+                      this.$toast(response.message);
+                    }
                 }).catch(function (error) {
                     console.log(error);
             });
         },
+        //编辑按钮
+        editAdd( id, data ){
+          this.$store.commit('setMerchantApplicationObj', data);
+          // console.log(this.$store.getters.getMerchantApplicationObj)
+          this.$router.push({path:'/mine/merchantApplicationEidet',query:{state:'edit',id:id}})
+        //   this.$router.push({path:'/mine/merchantApplicationEidet'})
+        },
+        //删除按钮
+        deleteAdd( id ){
+          this.$dialog.confirm({
+            title: '删除不能撤销，确认删除？',
+          })
+            .then(() => {
+              // on confirm
+              let data = {
+                method: "del.user.this.store.item",
+                id: id
+              };
+              this.$post('/api/v1/userStore', data)
+                .then((response) => {
+                    // console.log(response)
+                    if(response.status==200){
+                      this.getad();
+                    }else{
+                      this.$toast(response.message)
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            })
+            .catch(() => {
+              // on cancel
+            });
+        }
     },
     mounted() {
         this.getad()
@@ -86,41 +133,58 @@
        }
     .ad_list {
       text-align: left;
-      li a {
-        position: relative;
-        padding: 0.1rem;
+      li {
         margin-bottom: 0.1rem;
         background-color: #fff;
-        display: flex;
-        border-bottom: 1px solid #f2f2f2;
-        .left_img{
-            border-radius: 5px;
-        }
-        .right_msg {
-          padding-left: 0.1rem;
+        >a {
+          position: relative;
+          padding: 0.1rem;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
+          // border-bottom: 1px solid #f2f2f2;
+          .left_img{
+              border-radius: 5px;
+          }
+          .right_msg {
+            padding-left: 0.1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
-          .name {
-            font-size: 0.16rem;
-            .tt{
-                font-size: 0.16rem;
+            .name {
+              font-size: 0.16rem;
+              .tt{
+                  font-size: 0.16rem;
+              }
+              .tt_name {
+                font-size: 0.14rem;
+                margin: 0.05rem 0;
+                color: #999999;
+              }
             }
-            .tt_name {
-              font-size: 0.14rem;
-              margin: 0.05rem 0;
+
+            .time {
               color: #999999;
+              font-size: 0.14rem;
             }
           }
 
-          .time {
-            color: #999999;
-            font-size: 0.14rem;
+        }
+        .Divider{
+          height: 1px;
+          background-color: #ebedf0;
+        }
+        .EditDelete{
+          display: flex;
+          justify-content:flex-end;
+          padding: 0.05rem 0.1rem 0.05rem 0;
+          // color: $sss-color;
+          >div{
+            display: flex;
+            align-items: center;
           }
         }
-
       }
+      
     }
   }
   .imgDiv{

@@ -36,7 +36,6 @@
                                 //location.href="/";
                                 location.replace('/');
                                 Bus.$emit('getHot', true);
-
                             }
                         }).catch(function (error) {
                         console.log(error);

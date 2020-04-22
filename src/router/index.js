@@ -28,6 +28,7 @@ import Addaddress from '@/components/children/Add-address/Add-address'
 import Address from '@/components/children/Address/Address'
 import addetails from '@/components/children/ad/addetails'
 import merchantApplication from '@/components/children/merchantApplication/merchantApplication'
+import merchantApplicationEidet from '@/components/children/merchantApplicationEidet/merchantApplicationEidet'
 import nearby from '@/components/children/nearby/nearby'
 import recommendedShop from '@/components/children/recommendedShop/recommendedShop'
 import setphone from '@/components/children/set/set-phone'
@@ -193,7 +194,7 @@ const $router = new Router({
           path: '/mine/share',
           name: 'share',
           component: resolve => require(['@/components/children/share/share'], resolve),
-          meta: {title: '产品分享', showFooter: false, goods: false}
+          meta: {title: '产品分享', showFooter: true, goods: false}
         },
         {
           path: '/business/storemsg',
@@ -293,6 +294,12 @@ const $router = new Router({
           meta: {title: '商家入驻', showFooter: false, goods: false,}
         },
         {
+          path: '/mine/merchantApplicationEidet',
+          name: 'merchantApplicationEidet',
+          component: merchantApplicationEidet,
+          meta: {title: '编辑', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/ad',
           name: 'ad',
           component: resolve => require(['@/components/children/ad/ad'], resolve),
@@ -308,7 +315,7 @@ const $router = new Router({
           path: '/mine/ad/addetails',
           name: 'addetails',
           component: addetails,
-          meta: {title: '广告详情', showFooter: false, goods: false,}
+          meta: {title: '广告详情', showFooter: true, goods: false,}
         },
         {
           path: '/mine/ad/articles',
