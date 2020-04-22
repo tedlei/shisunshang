@@ -11,26 +11,27 @@
             <van-list
               v-model="loading"
               :finished="finished"
-              finished-text="没有更多了"
+              :finished-text="tips"
               :error.sync="error"
               error-text="请求失败，点击重新加载"
               @load="onLoad"
+              ref="checkbox"
               :immediate-check="false"
             >
               <van-row class="introduce_img" :gutter="10">
-                <van-col v-for="(item,index) in list" :key="index" :span="12" class="lists">
-                  <div class="grid-content bg-purple" @click="gotodetail(item.id)">
+                <van-col v-for="(items,indexs) in item.list" :key="indexs" :span="12" class="lists">
+                  <div class="grid-content bg-purple" @click="gotodetail(items.id)">
                     <div class="goodsk" ref="imgW"
                          :style="{'height':imgH}">
-                      <div v-if="item.is_show == 1">
+                      <div v-if="items.is_show == 1">
                         <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
-                        <p class="goodsk_price">￥{{Number(item.price)}}</p>
+                        <p class="goodsk_price">￥{{Number(items.price)}}</p>
                         <p class="goodsk_p">签到金可订购</p>
                       </div>
 
                       <van-image
                         fit="cover"
-                        :src="item.imgsrc"
+                        :src="items.imgsrc"
                         class="goods_img"
                       />
                     </div>
@@ -38,10 +39,10 @@
                     <div class="msg">
                       <div class="text fontWrap fontWrapTwo">
                         <span class="vip">{{zhuan[$route.query.typeid]}}</span>
-                        {{item.name}}
+                        {{items.name}}
                       </div>
-                      <div class="yishou">已售：{{item.xiaoliang}}件</div>
-                      <div class="clo-g price">￥{{item.price}}</div>
+                      <div class="yishou">已售：{{items.xiaoliang}}件</div>
+                      <div class="clo-g price">￥{{items.price}}</div>
                     </div>
                   </div>
                 </van-col>
@@ -57,21 +58,23 @@
 <script>
     import Bus from "../../../assets/js/bus";
     import clientW from "../../../assets/js/conmon"
+
     export default {
         name: "Special-area",
         data() {
             return {
-                content_H:'',
+                content_H: '',
                 Fnum: 0,
                 num: 0,
+                tips:'',
+                listindex:0,
                 imgH: "",
                 loading: false,
                 finished: false,
                 error: false,
                 pages: 0,
-                flag: false,
+                flag: true,
                 navItems: [],
-                list: [],
                 defaultcateid: '',
                 cateidarry: [],
                 active: '',
@@ -85,6 +88,7 @@
             }
         },
         methods: {
+            //点击切换
             changeval(e) {
                 document.getElementById('chatContent').scrollTop = 0;
                 switch (e) {
@@ -105,7 +109,25 @@
                 }
                 this.Fnum = e;
                 this.flag = true;
-                this.getlist();
+                this.pages = 0;
+                this.getlist(this.listindex);
+            },
+            //点击切换
+            qiehuan(name, title) {
+                this.listindex = name;
+                this.pages = 0;
+                this.flag = true
+                this.defaultcateid = this.cateidarry[name];
+                this.getlist(name);
+            },
+            //下拉加载
+            onLoad() {
+                console.log('下拉加载')
+                // 异步更新数据
+                setTimeout(() => {
+                    this.flag = false
+                    this.getlist();
+                }, 500);
             },
             //获取导航
             getgoods: function () {
@@ -133,20 +155,15 @@
                     console.log(error);
                 })
             },
-            //点击切换
-            qiehuan(name, title) {
-                this.flag = true
-                this.defaultcateid = this.cateidarry[name];
-                this.getlist();
-            },
+
             //获取商品
-            async getlist() {
-                // this.finished = true;
+            async getlist(name) {
+                let names = name || 0;
                 let _this = this,
                     parms = {
                         method: 'get.goods.map.list',
                         map: _this.$route.query.typeid,
-                        page: _this.flag ? 0 : this.pages,
+                        page: _this.flag ? 0 : _this.pages,
                         page_size: 20,
                         cate_id: _this.defaultcateid,
                         keywords: _this.keywords
@@ -154,38 +171,48 @@
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
                         if (_this.flag) {
-                            this.pages = 0;
+                            this.loading = true;
+                            this.finished = true;
                             if (response.status == 200) {
                                 if (response.data) {
-                                    this.finished = false;
-                                    this.list = response.data
-                                    _this.$nextTick(() => {
+                                    _this.navItems[names].list = response.data;
+                                    _this.pages = _this.navItems[names].list.length;
+                                    setTimeout(() => {
                                         this.imgH = this.$refs.imgW[0].offsetWidth + "px";
-                                    })
+                                    }, 100)
                                 } else {
                                     this.list = []
                                     this.finished = true;
                                 }
+                                // 加载状态结束
+                                setTimeout(() => {
+                                    this.loading = false;
+                                    this.finished = false;
+
+                                },1000)
+
                             } else {
                                 _this.$toast(response.message)
                             }
+                            _this.tips = ''
                         } else {
                             if (response.status == 200) {
                                 if (response.data) {
-                                    this.list = this.list.concat(response.data);
-                                    _this.$nextTick(() => {
+                                    _this.navItems[names].list = _this.navItems[names].list.concat(response.data);
+                                    console.log(_this.navItems[names])
+                                    setTimeout(() => {
                                         this.imgH = this.$refs.imgW[0].offsetWidth + "px";
-                                    })
+                                    }, 100)
                                 } else {
                                     this.finished = true;
                                 }
                                 // 加载状态结束
                                 this.loading = false;
-                                console.log(this.pages)
                                 this.pages += response.data.length;
                                 // 数据全部加载完成
                                 if (response.data.length < 20) {
                                     this.finished = true;
+                                    _this.tips = '没有更多了'
                                 }
                             } else {
                                 _this.$toast(response.message)
@@ -196,14 +223,7 @@
                 })
             },
 
-            //下拉加载
-            onLoad() {
-                // 异步更新数据
-                setTimeout(() => {
-                    this.flag = false
-                    this.getlist();
-                }, 500);
-            },
+
             gotodetail: function (e) {
                 this.$router.push({
                     path: '/goodsdetails',
@@ -215,9 +235,10 @@
             }
         },
         mounted() {
-            document.title = this.zhuan[this.$route.query.typeid]
+            document.title = this.zhuan[this.$route.query.typeid];
+            this.getlist();
             this.getgoods();
-            //    初始选项
+            //初始选项
             for (let i in this.firstNav) {
                 if (this.firstNav[i].typeid == this.$route.query.typeid) {
                     this.Fnum = this.firstNav[i].value
@@ -229,7 +250,7 @@
                 this.flag = true;
                 this.getlist();
             });
-            this.content_H = ((clientW.clientWw()[1] / clientW.clientWw()[2] - 1.1)*clientW.clientWw()[2] - 44) + 'px'
+            this.content_H = ((clientW.clientWw()[1] / clientW.clientWw()[2] - 1.1) * clientW.clientWw()[2] - 44) + 'px'
         },
         destroyed() {
 
@@ -277,16 +298,16 @@
 
   }
 
-  .content{
+  .content {
     position: relative;
     top: 0;
+
     .common_box {
       background: none;
       margin-bottom: 0;
       padding: 0;
     }
   }
-
 
 
 </style>

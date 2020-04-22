@@ -126,13 +126,14 @@
                 }
             });
             Bus.$on('getHot', (data) => {
+                console.log(data)
                 if (data == true) {
                     this.getHot();
                 }
             });
-            if (this.$store.getters.isLogin){
-                Bus.$emit('getHot', true);
-            }
+            // if (this.$store.getters.isLogin){
+            //     Bus.$emit('getHot', true);
+            // }
             // localStorage.setItem('history', this.historylist)
         }
     }

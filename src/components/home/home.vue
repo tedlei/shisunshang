@@ -42,7 +42,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in bannermsg" :key="index">
             <router-link :to="{path:item.url}">
-              <img :src="item.img" style="border-radius: 5px" />
+              <img :src="item.img" style="border-radius: 5px"/>
             </router-link>
           </div>
         </div>
@@ -54,7 +54,7 @@
       <el-row :gutter="0" class="f-nav">
         <el-col :span="5" v-for="(item, index) in categorylist" :key="index">
           <div class="item" @click="doting(item.id,item.module)" style="margin-bottom: 0.1rem">
-            <img :src="item.icon" />
+            <img :src="item.icon"/>
             <p>{{item.cate_name}}</p>
           </div>
         </el-col>
@@ -62,7 +62,7 @@
     </div>
     <!--  公告  -->
     <div class="notice">
-      <img src="../../assets/img/icon1.png" />
+      <img src="../../assets/img/icon1.png"/>
       <el-carousel
         height="0.2rem"
         direction="vertical"
@@ -109,7 +109,7 @@
               </div>
               <div class="msg">
                 <div class="text fontWrap fontWrapTwo">{{goods.name}}</div>
-<!--                <div class="clo-g price">{{goods.price}}</div>-->
+                <!--                <div class="clo-g price">{{goods.price}}</div>-->
               </div>
 
             </div>
@@ -122,7 +122,7 @@
 
     <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
       <div class="topBack">
-        <van-icon name="arrow-left" size="28" />
+        <van-icon name="arrow-left" size="28"/>
         <span style="margin-left:1.4rem;font-size:16px;color:rgb(15,15,15)">国健生态</span>
       </div>
       <div id="qrHome" class="qrconde">
@@ -133,225 +133,228 @@
 </template>
 
 <script>
-//1.先使用import导入你要在该组件中使用的子组件
-import Carousel from "../carousel-cp/carousel";
-import Search from "../search/search";
-import Bus from "../../assets/js/bus";
-import Swiper from "swiper";
-import Signin from "../Signin/Signin.vue";
-export default {
-  name: "home",
-  //2.然后,在components中写入子组件
-  components: { Signin, Search, Carousel },
-  data() {
-    return {
-      msg: "首页",
-      name: [
-        "顾客区",
-        "会员区",
-        "零售区",
-        "商家区",
-        "签到区",
-        "顾客区",
-        "会员区",
-        "零售区",
-        "商家区",
-        "签到区"
-      ],
-      categorylist: [],
-      bannermsg: [],
-      lists: [],
-      news: [],
-      boxheight: '',
-      qrCodeShow: false
-    };
-  },
-  methods: {
-    //显示二维码
-    Previewcode: function(boo) {
-      if (boo) {
-        setTimeout(() => {
-          this.qrCodeShow = false;
-        }, 500);
-      } else this.qrCodeShow = true;
-    },
-    imgLoad(index) {
-      let doc = document.getElementById("imgId" + index);
-      let width = this.$refs.imgWidth[index].clientWidth;
-      doc.style.height = width + "px";
-    },
+    //1.先使用import导入你要在该组件中使用的子组件
+    import Carousel from "../carousel-cp/carousel";
+    import Search from "../search/search";
+    import Bus from "../../assets/js/bus";
+    import Swiper from "swiper";
+    import Signin from "../Signin/Signin.vue";
 
-    //获取首页
-    getHomeMsg: function() {
-      const ad_data = { method: "get.ad.banner.list" },
-        category = { method: "get.category.list" },
-        goods = { method: "get.ad.goods.list" },
-        news = { method: "get.news.list" };
-      //获取banner
-      this.$post("/api/v1/ad", ad_data)
-        .then(response => {
-          this.bannermsg = response.data;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-      //获取模块列表
-      this.$post("/api/v1/category", category)
-        .then(response => {
-          this.categorylist = response.data;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-      //获取首页商品
-      this.$post("/api/v1/ad", goods)
-        .then(response => {
-          this.lists = response.data;
-          this.$nextTick(() => {
+    export default {
+        name: "home",
+        //2.然后,在components中写入子组件
+        components: {Signin, Search, Carousel},
+        data() {
+            return {
+                msg: "首页",
+                name: [
+                    "顾客区",
+                    "会员区",
+                    "零售区",
+                    "商家区",
+                    "签到区",
+                    "顾客区",
+                    "会员区",
+                    "零售区",
+                    "商家区",
+                    "签到区"
+                ],
+                categorylist: [],
+                bannermsg: [],
+                lists: [],
+                news: [],
+                boxheight: '',
+                qrCodeShow: false
+            };
+        },
+        methods: {
+            //显示二维码
+            Previewcode: function (boo) {
+                if (boo) {
+                    setTimeout(() => {
+                        this.qrCodeShow = false;
+                    }, 500);
+                } else this.qrCodeShow = true;
+            },
+            imgLoad(index) {
+                let doc = document.getElementById("imgId" + index);
+                let width = this.$refs.imgWidth[index].clientWidth;
+                doc.style.height = width + "px";
+            },
+
+            //获取首页
+            getHomeMsg: function () {
+                const ad_data = {method: "get.ad.banner.list"},
+                    category = {method: "get.category.list"},
+                    goods = {method: "get.ad.goods.list"},
+                    news = {method: "get.news.list"};
+                //获取banner
+                this.$post("/api/v1/ad", ad_data)
+                    .then(response => {
+                        this.bannermsg = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                //获取模块列表
+                this.$post("/api/v1/category", category)
+                    .then(response => {
+                        this.categorylist = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                //获取首页商品
+                this.$post("/api/v1/ad", goods)
+                    .then(response => {
+                        this.lists = response.data;
+                        this.$nextTick(() => {
                             this.boxheight = this.$refs.imgWidth[0].offsetWidth + 'px'
                         });
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-      //获取新闻列表
-      this.$post("/api/v1/news", news)
-        .then(response => {
-          this.news = response.data.items;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    getUserinfo: function() {},
-    //分类按钮
-    doting: function(e, m) {
-      if (e == 5) {
-        this.$router.push({
-          path: "/Luckdraw"
-        });
-      } else if (e == 7) {
-        this.$router.push({
-              path: '/Signin'
-        })
-      } else if (e == 8) {
-        this.$router.push({
-          path: "/help"
-        });
-      } else if (e == 9) {
-        this.Previewcode(false);
-      } else {
-        this.$router.push({
-          path: "/Special-area",
-          query: { typeid: m }
-        });
-      }
-    },
-    //搜索
-    opensearch: function() {
-      Bus.$emit("searchval", true);
-    }
-  },
-  created() {
-    setTimeout(() => {
-      const mySwiper = new Swiper(".swiper-container", {
-        slidesPerView: 1.15,
-        observer: true,
-        slidesOffsetAfter: 15,
-        direction: "horizontal",
-        observeParents: true,
-        spaceBetween: 20,
-        loop: true,
-        centeredSlides: true,
-        effect: "coverflow",
-        grabCursor: true,
-        watchSlidesProgress: true,
-        loopedSlides: 5,
-        autoplay: {
-          delay: 3000, //自动播放速度
-          disableOnInteraction: false //鼠标移上去时是否还继续播放
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                //获取新闻列表
+                this.$post("/api/v1/news", news)
+                    .then(response => {
+                        this.news = response.data.items;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getUserinfo: function () {
+            },
+            //分类按钮
+            doting: function (e, m) {
+                if (e == 5) {
+                    this.$router.push({
+                        path: "/Luckdraw"
+                    });
+                } else if (e == 7) {
+                    this.$router.push({
+                        path: '/Signin'
+                    })
+                } else if (e == 8) {
+                    this.$router.push({
+                        path: "/help"
+                    });
+                } else if (e == 9) {
+                    this.Previewcode(false);
+                } else {
+                    this.$router.push({
+                        path: "/Special-area",
+                        query: {typeid: m}
+                    });
+                }
+            },
+            //搜索
+            opensearch: function () {
+                Bus.$emit("searchval", true);
+            }
         },
-        coverflowEffect: {
-          rotate: 0,
-          stretch: 0,
-          depth: 30,
-          modifier: 3,
-          slideShadows: false
+        created() {
+            setTimeout(() => {
+                const mySwiper = new Swiper(".swiper-container", {
+                    slidesPerView: 1.15,
+                    observer: true,
+                    slidesOffsetAfter: 15,
+                    direction: "horizontal",
+                    observeParents: true,
+                    spaceBetween: 20,
+                    loop: true,
+                    centeredSlides: true,
+                    effect: "coverflow",
+                    grabCursor: true,
+                    watchSlidesProgress: true,
+                    loopedSlides: 5,
+                    autoplay: {
+                        delay: 3000, //自动播放速度
+                        disableOnInteraction: false //鼠标移上去时是否还继续播放
+                    },
+                    coverflowEffect: {
+                        rotate: 0,
+                        stretch: 0,
+                        depth: 30,
+                        modifier: 3,
+                        slideShadows: false
+                    },
+                    speed: 1000,
+                    initialSlide: 1,
+                    // lazy: {loadPrevNext: true,},
+                    pagination: {
+                        el: ".swiper-pagination"
+                    }
+                });
+            }, 300);
         },
-        speed: 1000,
-        initialSlide: 1,
-        // lazy: {loadPrevNext: true,},
-        pagination: {
-          el: ".swiper-pagination"
+        mounted() {
+            let token = localStorage.getItem("usertoken");
+            if (token) {
+                this.getHomeMsg();
+                this.getUserinfo();
+            };
+
         }
-      });
-    }, 300);
-  },
-  mounted() {
-    let token = localStorage.getItem("usertoken");
-    if (token) {
-      this.getHomeMsg();
-      this.getUserinfo();
-    }
-  }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
-header {
-  text-align: left;
-  padding: 0 0.1rem;
-  height: 0.55rem;
-  display: flex;
-  align-items: center;
+  header {
+    text-align: left;
+    padding: 0 0.1rem;
+    height: 0.55rem;
+    display: flex;
+    align-items: center;
 
-  .sao,
-  .news {
-    min-width: 40px;
-    text-align: center;
-    font-size: 12px;
+    .sao,
+    .news {
+      min-width: 40px;
+      text-align: center;
+      font-size: 12px;
 
-    i {
-      font-size: 18px;
+      i {
+        font-size: 18px;
+      }
+    }
+
+    .el-dropdown {
+      text-align: center;
+      min-width: 50px;
+      margin-right: 10px;
     }
   }
 
-  .el-dropdown {
-    text-align: center;
-    min-width: 50px;
-    margin-right: 10px;
-  }
-}
+  /* 分类按钮 */
 
-/* 分类按钮 */
-
-.f-nav div img {
-  width: 70%;
-}
-
-/*  公告 */
-.notice {
-  padding: 10px 12px;
-  border-radius: 100px;
-  background-color: #f9f9f9;
-  display: flex;
-  // justify-content: space-between;
-  align-items: center;
-  text-align: left;
-
-  .el-carousel {
-    width: 80%;
+  .f-nav div img {
+    width: 70%;
   }
 
-  h3 {
-    font-weight: normal;
-  }
+  /*  公告 */
+  .notice {
+    padding: 10px 12px;
+    border-radius: 100px;
+    background-color: #f9f9f9;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    text-align: left;
 
-  img {
-    width: 20px;
-  }
+    .el-carousel {
+      width: 80%;
+    }
 
-}
+    h3 {
+      font-weight: normal;
+    }
+
+    img {
+      width: 20px;
+    }
+
+  }
 
 
   .introduce_img {
@@ -370,29 +373,31 @@ header {
     }
   }
 
-.el-carousel__indicators--vertical {
-  display: none !important;
-}
-.qrCodeMax {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  z-index: 1000001;
-  .topBack{
-    width: 100%;
-    height: 0.48rem;
-    padding: 0 0.2px;
-    border-bottom: 1px solid rgb(242,242,242);
-    position: absolute;
-    top: 0;
-    display: flex;
-    align-items: center;
-    color:#999;
+  .el-carousel__indicators--vertical {
+    display: none !important;
   }
-}
+
+  .qrCodeMax {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    z-index: 1000001;
+
+    .topBack {
+      width: 100%;
+      height: 0.48rem;
+      padding: 0 0.2px;
+      border-bottom: 1px solid rgb(242, 242, 242);
+      position: absolute;
+      top: 0;
+      display: flex;
+      align-items: center;
+      color: #999;
+    }
+  }
 </style>
