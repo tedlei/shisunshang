@@ -2,7 +2,7 @@
   <div class="content">
     <div class="footprint_box" :class="{p_b_50:!isEmpty}">
       <!--  足迹，收藏，店铺  -->
-      <div v-if="$route.query.printid != 3">
+      <div v-if="$route.query.printid != 3 && !isEmpty">
         <van-list
           v-model="loading"
           :finished="finished"
@@ -55,7 +55,7 @@
 
 
       <!-- 评价   -->
-      <div v-if="$route.query.printid == 3 && isData">
+      <div v-if="$route.query.printid == 3 && !isEmpty">
         <van-list v-model="loading"
                   :finished="finished"
                   finished-text="没有更多了"
@@ -137,7 +137,7 @@
                 finished: false,   //数据是否获取完成
                 titlelist: ['我的收藏', '我的关注', '我的足迹', '我的评价'],
                 isEmpty: false,
-                isData: false,
+                isData: false, //废弃参数
                 checkAll: false,
                 goodslist: [],  //我的收藏、我的关注、我的足迹列表
                 evaluation_lists: [],   //评价列表
@@ -342,8 +342,10 @@
                         page_size: num ? num : 10
                     };
                     this.loading = true;   //是否处于加载状态  是
+                    console.log(3333333333333)
                     this.$post('/api/v1/GoodsComment', ad_data)
                         .then((res) => {
+                            
                             this.loading = false;   //是否处于加载状态  否
                             let items = res.data
                             if (items && items.length > 0) {
@@ -367,6 +369,7 @@
             //下拉无限加载
             onLoad() {
                 // 异步更新数据
+                console.log(3333333333)
                 this.getData();
             },
 
@@ -494,6 +497,7 @@
         created() {
             let index = this.$route.query.printid;
             document.title = this.titlelist[index];
+            // if(this.evaluation_lists.length==0)this.isEmpty=true;
         },
         mounted() {
 
