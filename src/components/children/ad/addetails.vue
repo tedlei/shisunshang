@@ -111,13 +111,13 @@ export default {
         shareConfig(userinfo) {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                let url = this.$store.getters.getQRcodeDomainName;
-                // var url = "";
-                // if (this.is_ios()) {
-                //     url = sessionStorage.getItem("ios_share_url").split("#")[0];
-                // } else {
-                //     url = "http://" + location.host + this.$route.fullPath;
-                // }
+                // let url = this.$store.getters.getQRcodeDomainName;
+                var url = "";
+                if (this.is_ios()) {
+                    url = sessionStorage.getItem("ios_share_url").split("#")[0];
+                } else {
+                    url = "http://" + location.host + this.$route.fullPath;
+                }
                 let goods = {
                     title: this.Advertisement.share_title,
                     desc: this.Advertisement.share_desc,
