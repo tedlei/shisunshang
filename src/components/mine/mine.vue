@@ -35,14 +35,10 @@
                     style="width:auto;height: 0.12rem;"
                     v-if="userinfo.level == 2 && userinfo.level_type == 2"
                   />
-                  <div class="vip_expire">
+                  <div class="vip_expire"  v-if="userinfo.level_end_time > Math.floor(new Date() / 1000)">
                     <!--   <p v-if="userinfo.level_type == 0">{{expireTime | expireTime(userinfo.level_end_time,'year')}}</p>-->
-                    <p
-                      v-if="userinfo.level_type == 1"
-                    >{{expireTime | expireTime(userinfo.level_end_time,'month')}}</p>
-                    <p
-                      v-else-if="userinfo.level_type == 2"
-                    >{{expireTime | expireTime(userinfo.level_end_time,'day')}}</p>
+                    <p>{{expireTime | expireTime(userinfo.level_end_time,'day')}}</p>
+
                   </div>
                 </span>
               </div>
