@@ -15,25 +15,21 @@
         created() {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
             if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-
                  let code = this.getUrlParam('code');
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由
-                    let appId = 'wx5e4b4e507ac2fbd2'
-                    let url = 'http://www.gjst.net/author';
+                    let appId = 'wxf01acba88fac1ad1'
+                    let url = 'http://www.gjst.net/authorTwo';
                     let redirectUrl = encodeURIComponent(url);
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect`
                 }else{
-                    let state = sessionStorage.getItem('state');
                     let msg = {
-                        method: 'login.wechat.oauth2.step2',
-                        code: code,
-                        referee_mobile: state,
+                        method: 'wechat.hrl.oauth2.step2',
+                        code: code
                     };
                     this.$post('api/v1/user', msg)
                         .then((res) => {
                             if (res.status == 200) {
-                                localStorage.setItem('usertoken',res.data.token);
                                 //location.href="/";
                                 location.replace('/');
                                 Bus.$emit('getHot', true);
@@ -42,23 +38,6 @@
                         console.log(error);
                     });
                 }
-            }else{
-                let msg = {
-                    method: 'login.wechat.oauth2.test',
-                };
-                this.$post('api/v1/user', msg)
-                    .then((res) => {
-                        // console.log(res);
-                        if (res.status == 200) {
-                            localStorage.setItem('usertoken',res.data.token);
-                            console.log('授权完毕')
-                            location.replace('/');
-                            //location.href="/";
-                            Bus.$emit('getHot', true);
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
             }
 
         },

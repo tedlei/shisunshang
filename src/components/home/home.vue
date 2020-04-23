@@ -255,6 +255,10 @@
             }
         },
         created() {
+            let users = JSON.parse(localStorage.getItem("userinfo"));
+            if(!users.hrl_openid){
+                this.$router.push('/authorTwo');
+            }
             setTimeout(() => {
                 const mySwiper = new Swiper(".swiper-container", {
                     slidesPerView: 1.15,

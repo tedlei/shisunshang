@@ -391,6 +391,7 @@
                                     this.callpay();
                                 }
                             } else if (res.status == 200 && res.data.is_wx_pay == 0) {
+                                this.getCartNum();
                                 this.isloading = false;
                                 this.$dialog.alert({
                                     title: '付款成功',
@@ -453,6 +454,7 @@
                                 this.callpay();
                             }
                         } else if (res.status == 200 && res.data.is_wx_pay == 0) {
+                            this.getCartNum();
                             this.isloading = false;
                             this.$dialog.alert({
                                 title: '付款成功',
@@ -486,6 +488,7 @@
                         } else {
                             this.$router.push({path: '/goodsdetails/order', query: {orderid: '1'}});
                         }
+                        this.getCartNum();
 
                     }
                 );
@@ -501,6 +504,20 @@
                 } else {
                     this.jsApiCall();
                 }
+            },
+
+            //购物车数量
+            getCartNum () {
+              let ad_data = {
+                method: 'get.goods.cart.count',
+              };
+              this.$post('/api/v1/GoodsCart', ad_data)
+              .then((res) => {
+                // console.log(res);
+                this.$store.commit('setCartNum',res.data.num)
+              }).catch(function (error) {
+                  console.log(error);
+              });
             },
         },
         mounted() {

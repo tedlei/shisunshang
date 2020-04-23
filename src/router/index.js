@@ -9,6 +9,7 @@ import business from '@/components/business/business'
 import mine from '@/components/mine/mine'
 import my_cart from '@/components/my_cart/my_cart'
 import author from '../components/author'
+import authorTwo from '../components/authorTwo'
 import ex001 from '../components/ex001'
 
 import goodsDATA from '../components/goods/goodsDATA'
@@ -57,6 +58,12 @@ const $router = new Router({
       name: 'author',
       component: author,
       meta: {title: '授权', showFooter: false}
+    },
+    {
+        path: '/authorTwo',
+        name: 'authorTwo',
+        component: authorTwo,
+        meta: {title: '授权', showFooter: false}
     },
     {
       path: '/ex001',
@@ -263,6 +270,12 @@ const $router = new Router({
           component: setphone,
           meta: {title: '绑定手机号', showFooter: false, goods: false,},
         },
+        {
+            path: '/set/feedback',
+            name: 'feedback',
+            component: resolve => require(['@/components/children/set/feedback'], resolve),
+            meta: {title: '反馈中心', showFooter: false, goods: false,},
+          },
         {
           path: '/mine/upgrade',
           name: 'upgrade',

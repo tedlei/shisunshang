@@ -76,7 +76,7 @@
             return {
                 radio: 0,
                 money: null,
-                bili: '充值账户转签到现金为1:1',
+                bili: '',
                 message: '',
                 tanslist: [],
                 form_id: '',
@@ -91,42 +91,39 @@
                 this.$post('/api/v1/UserTrans', msg)
                     .then((response) => {
                         this.tanslist = response.data.items;
-                        this.form_id = this.tanslist[this.radio].money_type_id_from
-                        this.goto_id = this.tanslist[this.radio].money_type_id_goto
+                        this.form_id = this.tanslist[this.radio].money_type_id_from;
+                        this.goto_id = this.tanslist[this.radio].money_type_id_goto;
+                        this.bili = this.tanslist[0].form_name+'转'+this.tanslist[0].goto_name+'为1：'+this.tanslist[0].limit_multiple;
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
             //change
             change: function (e) {
-                if (this.tanslist[e].money_type_id_goto == 5) {
-                    this.bili = '充值账户转签到现金为1:3'
-                } else {
-                    this.bili = '充值账户转签到现金为1:1'
-                }
-                this.form_id = this.tanslist[e].money_type_id_from
-                this.goto_id = this.tanslist[e].money_type_id_goto
+                this.bili = this.tanslist[e].form_name+'转'+this.tanslist[e].goto_name+'为1：'+this.tanslist[e].limit_multiple;
+                this.form_id = this.tanslist[e].money_type_id_from;
+                this.goto_id = this.tanslist[e].money_type_id_goto;
 
             },
             //全转
             alltans: function () {
-                this.money = this.tanslist[this.radio].form_money
+                this.money = this.tanslist[this.radio].form_money;
             },
             //提交表单
             onSubmit(values) {
                 let msg = {
-                    method: 'add.trans.money.item'
+                    method: 'add.trans.money.item',
                 };
-                values = Object.assign(msg, values)
+                values = Object.assign(msg, values);
                 this.$post('/api/v1/UserTrans', values)
                     .then((response) => {
                         if (response.status == 200) {
                             this.$toast('转账成功');
                             setTimeout(()=>{
-                              window.location.reload()
+                              window.location.reload();
                             },2000)
                         } else {
-                            this.$toast(response.message)
+                            this.$toast(response.message);
                         }
                     }).catch(function (error) {
                     console.log(error);

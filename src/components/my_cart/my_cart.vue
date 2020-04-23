@@ -2,7 +2,7 @@
   <div>
     <header ref="header_h">
       <span style="font-weight: bold">购物车</span>
-      <span v-show="isCart  " style="position: absolute;right: 0.1rem;font-size: 0.16rem;color: #999;" @click="isDellBatch = !isDellBatch">编辑</span>
+      <span v-show="isCart  " style="position: absolute;right: 0.1rem;font-size: 0.16rem;color: #000;" @click="isDellBatch = !isDellBatch">编辑</span>
       <!-- <i class="el-icon-chat-dot-round"></i> -->
     </header>
     <!--  空购物车  -->
