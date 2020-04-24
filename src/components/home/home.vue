@@ -1,5 +1,5 @@
 <template>
-  <div class="main_box">
+  <div class="content main_box">
     <!--  头部  -->
     <header>
       <el-row
@@ -224,7 +224,25 @@
                         console.log(error);
                     });
             },
-            getUserinfo: function () {
+            //获取是否签到
+            getsign: function () {
+                let msg = {
+                    method: 'get.sign.time.list'
+                };
+                this.$post('/api/v1/userSign', msg)
+                    .then((response) => {
+                        if (response.data.is_sign == 0) {
+                            this.$dialog.confirm({
+                                title: '嗨！',
+                                message: '今日还未签到是否签到赢好礼呢！'
+                            }).then(() => {
+                                this.$router.push({
+                                    path: '/Signin'
+                                })
+                            }).catch(() => {
+                            });
+                        }
+                    })
             },
             //分类按钮
             doting: function (e, m) {
@@ -295,113 +313,117 @@
         },
         mounted() {
             let token = localStorage.getItem("usertoken");
+            Bus.$emit('getHot', true);
             if (token) {
                 this.getHomeMsg();
-                this.getUserinfo();
+                this.getsign();
             };
-
         }
     };
 </script>
 
 <style lang="scss" scoped>
-  header {
-    text-align: left;
-    padding: 0 0.1rem;
-    height: 0.55rem;
-    display: flex;
-    align-items: center;
-
-    .sao,
-    .news {
-      min-width: 40px;
-      text-align: center;
-      font-size: 12px;
-
-      i {
-        font-size: 18px;
-      }
-    }
-
-    .el-dropdown {
-      text-align: center;
-      min-width: 50px;
-      margin-right: 10px;
-    }
-  }
-
-  /* 分类按钮 */
-
-  .f-nav div img {
-    width: 70%;
-  }
-
-  /*  公告 */
-  .notice {
-    padding: 10px 12px;
-    border-radius: 100px;
-    background-color: #f9f9f9;
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    text-align: left;
-
-    .el-carousel {
-      width: 80%;
-    }
-
-    h3 {
-      font-weight: normal;
-    }
-
-    img {
-      width: 20px;
-    }
-
-  }
-
-
-  .introduce_img {
-    text-align: left;
-    background-color: #f2f2f2;
-    margin: 0 -.1rem;
-    padding: .1rem .1rem 0;
-    font-size: .12rem;
-
-    .lists {
-      padding: 5px;
-
-      .price {
-        padding: 5px;
-      }
-    }
-  }
-
-  .el-carousel__indicators--vertical {
-    display: none !important;
-  }
-
-  .qrCodeMax {
-    position: fixed;
+  .content {
     top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-    z-index: 1000001;
-
-    .topBack {
-      width: 100%;
-      height: 0.48rem;
-      padding: 0 0.2px;
-      border-bottom: 1px solid rgb(242, 242, 242);
-      position: absolute;
-      top: 0;
+    bottom: 0.65rem;
+    header {
+      text-align: left;
+      padding: 0 0.1rem;
+      height: 0.55rem;
       display: flex;
       align-items: center;
-      color: #999;
+
+      .sao,
+      .news {
+        min-width: 40px;
+        text-align: center;
+        font-size: 12px;
+
+        i {
+          font-size: 18px;
+        }
+      }
+
+      .el-dropdown {
+        text-align: center;
+        min-width: 50px;
+        margin-right: 10px;
+      }
+    }
+
+    /* 分类按钮 */
+
+    .f-nav div img {
+      width: 70%;
+    }
+
+    /*  公告 */
+    .notice {
+      padding: 10px 12px;
+      border-radius: 100px;
+      background-color: #f9f9f9;
+      display: flex;
+      // justify-content: space-between;
+      align-items: center;
+      text-align: left;
+
+      .el-carousel {
+        width: 80%;
+      }
+
+      h3 {
+        font-weight: normal;
+      }
+
+      img {
+        width: 20px;
+      }
+
+    }
+
+
+    .introduce_img {
+      text-align: left;
+      background-color: #f2f2f2;
+      margin: 0 -.1rem;
+      padding: .1rem .1rem 0;
+      font-size: .12rem;
+
+      .lists {
+        padding: 5px;
+
+        .price {
+          padding: 5px;
+        }
+      }
+    }
+
+    .el-carousel__indicators--vertical {
+      display: none !important;
+    }
+
+    .qrCodeMax {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      z-index: 1000001;
+
+      .topBack {
+        width: 100%;
+        height: 0.48rem;
+        padding: 0 0.2px;
+        border-bottom: 1px solid rgb(242, 242, 242);
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        color: #999;
+      }
     }
   }
 </style>

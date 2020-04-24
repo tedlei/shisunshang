@@ -126,7 +126,6 @@
                 }
             });
             Bus.$on('getHot', (data) => {
-                console.log(data)
                 if (data == true) {
                     this.getHot();
                 }

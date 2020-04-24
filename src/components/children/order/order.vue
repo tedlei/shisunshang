@@ -24,7 +24,7 @@
                     </router-link>
                   </div>
                   <span class="state">
-            {{items.status==0?'待付款':items.status==1?'待发货':items.status==2?'待收货':items.status==3?'待评价':'已取消'}}
+            {{items.status==0?'待付款':items.status==1?'待发货':items.status==2?'待收货':items.status==3?'待评价':''}}
             </span>
                 </div>
                 <router-link :to="{path:'/goodsdetails/Orderdetails',query: {id: items.id}}"
@@ -73,47 +73,61 @@
                   </div>
                 </div>
                 <div class="clearfix submit_box">
-                  <!-- <div class="left_dtime" v-show="num==1">
+                  <div class="left_dtime"
+                       v-if="num==1 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime() ||
+                       num == 0 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime()"
+                  >
                     剩
-                    {{}}
-                    自动关闭
-                  </div> -->
-                  <div class="left_dtime" v-show="isshouhou">
-                    <span>正在办理退款</span>
-                    <span>退款金额￥268.00</span>
+                    {{items.add_time | formaTimestamp}}
+                    订单关闭
                   </div>
+
                   <van-row class="btn_box">
-                    <van-row v-show="!isshouhou">
-                      <div class="btnDiv" v-show="num==1">
-                        <router-link style="margin-right:0.05rem;"
-                                     :to="{path:'/goodsdetails/Orderdetails',query: {id: item.id}}">
+                    <van-row>
+                      <!-- 待付款 -->
+                      <div class="btnDiv" v-show="num==1 && items.status==0 || num == 0 && items.status==0">
+
+                        <router-link
+                          :to="{path:'/goodsdetails/Orderdetails',query: {id: items.id}}">
                           <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                         </router-link>
-                        <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">付款
+                        <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">立即付款
+                        </van-button>
+                        <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(items.id)">
+                          取消订单
                         </van-button>
                       </div>
-                      <div v-show="num==2">
-                        <!-- <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(item.id)">取消订单</van-button> -->
-                        <!-- <van-button type="primary" size="small" color="#009900" @click="ReminderShipment(item.id)">提醒发货</van-button> -->
+
+                      <!--  待发货-->
+                      <div v-show="num==2 && items.status==1 || num == 0 && items.status==1">
+                        <router-link style="margin-right:0.05rem;"
+                                     :to="{path:'/goodsdetails/Orderdetails',query: {id: items.id}}">
+                          <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
+                        </router-link>
+                        <van-button type="primary" size="small" color="#009900" @click="ReminderShipment(items.id)">
+                          提醒发货
+                        </van-button>
                       </div>
-                      <div v-show="num==3">
+                      <!--                      待收货-->
+                      <div v-show="num==3 && items.status==2||num == 0 && items.status==2">
                         <van-button plain type="primary" size="small" color="#009900"
-                                    @click="ViewLogistics(item.postnumber)">
+                                    @click="ViewLogistics(items.postnumber)">
                           查看物流
                         </van-button>
-                        <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(item.id)">确认收货
+                        <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(items.id)">确认收货
                         </van-button>
+
                       </div>
-                      <div v-show="num==4">
-                        <router-link :to="{path:'/goodsdetails/evaluate',query: {id: item.id}}">
+                      <!--                      立即评价-->
+                      <div v-show="num==4 && items.status==3||num == 0 && items.status==3">
+                        <router-link :to="{path:'/goodsdetails/evaluate',query: {id: items.id}}">
                           <van-button plain type="primary" size="small" color="#009900">立即评价</van-button>
                         </router-link>
-                        <!-- <van-button type="primary" size="small" color="#009900">再来一单</van-button> -->
+                        <!--                         <van-button type="primary" size="small" color="#009900">再来一单</van-button>-->
                       </div>
+
                     </van-row>
-                    <el-row v-show="isshouhou">
-                      <van-button type="primary" size="small" color="#009900">查看详情</van-button>
-                    </el-row>
+
                   </van-row>
 
                 </div>
@@ -153,12 +167,11 @@
                 is: 'num',
                 jsApiParameters: {},
                 shouhou: '',
-                isshouhou: false,
                 buy_types: {customer: '顾客购买', vip: '会员购买', retail: '零售专区', shop: '商家专区'},
                 navItems: [{text: '全部', wholeData: []}, {text: '待付款', wholeData: []}, {
-                        text: '待发货',
-                        wholeData: []
-                    }, {text: '待收货', wholeData: []}, {text: '待评价', wholeData: []}],
+                    text: '待发货',
+                    wholeData: []
+                }, {text: '待收货', wholeData: []}, {text: '待评价', wholeData: []}],
                 orderAllItem: [],
                 wholeData: [],
                 oderPay: '',//付款成功跳转传参
@@ -178,11 +191,7 @@
             onLoad() {
                 // 异步更新数据
                 this.flag = false
-
-                let Index = this.$route.query.orderid;
-                this.num = Index;
-                this.getOderData(Index);
-
+                this.getOderData(this.num);
             },
             //订单列表
             async getOderData(index) {
@@ -210,6 +219,8 @@
                                 this.finished = true;
                                 if (response.data) {
                                     _this.navItems[index].wholeData = response.data;
+
+                                    console.log(_this.navItems[index].wholeData[0].add_time)
                                     this.pages = response.data.length;
 
                                 } else {
@@ -360,10 +371,9 @@
         mounted() {
             this.content_H = (clientW.clientWw()[1] / clientW.clientWw()[2] - 0.99) * clientW.clientWw()[2] + 'px'
             let Index = this.$route.query.orderid;
+            this.num = Index;
             this.getOderData(Index)
             this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
-            this.isshouhou = this.$route.query.orderid == 4 ? true : false;
-            this.shouhou = this.$route.query.orderid == 4 ? '0.43rem' : '1.01rem';
             this.active = Number(this.$route.query.orderid);
         }
     }
@@ -499,6 +509,7 @@
         margin-right: 0.1rem;
 
         .left_dtime {
+          margin-left: 0.1rem;
           color: #009900;
           float: left;
         }

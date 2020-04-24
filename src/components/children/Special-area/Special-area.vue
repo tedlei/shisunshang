@@ -8,6 +8,7 @@
       <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name">
         <div class="content" :style="{'height':content_H}" id="chatContent">
           <div class="common_box" ref="chatContent">
+
             <van-list
               v-model="loading"
               :finished="finished"
@@ -20,6 +21,7 @@
             >
               <van-row class="introduce_img" :gutter="10">
                 <van-col v-for="(items,indexs) in item.list" :key="indexs" :span="12" class="lists">
+
                   <div class="grid-content bg-purple" @click="gotodetail(items.id)">
                     <div class="goodsk" ref="imgW"
                          :style="{'height':imgH}">
@@ -66,15 +68,18 @@
                 content_H: '',
                 Fnum: 0,
                 num: 0,
-                tips:'',
-                listindex:0,
-                imgH: "",
+                tips: '',
+                listindex: 0,
+                imgH: "100px",
                 loading: false,
                 finished: false,
                 error: false,
                 pages: 0,
                 flag: true,
-                navItems: [],
+                dontOnload: false,
+                navItems: [{
+                    list: []
+                }],
                 defaultcateid: '',
                 cateidarry: [],
                 active: '',
@@ -114,20 +119,35 @@
             },
             //点击切换
             qiehuan(name, title) {
-                this.listindex = name;
-                this.pages = 0;
-                this.flag = true
-                this.defaultcateid = this.cateidarry[name];
-                this.getlist(name);
+                this.finished = false;
+                console.log(this.loading,this.finished)
+                if (!this.navItems[name].list || this.navItems[name].list.length < 0) {
+                    this.flag = true;
+                    this.pages = 0;
+                    this.getlist(name);
+                    this.dontOnload = true;
+                    this.listindex = name;
+                    this.defaultcateid = this.cateidarry[name];
+                }else {
+                    this.dontOnload = false;
+                    setTimeout(()=>{
+                        this.dontOnload = true;
+                    },1000)
+                }
+
             },
             //下拉加载
             onLoad() {
-                console.log('下拉加载')
-                // 异步更新数据
-                setTimeout(() => {
-                    this.flag = false
-                    this.getlist();
-                }, 500);
+                if (this.dontOnload) {
+                    console.log(11111111111111)
+                } else {
+                    // 异步更新数据
+                    setTimeout(() => {
+                        this.flag = false;
+                        console.log(2222)
+                        this.getlist()
+                    }, 500);
+                }
             },
             //获取导航
             getgoods: function () {
@@ -171,8 +191,7 @@
                 this.$post('/api/v1/goods', parms)
                     .then((response) => {
                         if (_this.flag) {
-                            this.loading = true;
-                            this.finished = true;
+                            _this.loading = true
                             if (response.status == 200) {
                                 if (response.data) {
                                     _this.navItems[names].list = response.data;
@@ -185,21 +204,26 @@
                                     this.finished = true;
                                 }
                                 // 加载状态结束
-                                setTimeout(() => {
-                                    this.loading = false;
-                                    this.finished = false;
+                                _this.loading = false
 
-                                },1000)
-
+                                if (response.data.length < 20) {
+                                    this.finished = true;
+                                    // _this.tips = ''
+                                }
                             } else {
                                 _this.$toast(response.message)
                             }
-                            _this.tips = ''
+
+
                         } else {
+                            console.log('下拉')
                             if (response.status == 200) {
                                 if (response.data) {
-                                    _this.navItems[names].list = _this.navItems[names].list.concat(response.data);
-                                    console.log(_this.navItems[names])
+                                    if (_this.navItems[names].list) {
+                                        _this.navItems[names].list = _this.navItems[names].list.concat(response.data);
+                                    } else {
+                                        _this.navItems[names].list = response.data;
+                                    }
                                     setTimeout(() => {
                                         this.imgH = this.$refs.imgW[0].offsetWidth + "px";
                                     }, 100)
@@ -236,6 +260,7 @@
         },
         mounted() {
             document.title = this.zhuan[this.$route.query.typeid];
+
             this.getlist();
             this.getgoods();
             //初始选项

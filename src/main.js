@@ -6,6 +6,7 @@ import router from './router'
 import store from "./store";
 import ElementUI from 'element-ui'
 import Vant, { Dialog, Toast } from 'vant';
+import './assets/js/filter'
 import 'vant/lib/index.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/layout.scss'
@@ -77,7 +78,7 @@ router.beforeEach((to, from, next) => {
       let userinfo = JSON.parse(localStorage.getItem('userinfo'));
       if(userinfo && to.path!='/goodsdetails' && to.path != '/mine/ad/addetails' && to.path != '/Signin'){
         shareConfig(userinfo);
-      } 
+      }
     }
     function shareConfig (userinfo) {
       let ua = window.navigator.userAgent.toLocaleLowerCase();
@@ -114,7 +115,7 @@ router.beforeEach((to, from, next) => {
     return null;
   }
 
-  window.scrollTo(0, 0);
+
   /*路由发生改变修改页面的title */
   if (to.name == 'home') {
     // console.log(post)

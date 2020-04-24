@@ -130,7 +130,7 @@
                 arrDate: [],
                 istoday: new Date().getDate(),
                 isMonth: new Date().getMonth() + 1,
-                show: false,
+                show: true,
                 isshow: false,
                 log_id: localStorage.getItem('log_id') || '',
                 shareshow: false,
@@ -320,12 +320,6 @@
         },
         mounted() {
           this.getAdvertisement();
-            Bus.$on('signtans', (data) => {
-                if (data == true) {
-                    this.show = true
-                }
-            });
-            Bus.$emit('signtans', true)
             this.initData(null);
             this.getsign();
         }

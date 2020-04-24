@@ -19,6 +19,25 @@ Vue.filter('moneyFormat', function (val) {
   return (((sign) ? '' : '-') + val + '.' + cents);
 });
 
+// 日期字符串转时间戳
+Vue.filter('formaTimestamp', function (date) {
+  let dates = date.substring(0, 19).replace(/-/g, '/')//必须把日期'-'转为'/'
+
+  let timestamp = Math.floor((new Date(dates).getTime() - new Date().getTime()) / 1000);
+
+  let H = Math.floor(timestamp / 3600);
+  let M = Math.floor((timestamp % 3600) / 60);
+  let S = timestamp % 3600 - M * 60;
+  let Hours = H > 0 ? H + '小时' : '';
+  let Minute = M > 0 ? M + '分' : '';
+  let second = S > 0 ? S + '秒' : '';
+
+  timestamp = timestamp > 0 ? Hours + Minute + second : '';
+
+  return timestamp
+});
+
+
 Vue.filter('formaDate', function (value, fmt) {
   let date = new Date(value);
   let o = {

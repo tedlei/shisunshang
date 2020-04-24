@@ -37,8 +37,8 @@
         v-model="password1"
         type="password"
         name="pass2"
-        label="设置支付密码"
-        placeholder="请输入支付密码(密码只能是6位数字)"
+        label="支付密码"
+        placeholder="请输入6位数字密码"
         :rules="[{ required: true, message: '请输入支付密码' }]"
         v-if="show"
       />
@@ -47,10 +47,10 @@
         v-model="password2"
         type="password"
         name="pass2"
-        label="再输入支付密码"
-        placeholder="请再输入支付密码(密码只能是6位数字)"
+        label="确认支付密码"
+        placeholder="请再次输入支付密"
         label-width='100px'
-        :rules="[{ required: true, message: '请再输入支付密码' }]"
+        :rules="[{ required: true, message: '请再次输入支付密' }]"
         v-if="show"
       />
       <div style="margin: 16px;">
@@ -91,7 +91,7 @@
               let can = _this.show ? 'send.sms.update.paypassword' : 'send.sms.bind.mobile';
               let values = {
                   method: can,
-                  phone: this.phone 
+                  phone: this.phone
               };
               this.$post('/api/v1/user', values)
                   .then((response) => {

@@ -1,10 +1,10 @@
 <template>
-  <div class="ranav_app" id='rapNavig' :class="show?'isShow':''" 
+  <div class="ranav_app" id='rapNavig' :class="show?'isShow':''"
     @click="tapIsShow" v-show="isPageShow" @touchmove='aa'
         :style="{top:wz>-1?wz+'px':'70%'}">
       <div class="ranavText" :class="show?'':'ranavShow'">
           <van-icon  :name="!show?'arrow-left':'arrow'" />
-          <span>{{show?'收起':'展开'}}</span>
+          <span>{{show?'收起':'快速导航'}}</span>
             <div class="navList">
                 <div class="list" v-for="(item,i) of list" :key="i" @click="taptz(item.path)">
                     <van-icon size="20" :name="item.icon" />
@@ -46,7 +46,7 @@ export default {
         taptz(path){
             this.$router.push({path});
         },
-        aa(e){  
+        aa(e){
             let maxgd = this.maxgd;
             let clientY = e.targetTouches[0].clientY;
             clientY=clientY<0?0:clientY
