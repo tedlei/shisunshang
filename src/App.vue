@@ -166,7 +166,6 @@
                         let sourceUrl = sessionStorage.getItem('sourceUrl');
                         localStorage.setItem("userinfo",JSON.stringify(response.data));
                         if(sourceUrl){
-                            
                             // Bus.$emit('wechatAuth', true);
                             var data = this.parseURL(sourceUrl);
                             if(data.path == '/goodsdetails'){

@@ -34,7 +34,7 @@
               <li
                 v-for="(goodsitem,goodsindex) in item.sub"
                 :key="goodsindex"
-                @click="todetile(goodsitem.id)"
+                @click="todetile(goodsitem.id, goodsitem.cate_name)"
               >
                 <van-image
                   :height="imgH"
@@ -77,6 +77,7 @@
             };
         },
         created() {
+            
         },
         methods: {
             opensearch: function () {
@@ -106,8 +107,10 @@
                 sessionStorage.setItem('classNum', index);
             },
             //    跳转
-            todetile: function (e) {
-                this.$router.push({path: "/goodslist", query: {id: e}});
+            todetile: function (e, name) {
+                this.$router.push({path: "/goodslist", query: {id: e,name: name}});
+                // document.title = name;
+                // console.log(document.title)
             },
             getHeight: function () {
                 let clientW = clientWw.clientWw()[2];

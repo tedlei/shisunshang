@@ -4,18 +4,17 @@
       v-model="tans"
       position="left"
       :style="{ height: '100%',width:'100%' }"
-    >
+        >
       <header>
         <i class="clo-9 el-icon-arrow-left back" @click="Popup()" style="left: 5px;"></i>
         <search :tmsg='tan' :dmsg="true" @getHistorylist="getHistorylist"></search>
       </header>
 
-
       <div class="search_div">
         <!--   搜索前   -->
         <div class="search_record" v-show="!this.gainsearchVal">
           <div class="search_box">
-            <p><i></i>热门搜索</p>
+            <p style="padding-top:0.2rem;"><i></i>热门搜索</p>
             <ul class="hot_list clearfix">
               <li v-for="(item,index) in hotlist" :key="index" @click="boxsearch(item.name)">{{item.name}}</li>
             </ul>
@@ -98,6 +97,23 @@
             },
             boxsearch: function (e) {
                 this.$store.commit('sendVal', e);
+                let searchVal = e;
+                if (!searchVal) {
+                    this.$notify({
+                        type: "warning",
+                        message: "请输入搜索内容",
+                        duration: "500"
+                    });
+                    return;
+                }
+                let histort = localStorage.getItem("histort");
+                if (!histort) histort = [];
+                else histort = JSON.parse(histort);
+                if (histort.length >= 10) histort.pop();
+                if (histort.indexOf(searchVal) <= -1) histort.unshift(searchVal);
+                localStorage.setItem("histort", JSON.stringify(histort));
+                this.$emit("getHistorylist");
+                this.$store.commit("sendsearchVal", searchVal);
             },
 
             //获取搜索历史列表
@@ -150,7 +166,7 @@
     right: 0;
     left: 0;
     height: 0.50rem;
-
+    z-index: 888;
     i {
       font-size: 0.28rem;
     }
@@ -159,10 +175,10 @@
       margin-left: 10px;
     }
   }
-
+    
   .search_div {
     position: absolute;
-    top: 0.5rem;
+    top: 0.1rem;
     bottom: 0;
     left: 0;
     right: 0;

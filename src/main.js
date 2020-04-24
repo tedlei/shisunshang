@@ -126,9 +126,13 @@ router.beforeEach((to, from, next) => {
       }).catch(function (error) {
         console.log(error);
       });
-  } else if (to.name != 'Special-area' && to.meta.title) {
+  } else if (to.name != 'Special-area' && to.meta.title && to.name != 'goodslist') {
     document.title = to.meta.title;
+  }else if(to.name == 'goodslist'){
+    //   console.log(to)
+    document.title = to.query.name;
   }
+
   if(!['/goodsdetails/makeorder','/mine/invoice','/mine/myinvoice'].includes(to.path)){
     // console.log('我不是发票')
     store.commit('sendIvcMsg', 1);

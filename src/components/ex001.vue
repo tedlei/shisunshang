@@ -1,55 +1,124 @@
 <template>
-    <div>
-        <input
-          @change="changeVideo"
-          id="imgFile"
-          class="upload_input"
-          type="file"
-          accept="video/*"
-        />
-        <div @click="ditututu">滴滴滴滴滴滴</div>
+    <div v-if="classlist.length>1">
+        <van-tabs v-model="active" @click="onClick">
+            <van-tab :title="item.cate_name" :name='item.id' v-for="item of classlist" :key="item.id">
+                <van-list
+                    v-model="loading"
+                    :finished="finished"
+                    finished-text="没有更多了"
+                    @load="onLoad"
+                    >
+                    <div class="goodsDiv" v-for="(item,index) of goodslist" :key='index'>
+                        <div>
+                            {{item.id}}
+                        </div>
+                    </div>
+                </van-list>
+            </van-tab>
+        </van-tabs>
+        <div>
+            
+        </div>
     </div>
 </template>
 
 <script>
-    import wechatAuth from "../assets/js/wechatConfig";
 export default {
     components:{},
     props:{},
     data(){
       return {
-
-
+            classlist: [
+                {id: 0, cate_name:'全部'}
+            ],
+            classId: 0,
+            page: 0,
+            active: 0,
+            goodslist: [],
+            loading: false,
+            finished: false,
       }
     },
     watch:{},
     computed:{},
     methods:{
-        changeVideo(file) {
-            console.log(file)
-            var fileM = document.getElementById("imgFile").files[0];
-            console.log(fileM)
+        //获取分类
+        getclass(){
+            let parms = {
+                method: 'get.goods.category.list',
+            };
+            this.$post('/api/v1/goodsCategory', parms)
+                .then((res) => {
+                    // console.log(res)
+                    for(let item of res.data){
+                        this.classlist.push(item)
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                })
         },
-        ditututu() {
-            // let shareConfig = {
-            //     title: '国健生态平台',
-            //     desc: '国健生态平台!Come on.!',
-            //     link: location.href.split('state')[0] + (location.search ? '&' : '?') + 'state=' + userinfo.referee_number,
-            //     imgUrl: 'http://gj.wjeys.com/public/up/gj_wjeys_com-2-2-20191216184918-14_106_130_91-615694.jpg',
-            // };
-            // let url = location.href;
-            // wechatAuth(url,shareConfig,1);
-        }
+        //分类点击
+        onClick(name, title){
+            // console.log(name)
+            this.classId = name;
+            // this.page= 0;
+            // this.goodslist = [];
+            // this.finished = false;
+            // this.onLoad();
+        },
+        //获取数据
+        onLoad(  ) {
+            // console.log(111111111)
+            let parms = {
+                method: 'get.goods.map.list',
+                map: 'vip',
+                page: this.page,
+                page_size: 10,
+                cate_id: this.classId==0?'':this.classId
+            };
+            // console.log(parms);
+            this.$post('/api/v1/goods', parms)
+                .then((res) => {
+                    if(res.data){
+                         this.page += res.data.length;
+                        // console.log(this.page);
+                        this.goodslist = [...this.goodslist, ...res.data];
+                        // 加载状态结束
+                        this.loading = false;
+                        // 数据全部加载完成
+                        if (res.data.length< 10) {
+                            this.finished = true;
+                        }
+                    }else{
+                        // console.log('我是null')
+                        this.finished = true;
+                    }
+                    // console.log(res)
+                   
+                }).catch(function (error) {
+                    console.log(error);
+            })
+
+        },
     },
     created(){
-        // this.getData();
-        // localStorage.clear();
-        // sessionStorage.setItem("usertoken",'')
+       this.getclass();
     },
     mounted(){
     }
 }
 </script>
 <style lang="scss" scoped>
-   
+    .goodsDiv{
+        display: inline-block;
+        height: 300px;
+        width: 50%;
+        padding: 0.2rem;
+        line-height: 300px;
+        color: #fff;
+        >div{
+            border: 2px solid red;;
+            background-color: #121452;
+        }
+    }
 </style>

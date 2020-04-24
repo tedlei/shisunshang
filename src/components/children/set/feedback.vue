@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="common_box">
+        <div class="common_box" v-show="isFkcg">
             <van-field
               v-model="message"
               rows="4"
@@ -15,7 +15,12 @@
                 <imgOSSuploader :maxCount='4' @imgUpData='imgUpData'></imgOSSuploader>
             </div>
         </div>
-        <div :class="isBtn?'btn btnk':'btn'" @click="feedbackAdd">提交反馈</div>
+        <div :class="isBtn?'btn btnk':'btn'" @click="feedbackAdd" v-show="isFkcg">提交反馈</div>
+        <div class="cg" v-show="!isFkcg">
+            <img src="../../../assets/img/fkcg.png" alt="">
+            <div>反馈成功</div>
+            <div>感谢你对平台的关注和支持，我们会认真处理你的反馈，尽快修复和完善相关功能</div>
+        </div>
     </div>
 </template>
 
@@ -31,6 +36,7 @@
         return {
             message: '',
             file:[],
+            isFkcg: true,
             isBtn: true
         }
     },
@@ -62,16 +68,16 @@
                 content: this.message,
                 content2: arr
             };
-            console.log(ad_data);
-            return;
+            // console.log(ad_data);
             this.$post('/api/v1/bug', ad_data)
                 .then((res) => {
                     // console.log(res);
                     if (res.status == 200) {
                         // this.$store.commit('setLoading');
-                        this.$toast('提交成功');
+                        // this.$toast('提交成功');
                         this.isBtn= false;
-                        this.$router.push({path: '/mine'});
+                        this.isFkcg=false;
+                        // this.$router.push({path: '/mine'});
                     } else {
                         // this.$store.commit('setLoading');
                         this.isBtn= false;
@@ -115,5 +121,23 @@
     }
     .btnk{
         background-color: #cccccc;
+    }
+    .cg{
+        padding-top: 0.6rem;
+        >img{
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+        >div:nth-child(2){
+            margin-top: 0.2rem;
+            margin-bottom: 0.07rem;
+            font-size: 0.15rem;
+        }
+        >div:nth-child(3){
+            margin: 0 auto;
+            width: 2.3rem;
+            font-size: 0.1rem;
+            color: #7b7b7b;
+        }
     }
 </style>

@@ -104,7 +104,7 @@
                 };
                 this.$post('/api/v1/userMoney', ad_data)
                     .then((res) => {
-                        console.log(res)
+                        // console.log(res)
                         this.list = res.data.items;
                     }).catch(function (error) {
                     console.log(error);

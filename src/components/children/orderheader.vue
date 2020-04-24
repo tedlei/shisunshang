@@ -6,6 +6,7 @@
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
       <span v-else-if="title">{{title}}</span>
+      <span v-else-if="this.$route.path=='/goodslist'">{{$route.query.name}}</span>
       <span v-else-if="this.$route.query.orderid != 5">{{this.$route.meta.title}}</span>
       <span v-else>退款/售后</span>
     </div>

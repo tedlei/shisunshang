@@ -2,6 +2,7 @@
     <div class="content">
         <!--   添加银行卡     -->
         <div
+            v-show='banklist.length!=0'
             class="add_bankcard"
             v-if="banklist.length>0"
             :style="show ?'padding: 0.4rem 0;background-color: #fff;':''"
@@ -91,6 +92,7 @@ export default {
                             );
                         }
                     } else {
+                        this.banklist = [];
                         _this.show = true;
                         this.$store.commit("sendbank", false);
                     }
@@ -112,7 +114,7 @@ export default {
             };
             this.$post("/api/v1/bank", ad_data)
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==200){
                         this.$toast('删除成功');
                         this.getbank();

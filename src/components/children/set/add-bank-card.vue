@@ -20,10 +20,12 @@
                 :rules="[{ validator, message: '请输入正确银行卡号' }]"
             />
             <div class="bankImg">
-                <div>银行卡信息</div>
+                <div>所属银行</div>
                 <img v-show="bankUrl!=''&&isTgyz" :src="bankUrl" alt="">
             </div>
-            <div class="hrDiv"></div>
+            <div class="hrDivF">
+                <div class="hrDiv"></div>
+            </div>
             <!-- <van-field
                 v-model="number3"
                 name="branch"
@@ -32,16 +34,6 @@
                 :rules="[{ required: true, message: '支行名称' }]"
             />-->
             <van-field v-model="number3" name="branch" label="支行名称" placeholder="例如：北京海淀支行" />
-
-            <van-field
-                readonly
-                clickable
-                name="picker"
-                :value="value"
-                label="开户行城市"
-                placeholder="点击选择城市"
-                @click="showPicker = true"
-            />
             <van-popup v-model="showPicker" position="bottom">
                 <van-picker :columns="areaList"
                   show-toolbar
@@ -50,6 +42,15 @@
                   @confirm="confirm"
                 />
             </van-popup>
+             <van-field
+                readonly
+                clickable
+                name="picker"
+                :value="value"
+                label="开户行城市"
+                placeholder="点击选择城市"
+                @click="showPicker = true"
+            />
            
             <p class="tips clo-g">平台智能加密，保障你用卡安全</p>
             <div style="margin: 16px;">
@@ -136,9 +137,7 @@ export default {
                     .then(response => {
                         if (response.status == 200) {
                             _this.$toast("添加成功");
-                            setTimeout(() => {
-                                _this.$router.back(-1);
-                            }, 2000);
+                            _this.$router.back(-1);
                         } else {
                             _this.$toast(response.message);
                         }
@@ -231,8 +230,12 @@ export default {
         width: 120px;
     }
 }
+.hrDivF{
+    background-color: #fff;
+    padding-left: 16px;
+}
 .hrDiv{
-    height: 10px;
+    height: 1px;
     background-color: #ebedf0;
 }
 </style>

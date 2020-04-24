@@ -20,9 +20,7 @@
         type="number"
         label="提现金额"
         placeholder="请输入提现金额"
-        :rules="[{ required: true, message: '请输入提现金额' }]"
       />
-
 
       <van-field
         readonly
@@ -30,10 +28,10 @@
         name="picker"
         :value="value1"
         label=""
+        right-icon="arrow-down"
         placeholder="请选择提现账户"
         @click="showPopup('moneytype')"
-        :rules="[{ required: true, message: '请选择提现账户' }]"
-      />
+        />
       <van-field name="money_type_id" :value="money_type_id" v-show="false"></van-field>
       <van-field
         readonly
@@ -41,9 +39,9 @@
         name="picker"
         :value="value2"
         label=""
+        right-icon="arrow-down"
         placeholder="请选择银行账户"
         @click="showPopup('bank')"
-        :rules="[{ required: true, message: '请选择银行账户' }]"
       />
       <van-field name="bank_id" :value="bank_id" v-show="false"></van-field>
 
@@ -76,7 +74,6 @@
         name="pass2"
         label="交易密码"
         placeholder="交易密码"
-        :rules="[{ required: true, message: '请填交易密码' }]"
       />
 
       <van-button round block type="info" native-type="submit" class="common_btn" style="margin-top: 0.3rem">
@@ -147,11 +144,26 @@
                 };
                 this.$post('/api/v1/bank', bankmsg)
                     .then((response) => {
+                        console.log(response);
+                        if(response.data==null || response.data.lenght==0){
+                            this.$dialog.confirm({
+                              title: '绑定银行后才能提现，现在前往绑定银行卡吗？',
+                            })
+                                .then(() => {
+                                    // console.log('马上绑定')
+                                    this.$router.push('/set/Bank-card');
+                                  // on confirm
+                                })
+                                .catch(() => {
+                                    this.$router.back(-1);
+                                  // on cancel
+                                });
+                        }
                         for (let i in response.data) {
                             this.columns.bank_columns.push(response.data[i].name);
                             this.bankid.push(response.data[i].id);
                         }
-                        console.log(this.columns)
+                        // console.log(this.columns)
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -163,6 +175,7 @@
                 };
                 this.$post('/api/v1/userMoneyCashed', bankmsg)
                     .then((response) => {
+                        // console.log(response)
                         for (let i in response.data.items) {
                             this.columns.money_type_column.push(response.data.items[i].name);
                             this.moneytypeid.push(response.data.items[i].sequence);
@@ -200,6 +213,7 @@
                 if (e == 'moneytype') {
                     this.columnsArry = this.columns.money_type_column
                 } else {
+                    console.log(this.columns);
                     this.columnsArry = this.columns.bank_columns
                 }
                 this.showPicker = true;
@@ -215,7 +229,7 @@
                     this.bank_id = this.bankid[index]
                 }
                 this.showPicker = false;
-                console.log(e)
+                // console.log(e)
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {
@@ -224,7 +238,23 @@
         },
         mounted() {
             this.getpei();
-            this.getID();
+            // console.log(this.$store.getters.getuserinfo.is_set_paypassword==0)
+            if(this.$store.getters.getuserinfo.is_set_paypassword==0){
+                this.$dialog.confirm({
+                  title: '请绑定手机号码设置支付密码之后才能提现，现在前往设置支付密码？',
+                })
+                    .then(() => {
+                        // console.log('马上绑定')
+                        this.$router.push('/set/set-pay-password');
+                      // on confirm
+                    })
+                    .catch(() => {
+                        this.$router.back(-1);
+                      // on cancel
+                    });
+            }else{
+                this.getID();
+            }
             this.getbalance();
             this.$store.commit('sendWrecord', true);
         },
@@ -266,5 +296,8 @@
       }
     }
 
+  }
+  /deep/ .van-field__label{
+      text-align: left;
   }
 </style>

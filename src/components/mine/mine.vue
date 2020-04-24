@@ -130,10 +130,10 @@
       <div class="conmon_deader">
         <span class="left_text">我的工具</span>
         <span class="right_link">
-          <router-link to="/mine/More-tools">
+          <!-- <router-link to="/mine/More-tools">
             更多工具
             <van-icon name="arrow" />
-          </router-link>
+          </router-link> -->
         </span>
       </div>
 
@@ -294,35 +294,76 @@ export default {
           linkto: "/mine/myShare"
         },
         {
-          img: "gj3",
-          name: "商品分享",
-          linkto: "/mine/share"
-        },
-        {
-          img: "gj4",
-          name: "收货地址",
-          linkto: "/mine/Address"
-        },
-        {
-          img: "gj5",
-          name: "个人信息",
-          linkto: "/mine/usermsg"
-        },
-        {
           img: "gj6",
           name: "我的团队",
           linkto: "/mine/Myteam"
+        },
+        // {
+        //   img: "gj4",
+        //   name: "收货地址",
+        //   linkto: "/mine/Address"
+        // },
+        // {
+        //   img: "gj5",
+        //   name: "个人信息",
+        //   linkto: "/mine/usermsg"
+        // },
+        {
+          img: "gj3",
+          name: "商品分享",
+          linkto: "/mine/share"
         },
         {
           img: "gj7",
           name: "财务记录",
           linkto: "/mine/record"
         },
+        
+        {
+            img: 'mgj1',
+            name: '账户充值',
+            linkto:'/mine/Rechargemoney'
+        },
+        {
+            img: 'mgj2',
+            name: '资金提现',
+            linkto:'/mine/Cash-withdrawal'
+        },
+        {
+            img: 'mgj3',
+            name: '账户互转',
+            linkto:'/mine/Trans'
+        },
+        {
+            img: 'mgj4',
+            name: '发票专区',
+            linkto:'/mine/myinvoice'
+        },
+        // {
+        //     img: 'mgj5',
+        //     name: '实名认证',
+        //     linkto:'/mine/certification'
+        // },
+        // {
+        //     img: 'mgj6',
+        //     name: '主题换肤',
+        //     linkto:'/huanfu'
+        // },
+        // {
+        //     img: 'mgj7',
+        //     name: '绑定银行卡',
+        //     linkto:'/set/Bank-card'
+        // },
+        // {
+        //     img: 'mgj8',
+        //     name: '卡券管理',
+        //     linkto:'/kajuan'
+        // },
         {
           img: "gj8",
           name: "关于我们",
           linkto: "/help/helpDetail?type=gy"
-        }
+        },
       ],
       gamelists: [
         {

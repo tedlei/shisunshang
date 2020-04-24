@@ -914,7 +914,9 @@ export default {
     },
     created() {
         // console.log(this.$route.query.id)
-        let user = JSON.parse(localStorage.getItem("userinfo"));
+        let user = JSON.parse(this.$store.getters.getuserinfo);
+        if(!user) user=JSON.parse(localStorage.getItem("userinfo"));
+        // console.log(user)
         this.users = user;
         this.getDATA();
         this.Addfootprints();

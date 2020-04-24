@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="firstNav clearfix" style="position: fixed;top: 0.55rem;height: 0.5rem;z-index: 9999;width: 100%">
-      <li v-for="(item,index) in firstNav" :class="{active:Fnum == index}" @click="changeval(index)">{{item.text}}</li>
+      <li v-for="(item,index) in firstNav" :key="index" :class="{active:Fnum == index}" @click="changeval(index)">{{item.text}}</li>
     </ul>
     <!--    -->
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
