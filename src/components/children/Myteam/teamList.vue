@@ -49,7 +49,7 @@ export default {
         };
     },
     created() {
-        this.openteam();
+        // this.openteam();
     },
     methods: {
         openteam: function() {
@@ -67,7 +67,9 @@ export default {
                     this.loading = false;
                     let items = response.data.items;
                     if (items.length > 0) {
+                        console.log(items.length)
                         this.page += items.length;
+                        console.log(this.page)
                         this.team_dtllists = team_dtllists.concat(items);
                     }
                     if (items.length < 10) {
