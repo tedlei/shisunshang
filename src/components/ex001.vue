@@ -1,5 +1,6 @@
 <template>
     <div v-if="classlist.length>1">
+        <div></div>
         <van-tabs v-model="active" @click="onClick">
             <van-tab :title="item.cate_name" :name='item.id' v-for="item of classlist" :key="item.id">
                 <van-list
@@ -16,9 +17,7 @@
                 </van-list>
             </van-tab>
         </van-tabs>
-        <div>
-            
-        </div>
+        
     </div>
 </template>
 
@@ -59,16 +58,21 @@ export default {
         },
         //分类点击
         onClick(name, title){
-            // console.log(name)
+            console.log(name)
             this.classId = name;
-            // this.page= 0;
-            // this.goodslist = [];
-            // this.finished = false;
-            // this.onLoad();
+            this.page= 0;
+            this.goodslist = [];
+            // 清空列表数据
+            this.finished = false;
+            // 重新加载数据
+            // 将 loading 设置为 true，表示处于加载状态
+            this.loading = true;
+            this.onLoad();
         },
+        
         //获取数据
         onLoad(  ) {
-            // console.log(111111111)
+            console.log(111111111)
             let parms = {
                 method: 'get.goods.map.list',
                 map: 'vip',
