@@ -1,14 +1,14 @@
 <template>
-    <div class="main_box">
-        <!--  头部  -->
-        <header>
-            <el-row
-                type="flex"
-                class="row-bg"
-                justify="space-between"
-                style="align-items: center;width: 100%"
-                >
-                <!-- <el-dropdown trigger="click">
+  <div class="content main_box">
+    <!--  头部  -->
+    <header>
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-between"
+        style="align-items: center;width: 100%"
+      >
+        <!-- <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             重庆
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -179,73 +179,92 @@ export default {
             doc.style.height = width + "px";
         },
 
-        //获取首页
-        getHomeMsg: function() {
-            const ad_data = { method: "get.ad.banner.list" },
-                category = { method: "get.category.list" },
-                goods = { method: "get.ad.goods.list" },
-                news = { method: "get.news.list" };
-            //获取banner
-            this.$post("/api/v1/ad", ad_data)
-                .then(response => {
-                    this.bannermsg = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            //获取模块列表
-            this.$post("/api/v1/category", category)
-                .then(response => {
-                    this.categorylist = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            //获取首页商品
-            this.$post("/api/v1/ad", goods)
-                .then(response => {
-                    this.lists = response.data;
-                    this.$nextTick(() => {
-                        this.boxheight =
-                            this.$refs.imgWidth[0].offsetWidth + "px";
+            //获取首页
+            getHomeMsg: function () {
+                const ad_data = {method: "get.ad.banner.list"},
+                    category = {method: "get.category.list"},
+                    goods = {method: "get.ad.goods.list"},
+                    news = {method: "get.news.list"};
+                //获取banner
+                this.$post("/api/v1/ad", ad_data)
+                    .then(response => {
+                        this.bannermsg = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
                     });
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            //获取新闻列表
-            this.$post("/api/v1/news", news)
-                .then(response => {
-                    this.news = response.data.items;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-        getUserinfo: function() {},
-        //分类按钮
-        doting: function(e, m) {
-            if (e == 5) {
-                this.$router.push({
-                    path: "/Luckdraw"
-                });
-            } else if (e == 7) {
-                this.$router.push({
-                    path: "/Signin"
-                });
-            } else if (e == 8) {
-                this.$router.push({
-                    path: "/help"
-                });
-            } else if (e == 9) {
-                this.Previewcode(false);
-            } else {
-                this.$router.push({
-                    path: "/Special-area",
-                    query: { typeid: m }
-                });
-            }
-        },
+                //获取模块列表
+                this.$post("/api/v1/category", category)
+                    .then(response => {
+                        this.categorylist = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                //获取首页商品
+                this.$post("/api/v1/ad", goods)
+                    .then(response => {
+                        this.lists = response.data;
+                        this.$nextTick(() => {
+                            this.boxheight = this.$refs.imgWidth[0].offsetWidth + 'px'
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                //获取新闻列表
+                this.$post("/api/v1/news", news)
+                    .then(response => {
+                        this.news = response.data.items;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            //获取是否签到
+            getsign: function () {
+                let msg = {
+                    method: 'get.sign.time.list'
+                };
+                this.$post('/api/v1/userSign', msg)
+                    .then((response) => {
+                        if (response.data.is_sign == 0) {
+                            this.$dialog.confirm({
+                                title: '嗨！',
+                                message: '今日还未签到是否签到赢好礼呢！'
+                            }).then(() => {
+                                this.$router.push({
+                                    path: '/Signin'
+                                })
+                            }).catch(() => {
+                            });
+                        }
+                    })
+            },
+            //分类按钮
+            doting: function (e, m) {
+                if (e == 5) {
+                    this.$router.push({
+                        path: "/Luckdraw"
+                    });
+                } else if (e == 7) {
+                    this.$router.push({
+                        path: '/Signin'
+                    })
+                } else if (e == 8) {
+                    this.$router.push({
+                        path: "/help"
+                    });
+                } else if (e == 9) {
+                    this.Previewcode(false);
+                } else {
+                    this.$router.push({
+                        path: "/Special-area",
+                        query: {typeid: m}
+                    });
+                }
+              
+            },
         //搜索
         opensearch: function() {
             Bus.$emit("searchval", true);
@@ -294,99 +313,103 @@ export default {
         let token = localStorage.getItem("usertoken");
         if (token) {
             this.getHomeMsg();
-            this.getUserinfo();
         }
     }
 };
 </script>
 
 <style lang="scss" scoped>
-header {
-    text-align: left;
-    padding: 0 0.1rem;
-    height: 0.55rem;
-    display: flex;
-    align-items: center;
+  .content {
+    top: 0;
+    bottom: 0.65rem;
+    header {
+      text-align: left;
+      padding: 0 0.1rem;
+      height: 0.55rem;
+      display: flex;
+      align-items: center;
 
-    .sao,
-    .news {
+      .sao,
+      .news {
         min-width: 40px;
         text-align: center;
         font-size: 12px;
 
         i {
-            font-size: 18px;
+          font-size: 18px;
         }
-    }
+      }
 
-    .el-dropdown {
+      .el-dropdown {
         text-align: center;
         min-width: 50px;
         margin-right: 10px;
+      }
     }
-}
 
-/* 分类按钮 */
+    /* 分类按钮 */
 
-.f-nav div img {
-    width: 70%;
-}
+    .f-nav div img {
+      width: 70%;
+    }
 
-/*  公告 */
-.notice {
-    padding: 10px 12px;
-    border-radius: 100px;
-    background-color: #f9f9f9;
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    text-align: left;
+    /*  公告 */
+    .notice {
+      padding: 10px 12px;
+      border-radius: 100px;
+      background-color: #f9f9f9;
+      display: flex;
+      // justify-content: space-between;
+      align-items: center;
+      text-align: left;
 
-    .el-carousel {
+      .el-carousel {
         width: 80%;
-    }
+      }
 
-    h3 {
+      h3 {
         font-weight: normal;
-    }
+      }
 
-    img {
+      img {
         width: 20px;
+      }
+
     }
-}
 
-.introduce_img {
-    text-align: left;
-    background-color: #f2f2f2;
-    margin: 0 -0.1rem;
-    padding: 0.1rem 0.1rem 0;
-    font-size: 0.12rem;
 
-    .lists {
+    .introduce_img {
+      text-align: left;
+      background-color: #f2f2f2;
+      margin: 0 -.1rem;
+      padding: .1rem .1rem 0;
+      font-size: .12rem;
+
+      .lists {
         padding: 5px;
 
         .price {
-            padding: 5px;
+          padding: 5px;
         }
+      }
     }
-}
 
-.el-carousel__indicators--vertical {
-    display: none !important;
-}
+    .el-carousel__indicators--vertical {
+      display: none !important;
+    }
 
-.qrCodeMax {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-    z-index: 1000001;
+    .qrCodeMax {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      z-index: 1000001;
 
-    .topBack {
+      .topBack {
         width: 100%;
         height: 0.48rem;
         padding: 0 0.2px;
@@ -396,6 +419,7 @@ header {
         display: flex;
         align-items: center;
         color: #999;
+      }
     }
 }
 </style>

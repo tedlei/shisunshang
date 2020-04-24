@@ -1,10 +1,7 @@
 <template>
   <div style="height: 100%">
     <div class="navigation" v-show="!this.$route.query.recordid">
-      <!-- <ul class="clearfix">
-        <li v-for="(item,index) in navItems" :key="index" :class="{active:num==index}" @click="getNum(index)">{{item}}</li>
-      </ul> -->
-      <van-tabs v-model="active" @click="onClick">
+      <van-tabs v-model="active" @click="getNum">
         <van-tab v-for="(item,index) in navItems" :key="index" :title="item">
           <!-- 内容 {{ item }} -->
         </van-tab>
@@ -43,7 +40,6 @@
 </template>
 
 <script>
-    import '../../../assets/js/filter'
 
     export default {
         name: "record",
@@ -87,13 +83,13 @@
             //下拉加载
             onLoad() {
                 // 异步更新数据
-                setTimeout(() => {
+                    console.log(111111111)
                     this.getMoney();
-                }, 1000);
+
             },
             //切换
             getNum: function (index) {
-                this.num = index;
+                this.getData();
             },
             getData() {
                 let ad_data = {
@@ -110,15 +106,15 @@
                     console.log(error);
                 });
             },
-            onClick() {
-                this.getData();
-            },
         },
         updated() {
             // this.onLoad()
         },
         mounted() {
-            // this.getData();
+            setTimeout(()=>{
+                this.loading = false;
+                this.finished = false;
+            },5000)
             this.getMoney();
         }
     }
