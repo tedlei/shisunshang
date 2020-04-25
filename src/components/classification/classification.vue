@@ -26,8 +26,8 @@
       </div>
 
       <div class="right">
-        <img src="../../assets/img/banner2.png"/>
         <template v-if="typelist">
+          <van-image :src="typelist.length > 0 ? typelist[num].icon:''"/>
           <div v-for="(item,index) in typelist[num].sub" :key="index">
             <div class="ttl">{{item.cate_name}}</div>
             <ul class="clearfix goodslist">
@@ -73,11 +73,19 @@
                 sss: "sssss",
                 imgH: "",
                 num: sessionStorage.getItem('classNum') ? sessionStorage.getItem('classNum') : 0,
-                typelist: null
+                typelist: [
+                    {
+                        icon: "",
+                        sub: [
+                            {
+                                sub: []
+                            }
+                        ]
+                    }]
             };
         },
         created() {
-            
+
         },
         methods: {
             opensearch: function () {
@@ -95,6 +103,7 @@
                         this.$nextTick(() => {
                             this.imgH = this.$refs.imgW[0].$el.clientWidth + "px";
                         });
+                        console.log(_this.num)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -108,7 +117,7 @@
             },
             //    跳转
             todetile: function (e, name) {
-                this.$router.push({path: "/goodslist", query: {id: e,name: name}});
+                this.$router.push({path: "/goodslist", query: {id: e, name: name}});
                 // document.title = name;
                 // console.log(document.title)
             },
@@ -203,9 +212,7 @@
 
         .ttl {
           text-align: left;
-          padding: 10px 0;
-          font-size: 0.18rem;
-          font-weight: bold;
+          padding: 5px 0;
           color: #0f0f0f;
         }
 

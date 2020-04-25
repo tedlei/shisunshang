@@ -2,7 +2,7 @@
   <div class="content">
     <!--提醒框 -->
     <div class="tips"
-        v-show="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined && isTips">
+         v-show="orderData.address_default=='' && $store.getters.getreceivingAddress.name==undefined && isTips">
       <span class="clo-g">应国家快递实名制规定，收件人须填写真实信息。</span>
       <i class="el-icon-circle-close" @click="isTips=!isTips"></i>
     </div>
@@ -137,7 +137,9 @@
       </div>
       <router-link
         :to="{path:'/mine/invoice',query:{state:'0'}}"
-        class="common m_b_10">
+        class="common m_b_10"
+        v-if="$route.query.buy_type == 'retail' || $route.query.buy_type == 'shop'"
+        >
         <div>发票信息</div>
         <div class="right">
           <!-- <span v-if="this.infor == 1">不开具发票</span> -->
@@ -507,17 +509,17 @@
             },
 
             //购物车数量
-            getCartNum () {
-              let ad_data = {
-                method: 'get.goods.cart.count',
-              };
-              this.$post('/api/v1/GoodsCart', ad_data)
-              .then((res) => {
-                // console.log(res);
-                this.$store.commit('setCartNum',res.data.num)
-              }).catch(function (error) {
-                  console.log(error);
-              });
+            getCartNum() {
+                let ad_data = {
+                    method: 'get.goods.cart.count',
+                };
+                this.$post('/api/v1/GoodsCart', ad_data)
+                    .then((res) => {
+                        // console.log(res);
+                        this.$store.commit('setCartNum', res.data.num)
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
         },
         mounted() {

@@ -10,9 +10,7 @@
         <div class="user" v-if="userinfo">
           <div style="display: flex">
             <div class="user_header">
-              <router-link to="/mine/usermsg">
-                <img :src="userinfo.portrait"/>
-              </router-link>
+              <img :src="userinfo.portrait"/>
             </div>
             <div class="user_msg">
               <p class="user_name">{{userinfo.weixinname}}</p>
@@ -285,19 +283,19 @@
                 ],
                 gjlists: [
                     {
-                      img: "gj1",
-                      name: "营销广告",
-                      linkto: "/mine/ad"
+                        img: "gj1",
+                        name: "营销广告",
+                        linkto: "/mine/ad"
                     },
                     {
-                      img: "gj2",
-                      name: "推广二维码",
-                      linkto: "/mine/myShare"
+                        img: "gj2",
+                        name: "推广二维码",
+                        linkto: "/mine/myShare"
                     },
                     {
-                      img: "gj6",
-                      name: "我的团队",
-                      linkto: "/mine/Myteam"
+                        img: "gj6",
+                        name: "我的团队",
+                        linkto: "/mine/Myteam"
                     },
                     // {
                     //   img: "gj4",
@@ -310,35 +308,40 @@
                     //   linkto: "/mine/usermsg"
                     // },
                     {
-                      img: "gj3",
-                      name: "商品分享",
-                      linkto: "/mine/share"
+                        img: "gj3",
+                        name: "商品分享",
+                        linkto: "/mine/share"
                     },
                     {
-                      img: "gj7",
-                      name: "财务记录",
-                      linkto: "/mine/record"
+                        img: "gj7",
+                        name: "财务记录",
+                        linkto: "/mine/record"
                     },
 
                     {
                         img: 'mgj1',
                         name: '账户充值',
-                        linkto:'/mine/Rechargemoney'
+                        linkto: '/mine/Rechargemoney'
                     },
                     {
                         img: 'mgj2',
                         name: '资金提现',
-                        linkto:'/mine/Cash-withdrawal'
+                        linkto: '/mine/Cash-withdrawal'
                     },
                     {
                         img: 'mgj3',
                         name: '账户互转',
-                        linkto:'/mine/Trans'
+                        linkto: '/mine/Trans'
+                    },
+                    {
+                        img: "gj9",
+                        name: "商家入驻",
+                        linkto: "/mine/nearby"
                     },
                     {
                         img: 'mgj4',
                         name: '发票专区',
-                        linkto:'/mine/myinvoice'
+                        linkto: '/mine/myinvoice'
                     },
                     // {
                     //     img: 'mgj5',
@@ -361,37 +364,38 @@
                     //     linkto:'/kajuan'
                     // },
                     {
-                      img: "gj8",
-                      name: "关于我们",
-                      linkto: "/help/helpDetail?type=gy"
+                        img: "gj8",
+                        name: "关于我们",
+                        linkto: "/help/helpDetail?type=gy"
                     },
+
                 ],
                 gamelists: [
                     {
-                      img: "gj1",
-                      name: "QQ飞车",
-                      text: "0元领一箱水果",
-                      linkto: ""
+                        img: "gj1",
+                        name: "QQ飞车",
+                        text: "0元领一箱水果",
+                        linkto: ""
                     },
                     {
-                      img: "gj1",
-                      name: "QQ飞车",
-                      text: "0元领一箱水果",
-                      linkto: ""
+                        img: "gj1",
+                        name: "QQ飞车",
+                        text: "0元领一箱水果",
+                        linkto: ""
                     },
                     {
-                      img: "gj1",
-                      name: "QQ飞车",
-                      text: "0元领一箱水果",
-                      linkto: ""
+                        img: "gj1",
+                        name: "QQ飞车",
+                        text: "0元领一箱水果",
+                        linkto: ""
                     },
                     {
-                      img: "gj1",
-                      name: "QQ飞车",
-                      text: "0元领一箱水果",
-                      linkto: ""
+                        img: "gj1",
+                        name: "QQ飞车",
+                        text: "0元领一箱水果",
+                        linkto: ""
                     }
-                    ]
+                ]
             };
         },
         //计算剩余时间
@@ -513,7 +517,7 @@
             this.getuserinfo();
             this.getuserindex();
         }
-      
+
     };
 </script>
 

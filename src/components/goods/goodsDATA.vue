@@ -1,290 +1,299 @@
 <template>
   <div>
     <div class="main">
-      <div class="Anchor">
-        <a :class="active==0?'active':''" @click="goAnchor('allmerchandise',0)"></a>
-        <a :class="active==1?'active':''" @click="goAnchor('commoditDetails',1)"></a>
-        <a :class="active==2?'active':''" @click="goAnchor('commoditEvaluate',2)"></a>
-        <div class="Last"></div>
-      </div>
-      <div id="allmerchandise">
-        <!-- :autoplay="3000" -->
-        <van-swipe @change="onChange" ref="imgCheckbox">
-          <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
-            <img
-              v-show="item!='' && item!=undefined && item != null"
-              class="swipeImgs"
-              :src="item"
-            />
-            <img
-              v-show="item==''||item==undefined||item==null"
-              class="swipeImgs"
-              src="../../assets/img/mrtp.png"
-            />
-          </van-swipe-item>
-          <template #indicator>
-            <div class="indicator">
-              <div
-                class="custom-indicator"
-                :class="customIndicator==index?'custom-indicator2':''"
-                v-for="(item,index) in goodsData.goods_info.album"
-                :key="index"
-                @click="swipeCustomIndicator(index)"
-              ></div>
+      <header>
+        <van-icon name="arrow-left" class="back" @click="$router.back(-1)"/>
+      </header>
+      <van-tabs v-model="active" scrollspy >
+
+        <van-tab title="商品">
+          <div style="height: 44px"></div>
+          <div id="allmerchandise">
+            <!-- :autoplay="3000" -->
+            <van-swipe @change="onChange" ref="imgCheckbox">
+              <van-swipe-item v-for="(item,index) in goodsData.goods_info.album" :key="index">
+                <img
+                  v-show="item!='' && item!=undefined && item != null"
+                  class="swipeImgs"
+                  :src="item"
+                />
+                <img
+                  v-show="item==''||item==undefined||item==null"
+                  class="swipeImgs"
+                  src="../../assets/img/mrtp.png"
+                />
+              </van-swipe-item>
+              <template #indicator>
+                <div class="indicator">
+                  <div
+                    class="custom-indicator"
+                    :class="customIndicator==index?'custom-indicator2':''"
+                    v-for="(item,index) in goodsData.goods_info.album"
+                    :key="index"
+                    @click="swipeCustomIndicator(index)"
+                  ></div>
+                </div>
+              </template>
+            </van-swipe>
+          </div>
+
+          <div class="AdvertisingRoll">
+            <AdvertisingRoll></AdvertisingRoll>
+          </div>
+          <!-- 1 -->
+          <div class="m_b_10 conmo_box box_one">
+            <div class="name textLinefeed commodityName">{{goodsData.goods_info.name}}</div>
+            <div class="gg">
+              <span class="textLinefeed SpecificationsName">{{initialName}}</span>
             </div>
-          </template>
-        </van-swipe>
-      </div>
-      <div class="AdvertisingRoll">
-        <AdvertisingRoll></AdvertisingRoll>
-      </div>
-      <!-- 1 -->
-      <div class="m_b_10 conmo_box box_one">
-        <div class="name textLinefeed commodityName">{{goodsData.goods_info.name}}</div>
-        <div class="gg">
-          <span class="textLinefeed SpecificationsName">{{initialName}}</span>
-        </div>
-        <div class="price">
-          <span class="price_text">￥{{goodsData.goods_info.price}}</span>
-          <span class="share" @click="showTwo = true">
+            <div class="price">
+              <span class="price_text">￥{{goodsData.goods_info.price}}</span>
+              <span class="share" @click="showTwo = true">
                         <img src="../../assets/img/spfx.png" alt="#"/>
                         分享
                     </span>
-        </div>
-        <div class="ys">
-          <div>
-            已售
-            {{goodsData.goods_info.xiaoliang}}
+            </div>
+            <div class="ys">
+              <div>
+                已售
+                {{goodsData.goods_info.xiaoliang}}
+              </div>
+              <div>
+                库存
+                {{goodsData.goods_info.store_array[isactions]}}
+              </div>
+              <div>
+                保:
+                {{goodsData.goods_info.offer_money_array[isactions]}}
+                元
+              </div>
+              <div>
+                邮:
+                {{goodsData.goods_info.postage_array[isactions]}}
+                元
+              </div>
+            </div>
           </div>
-          <div>
-            库存
-            {{goodsData.goods_info.store_array[isactions]}}
-          </div>
-          <div>
-            保:
-            {{goodsData.goods_info.offer_money_array[isactions]}}
-            元
-          </div>
-          <div>
-            邮:
-            {{goodsData.goods_info.postage_array[isactions]}}
-            元
-          </div>
-        </div>
-      </div>
-      <!-- 2 -->
-      <div class="m_b_10 conmo_box box_one">
-        <div class="vipPurchase">
+          <!-- 2 -->
+          <div class="m_b_10 conmo_box box_one">
+            <div class="vipPurchase">
                     <span>
                         签到金：
                         {{goodsData.money_array[isactions].qd_money_rate/100*goodsData.goods_info.price | moneyFormat}}
                         元
                     </span>
-          <span v-show="goodsData.money_array[isactions].money_rate>0">
+              <span v-show="goodsData.money_array[isactions].money_rate>0">
                         充值金：
                         {{goodsData.money_array[isactions].money_rate/100*goodsData.goods_info.price | moneyFormat}}
                         元
                     </span>
-        </div>
-        <div
-          v-show="goodsData.goods_info.xg_array[isactions].limitdan>0 || goodsData.goods_info.xg_array[isactions].limitcount>0"
-          class="vipPurchase"
-        >
+            </div>
+            <div
+              v-show="goodsData.goods_info.xg_array[isactions].limitdan>0 || goodsData.goods_info.xg_array[isactions].limitcount>0"
+              class="vipPurchase"
+            >
                     <span
                       v-show="goodsData.goods_info.xg_array[isactions].limitdan>0"
                     >限购{{goodsData.goods_info.xg_array[isactions].limitdan}}单</span>
-          <span
-            v-show="goodsData.goods_info.xg_array[isactions].limitcount>0"
-          >每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
-        </div>
-      </div>
-      <div
-        style="display: flex;justify-content: space-between;"
-        class="m_b_10 conmo_box"
-        @click="show=true"
-      >
-        <div class="left vip_head">购买方式：</div>
-        <div style="display: flex; align-items: center;" class="right">
-          <div>{{actionsName[isactions]}}</div>
-          <van-icon name="arrow"/>
-        </div>
-      </div>
-      <div class="m_b_10 conmo_box box_one">
-        <div class="goodsNumber">
-          <span>数量：</span>
-          <van-stepper
-            v-model="nums"
-            :max="goodsData.goods_info.xg_array[isactions].limitcount==0?'999':goodsData.goods_info.xg_array[isactions].limitcount"
+              <span
+                v-show="goodsData.goods_info.xg_array[isactions].limitcount>0"
+              >每单限购{{goodsData.goods_info.xg_array[isactions].limitcount}} 份</span>
+            </div>
+          </div>
+          <div
+            style="display: flex;justify-content: space-between;"
+            class="m_b_10 conmo_box"
+            @click="show=true"
+          >
+            <div class="left vip_head">购买方式：</div>
+            <div style="display: flex; align-items: center;" class="right">
+              <div>{{actionsName[isactions]}}</div>
+              <van-icon name="arrow"/>
+            </div>
+          </div>
+          <div class="m_b_10 conmo_box box_one">
+            <div class="goodsNumber">
+              <span>数量：</span>
+              <van-stepper
+                v-model="nums"
+                :max="goodsData.goods_info.xg_array[isactions].limitcount==0?'999':goodsData.goods_info.xg_array[isactions].limitcount"
+              />
+            </div>
+          </div>
+          <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
+                <span class="left">选择</span>
+                <div class="right">
+              <span class="textLinefeed SpecificationsName">已选择：
+                {{initialName}}
+              </span>
+            </div>
+          </div>-->
+          <!--   3   -->
+          <!-- <div class="m_b_10 conmo_box box_three">
+              <span class="left">送至</span>
+              <div class="right">
+                <span>免运费</span>
+              </div>
+          </div>-->
+          <!--   4   -->
+          <!-- <div class="m_b_10 conmo_box box_four">
+          <div class="left store_head">
+          <img src="../../assets/img/store_head.png">
+          </div>
+          <div class="right">
+          <span>重庆网络科技自营店</span>
+          </div>
+          </div>-->
+          <!--   5   -->
+
+          <!-- 购买方式上拉菜单 -->
+          <van-action-sheet
+            v-model="show"
+            :actions="actions"
+            close-on-click-overlay
+            @select="onSelect"
           />
-        </div>
-      </div>
-      <!-- <div class="m_b_10 conmo_box box_two" @click="drawer = true">
-  <span class="left">选择</span>
-  <div class="right">
-    <span class="textLinefeed SpecificationsName">已选择：
-      {{initialName}}
-    </span>
-  </div>
-      </div>-->
-      <!--   3   -->
-      <!-- <div class="m_b_10 conmo_box box_three">
-  <span class="left">送至</span>
-  <div class="right">
-    <span>免运费</span>
-  </div>
-      </div>-->
-      <!--   4   -->
-      <!-- <div class="m_b_10 conmo_box box_four">
-<div class="left store_head">
-<img src="../../assets/img/store_head.png">
-</div>
-<div class="right">
-<span>重庆网络科技自营店</span>
-</div>
-      </div>-->
-      <!--   5   -->
-
-      <!-- 购买方式上拉菜单 -->
-      <van-action-sheet
-        v-model="show"
-        :actions="actions"
-        close-on-click-overlay
-        @select="onSelect"
-      />
-      <!-- 分享上拉菜单 -->
-      <van-action-sheet v-model="showTwo" close-on-click-overlay>
-        <div class="shareUp">
-          <div @click="Replication">
-            <img src="../../assets/img/fzlj.png" alt/>
-            <p>复制链接</p>
-          </div>
-          <div @click="SharePoster">
-            <img src="../../assets/img/schb2.png" alt/>
-            <p>生成海报</p>
-          </div>
-          <div @click="showUrl">
-            <img src="../../assets/img/wxhb.png" alt/>
-            <p>微信好友</p>
-          </div>
-        </div>
-        <div class="shareUpHr"></div>
-        <div class="shareUpcancel" @click="showTwo = false">取消</div>
-      </van-action-sheet>
-      <!-- 店铺详情 -->
-      <div id="commoditEvaluate">
-        <shop :is_follow="is_follow"></shop>
-      </div>
-      <!-- 海报 -->
-      <div class="Cover" v-show="isQRcodeDomainName">
-        <div v-show="!isPoster">
-          <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
-            <div>
-              <img :src="portrait" alt/>
-              <div>
-                <p>{{users.weixinname}}</p>
-                <p>给你推荐了一个好东西</p>
+          <!-- 分享上拉菜单 -->
+          <van-action-sheet v-model="showTwo" close-on-click-overlay>
+            <div class="shareUp">
+              <div @click="Replication">
+                <img src="../../assets/img/fzlj.png" alt/>
+                <p>复制链接</p>
+              </div>
+              <div @click="SharePoster">
+                <img src="../../assets/img/schb2.png" alt/>
+                <p>生成海报</p>
+              </div>
+              <div @click="showUrl">
+                <img src="../../assets/img/wxhb.png" alt/>
+                <p>微信好友</p>
               </div>
             </div>
-            <img
-              v-show="isGoods_infoImgsrc"
-              style="width:100%;height:235px"
-              :src="goodsData.goods_info.imgsrc"
-              alt="海报图片"
-            />
-            <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
-            <div class="PosterDivMoney">
-              ￥
-              {{goodsData.goods_info.price}}
-            </div>
-            <div class="PosterDivQRcode">
-              <div>{{goodsData.goods_info.keywords}}</div>
-              <div class="qrcode" id="qrCode" ref="qrCode"></div>
-            </div>
+            <div class="shareUpHr"></div>
+            <div class="shareUpcancel" @click="showTwo = false">取消</div>
+          </van-action-sheet>
+          <!-- 店铺详情 -->
+          <div id="commoditEvaluate">
+            <shop :is_follow="is_follow"></shop>
           </div>
-        </div>
-        <div class="haibao" v-show="isPoster">
-          <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
-            <img src="../../assets/img/hbx.png" alt/>
-          </div>
-          <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#"/>
-        </div>
-      </div>
-      <div class="CoverTwo" v-show="isUrl" @click="isUrl = false">
-        <div style="text-align: right">
-          <img src="../../assets/img/zhi.png" class="zhi"/>
-        </div>
-
-        <div class="share_tips">
-          <strong>立即分享给好友吧</strong>
-          <p>点击屏幕右上角将本页面分享给好友</p>
-        </div>
-      </div>
-      <!--   商品评价   -->
-      <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
-        <div v-show="comment">
-          <div class="head">商品评价</div>
-          <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
-            <div class="evaluate_head">
-              <div class="user">
-                <img
-                  :src="item.users!=undefined&&item.users!=null&&item.users!=''?item.users.portrait:''"
-                  style="width: 24px"
-                />
-                <span>{{item.users!=undefined&&item.users!=null&&item.users!=''?item.users.weixinname:''}}</span>
-              </div>
-              <div class="add_time">{{item.add_time}}</div>
-            </div>
-            <p class="text_p">{{item.content}}</p>
-          </div>
-          <div class="watch_all">
-            <span>查看全部评价</span>
-          </div>
-        </div>
-        <div v-show="!comment" align="center">暂无评价！</div>
-      </div>
-      <!--  推荐列表  -->
-      <div class="conmo_box tuijian_slide">
-        <title style="display: block;">
-          <van-divider :style="{ color: '#099000', borderColor: '#099000', padding: '0 16px'}">
-            猜你喜欢
-          </van-divider>
-        </title>
-        <van-skeleton :loading="loading" :row="2">
-          <van-row class="goodslist RecommendBac">
-            <van-col
-              :span="12"
-              v-for="(goods, goodsindex) in goodsitem"
-              :key="goodsindex"
-            >
-              <!--<router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
-              <div class="item Recommend" @click="lajibushuaxin(goods.id)">
-                <van-image
-                  width="100%"
-                  height="1.8rem"
-                  fit="cover"
-                  :src="goods.goodsimg"
-                />
+          <!-- 海报 -->
+          <div class="Cover" v-show="isQRcodeDomainName">
+            <div v-show="!isPoster">
+              <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
                 <div>
-                  <p class="fontWrap fontWrapTwo">{{goods.goodsname}}</p>
-                  <div class="Sold">已售：{{goods.Sold}}</div>
-                  <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                  <img :src="portrait" alt/>
+                  <div>
+                    <p>{{users.weixinname}}</p>
+                    <p>给你推荐了一个好东西</p>
+                  </div>
+                </div>
+                <img
+                  v-show="isGoods_infoImgsrc"
+                  style="width:100%;height:235px"
+                  :src="goodsData.goods_info.imgsrc"
+                  alt="海报图片"
+                />
+                <!-- <img v-show="!isGoods_infoImgsrc" style="width:100%;height:235px" src="../../assets/img/mrtp.png" alt="海报图片"> -->
+                <div class="PosterDivMoney">
+                  ￥
+                  {{goodsData.goods_info.price}}
+                </div>
+                <div class="PosterDivQRcode">
+                  <div>{{goodsData.goods_info.keywords}}</div>
+                  <div class="qrcode" id="qrCode" ref="qrCode"></div>
                 </div>
               </div>
-              <!--</router-link>-->
-            </van-col>
-          </van-row>
-        </van-skeleton>
-      </div>
-      <!-- 商品详情 -->
-      <div id="commoditDetails"></div>
-      <div class="Commodity-details">
-        <van-divider
-          :style="{ color: '#099000', borderColor: '#099000', padding: '0 16px'}"
-        >商品详情
-        </van-divider>
-        <!-- 商品详情副文本框 -->
-        <div class="conmo_box bot_img_box" v-html="goodsData.goods_info.content"></div>
-      </div>
+            </div>
+            <div class="haibao" v-show="isPoster">
+              <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
+                <img src="../../assets/img/hbx.png" alt/>
+              </div>
+              <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#"/>
+            </div>
+          </div>
+          <div class="CoverTwo" v-show="isUrl" @click="isUrl = false">
+            <div style="text-align: right">
+              <img src="../../assets/img/zhi.png" class="zhi"/>
+            </div>
+
+            <div class="share_tips">
+              <strong>立即分享给好友吧</strong>
+              <p>点击屏幕右上角将本页面分享给好友</p>
+            </div>
+          </div>
+        </van-tab>
+        <van-tab title="评价">
+          <!--   商品评价   -->
+          <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
+            <div v-show="comment">
+              <div class="head">商品评价</div>
+              <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
+                <div class="evaluate_head">
+                  <div class="user">
+                    <img
+                      :src="item.users!=undefined&&item.users!=null&&item.users!=''?item.users.portrait:''"
+                      style="width: 24px"
+                    />
+                    <span>{{item.users!=undefined&&item.users!=null&&item.users!=''?item.users.weixinname:''}}</span>
+                  </div>
+                  <div class="add_time">{{item.add_time}}</div>
+                </div>
+                <p class="text_p">{{item.content}}</p>
+              </div>
+              <div class="watch_all">
+                <span>查看全部评价</span>
+              </div>
+            </div>
+            <div v-show="!comment" align="center">暂无评价！</div>
+          </div>
+          <!--  推荐列表  -->
+          <div class="conmo_box tuijian_slide">
+            <title style="display: block;">
+              <van-divider :style="{ color: '#099000', borderColor: '#099000', padding: '0 16px'}">
+                猜你喜欢
+              </van-divider>
+            </title>
+            <van-skeleton :loading="loading" :row="2">
+              <van-row class="goodslist RecommendBac">
+                <van-col
+                  :span="12"
+                  v-for="(goods, goodsindex) in goodsitem"
+                  :key="goodsindex"
+                >
+                  <!--<router-link :to="{path:'/goodsdetails',query:{id: goods.id}}">-->
+                  <div class="item Recommend" @click="lajibushuaxin(goods.id)">
+                    <van-image
+                      width="100%"
+                      height="1.8rem"
+                      fit="cover"
+                      :src="goods.goodsimg"
+                    />
+                    <div>
+                      <p class="fontWrap fontWrapTwo">{{goods.goodsname}}</p>
+                      <div class="Sold">已售：{{goods.Sold}}</div>
+                      <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                    </div>
+                  </div>
+                  <!--</router-link>-->
+                </van-col>
+              </van-row>
+            </van-skeleton>
+          </div>
+        </van-tab>
+        <van-tab title="详情">
+          <!-- 商品详情 -->
+          <div class="Commodity-details">
+            <van-divider
+              :style="{ color: '#099000', borderColor: '#099000', padding: '0 16px'}"
+            >商品详情
+            </van-divider>
+            <!-- 商品详情副文本框 -->
+            <div class="conmo_box bot_img_box" v-html="goodsData.goods_info.content"></div>
+          </div>
+        </van-tab>
+
+      </van-tabs>
+
     </div>
     <!-- 底部   -->
     <div class="footer_js">
@@ -368,10 +377,12 @@
     import html2canvas from "html2canvas";
     import wechatAuth from "../../assets/js/wechatConfig";
     import AdvertisingRoll from "./AdvertisingRoll/AdvertisingRoll";
+    import Header from "../header/header";
 
     export default {
         name: "goodsDATA",
         components: {
+            Header,
             actives: actives,
             shop: shop,
             AdvertisingRoll: AdvertisingRoll
@@ -645,6 +656,7 @@
             },
             lajibushuaxin(id) {
                 this.$router.push({path: "/goodsdetails", query: {id: id}});
+                window.scrollTo(0,0);
                 // this.$route.query.id = id;
                 // this.getDATA(id);
             },
@@ -916,7 +928,7 @@
         created() {
             // console.log(this.$route.query.id)
             let user = JSON.parse(this.$store.getters.getuserinfo);
-            if(!user) user=JSON.parse(localStorage.getItem("userinfo"));
+            if (!user) user = JSON.parse(localStorage.getItem("userinfo"));
             this.users = user;
             this.getDATA();
             this.Addfootprints();
@@ -983,8 +995,49 @@
   }
 
   .main {
-    padding-top: 0.54rem;
     padding-bottom: 0.45rem;
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 44px;
+      z-index: 999;
+
+      .back {
+        font-size: x-large;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999999;
+        left: 5px;
+      }
+    }
+
+    > > > .van-tabs {
+
+
+      .van-tabs__wrap {
+        background-color: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9;
+
+        .van-tabs__nav {
+          width: 50%;
+          margin: 0 auto;
+        }
+
+        .van-tabs__line {
+          background-color: #009900;
+        }
+
+      }
+
+    }
+
 
     .Anchor {
       width: 100%;
