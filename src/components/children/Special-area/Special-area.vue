@@ -21,11 +21,11 @@
                   <div class="grid-content bg-purple" @click="gotodetail(items.id)">
                     <div class="goodsk" ref="imgW"
                          :style="{'height':imgH}">
-                      <div v-if="items.is_show == 1">
-                        <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
-                        <p class="goodsk_price">￥{{Number(items.price)}}</p>
-                        <p class="goodsk_p">签到金可订购</p>
-                      </div>
+                        <div v-if="items.is_show == 1">
+                            <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
+                            <p class="goodsk_price">￥{{Number(items.price)}}</p>
+                            <p class="goodsk_p">签到金可订购</p>
+                        </div>
 
                       <van-image
                         fit="cover"
