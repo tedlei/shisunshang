@@ -91,9 +91,9 @@
                           :to="{path:'/goodsdetails/Orderdetails',query: {id: items.id}}">
                           <van-button plain type="primary" size="small" color="#009900">订单详情</van-button>
                         </router-link>
-                        <van-button type="primary" size="small" color="#009900" @click="payment(item.id)">立即付款
+                        <van-button type="primary" size="small" color="#009900" @click="payment(items.id)">立即付款
                         </van-button>
-                        <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(items.id)">
+                        <van-button plain type="primary" size="small" color="#009900" @click="cancelOrder(items.id,index)">
                           取消订单
                         </van-button>
                       </div>
@@ -114,7 +114,7 @@
                                     @click="ViewLogistics(items.postnumber)">
                           查看物流
                         </van-button>
-                        <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(items.id)">确认收货
+                        <van-button type="primary" size="small" color="#009900" @click="Confirmreceipt(items.id,index)">确认收货
                         </van-button>
 
                       </div>
@@ -123,7 +123,7 @@
                         <router-link :to="{path:'/goodsdetails/evaluate',query: {id: items.id}}">
                           <van-button plain type="primary" size="small" color="#009900">立即评价</van-button>
                         </router-link>
-                        <!--                         <van-button type="primary" size="small" color="#009900">再来一单</van-button>-->
+
                       </div>
 
                     </van-row>
@@ -136,7 +136,7 @@
           </van-list>
 
           <!--  空  -->
-          <Empty v-show="isKnoorder"></Empty>
+          <Empty v-show="item.wholeData.length > 0 ? false:true"></Empty>
         </div>
       </van-tab>
     </van-tabs>
@@ -159,7 +159,7 @@
                 isNoorder: false,
                 loading: false,   //是否正在获取数据
                 finished: false,   //数据是否获取完成
-                active: 0, //默认情况下启用第一个标签
+                active: Number(this.$route.query.orderid), //默认情况下启用第一个标签
                 pages: 0,
                 flag: true,
                 content_H: '',
@@ -214,13 +214,13 @@
                 this.$post('/api/v1/order', ad_data)
                     .then((response) => {
                         if (_this.flag) {
+                            console.log(index)
                             if (response.status == 200) {
                                 this.loading = true;
                                 this.finished = true;
                                 if (response.data) {
                                     _this.navItems[index].wholeData = response.data;
-
-                                    console.log(_this.navItems[index].wholeData[0].add_time)
+                                    console.log(_this.navItems[index])
                                     this.pages = response.data.length;
 
                                 } else {
@@ -270,7 +270,7 @@
             },
 
             //取消订单（砍）
-            cancelOrder(id) {
+            cancelOrder(id,index) {
                 let ad_data = {
                     method: 'cancel.order.item',
                     order_id: id
@@ -281,7 +281,7 @@
                         console.log(res)
                         if (res.status == 200) {
                             this.$toast.success('订单已取消');
-                            this.getOderData(2);
+                            this.getOderData(index);
                         } else {
                             this.$toast.success('取消失败');
                         }
@@ -349,15 +349,14 @@
                 location.href = "https://m.kuaidi100.com/result.jsp?nu=" + id;
             },
             //确认收货
-            Confirmreceipt(id) {
+            Confirmreceipt(id,index) {
                 let ad_data = {
                     method: 'confirm.order.goods.item',
                     order_id: id
                 }
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
-                        console.log(res);
-                        this.getOderData(3);
+                        this.getOderData(index);
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -374,7 +373,9 @@
             this.num = Index;
             this.getOderData(Index)
             this.is = this.$route.query.orderid == 4 ? 'index' : 'num';
-            this.active = Number(this.$route.query.orderid);
+
+
+
         }
     }
 </script>

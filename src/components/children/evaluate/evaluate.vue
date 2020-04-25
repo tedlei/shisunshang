@@ -16,7 +16,7 @@
         <van-cell>
           <van-field
             v-model="value[index]"
-            placeholder="宝贝满足你的期待吗？说说它美中不足的地方吧"
+            placeholder="从多个角度评价宝贝，可以帮助更多想买的人"
             :border="false"
             autosize
             rows="3"

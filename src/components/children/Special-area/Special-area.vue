@@ -120,34 +120,24 @@
             //点击切换
             qiehuan(name, title) {
                 this.finished = false;
-                console.log(this.loading,this.finished)
-                if (!this.navItems[name].list || this.navItems[name].list.length < 0) {
-                    this.flag = true;
-                    this.pages = 0;
-                    this.getlist(name);
-                    this.dontOnload = true;
-                    this.listindex = name;
-                    this.defaultcateid = this.cateidarry[name];
-                }else {
-                    this.dontOnload = false;
-                    setTimeout(()=>{
-                        this.dontOnload = true;
-                    },1000)
-                }
+                this.listindex = name;
+                this.flag = true;
+                this.pages = 0;
+                this.getlist(name);
 
+                this.defaultcateid = this.cateidarry[name];
+                // 清空列表数据
+                this.finished = false;
+
+                // 重新加载数据
+                // 将 loading 设置为 true，表示处于加载状态
+                this.loading = true;
+                this.onLoad();
             },
             //下拉加载
             onLoad() {
-                if (this.dontOnload) {
-                    console.log(11111111111111)
-                } else {
-                    // 异步更新数据
-                    setTimeout(() => {
-                        this.flag = false;
-                        console.log(2222)
-                        this.getlist()
-                    }, 500);
-                }
+                this.flag = false;
+                this.getlist()
             },
             //获取导航
             getgoods: function () {
@@ -179,6 +169,7 @@
             //获取商品
             async getlist(name) {
                 let names = name || 0;
+                console.log(names)
                 let _this = this,
                     parms = {
                         method: 'get.goods.map.list',
@@ -195,6 +186,7 @@
                             if (response.status == 200) {
                                 if (response.data) {
                                     _this.navItems[names].list = response.data;
+                                    console.log(_this.navItems[names].list)
                                     _this.pages = _this.navItems[names].list.length;
                                     setTimeout(() => {
                                         this.imgH = this.$refs.imgW[0].offsetWidth + "px";
