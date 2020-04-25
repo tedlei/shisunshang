@@ -60,7 +60,7 @@
           <van-icon v-if="isCollection" name="like" color="#009900"/>
           <van-icon v-else name="like-o"/>
         </div>
-        <div>收藏店铺</div>
+        <div>关注店铺</div>
       </div>
       <div>
         <router-link :to="{path:'/storeDetails',query:{id:$store.state.cart.getshops.id}}">
@@ -104,7 +104,7 @@
                             console.log(res)
                             if (res.status == 200) {
                                 this.$store.commit('setLoading');
-                                this.$toast.success("收藏成功");
+                                this.$toast.success("关注成功");
                             } else {
                                 this.$store.commit('setLoading');
                                 this.$toast.fail('关注失败');
@@ -123,6 +123,7 @@
                             console.log(res)
                             if (res.status == 200) {
                                 this.$store.commit('setLoading');
+                                this.$toast.success("取消关注");
                             }
                         }).catch(function (error) {
                         console.log(error);

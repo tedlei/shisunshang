@@ -32,7 +32,7 @@
                     <van-icon v-else name="like-o" />
                     <span
                         :class="isCollection?'isCollection':''"
-                    >{{isCollection==true?'已收藏':'收藏店铺'}}</span>
+                    >{{isCollection==true?'已关注':'关注店铺'}}</span>
                 </div>
             </div>
         </div>
@@ -190,6 +190,7 @@ export default {
                         console.log(res);
                         if (res.status == 200) {
                             this.$store.commit("setLoading");
+                            this.$toast.success("关注成功");
                         } else {
                             this.$store.commit("setLoading");
                             this.$toast.fail("关注失败");
@@ -209,6 +210,7 @@ export default {
                         console.log(res);
                         if (res.status == 200) {
                             this.$store.commit("setLoading");
+                            this.$toast.success("取消关注");
                         }
                     })
                     .catch(function(error) {
