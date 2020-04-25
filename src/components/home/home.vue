@@ -263,7 +263,7 @@ export default {
                         query: {typeid: m}
                     });
                 }
-              
+
             },
         //搜索
         opensearch: function() {
@@ -313,7 +313,8 @@ export default {
         let token = localStorage.getItem("usertoken");
         if (token) {
             this.getHomeMsg();
-        }
+        };
+        this.getsign()
     }
 };
 </script>
