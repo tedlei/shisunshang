@@ -1,7 +1,7 @@
 <template>
   <header :style="{height:this.$route.name == 'Special-area'?'0.55rem':''}">
-    <i class="el-icon-arrow-left back" @click="nobackss" style="left: 5px;" v-show="!noback"></i>
-    <i class="el-icon-arrow-left back" @click="routerback" style="left: 5px;" v-show="noback"></i>
+    <van-icon name="arrow-left" class="back"  @click="nobackss" style="left: 5px;" v-show="!noback"/>
+    <van-icon name="arrow-left" class="back"  @click="routerback" style="left: 5px;" v-show="noback"/>
     <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
       <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
@@ -20,7 +20,7 @@
 
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>
-        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3" style="color: #0f0f0f" @click="edit">编辑</span>
+        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3 && isEmpty" style="color: #0f0f0f" @click="edit">编辑</span>
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/articles">发布</router-link></span>
         <span v-else-if="this.$route.meta.title == '发布文章'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
         <!-- <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span> -->
@@ -49,6 +49,7 @@
                 tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',],
                 record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
                 title: '',   //自定义title
+                isEmpty:false,
             }
         },
         computed: {
@@ -66,7 +67,13 @@
             },
             ivc() {
                 return this.$store.state.ivcb;
-            }
+            },
+            // isEmpty(){
+            //     return Bus.$on('FisEmpty', (data) => {
+            //         return data
+            //     })
+            //
+            // }
         },
         watch: {
             //监听属性，在computed计算属性更改之后会触发参数值的改变，所以能够监听到
@@ -120,6 +127,9 @@
             })
             Bus.$on('title', (value) => {
                 _this.title = value ? value : '';
+            });
+            Bus.$on('FisEmpty', (data) => {
+                _this.isEmpty = data
             })
         },
         destroyed() {
@@ -141,7 +151,7 @@
     z-index: 9;
 
     i, .news, .footprint {
-      font-size: 0.28rem;
+      font-size: x-large;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);

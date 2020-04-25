@@ -133,7 +133,7 @@
                 this.finished = false;
                 this.loading = true;
                 this.onLoad();
-                
+
             },
             //分类点击切换
             qiehuan(name, title) {
@@ -144,7 +144,6 @@
                 this.finished = false;
                 this.loading = true;
                 this.onLoad();
-
             },
             //下拉加载
             onLoad() {
@@ -155,7 +154,6 @@
                     page_size: 10,
                     cate_id: this.classId==0?'':this.classId
                 };
-                // console.log(parms);
                 this.$post('/api/v1/goods', parms)
                     .then((res) => {
                         if(res.data){
@@ -172,10 +170,8 @@
                                 this.imgH = this.$refs.imgW[0].offsetWidth + "px";
                             }, 100)
                         }else{
-                            // console.log('我是null')
                             this.finished = true;
                         }
-                        // console.log(res)
 
                     }).catch(function (error) {
                         console.log(error);

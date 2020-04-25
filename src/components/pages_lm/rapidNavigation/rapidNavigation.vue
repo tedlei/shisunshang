@@ -22,7 +22,7 @@ export default {
             list:[
                 {title:'首页',icon:'wap-home-o',path:'/'},
                 {title:'分类',icon:'apps-o',path:'/classification'},
-                {title:'附件商家',icon:'location-o',path:'/business'},
+                {title:'附近商家',icon:'location-o',path:'/business'},
                 {title:'购物车',icon:'shopping-cart-o',path:'/my_cart'},
                 {title:'我的',icon:'user-o',path:'/mine'}
             ],

@@ -4,6 +4,7 @@
     <div class="inputs">
       <van-field v-model="input" label="公司名称：" placeholder="请填写公司名称"/>
       <van-field v-model="input1" label="营业时间：" placeholder="请选择营业时间"/>
+
       <div class="address" @click="show=true">
         <div>
           <span>公司地址：</span>
@@ -48,12 +49,23 @@
       <div :class="btnBk?'btn btnTwo':'btn'" @click="upData">{{$route.query.state=='edit'?'保存':'提交申请'}}</div>
       <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
-
+    <van-popup
+      v-model="showTime"
+      position="bottom"
+    >
+      <van-datetime-picker
+        v-model="currentTime"
+        type="time"
+        :min-hour="10"
+        :max-hour="20"
+      />
+    </van-popup>
     <van-popup
       v-model="show"
       position="bottom"
-      >
-      <!-- <van-area 
+    >
+
+      <!-- <van-area
         :area-list="areaList"
         confirm-button-text="保存"
         @confirm="confirm"
@@ -106,6 +118,8 @@
         },
         data() {
             return {
+                showTime:false,
+                currentTime: '12:00',
                 areaList: AreaArr,
                 province: [
                     '选择省',
@@ -113,7 +127,7 @@
                     '（区/县）',
                 ],
                 show: false,
-                classArr: [ ],
+                classArr: [],
                 show2: false,
                 classList: '请选择公司经营分类',
                 upclassId: '',
@@ -124,7 +138,7 @@
                 input2: '',
                 input3: '',
                 upfileList: [],
-                readingF: [], 
+                readingF: [],
                 upfileListTwo: [],
                 readingX: [],
                 imgurls: [],
@@ -136,19 +150,19 @@
                 console.log(e);
                 this.province = e;
                 this.show = false;
-                let list = this.areaList.filter( item => {
-                  return item.text==e[0];
+                let list = this.areaList.filter(item => {
+                    return item.text == e[0];
                 });
                 // console.log(list);
                 this.province.push(list[0].id);
-                let listTwo = list[0].children.filter( item => {
-                  return item.text==e[1];
+                let listTwo = list[0].children.filter(item => {
+                    return item.text == e[1];
                 });
                 // console.log(listTwo)
                 this.province.push(listTwo[0].id);
 
-                let listSan = listTwo[0].children.filter( item => {
-                  return item.text==e[2];
+                let listSan = listTwo[0].children.filter(item => {
+                    return item.text == e[2];
                 });
                 // console.log(listSan)
                 this.province.push(listSan[0].id);
@@ -156,30 +170,30 @@
             },
 
             getClassArr() {
-              let ad_data = {
-                  method: "get.user.strre.category.list"
-              };
-              this.$post('/api/v1/UserStoreCategory', ad_data)
-                  .then((res) => {
-                      // console.log(res);
-                      if (res.status == 200) {
-                          for (var i in res.data) {
-                              this.classArr.push({
-                                  text: res.data[i].cate_name,
-                                  children: []
-                              });
-                              let list = res.data[i].sub;
-                              for (var n in list) {
-                                  this.classArr[i].children.push({
-                                      id: list[n].id,
-                                      text: list[n].cate_name,
-                                  })
-                              }
-                          }
-                      }
-                  }).catch(function (error) {
-                  console.log(error);
-              });
+                let ad_data = {
+                    method: "get.user.strre.category.list"
+                };
+                this.$post('/api/v1/UserStoreCategory', ad_data)
+                    .then((res) => {
+                        // console.log(res);
+                        if (res.status == 200) {
+                            for (var i in res.data) {
+                                this.classArr.push({
+                                    text: res.data[i].cate_name,
+                                    children: []
+                                });
+                                let list = res.data[i].sub;
+                                for (var n in list) {
+                                    this.classArr[i].children.push({
+                                        id: list[n].id,
+                                        text: list[n].cate_name,
+                                    })
+                                }
+                            }
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
             onConfirm(e) {
                 // console.log(e);
@@ -208,78 +222,78 @@
                 this.upfileListTwo = data;
             },
             //提交按钮节流后提交
-            upData:Throttle( function() {
+            upData: Throttle(function () {
                 // console.log(this);
-                this.btnBk= true;
+                this.btnBk = true;
                 this.$store.commit('setLoading');
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
-                if(this.input==''){
-                  this.$toast('公司名称不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-                }else if(this.input1==''){
-                  this.$toast('营业时间不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.province[0]=='选择省'){
-                  this.$toast('请选择公司地址');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.input2==''){
-                  this.$toast('详细地址不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.input3==''){
-                  this.$toast('公司电话不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.classList=='请选择公司经营分类'){
-                  this.$toast('请选择公司经营分类');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.message==''){
-                  this.$toast('经营范围不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
-
-                }else if(this.upfileList.length==0 && this.$store.getters.getMerchantApplicationObj.imgurl=='1'){
-                    this.$toast('封面不能为空');
+                if (this.input == '') {
+                    this.$toast('公司名称不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk= false;
+                    this.btnBk = false;
+                    return;
+                } else if (this.input1 == '') {
+                    this.$toast('营业时间不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
                     return;
 
-                }else if(this.upfileListTwo.length==0 && this.$store.getters.getMerchantApplicationObj.album.length==0){
-                  this.$toast('宣传照不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                } else if (this.province[0] == '选择省') {
+                    this.$toast('请选择公司地址');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.input2 == '') {
+                    this.$toast('详细地址不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.input3 == '') {
+                    this.$toast('公司电话不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.classList == '请选择公司经营分类') {
+                    this.$toast('请选择公司经营分类');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.message == '') {
+                    this.$toast('经营范围不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.upfileList.length == 0 && this.$store.getters.getMerchantApplicationObj.imgurl == '1') {
+                    this.$toast('封面不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
+
+                } else if (this.upfileListTwo.length == 0 && this.$store.getters.getMerchantApplicationObj.album.length == 0) {
+                    this.$toast('宣传照不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk = false;
+                    return;
                 }
                 //判断2个文件上传到底有没有添加新的图片
                 let isUp = true;
-                for(let isindex in imglist){
-                    if(imglist[isindex].file){
+                for (let isindex in imglist) {
+                    if (imglist[isindex].file) {
                         isUp = false;
                     }
                 }
                 //如果没有添加新的图片就不用再次提交七牛云
-                if(imglist.length==0 || isUp){
+                if (imglist.length == 0 || isUp) {
                     //将数组中的有些{}中的url拿出来去掉{}得到最后要上传的正确url
                     let album = this.$store.getters.getMerchantApplicationObj.album;
-                    for(let i in album){
-                        if(album[i].url){
+                    for (let i in album) {
+                        if (album[i].url) {
                             album[i] = album[i].url
                         }
                     }
@@ -302,31 +316,31 @@
                         imgurl: this.$store.getters.getMerchantApplicationObj.imgurl,
                         album: album
                     };
-                    console.log(ad_data,'没有新图片');
+                    console.log(ad_data, '没有新图片');
                     this.$post('/api/v1/userStore', ad_data)
                         .then((res) => {
                             console.log(res);
                             if (res.status == 200) {
                                 this.$store.commit('setLoading');
-                                this.btnBk= false;
+                                this.btnBk = false;
                                 this.$router.push({path: '/mine/nearby'});
                             } else {
                                 this.$store.commit('setLoading');
-                                this.btnBk= false;
+                                this.btnBk = false;
                                 this.$toast(res.message);
                             }
                         }).catch(function (error) {
                         console.log(error);
                     });
-                }else{ //如果有新的图片就将新的图片上传七牛云
+                } else { //如果有新的图片就将新的图片上传七牛云
                     //如果封面上传没有改变就不用再次上传图片
-                    if(this.upfileList.length==0){
+                    if (this.upfileList.length == 0) {
                         imglist.unshift(this.$store.getters.getMerchantApplicationObj.imgurl)
                     }
                     //如果宣传上传没有改变就不用再次上传图片
                     let list = this.$store.getters.getMerchantApplicationObj.album;
-                    if(this.upfileListTwo.length==0){
-                        for(let index2 in list){
+                    if (this.upfileListTwo.length == 0) {
+                        for (let index2 in list) {
                             imglist.push(list[index2].url);
                         }
                     }
@@ -335,15 +349,15 @@
                         // console.log(imgurls);
                         //将返回的url放入数组的原文件位置
                         let index = 0;
-                        for(let m in imglist){
-                            if(imglist[m].file){
+                        for (let m in imglist) {
+                            if (imglist[m].file) {
                                 imglist[m] = imgurls[index];
-                                index+=1;
+                                index += 1;
                             }
                         }
                         //将数组中的有些{}中的url拿出来去掉{}得到最后要上传的正确url
-                        for(let n in imglist){
-                            if(imglist[n].url){
+                        for (let n in imglist) {
+                            if (imglist[n].url) {
                                 imglist[n] = imglist[n].url;
                             }
                         }
@@ -367,17 +381,17 @@
                             imgurl: imglist[0],
                             album: imglist.slice(1)
                         };
-                        console.log(ad_data,"有新图上传")
+                        console.log(ad_data, "有新图上传")
                         this.$post('/api/v1/userStore', ad_data)
                             .then((res) => {
                                 // console.log(res);
                                 if (res.status == 200) {
                                     this.$store.commit('setLoading');
-                                    this.btnBk= false;
+                                    this.btnBk = false;
                                     this.$router.push({path: '/mine/nearby'});
                                 } else {
                                     this.$store.commit('setLoading');
-                                    this.btnBk= false;
+                                    this.btnBk = false;
                                     this.$toast(res.message);
                                 }
                             }).catch(function (error) {
@@ -385,21 +399,21 @@
                         });
                     })
                 }
-                
-            },1500),
+
+            }, 1500),
             //获取坐标
-            isGteLocation(value){
-              if(!value){
-                this.$dialog.alert({
-                  title: '提示',
-                  message: '获取位置失败,是否重新获取',
-                }).then(() => {
-                  this.getLocation(this.isGteLocation); 
-                }) .catch(() => {
-                })
-              }else{
-                this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
-              }
+            isGteLocation(value) {
+                if (!value) {
+                    this.$dialog.alert({
+                        title: '提示',
+                        message: '获取位置失败,是否重新获取',
+                    }).then(() => {
+                        this.getLocation(this.isGteLocation);
+                    }).catch(() => {
+                    })
+                } else {
+                    this.tc('获取坐标成功' + value.latitude + " " + value.longitude)
+                }
             }
         },
         created() {
@@ -415,15 +429,15 @@
             this.province[5] = obj.area_id;
             this.input2 = obj.address;
             this.input3 = obj.mobile;
-            this.classList = obj.category1.cate_name+ '/' +obj.category.cate_name;
+            this.classList = obj.category1.cate_name + '/' + obj.category.cate_name;
             this.upclassId = obj.cate_id,
-            this.message = obj.bus_scope;
+                this.message = obj.bus_scope;
             this.readingF[0] = obj.imgurl;
             this.readingX = obj.album;
             this.getClassArr();
         },
-        mounted(){
-          // console.log(AreaArr)
+        mounted() {
+            // console.log(AreaArr)
         },
         computed: {},
         watch: {}
@@ -491,7 +505,8 @@
     border-radius: 5px;
     color: #fff;
   }
-  .btnTwo{
+
+  .btnTwo {
     background-color: #9d9f9f;
   }
 </style>

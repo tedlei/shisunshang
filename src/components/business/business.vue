@@ -63,12 +63,6 @@
             </div>
         </div>
 
-        <router-link  to="/mine/nearby">
-            <div class="iconDiv">
-                <img src="../../assets/img/fjsj.png" alt />
-                <div>商家入驻</div>
-            </div>
-        </router-link>
     </div>
 </template>
 
@@ -97,7 +91,7 @@ export default {
             page:0,  //数据条数
             isvalist:11,
             isvalistTwo:false,
-            navigation:false,   //导航id  
+            navigation:false,   //导航id
 
 
         };
@@ -105,7 +99,7 @@ export default {
     methods: {
         //选择一级导航列表时
         getNum(index, children) {
-            
+
             this.listNum = index
             this.num = index;
             this.navChildren = children;
@@ -148,7 +142,7 @@ export default {
             let ad_data = {
                 method: "get.user.strre.category.list"
             };
-            this.$post("/api/v1/UserStoreCategory", ad_data) 
+            this.$post("/api/v1/UserStoreCategory", ad_data)
             .then(res => {
                 // console.log(res);
                 this.navPush(res.data);
@@ -230,7 +224,7 @@ export default {
                 this.getDataTwo();
             });
         }
-        
+
     },
     // mounted() {
         // let clientW = clientWw.clientWw();

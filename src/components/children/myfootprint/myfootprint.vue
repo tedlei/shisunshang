@@ -127,6 +127,7 @@
 
 <script>
     import Empty from "../empty/empty";
+    import Bus from "../../../assets/js/bus";
 
     export default {
         name: "myfootprint",
@@ -197,6 +198,7 @@
                         id: data[i].id,
                         name: data[i].shop_name,
                         imgsrc: data[i].thumb,
+                        shop_id: data[i].shop_id,
                         checked: false
                     })
                 }
@@ -240,7 +242,7 @@
                     this.$router.push({
                         path: '/storeDetails',
                         query: {
-                            id: list[e].id
+                            id: list[e].shop_id
                         }
                     });
                 } else if (printid == '3') {
@@ -256,7 +258,6 @@
             //获取数据
             async getData(num) {
                 if (this.$route.query.printid == 0) {
-                    console.log(1111111111)
                     // this.loading = true;
                     let ad_data = {
                         method: 'get.collect.goods.list',
@@ -277,8 +278,13 @@
                             } else {
                                 this.finished = true;
                             }
-                            if (this.goodslist.length > 0) this.isEmpty = false;
-                            else this.isEmpty = true;
+                            if (this.goodslist.length > 0) {
+                                this.isEmpty = false;
+                                Bus.$emit("FisEmpty", true);
+                            } else {
+                                this.isEmpty = true;
+                                Bus.$emit("FisEmpty", false);
+                            }
 
                         }).catch(function (error) {
                         console.log(error);
@@ -304,8 +310,16 @@
                             } else {
                                 this.finished = true;
                             }
-                            if (this.goodslist.length > 0) this.isEmpty = false;
-                            else this.isEmpty = true;
+
+                            if (this.goodslist.length > 0) {
+                                this.isEmpty = false;
+                                Bus.$emit("FisEmpty", true);
+                            } else {
+                                this.isEmpty = true;
+                                console.log(this.goodslist)
+                                Bus.$emit("FisEmpty", false);
+                            }
+
                         }).catch(function (error) {
                         console.log(error);
                     });
@@ -330,8 +344,13 @@
                             } else {
                                 this.finished = true;
                             }
-                            if (this.goodslist.length > 0) this.isEmpty = false;
-                            else this.isEmpty = true;
+                            if (this.goodslist.length > 0) {
+                                this.isEmpty = false;
+                                Bus.$emit("FisEmpty", true);
+                            } else {
+                                this.isEmpty = true;
+                                Bus.$emit("FisEmpty", false);
+                            }
                         }).catch(function (error) {
                         console.log(error);
                     });
@@ -342,10 +361,9 @@
                         page_size: num ? num : 10
                     };
                     this.loading = true;   //是否处于加载状态  是
-                    console.log(3333333333333)
                     this.$post('/api/v1/GoodsComment', ad_data)
                         .then((res) => {
-                            
+
                             this.loading = false;   //是否处于加载状态  否
                             let items = res.data
                             if (items && items.length > 0) {
@@ -358,8 +376,13 @@
                             } else {
                                 this.finished = true;
                             }
-                            if (this.evaluation_lists.length > 0) this.isEmpty = false;
-                            else this.isEmpty = true;
+                            if (this.evaluation_lists.length > 0) {
+                                this.isEmpty = false;
+                                Bus.$emit("FisEmpty", true);
+                            } else {
+                                this.isEmpty = true;
+                                Bus.$emit("FisEmpty", false);
+                            }
                         }).catch(function (error) {
                         console.log(error);
                     });
@@ -369,7 +392,6 @@
             //下拉无限加载
             onLoad() {
                 // 异步更新数据
-                // console.log(3333333333)
                 this.getData();
             },
 
@@ -405,15 +427,13 @@
                         console.log(error);
                     });
                 } else if (this.$route.query.printid == 1) {
-                    console.log("删除商家")
+
                     let ad_data = {
                         method: "del.collect.shops.list",
                         id: _id
                     };
-                    console.log(ad_data);
                     this.$post('/api/v1/userCollectShops', ad_data)
                         .then((res) => {
-                            console.log(res);
                             if (res.status == 200) {
                                 this.deleteList(_id);
                             }
@@ -497,7 +517,6 @@
         created() {
             let index = this.$route.query.printid;
             document.title = this.titlelist[index];
-            // if(this.evaluation_lists.length==0)this.isEmpty=true;
         },
         mounted() {
 
