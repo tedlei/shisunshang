@@ -9,9 +9,9 @@
                     finished-text="没有更多了"
                     @load="onLoad"
                     >
-                    <div class="goodsDiv" v-for="(item,index) of goodslist" :key='index'>
+                    <div class="goodsDiv" v-for="(itemTwo,index) of goodslist" :key='index'>
                         <div>
-                            {{item.id}}
+                            {{itemTwo.id}}
                         </div>
                     </div>
                 </van-list>
@@ -72,7 +72,6 @@ export default {
         
         //获取数据
         onLoad(  ) {
-            console.log(111111111)
             let parms = {
                 method: 'get.goods.map.list',
                 map: 'vip',

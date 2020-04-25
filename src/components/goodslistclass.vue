@@ -22,7 +22,7 @@
                     <div class="goodsk" ref="imgW"
                          :style="{'height':imgH}">
                       <div v-if="items.is_show == 1">
-                        <img src="../../../assets/img/goodsk.jpg" class="goodsk_img">
+                        <img src="../assets/img/goodsk.jpg" class="goodsk_img">
                         <p class="goodsk_price">￥{{Number(items.price)}}</p>
                         <p class="goodsk_p">签到金可订购</p>
                       </div>
@@ -54,8 +54,8 @@
 </template>
 
 <script>
-    import Bus from "../../../assets/js/bus";
-    import clientW from "../../../assets/js/conmon"
+    import Bus from "../assets/js/bus";
+    import clientW from "../assets/js/conmon"
 
     export default {
         name: "Special-area",
@@ -182,6 +182,7 @@
                 })
 
             },
+            
             //商品跳转
             gotodetail: function (e) {
                 this.$router.push({
