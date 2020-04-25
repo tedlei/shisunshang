@@ -195,15 +195,7 @@
                         this.qd_money = response.data.qd_money;
                         this.isshow = this.arrDate.indexOf(this.istoday) == -1 ? true : false;
                         this.initData(null);
-                        if (response.data.is_sign == 0) {
-                            this.$dialog.confirm({
-                                title: '嗨！',
-                                message: '今日还未签到是否签到赢好礼呢！'
-                            }).then(() => {
-                                Bus.$emit('signtans', true);
-                            }).catch(() => {
-                            });
-                        }
+
                     }).catch(function (error) {
                     console.log(error);
                 });

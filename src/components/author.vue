@@ -15,7 +15,6 @@
         created() {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
             // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-
                  let code = this.getUrlParam('code');
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由

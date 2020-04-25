@@ -1,7 +1,7 @@
 <template>
   <div class="content list_app">
     <template v-for="(item,i) of list">
-      <div class="help_list" :key="i" @click="tapList(item.id)">
+      <div class="help_list common_box" :key="i" @click="tapList(item.id)">
         <div class="help_l" :class="(list.length-1===i)?'border0':''">
           <span class="f1">{{item.title}}</span>
           <van-icon class="f2" name="arrow"/>
@@ -16,7 +16,7 @@
         components: {},
         data() {
             return {
-                list: [ ],  //帮助中心列表
+                list: [],  //帮助中心列表
             }
         },
         created() {
@@ -51,12 +51,9 @@
 <style lang="scss" scoped>
   .list_app {
     width: 100%;
-    background-color: #fff;
 
     .help_list {
-      width: 100%;
       height: 50px;
-      padding: 0 10px;
       background-color: #fff;
 
       .help_l {
