@@ -270,8 +270,11 @@
                     />
                     <div>
                       <p class="fontWrap fontWrapTwo">{{goods.goodsname}}</p>
-                      <div class="Sold">已售：{{goods.Sold}}</div>
-                      <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                      <div style="display: flex;justify-content: space-between;">
+                        <div class="goodsprice clo-g">￥{{goods.goodsrice}}</div>
+                        <div class="Sold">已售：{{goods.Sold}}</div>
+                      </div>
+                      
                     </div>
                   </div>
                   <!--</router-link>-->
@@ -685,6 +688,7 @@
                             this.$store.commit("getGoodsData", res.data);
                             sessionStorage.setItem("getGoodsData", res.data);
                             this.$store.commit("getshopsData", res.data.shopinfo);
+                            console.log(res)
                             // let list = res.data.specData.spec_attr;
                             this.goodsData.goods_info.album.unshift(
                                 res.data.goods_info.imgsrc
@@ -969,6 +973,7 @@
     top: 0.7rem;
     display: flex;
     justify-content: center;
+    
   }
 
   .swipeImgs {
