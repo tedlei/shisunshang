@@ -21,12 +21,12 @@
                 </div>
             </div>
             <div class="hederMsg">
-<!--                <div class="hederMsgIco">-->
-<!--                    <img src="../../assets/img/fx.png" alt />-->
-<!--                </div>-->
-<!--                <div class="hederMsgIco">-->
-<!--                    <img src alt />-->
-<!--                </div>-->
+                <!--                <div class="hederMsgIco">-->
+                <!--                    <img src="../../assets/img/fx.png" alt />-->
+                <!--                </div>-->
+                <!--                <div class="hederMsgIco">-->
+                <!--                    <img src alt />-->
+                <!--                </div>-->
                 <div @click="isCollectionAdd">
                     <van-icon v-if="isCollection==true" name="like" />
                     <van-icon v-else name="like-o" />
@@ -36,7 +36,6 @@
                 </div>
             </div>
         </div>
-        <div class="main">
             <van-tabs v-model="active" color="#009900" line-width="0.9rem" @click="onClick">
                 <van-tab title="全部商品" :title-style="active==0?'color: #009900;':'color: #999999;'">
                     <div class="main_list">
@@ -96,7 +95,9 @@
                             </div>
                             <div>
                                 <span>服务电话</span>
-                                <span>{{shopData.phone1}}</span>
+                                <span>
+                                    {{shopData.phone}}
+                                </span>
                             </div>
                             <div>
                                 <span>开店时间</span>
@@ -126,7 +127,6 @@
                     </div>
                 </van-tab>
             </van-tabs>
-        </div>
     </div>
 </template>
 
@@ -165,6 +165,7 @@ export default {
                 .then(res => {
                     console.log(res);
                     this.shopData = res.data;
+                    this.shopData.phone=res.data.phone.slice(0,3)+'*********'+res.data.phone.slice(res.data.phone.length-4);
                     this.isCollection = res.data.is_follow == 1 ? true : false;
                 })
                 .catch(function(error) {
@@ -300,7 +301,7 @@ export default {
 </script>
 
 <style lang="scss">
-.storeDetails > .main {
+.storeDetails{
     .van-tabs {
         height: 100%;
         .van-tabs__content {
@@ -475,7 +476,6 @@ export default {
 <style lang="scss" scoped>
 .storeDetails {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: #fff;

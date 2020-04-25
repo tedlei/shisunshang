@@ -369,7 +369,7 @@
             //下拉无限加载
             onLoad() {
                 // 异步更新数据
-                console.log(3333333333)
+                // console.log(3333333333)
                 this.getData();
             },
 

@@ -70,7 +70,7 @@
                 loading: false,
                 finished: false,
                 error: false,
-                pages: 0,
+                page: 0,
                 flag: true,
                 dontOnload: false,
                 navItems: [{id: 0, cate_name:'全部'}],

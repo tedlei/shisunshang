@@ -11,7 +11,6 @@ import my_cart from '@/components/my_cart/my_cart'
 import author from '../components/author'
 import authorTwo from '../components/authorTwo'
 import ex001 from '../components/ex001'
-import goodslistclass from '../components/goodslistclass'
 
 import goodsDATA from '../components/goods/goodsDATA'
 import storeDetails from '../components/storeDetails/storeDetails'
@@ -71,11 +70,7 @@ const $router = new Router({
       name: 'ex001',
       component: ex001,
     },
-    {
-        path: '/goodslistclass',
-        name: 'goodslistclass',
-        component: goodslistclass,
-      },
+    
     {
       path: '/',
       name: 'home',
