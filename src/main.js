@@ -5,9 +5,9 @@ import App from './App'
 import router from './router'
 import store from "./store";
 import ElementUI from 'element-ui'
-import Vant, { Dialog, Toast } from 'vant';
-import './assets/js/filter'
+import vant from 'vant';
 import 'vant/lib/index.css';
+import './assets/js/filter'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/layout.scss'
 import './assets/css/style.scss'
@@ -16,7 +16,7 @@ import 'swiper/dist/css/swiper.min.css';
 import axios from 'axios'
 import qs from 'qs'
 import { post, patch, put } from './api/https'
-import 'mint-ui/lib/style.css'
+
 import { Api } from '../src/assets/js/verifyCodeTime.js'
 //复制到粘贴板插件
 import VueClipboard from 'vue-clipboard2'
@@ -36,7 +36,7 @@ Vue.prototype.$put = put;
 Vue.prototype.Qs = qs
 
 Vue.use(ElementUI);
-Vue.use(Vant);
+Vue.use(vant);
 Vue.config.productionTip = false;
 
 
@@ -89,7 +89,7 @@ router.beforeEach((to, from, next) => {
             // console.log('IOS')
             url = sessionStorage.getItem('ios_share_url').split('#')[0];
          }else{
-            console.log('IOS否');
+            console.log('IOS否')
             url = 'http://' + location.host + to.fullPath;
          }
         wechatAuth(url,to,userinfo);
