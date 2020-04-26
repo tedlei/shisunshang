@@ -7,14 +7,12 @@
       <div class="address" >
         <div>
           <span class="addressSpan">营业时间：</span>
-          <div class="startDatetime" @click="showDatetime=true">
+          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetime=true">
               <span>{{currentTimeMsg}}</span>
-            <van-icon name="arrow" color='#9d9f9f'/>
           </div>
           &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
-          <div class='startDatetime' @click="showDatetimeTwo=true">
+          <div :class="currentTimeMsgTwo=='结业时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
               <span>{{currentTimeMsgTwo}}</span>
-            <van-icon name="arrow" color='#9d9f9f'/>
           </div>
         </div>
       </div>
@@ -114,6 +112,7 @@
             :min-hour="0"
             :max-hour="24"
             @confirm="formatter"
+            @cancel='tiemcancel'
             />
     </van-popup>
     <van-popup
@@ -126,6 +125,7 @@
             :min-hour="0"
             :max-hour="24"
             @confirm="formatterTwo"
+            @cancel='tiemcancelTwo'
             />
     </van-popup>
   </div>
@@ -182,8 +182,14 @@
                 this.currentTimeMsg = value;
                 this.showDatetime=false;
             },
+            tiemcancel(){
+                this.showDatetime=false;
+            },
             formatterTwo(value){
                 this.currentTimeMsgTwo = value;
+                this.showDatetimeTwo=false;
+            },
+            tiemcancelTwo(){
                 this.showDatetimeTwo=false;
             },
             confirm(e) {
@@ -349,6 +355,8 @@
                         bus_scope: this.message,
                         cate_id: this.upclassId,
                         bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
+                        bus_hours_st: this.currentTimeMsg,
+                        bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: imgurls[0],
                         album: album
                     };
@@ -499,5 +507,8 @@
       justify-content: center;
       align-items: center;
       color: #9d9f9f;
+  }
+  .startDatetimeColor{
+      color: #000;
   }
 </style>

@@ -3,8 +3,19 @@
     <!-- <div>公司信息</div> -->
     <div class="inputs">
       <van-field v-model="input" label="公司名称：" placeholder="请填写公司名称"/>
-      <van-field v-model="input1" label="营业时间：" placeholder="请选择营业时间"/>
-
+      <!-- <van-field v-model="input1" label="营业时间：" placeholder="请选择营业时间"/> -->
+        <div class="address" >
+        <div>
+          <span class="addressSpan">营业时间：</span>
+          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetime=true">
+              <span>{{currentTimeMsg}}</span>
+          </div>
+          &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
+          <div :class="currentTimeMsgTwo=='结业时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
+              <span>{{currentTimeMsgTwo}}</span>
+          </div>
+        </div>
+      </div>
       <div class="address" @click="show=true">
         <div>
           <span>公司地址：</span>
@@ -101,6 +112,32 @@
     <!--        -->
     <!--      </div>-->
     <!--    </van-overlay>-->
+    <van-popup
+      v-model="showDatetime"
+      position="bottom"
+        >
+        <van-datetime-picker
+            v-model="currentTime"
+            type="time"
+            :min-hour="0"
+            :max-hour="24"
+            @confirm="formatter"
+            @cancel='tiemcancel'
+            />
+    </van-popup>
+    <van-popup
+      v-model="showDatetimeTwo"
+      position="bottom"
+        >
+        <van-datetime-picker
+            v-model="currentTimeTwo"
+            type="time"
+            :min-hour="0"
+            :max-hour="24"
+            @confirm="formatterTwo"
+            @cancel='tiemcancelTwo'
+            />
+    </van-popup>
   </div>
 </template>
 
@@ -142,10 +179,31 @@
                 upfileListTwo: [],
                 readingX: [],
                 imgurls: [],
-                btnBk: false
+                btnBk: false,
+                currentTime: '08:00',
+                currentTimeMsg: '开始时间',
+                showDatetime: false,
+                showDatetimeTwo: false,
+                currentTimeTwo: '12:00',
+                currentTimeMsgTwo: '结业时间',
             }
         },
         methods: {
+            formatter(value){
+                // console.log(value)
+                this.currentTimeMsg = value;
+                this.showDatetime=false;
+            },
+            tiemcancel(){
+                this.showDatetime=false;
+            },
+            formatterTwo(value){
+                this.currentTimeMsgTwo = value;
+                this.showDatetimeTwo=false;
+            },
+            tiemcancelTwo(){
+                this.showDatetimeTwo=false;
+            },
             confirm(e) {
                 console.log(e);
                 this.province = e;
@@ -233,7 +291,7 @@
                     this.$store.commit('setLoading');
                     this.btnBk = false;
                     return;
-                } else if (this.input1 == '') {
+                } else if (this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结业时间') {
                     this.$toast('营业时间不能为空');
                     this.$store.commit('setLoading');
                     this.btnBk = false;
@@ -312,7 +370,9 @@
                         mobile: this.input3,
                         bus_scope: this.message,
                         cate_id: this.upclassId,
-                        bus_hours: this.input1,
+                        bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
+                        bus_hours_st: this.currentTimeMsg,
+                        bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: this.$store.getters.getMerchantApplicationObj.imgurl,
                         album: album
                     };
@@ -421,6 +481,8 @@
             console.log(obj);
             this.input = obj.name;
             this.input1 = obj.bus_hours;
+            if(obj.bus_hours_et)this.currentTimeMsg = obj.bus_hours_et;
+            if(obj.bus_hours_st)this.currentTimeMsgTwo = obj.bus_hours_st;
             this.province[0] = obj.province;
             this.province[1] = obj.city;
             this.province[2] = obj.area;
@@ -508,5 +570,21 @@
 
   .btnTwo {
     background-color: #9d9f9f;
+  }
+  .wrapper{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items:flex-end;
+  }
+  .startDatetime{
+      width: 0.9rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #9d9f9f;
+  }
+  .startDatetimeColor{
+      color: #000;
   }
 </style>

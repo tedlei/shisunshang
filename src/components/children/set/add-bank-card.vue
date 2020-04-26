@@ -151,7 +151,7 @@ export default {
         //银行卡正则效验
         validator(val){
             // console.log(111111111)
-            var pattern = /^([1-9]{1})(\d{14}|\d{18})$/;
+            var pattern = /^\d{16,19}$/;
             if(pattern.test(val)){
                 this.isTgyz =true;
                 this.matchBank();
@@ -172,7 +172,7 @@ export default {
                         this.bankUrl = res.data.bankImg;
                         this.bank = res.data;
                     } else {
-                        this.$toast(res.message);
+                        this.$toast('请输入正确的银行卡号码');
                     }
                 })
                 .catch(function(error) {
