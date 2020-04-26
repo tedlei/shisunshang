@@ -1,8 +1,8 @@
 <template>
   <div class='content'>
-    <!-- <div>公司信息</div> -->
+    <!-- <div>商家信息</div> -->
     <div class="inputs">
-      <van-field v-model="input" label="公司名称：" placeholder="请填写公司名称"/>
+      <van-field v-model="input" label="商家名称：" placeholder="请填写商家名称"/>
       <!-- <van-field v-model="input1" label="营业时间：" placeholder="请填写营业时间"/> -->
       <div class="address" >
         <div>
@@ -11,20 +11,20 @@
               <span>{{currentTimeMsg}}</span>
           </div>
           &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
-          <div :class="currentTimeMsgTwo=='结业时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
+          <div :class="currentTimeMsgTwo=='结束时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
               <span>{{currentTimeMsgTwo}}</span>
           </div>
         </div>
       </div>
       <div class="address" @click="show=true">
         <div>
-          <span class="addressSpan">公司地址：</span>
+          <span class="addressSpan">商家地址：</span>
           <span>{{province[0]}}/{{province[1]}}/{{province[2]}}</span>
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
       <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
-      <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
+      <van-field v-model="input3" type="number" label="联系电话：" placeholder="请输入商家联系电话"/>
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
@@ -44,7 +44,7 @@
         label="经营范围："
         type="textarea"
         maxlength="200"
-        placeholder="请输入公司经营范围"
+        placeholder="请输入商家经营范围"
         show-word-limit
       />
       <div class="hrDiv"></div>
@@ -154,7 +154,7 @@
                 show: false,
                 classArr: [ ],
                 show2: false,
-                classList: '请选择公司经营分类',
+                classList: '请选择商家经营分类',
                 upclassId: '',
                 message: '',
                 Recommender: '',
@@ -173,7 +173,7 @@
                 showDatetime: false,
                 showDatetimeTwo: false,
                 currentTimeTwo: '12:00',
-                currentTimeMsgTwo: '结业时间',
+                currentTimeMsgTwo: '结束时间',
             }
         },
         methods: {
@@ -275,18 +275,18 @@
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
                 if(this.input==''){
-                  this.$toast('公司名称不能为空');
+                  this.$toast('商家名称不能为空');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;
-                }else if(this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结业时间'){
-                  this.$toast('营业开始时间和结业时间不能为空');
+                }else if(this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结束时间'){
+                  this.$toast('营业开始时间和结束时间不能为空');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;
 
                 }else if(this.province[0]=='选择省'){
-                  this.$toast('请选择公司地址');
+                  this.$toast('请选择商家地址');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;
@@ -298,13 +298,13 @@
                   return;
 
                 }else if(this.input3==''){
-                  this.$toast('公司电话不能为空');
+                  this.$toast('商家电话不能为空');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;
 
-                }else if(this.classList=='请选择公司经营分类'){
-                  this.$toast('请选择公司经营分类');
+                }else if(this.classList=='请选择商家经营分类'){
+                  this.$toast('请选择商家经营分类');
                   this.$store.commit('setLoading');
                   this.btnBk= false;
                   return;

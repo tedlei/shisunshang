@@ -49,7 +49,7 @@
                         for (let i in response.data) {
                             response.data[i].rechargebtn = require('../../../assets/img/recharge_btn' + (Number(i) + 1) + '.png')
                         }
-                        console.log(response.data)
+                        // console.log(response.data)
                         _this.lists = response.data;
 
                     }).catch(function (error) {
@@ -57,6 +57,7 @@
                 });
             },
             pay: function (e) {
+                this.$store.commit('setLoading');
                 let _this = this
                 let jsApiParameters = {};
                 let msg = {
@@ -69,34 +70,34 @@
                             jsApiParameters = response.data.payment;
                             callpay();
                         } else {
+                            this.$store.commit('setLoading');
 
                         }
-                        console.log(response)
+                        // console.log(response)
                     }).catch(function (error) {
                     console.log(error);
                 });
 
                 //调用微信JS api 支付
                 function jsApiCall() {
-
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest',
                         jsApiParameters,
                         function (res) {
                             if (res.err_msg == "get_brand_wcpay_request:ok") {
                                 //跳转到支付成功页面
-                                console.log(1)
+                                this.$store.commit('setLoading');
                                 this.$router.push({path: '/mine/record', query: {recordid: 5}});
                             } else if (res.err_msg = "get_brand_wcpay_request:fail") {
-                                alert("支付失败");
+                                this.$store.commit('setLoading');
+                                
                             }
 
                         }
                     );
                 }
-
                 function callpay() {
-                    console.log(WeixinJSBridge)
+                    // console.log(WeixinJSBridge)
                     if (typeof WeixinJSBridge == "undefined") {
                         if (document.addEventListener) {
                             document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);

@@ -80,22 +80,22 @@
                 </router-link>
                 <!-- 店铺合计 -->
                 <div class="clearfix total_box">
-<!--                  <div class="add_time" v-show="numBoder==1">{{items.add_time}}</div>-->
+                    <!--                  <div class="add_time" v-show="numBoder==1">{{items.add_time}}</div>-->
                   <div class="right_total">
                     <span style="margin-right: 20px">共{{items.goods.length}}件商品</span>
                     <span>合计：￥{{items.total_money}}</span>
                   </div>
                 </div>
                 <div class="clearfix submit_box">
-<!--                  <div-->
-<!--                    class="left_dtime"-->
-<!--                    v-if="num==1 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime() ||-->
-<!--                                num == 0 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime()"-->
-<!--                  >-->
-<!--                    剩-->
-<!--                    {{items.add_time | formaTimestamp}}-->
-<!--                    订单关闭-->
-<!--                  </div>-->
+            <!--                  <div-->
+            <!--                    class="left_dtime"-->
+            <!--                    v-if="num==1 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime() ||-->
+            <!--                                num == 0 && items.status==0 && new Date(items.add_time).getTime() > new Date().getTime()"-->
+            <!--                  >-->
+            <!--                    剩-->
+            <!--                    {{items.add_time | formaTimestamp}}-->
+            <!--                    订单关闭-->
+            <!--                  </div>-->
 
                   <van-row class="btn_box">
                     <van-row>
@@ -318,17 +318,21 @@
         methods: {
             //点击切换
             getNum(index) {
-                this.flag = true;
-                this.num = index;
-                this.numBoder = index;
-                // this.getOderData(index);
-                this.$router.replace({query: {orderid: index}});
-                this.orderclass = index - 1;
-                this.page = 0;
-                this.orderList = [];
-                this.finished = false;
-                this.loading = true;
-                this.onLoad();
+                // console.log(index)
+                if(this.num!=index){
+                    this.flag = true;
+                    this.num = index;
+                    this.numBoder = index;
+                    // this.getOderData(index);
+                    this.$router.replace({query: {orderid: index}});
+                    this.orderclass = index - 1;
+                    this.page = 0;
+                    this.orderList = [];
+                    this.finished = false;
+                    this.loading = true;
+                    this.onLoad();
+                }
+                
             },
             //下拉无限加载
             onLoad() {
