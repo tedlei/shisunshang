@@ -1,144 +1,164 @@
 <template>
-  <div class="content">
-    <ul class="ad_list">
-      <li v-for="(item,index) in adlists" :key="index">
-        <div class="ad_a" @click="tapTz({path:'/mine/ad/addetails',query:{id:item.id}})">
+  <div>
 
-        <!-- <router-link :to="{path:'/mine/ad/addetails',query:{id:item.id}}"> -->
-          <div class="left_img">
-            <van-image
-              width="0.8rem"
-              height="0.8rem"
-              fit="cover"
-              :src="item.img"
-              style="display: block"
-            />
-          </div>
-          <div class="right_msg">
-            <div class="name">
-              <div class="tt" style="font-weight: bold;">{{item.title}}</div>
-              <div class="tt_name">{{item.desc}}</div>
+
+    <div class="content">
+      <ul class="ad_list">
+        <li v-for="(item,index) in adlists" :key="index" class="common_box">
+          <div class="ad_a" @click="tapTz({path:'/mine/ad/addetails',query:{id:item.id}})">
+
+            <!-- <router-link :to="{path:'/mine/ad/addetails',query:{id:item.id}}"> -->
+            <div class="left_img">
+              <van-image
+                width="0.8rem"
+                height="0.8rem"
+                fit="cover"
+                :src="item.img"
+                style="display: block"
+              />
             </div>
-            <div class="time">
-              <span>时间：{{item.add_time}}</span>
-              <span>来源：{{item.users_id}}</span>
-              <div class="font_fx" @click.stop="tapTz({path:'/mine/ad/addetails',query:{id:item.id,type:true}})">点击分享</div>
-              <!-- <i
-                class="el-icon-share"
-                style="font-size:0.2rem;float:right;"
-                @click.stop="share(item.id)"
-              ></i> -->
+            <div class="right_msg">
+              <div class="name">
+                <div class="tt" style="font-weight: bold;">{{item.title}}</div>
+                <div class="tt_name">{{item.desc}}</div>
+              </div>
+              <div class="time">
+                <span>时间：{{item.add_time}}</span>
+                <span>来源：{{item.users_id}}</span>
+                <div class="font_fx" @click.stop="tapTz({path:'/mine/ad/addetails',query:{id:item.id,type:true}})">
+                  点击分享
+                </div>
+                <!-- <i
+                  class="el-icon-share"
+                  style="font-size:0.2rem;float:right;"
+                  @click.stop="share(item.id)"
+                ></i> -->
+              </div>
             </div>
+            <!-- </router-link> -->
           </div>
-        <!-- </router-link> -->
+        </li>
+      </ul>
+
+      <!-- <van-popup
+        v-model="shareshow"
+        :style="{ background:'none',padding:'0.1rem',width:'100%',borderRadius:'5px',height:'100%'}"
+        @click="closepop"
+      >
+        <div style="text-align: right">
+          <img style="width:auto;" src="../../../assets/img/zhi.png" class="zhi" />
         </div>
-      </li>
-    </ul>
+        <div style="color: #fff;">
+          <strong>立即分享给好友吧</strong>
+          <p>点击屏幕右上角将本页面分享给好友</p>
+        </div>
+      </van-popup> -->
+      <van-empty description="暂无发布记录哦！" v-if="isempty"/>
+    </div>
 
-    <!-- <van-popup
-      v-model="shareshow"
-      :style="{ background:'none',padding:'0.1rem',width:'100%',borderRadius:'5px',height:'100%'}"
-      @click="closepop"
-    >
-      <div style="text-align: right">
-        <img style="width:auto;" src="../../../assets/img/zhi.png" class="zhi" />
-      </div>
-      <div style="color: #fff;">
-        <strong>立即分享给好友吧</strong>
-        <p>点击屏幕右上角将本页面分享给好友</p>
-      </div>
-    </van-popup> -->
+    <div class="common_btn bottom_fixed postAd " v-if="ispostAd">
+      <router-link to="/mine/ad/articles">发布文章</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "ad",
-  props: ["dmsg"],
-  data() {
-    return {
-      shareshow: false,
-      adlists: []
-    };
-  },
-  methods: {
-    //跳转
-    tapTz(value){
-      this.$router.push(value);
-    },
+    export default {
+        name: "ad",
+        props: ["dmsg"],
+        data() {
+            return {
+                shareshow: false,
+                adlists: [],
+                ispostAd: this.dmsg == 'myad' ? true : false,
+                isempty: false,
+            };
+        },
+        methods: {
+            //跳转
+            tapTz(value) {
+                this.$router.push(value);
+            },
 
-    //获取数据
-    getad: function() {
-      let _this = this,
-        admsg = {
-          method:
-            _this.dmsg == "myad"
-              ? "get.weixin.ad.user.list"
-              : "get.weixin.ad.list"
-        };
-      this.$post("/api/v1/weixinAd", admsg)
-        .then(response => {
-          _this.adlists = response.data.items;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-  },
-  mounted() {
-    this.getad();
-  }
-};
+            //获取数据
+            getad: function () {
+                let _this = this,
+                    admsg = {
+                        method:
+                            _this.dmsg == "myad"
+                                ? "get.weixin.ad.user.list"
+                                : "get.weixin.ad.list"
+                    };
+                this.$post("/api/v1/weixinAd", admsg)
+                    .then(response => {
+                        _this.adlists = response.data.items;
+                        _this.isempty = response.data.items.length > 0 ? false : true
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
+        mounted() {
+            this.getad();
+        }
+    };
 </script>
 
 <style scoped lang="scss">
-.content {
-  .ad_list {
-    background-color: #fff;
-    padding: 0.1rem;
-    text-align: left;
+  .content {
+    .ad_list {
+      text-align: left;
 
-    li {
-      margin-bottom: 0.2rem;
-      padding-bottom: 0.1rem;
-      border-bottom: 1px solid #f2f2f2;
-      .ad_a {
-        display: flex;
-        align-items: center;
-        .right_msg {
-          padding-left: 0.15rem;
+      li {
+        padding-bottom: 0.1rem;
+        border-bottom: 1px solid #f2f2f2;
+
+        .ad_a {
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          align-items: center;
 
-          .name {
-            .tt_name {
-              font-size: 0.12rem;
-              margin: 0.05rem 0 0.1rem 0;
+          .right_msg {
+            padding-left: 0.15rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+
+            .name {
+              .tt_name {
+                font-size: 0.12rem;
+                margin: 0.05rem 0 0.1rem 0;
+                text-align: justify;
+              }
             }
-          }
 
-          .time {
-            color: #999999;
-            font-size: 0.12rem;
-            .font_fx{
-              width: 0.7rem;
-              height: 0.25rem;
-              float: right;
-              text-align: center;
-              line-height: 0.25rem;
-              font-size: 0.14rem;
-              color: #009900;
+            .time {
+              color: #999999;
+              font-size: 0.12rem;
+
+              .font_fx {
+                height: 0.25rem;
+                text-align: right;
+                line-height: 0.25rem;
+                font-size: 0.14rem;
+                color: #009900;
+              }
             }
           }
         }
       }
-    }
-    li:nth-last-child(1) {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
+
+      li:nth-last-child(1) {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
     }
   }
-}
+
+  .postAd {
+    border-radius: 0;
+    line-height: 0.5rem;
+  }
 </style>

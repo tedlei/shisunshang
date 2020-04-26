@@ -4,7 +4,7 @@
       v-model="tans"
       position="left"
       :style="{ height: '100%',width:'100%' }"
-        >
+    >
       <header>
         <i class="clo-9 el-icon-arrow-left back" @click="Popup()" style="left: 5px;"></i>
         <search :tmsg='tan' :dmsg="true" @getHistorylist="getHistorylist"></search>
@@ -36,10 +36,10 @@
         <div class="search_result" v-if="this.gainsearchVal">
           <goodslist :gainsearchVal="gainsearchVal"></goodslist>
         </div>
-<!--        &lt;!&ndash;      搜索空&ndash;&gt;-->
-<!--        <div class="none" v-show="false">-->
-<!--          <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">-->
-<!--        </div>-->
+        <!--        &lt;!&ndash;      搜索空&ndash;&gt;-->
+        <!--        <div class="none" v-show="false">-->
+        <!--          <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">-->
+        <!--        </div>-->
       </div>
 
     </van-popup>
@@ -61,11 +61,11 @@
                 tan: 'tan',
                 tans: false,
                 hotlist: [],
-                historylist:[],
+                historylist: [],
             }
         },
-        created(){
-           this.getHistorylist();
+        created() {
+            this.getHistorylist();
         },
         computed: {
             gainsearchVal: function () {
@@ -80,7 +80,6 @@
                 this.$store.commit('sendVal', '');
                 this.$store.commit('sendsearchVal', '');
             },
-
 
             //获取热门
             getHot: function () {
@@ -117,41 +116,41 @@
             },
 
             //获取搜索历史列表
-            getHistorylist(){
-              let histort = localStorage.getItem('histort');
-              if(histort) this.historylist = JSON.parse(histort);
+            getHistorylist() {
+                let histort = localStorage.getItem('histort');
+                if (histort) this.historylist = JSON.parse(histort);
             },
 
             //清空搜索历史列表
-            deleteHistorylist(){
-              localStorage.setItem('histort','');
-              this.historylist = [];
+            deleteHistorylist() {
+                localStorage.setItem('histort', '');
+                this.historylist = [];
             },
         },
         mounted() {
-          let token = localStorage.getItem("usertoken");
-          if(token){
-            Bus.$on('searchval', (data) => {
-                if (data == true) {
-                    this.tans = true
-                }
-            });
-            Bus.$on('closepop', (data) => {
-                if (data == true) {
-                    this.Popup()
-                }
-            });
-            Bus.$on('getHot', (data) => {
-                if (data == true) {
-                    this.getHot();
-                }
-            });
-            // if (this.$store.getters.isLogin){
-            //     Bus.$emit('getHot', true);
-            // }
-            // localStorage.setItem('history', this.historylist)
+            let token = localStorage.getItem("usertoken");
+            if (token) {
+                Bus.$on('searchval', (data) => {
+                    if (data == true) {
+                        this.tans = true
+                    }
+                });
+                Bus.$on('closepop', (data) => {
+                    if (data == true) {
+                        this.Popup()
+                    }
+                });
+                Bus.$on('getHot', (data) => {
+                    if (data == true) {
+                        this.getHot();
+                    }
+                });
+                // if (this.$store.getters.isLogin){
+                //     Bus.$emit('getHot', true);
+                // }
+                // localStorage.setItem('history', this.historylist)
+            }
         }
-    }
     }
 </script>
 
@@ -166,6 +165,7 @@
     left: 0;
     height: 0.50rem;
     z-index: 888;
+
     i {
       font-size: 0.28rem;
     }
@@ -174,10 +174,10 @@
       margin-left: 10px;
     }
   }
-    
+
   .search_div {
     position: absolute;
-    top: 0.1rem;
+    top: 0.5rem;
     bottom: 0;
     left: 0;
     right: 0;

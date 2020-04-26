@@ -1,5 +1,5 @@
 <template>
-    <div class="content" :style="{'padding-top':(gainsearchVal ? '0' : '')}">
+    <div class="content" :style="{'position':(gainsearchVal ? 'inherit' : '')}">
         <van-list
             v-model="loading"
             :finished="finished"
@@ -28,7 +28,7 @@
                 </van-col>
             </van-row>
         </van-list>
-        <empty v-else></empty>
+      <van-empty description="暂无商品！" v-else/>
     </div>
 </template>
 
@@ -66,17 +66,19 @@ export default {
     },
     methods: {
         async getlist() {
+            this.$store.commit('setLoading');
             let _this = this,
                 parms = {
                     method: "get.goods.category.list",
                     keywords: _this.gainsearchVal,
                     cate_id: _this.gainsearchVal ? 0 : _this.$route.query.id,
-                    page: this.pages,
+                    page: _this.gainsearchVal ? 0 : _this.pages,
                     page_size: 20,
                 };
             this.$post("/api/v1/goods", parms)
                 .then(response => {
                     if (response.status == 200 && response.data) {
+                        // this.goodslist = [...this.goodslist, ...response.data];
                         this.goods_list = _this.goods_list.concat(
                             response.data
                         );
@@ -87,12 +89,14 @@ export default {
                         if (response.data.length < 20) {
                             this.finished = true;
                         }
+
                     } else {
                         _this.havedata = false;
                         // 加载状态结束
                         this.loading = false;
                         this.finished = true;
                     }
+                    this.$store.commit('setLoading');
                 })
                 .catch(function(error) {
                     console.log(error);
@@ -101,9 +105,7 @@ export default {
         //下拉加载
         onLoad() {
             // 异步更新数据
-            setTimeout(() => {
-                this.getlist();
-            }, 1000);
+            this.getlist();
         },
         // 去详情页面
         gotodetail: function(e) {
@@ -158,7 +160,6 @@ export default {
 
 <style scoped lang="scss">
 .content {
-    padding-right: 1.5px;
     padding-right: 1.5px;
     background-color: #fff;
 

@@ -8,8 +8,11 @@
             :readonly="readonly"
             :class="!tan ?'nobtn':''"
             @input="inputsearchVal"
+            @search="onSearch"
             >
+          <template #action>
             <div slot="action" @click="onSearch" v-show="tan">搜索</div>
+          </template>
         </van-search>
 </template>
 

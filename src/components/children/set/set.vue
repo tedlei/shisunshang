@@ -36,6 +36,10 @@
                         right: JSON.parse(this.$store.getters.getuserinfo)
                             .weixinname
                     },
+                    {
+                        left: "等级",
+                        right: "",
+                    },
 
                     {
                         left: "实名认证",

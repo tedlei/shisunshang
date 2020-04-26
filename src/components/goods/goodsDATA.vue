@@ -2,9 +2,9 @@
   <div>
     <div class="main">
       <header>
-        <van-icon name="arrow-left" class="back" @click="$router.back(-1)"/>
+        <van-icon name="arrow-left" class="back"  @click="$router.back(-1)"/>
       </header>
-      <van-tabs v-model="active" scrollspy >
+      <van-tabs v-model="active" scrollspy sticky offset-top="250">
 
         <van-tab title="商品">
           <div style="height: 44px"></div>
@@ -975,7 +975,7 @@
     top: 0.7rem;
     display: flex;
     justify-content: center;
-    
+
   }
 
   .swipeImgs {
