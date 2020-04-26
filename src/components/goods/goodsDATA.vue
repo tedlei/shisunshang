@@ -225,7 +225,7 @@
         <van-tab title="评价">
           <!--   商品评价   -->
           <div style="padding:0.1rem" class="m_b_10 conmo_box goods_evaluate">
-            <div v-show="comment">
+            <div v-show="evaluatelist.length>0">
               <div class="head">商品评价</div>
               <div class="user_evaluate" v-for="(item,index) in evaluatelist" :key="index">
                 <div class="evaluate_head">
@@ -238,13 +238,13 @@
                   </div>
                   <div class="add_time">{{item.add_time}}</div>
                 </div>
-                <p class="text_p">{{item.content}}</p>
+                <p style="color: #999999;" class="text_p">{{item.content}}</p>
               </div>
               <div class="watch_all">
-                <span>查看全部评价</span>
+                <!-- <span>查看全部评价</span> -->
               </div>
             </div>
-            <div v-show="!comment" align="center">暂无评价！</div>
+            <div v-show="!evaluatelist.length>0" align="center">暂无评价！</div>
           </div>
           <!--  推荐列表  -->
           <div class="conmo_box tuijian_slide">
@@ -274,7 +274,6 @@
                         <div class="goodsprice clo-g">￥{{goods.goodsrice}}</div>
                         <div class="Sold">已售：{{goods.Sold}}</div>
                       </div>
-                      
                     </div>
                   </div>
                   <!--</router-link>-->
@@ -688,7 +687,7 @@
                             this.$store.commit("getGoodsData", res.data);
                             sessionStorage.setItem("getGoodsData", res.data);
                             this.$store.commit("getshopsData", res.data.shopinfo);
-                            console.log(res)
+                            // console.log(res)
                             // let list = res.data.specData.spec_attr;
                             this.goodsData.goods_info.album.unshift(
                                 res.data.goods_info.imgsrc
@@ -700,13 +699,16 @@
                             // }
                             // console.log(this.initial);
                             //评价循环
-                            for (var n in res.data.goods_info.comment) {
-                                if (n < 11) {
+                             for (let i = res.data.goods_info.comment.length - 1; i > -1; i--) {
+                                //  console.log(i)
+                                //  console.log(res.data.goods_info.comment.length-4)
+                                if (i > res.data.goods_info.comment.length-4) {
                                     this.evaluatelist.push(
-                                        res.data.goods_info.comment[n]
+                                        res.data.goods_info.comment[i]
                                     );
                                 }
                             }
+                            // console.log(this.evaluatelist);
                             let actions = [];
                             for (let n in res.data.buy_array) {
                                 // console.log(res.data.buy_array[n]);
@@ -906,7 +908,7 @@
                     // console.log('我是商品分享了')
                     var url = "";
                     if (this.is_ios()) {
-                        console.log(this.$route.fullPath);
+                        // console.log(this.$route.fullPath);
                         url = "http://" + location.host + this.$route.fullPath;
                     } else {
                         url = "http://" + location.host + this.$route.fullPath;

@@ -53,7 +53,7 @@ const wechatAuth = async function (url, to, userinfo, goods) {
                 return false;
         　  }
           }
-          let urls = 'http://www.gjst.net';
+          let urls = '';
           if(['/goodsdetails', '/business', '/help/helpDetail', '/news/newsdetail', '/storeDetails'].includes(to.path)){
             //   console.log('我是5个不跳转')
             if(is_ios()){
@@ -61,6 +61,15 @@ const wechatAuth = async function (url, to, userinfo, goods) {
                 urls = urls.indexOf('?') > -1 ? urls+'&state='+userinfo.referee_number : urls+'?state='+userinfo.referee_number;
               }else{
                 urls = 'http://' + location.host + to.fullPath;
+                urls = urls.indexOf('?') > -1 ? urls+'&state='+userinfo.referee_number : urls+'?state='+userinfo.referee_number;
+            }
+          }else{
+            //   console.log('我是跳转/')
+            if(is_ios()){
+                urls = sessionStorage.getItem('ios_share_url');
+                urls = urls.indexOf('?') > -1 ? urls+'&state='+userinfo.referee_number : urls+'?state='+userinfo.referee_number;
+              }else{
+                urls = 'http://' + location.host;
                 urls = urls.indexOf('?') > -1 ? urls+'&state='+userinfo.referee_number : urls+'?state='+userinfo.referee_number;
             }
           }

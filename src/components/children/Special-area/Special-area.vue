@@ -137,16 +137,21 @@
             },
             //分类点击切换
             qiehuan(name, title) {
+                // console.log(this.classId)
                 // console.log(name)
-                this.classId = name;
-                this.page= 0;
-                this.goodslist = [];
-                this.finished = false;
-                this.loading = true;
-                this.onLoad();
+                if(this.classId!=name){
+                    this.classId = name;
+                    this.page= 0;
+                    this.goodslist = [];
+                    this.finished = false;
+                    this.loading = true;
+                    this.onLoad();
+                }
+                // console.log(name)
             },
             //下拉加载
             onLoad() {
+                this.$store.commit('setLoading');
                 let parms = {
                     method: 'get.goods.map.list',
                     map: this.$route.query.typeid,
@@ -169,7 +174,9 @@
                             setTimeout(() => {
                                 this.imgH = this.$refs.imgW[0].offsetWidth + "px";
                             }, 100)
+                            this.$store.commit('setLoading');
                         }else{
+                            this.$store.commit('setLoading');
                             this.finished = true;
                         }
 

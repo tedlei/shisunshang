@@ -259,6 +259,7 @@
                     ]
                 },
                 oderPay: '',
+                qddd: 0,
             }
         },
         computed: {},
@@ -280,7 +281,7 @@
                 };
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
-                        // console.log(res);
+                        console.log(res);
                         // return false;
                         if (res.status == 200) {
                             this.orderData = res.data;
@@ -321,22 +322,36 @@
 
             //是否使用签到金
             useSingin() {
-                let orderData = parseFloat(this.orderData.user_money)
-                if (orderData > 0) {
+                if(this.orderData.user_qd_money<this.orderData.total_qd_price){
                     this.$dialog.confirm({
-                        message: '有可使用充值金,是否使用'
+                        message: '签到金不足,差额部分将用人民币补足。'
                     })
                         .then(() => {
-                            setTimeout(() => {
-                                this.checked = true;
-                                this.uploadOrder()
-                            }, 100);
+                            this.checked = true;
+                            this.qddd = 1;
+                                this.uploadOrder();
                         })
                         .catch(() => {
-                            this.uploadOrder()
+                            this.qddd = 0;
+                                this.uploadOrder();
                         });
+                } else{
+                        this.uploadOrder();
+                }
+                // let orderData = parseFloat(this.orderData.user_money)
+                // if (orderData > 0) {
+                //     this.$dialog.confirm({
+                //         message: '有可使用充值金,是否使用'
+                //     })
+                //         .then(() => {
+                //             this.checked = true;
+                //             this.uploadOrder();
+                //         })
+                //         .catch(() => {
+                //             this.uploadOrder()
+                //         });
 
-                } else this.uploadOrder()
+                // } else this.uploadOrder()
             },
 
             //提交订单
@@ -350,6 +365,7 @@
                     let buy_type = this.$route.query.buy_type;
                     let address_id = this.$store.getters.getreceivingAddress.id ? this.$store.getters.getreceivingAddress.id : this.orderData.address_default.id;
                     let is_cz_price = this.checked ? 1 : 0;
+                    let is_qd_price = this.qddd;
                     // console.log(address_id);
                     //发票信息
                     let invoice = this.$store.getters.getinvoice;
@@ -374,6 +390,7 @@
                         buy_type: buy_type,
                         address_id: address_id,
                         is_cz_price: is_cz_price,
+                        is_qd_price: is_qd_price,
                         remark: this.input,
                         is_invoice: this.$store.state.IvcMsg == 1 ? '0' : '1',  //发票信息0不要
                         invoice_detail: this.$store.state.IvcMsg == 1 ? [] : invoice_detail
@@ -419,6 +436,7 @@
             //购物车订单提交
             ploadOrderTwo() {
                 let is_cz_price = this.checked ? 1 : 0;
+                let is_qd_price = this.qddd;
                 let address_id = this.$store.getters.getreceivingAddress.id ? this.$store.getters.getreceivingAddress.id : this.orderData.address_default.id;
                 let invoice_detail = [];
                 let invoice = this.$store.getters.getinvoice;
@@ -440,6 +458,7 @@
                     goods: this.$route.query.id,
                     address_id: address_id,
                     is_cz_price: is_cz_price,//is_qd_price
+                    is_qd_price: is_qd_price,
                     remark: this.input,
                     is_invoice: this.$store.state.IvcMsg == 1 ? '0' : '1',  //发票信息0不要
                     invoice_detail: this.$store.state.IvcMsg == 1 ? [] : invoice_detail
@@ -524,6 +543,7 @@
         },
         mounted() {
             // console.log(this.$route.query.id)
+            // console.log(this.$route.query.buy_type);
             if (this.$route.query.buy_type) {
                 this.goods_id = this.$route.query.id;
                 this.goods_num = this.$route.query.num;
@@ -535,7 +555,7 @@
             }
         },
         created() {
-            console.log(this.$store.state.IvcMsg);
+            // console.log(this.$store.state.IvcMsg);
             // console.log(this.$store.getters.getreceivingAddress.id)
         },
 

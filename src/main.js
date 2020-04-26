@@ -89,7 +89,7 @@ router.beforeEach((to, from, next) => {
             // console.log('IOS')
             url = sessionStorage.getItem('ios_share_url').split('#')[0];
          }else{
-            console.log('IOS否')
+            console.log('IOS否');
             url = 'http://' + location.host + to.fullPath;
          }
         wechatAuth(url,to,userinfo);

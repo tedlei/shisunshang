@@ -151,7 +151,7 @@
                 this.$post("/api/v1/userStore", ad_data)
                     .then(res => {
                         this.shops = res.data;
-                        console.log(res.data)
+                        // console.log(res.data)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -162,7 +162,7 @@
                 let QRcodeDomainName = location.href;
                 let arr = QRcodeDomainName.split('/')
                 let url = arr[0] + '//' + arr[2] + '/uploadpic?store_id=' + this.$route.query.id
-                console.log(url)
+                // console.log(url)
                 let qrCode = new QRCode(this.$refs.qrCode, {
                     text: url, // 需要转换为二维码的内容
                     width: 25,

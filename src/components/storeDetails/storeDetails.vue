@@ -36,97 +36,98 @@
                 </div>
             </div>
         </div>
-            <van-tabs v-model="active" color="#009900" line-width="0.9rem" @click="onClick">
-                <van-tab title="全部商品" :title-style="active==0?'color: #009900;':'color: #999999;'">
-                    <div class="main_list">
-                        <div class="main_list_a">
-                            <waresCard :cardData="item" v-for="(item,index) of wholelist" :key="index"></waresCard>
-                            <div style="color:#999;">暂无更多商品</div>
-                        </div>
+        <van-tabs v-model="active" color="#009900" line-width="0.9rem" @click="onClick">
+            <van-tab title="全部商品" :title-style="active==0?'color: #009900;':'color: #999999;'">
+                <div class="main_list">
+                    <div class="main_list_a">
+                        <waresCard :cardData="item" v-for="(item,index) of wholelist" :key="index"></waresCard>
+                        <div style="color:#999;">暂无更多商品</div>
                     </div>
-                </van-tab>
-                <van-tab title="商品分类" :title-style="active==1?'color: #009900;':'color: #999999;'">
-                    <div class="main_class_list">
-                        <div class="classification" v-show="active==1">
-                            <!-- <div> -->
-                                <!-- <sidebars></sidebars> -->
-                            <div class="sidebar">
-                                <div
-                                    :class="isBoder==n?'sidebarBoder':''"
-                                    v-for="(item,n) of classlist"
-                                    :key="n"
-                                    @click="addSidebar(n , item.id)"
-                                >{{item.cate_name}}</div>
-                            </div>
-                            <!-- </div> -->
-                            <div class="div_right">
-                                <div class="sorting">
-                                    <div :class="sortingColor==0?'sortingColor':''" @click="sortingColor = 0">综合排序</div>
-                                    <div :class="sortingColor==1?'sortingColor':''" @click="sortingColor = 1">销量排序</div>
-                                    <div :class="sortingColor==2?'sortingColor':''" @click="sortingColor = 2">
-                                        <span>价格排序</span>
-                                        <div class="sortYsj">
-                                            <img src="../../assets/img/ssj.png" alt="">
-                                            <img src="../../assets/img/xsj.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="div_list">
-                                    <div class="list_abs">
-                                        <waresCard
-                                            :cardData="item"
-                                            v-for="(item,index) of classcard"
-                                            :key="index"
-                                        ></waresCard>
+                </div>
+            </van-tab>
+            <van-tab title="商品分类" :title-style="active==1?'color: #009900;':'color: #999999;'">
+                <div class="main_class_list">
+                    <div class="classification" v-show="active==1">
+                        <!-- <div> -->
+                            <!-- <sidebars></sidebars> -->
+                        <div class="sidebar">
+                            <div
+                                :class="isBoder==n?'sidebarBoder':''"
+                                v-for="(item,n) of classlist"
+                                :key="n"
+                                @click="addSidebar(n , item.id)"
+                            >{{item.cate_name}}</div>
+                        </div>
+                        <!-- </div> -->
+                        <div class="div_right">
+                            <div class="sorting">
+                                <div :class="sortingColor==0?'sortingColor':''" @click="sortingColor = 0">综合排序</div>
+                                <div :class="sortingColor==1?'sortingColor':''" @click="sortingColor = 1">销量排序</div>
+                                <div :class="sortingColor==2?'sortingColor':''" @click="sortingColor = 2">
+                                    <span>价格排序</span>
+                                    <div class="sortYsj">
+                                        <img src="../../assets/img/ssj.png" alt="">
+                                        <img src="../../assets/img/xsj.png" alt="">
                                     </div>
                                 </div>
                             </div>
+                            <div class="div_list">
+                                <div class="list_abs">
+                                    <waresCard
+                                        :cardData="item"
+                                        v-for="(item,index) of classcard"
+                                        :key="index"
+                                    ></waresCard>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+            </van-tab>
+            <van-tab title="店铺详情" :title-style="active==2?'color: #009900;':'color: #999999;'">
+                <div class="main_list">
+                    <div style="height:0.1rem;width:100%;background-color:rgb(242,242,242)"></div>
+                    <div class="column">
+                        <div>
+                            <span>掌柜名</span>
+                            <span>{{shopData.name1}}</span>
+                        </div>
+                        <div>
+                            <span>服务电话</span>
+                            <span>
+                                {{shopData.phone}}
+                            </span>
+                        </div>
+                        <div>
+                            <span>开店时间</span>
+                            <span>{{shopData.add_time}}</span>
+                        </div>
+                        <div>
+                            <span>店铺地址</span>
+                            <span>{{shopData.address}}</span>
+                        </div>
+                        <div class="columnFoter">
+                            <div class="font">
+                                <p>{{shopData.score_ms}}</p>
+                                <span>描述相符</span>
+                            </div>
+                            <div class="xian"></div>
+                            <div class="font">
+                                <p>{{shopData.score_fw}}</p>
+                                <span>服务态度</span>
+                            </div>
+                            <div class="xian"></div>
+                            <div class="font">
+                                <p>{{shopData.score_fh}}</p>
+                                <span>发货速度</span>
+                            </div>
                         </div>
                     </div>
-                </van-tab>
-                <van-tab title="店铺详情" :title-style="active==2?'color: #009900;':'color: #999999;'">
-                    <div class="main_list">
-                        <div style="height:0.1rem;width:100%;background-color:rgb(242,242,242)"></div>
-                        <div class="column">
-                            <div>
-                                <span>掌柜名</span>
-                                <span>{{shopData.name1}}</span>
-                            </div>
-                            <div>
-                                <span>服务电话</span>
-                                <span>
-                                    {{shopData.phone}}
-                                </span>
-                            </div>
-                            <div>
-                                <span>开店时间</span>
-                                <span>{{shopData.add_time}}</span>
-                            </div>
-                            <div>
-                                <span>店铺地址</span>
-                                <span>{{shopData.address}}</span>
-                            </div>
-                            <div class="columnFoter">
-                                <div class="font">
-                                    <p>{{shopData.score_ms}}</p>
-                                    <span>描述相符</span>
-                                </div>
-                                <div class="xian"></div>
-                                <div class="font">
-                                    <p>{{shopData.score_fw}}</p>
-                                    <span>服务态度</span>
-                                </div>
-                                <div class="xian"></div>
-                                <div class="font">
-                                    <p>{{shopData.score_fh}}</p>
-                                    <span>发货速度</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </van-tab>
-            </van-tabs>
+                </div>
+            </van-tab>
+        </van-tabs>
+        
     </div>
 </template>
 
@@ -151,7 +152,8 @@ export default {
                     cate_name: "全部商品"
                 }
             ],
-            classcard: []
+            classcard: [],
+            currentTime: '12:00'
         };
     },
     methods: {

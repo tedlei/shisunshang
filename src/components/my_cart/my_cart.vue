@@ -112,8 +112,10 @@
                   {{goods.goodsname}}
                   <!-- 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 -->
                 </p>
-                <div class="Sold">已售：{{goods.Sold}}</div>
-                <div class="goodsprice clo-g">{{goods.goodsrice}}</div>
+                <div style="display: flex;justify-content: space-between;">
+                    <div class="goodsprice clo-g">￥{{goods.goodsrice}}</div>
+                    <div class="Sold">已售：{{goods.Sold}}</div>
+                </div>
               </div>
             </div>
           </router-link>
@@ -570,6 +572,7 @@
   body, html {
     background-color: #f2f2f2;
     // font-size: 0.2rem;
+    
   }
 
   .hrdiv {
@@ -886,7 +889,7 @@
 
   /* 推荐 */
   .cart_rmd {
-    padding: 0.1rem 0.05rem 0.7rem 0.05rem;
+    padding: 0.1rem 0.05rem 0.1rem 0.05rem;
 
     .list .goodslist {
       background: none;

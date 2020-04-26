@@ -28,7 +28,7 @@
       </div>
       <div class="minOne">
         <p>
-          {{$store.state.cart.getshops.follow_num}}
+          {{$store.state.cart.getshops.collect_num}}
         </p>
         <p>关注人数</p>
       </div>
@@ -93,18 +93,21 @@
                 let _id = this.$store.state.cart.getshops.id;
                 let list = [];
                 list.push(_id);
+                let obj = this.$store.state.cart.getshops;
                 if (!this.isCollection) {
-                    console.log("我是收藏")
+                    // console.log("我是收藏")
                     let ad_data = {
                         method: 'add.collect.shops.item',
                         shop_id: _id
                     };
                     this.$post('/api/v1/userCollectShops', ad_data)
                         .then((res) => {
-                            console.log(res)
+                            // console.log(res)
                             if (res.status == 200) {
                                 this.$store.commit('setLoading');
                                 this.$toast.success("关注成功");
+                                obj.collect_num = obj.collect_num+1;
+
                             } else {
                                 this.$store.commit('setLoading');
                                 this.$toast.fail('关注失败');
@@ -113,17 +116,18 @@
                         console.log(error);
                     });
                 } else {
-                    console.log("我是取消收藏")
+                    // console.log("我是取消收藏")
                     let ad_data = {
                         method: 'del.collect.shops.list1',
                         id: list
                     };
                     this.$post('/api/v1/userCollectShops', ad_data)
                         .then((res) => {
-                            console.log(res)
+                            // console.log(res)
                             if (res.status == 200) {
                                 this.$store.commit('setLoading');
                                 this.$toast.success("取消关注");
+                                if(obj.collect_num!=0)obj.collect_num = obj.collect_num-1;
                             }
                         }).catch(function (error) {
                         console.log(error);
