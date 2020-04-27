@@ -23,12 +23,14 @@
       </div>
       <div class="address" @click="show=true">
         <div>
-          <span class="addressSpan">商家地址：</span>
+          <span class="addressSpan">所在地区：</span>
           <span>{{province[0]}}/{{province[1]}}/{{province[2]}}</span>
         </div>
         <van-icon name="arrow" color="#9d9f9f" />
       </div>
-      <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址" />
+      <van-field v-model="input2" label="详细地址：" @click="getFocus()" :readonly="true" placeholder="请输入详细地址" />
+      <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" />
+
       <van-field v-model="input3" type="number" label="联系电话：" placeholder="请输入商家联系电话" />
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
@@ -152,6 +154,7 @@ export default {
       input: "",
       input1: "",
       input2: "",
+      doorCode:"",
       input3: "",
       upfileList: [],
       readingF: [],
@@ -341,6 +344,7 @@ export default {
           area_id: this.province[5],
           // referee: this.Recommender,
           address: this.input2,
+          mph:this.doorCode,
           mobile: this.input3,
           bus_scope: this.message,
           cate_id: this.upclassId,
@@ -375,26 +379,22 @@ export default {
     //编辑保存
     editAdd() {},
 
-    //获取经纬度
-    getLoca() {
-      this.getLocation(res => {
-        console.log(res, 123456, "获取位置成功");
-        if (res) {
-          this.latitude = res.latitude;
-          this.longitude = res.longitude;
-        } else {
-          console.log("获取位置失败！");
-          this.tc("获取位置失败，请检查您的GPS是否开启！");
-          setTimeout(() => {
-            this.$router.back(-1);
-          }, 1000);
-        }
-      });
+
+
+    //详细地址获取焦点
+    getFocus(){
+      this.mapLocaSel(res=>{
+        let {latlng,poiname} = res;
+          this.latitude = latlng.lat;
+          this.longitude = latlng.lng;
+          this.input2 = res.poiname;
+          console.log(res,this.latitude, this.longitude,123463543);
+      })
     }
   },
   created() {
+    
     this.getClassArr();
-    // this.getLoca();
     // this.getLocation(this.isGteLocation);   //获取坐标
     // console.log(this.$store.getters.getMerchantApplicationObj)
     // console.log(this.$route.query.id)
