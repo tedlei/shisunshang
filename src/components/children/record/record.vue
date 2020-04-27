@@ -7,8 +7,8 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="content" :style="this.$route.query.recordid ? '':'margin-top: 0.47rem'">
-      <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''">
+    <div class="content" :style="this.$route.query.recordid ? '':'margin-top: 0.54rem'">
+      <div class="moneybox" :style="this.$route.query.recordid ? {top:43+'px'}:''" v-if="this.list.length > 0">
         <van-list
           v-model="loading"
           :finished="finished"
@@ -34,7 +34,9 @@
           </van-cell>
         </van-list>
       </div>
+      <van-empty description="暂无记录！" v-else/>
     </div>
+
 
   </div>
 </template>
@@ -83,8 +85,7 @@
             //下拉加载
             onLoad() {
                 // 异步更新数据
-                    console.log(111111111)
-                    this.getMoney();
+                this.getMoney();
 
             },
             //切换
@@ -111,10 +112,10 @@
             // this.onLoad()
         },
         mounted() {
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.loading = false;
                 this.finished = false;
-            },5000)
+            }, 5000)
             this.getMoney();
         }
     }
@@ -136,6 +137,9 @@
   }
 
   .content {
+    .common_box {
+      margin-top: 0;
+    }
 
     .moneybox {
       .moneylist {

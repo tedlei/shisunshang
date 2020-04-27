@@ -8,11 +8,11 @@
         <div>
           <span class="addressSpan">营业时间：</span>
           <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetime=true">
-              <span>{{currentTimeMsg}}</span>
+            <span>{{currentTimeMsg}}</span>
           </div>
           &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
           <div :class="currentTimeMsgTwo=='结束时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
-              <span>{{currentTimeMsgTwo}}</span>
+            <span>{{currentTimeMsgTwo}}</span>
           </div>
         </div>
       </div>
@@ -57,15 +57,15 @@
         <p>上传商家展示宣传照：</p>
         <imgOSSuploader :maxCount='9' :reading='readingX' @imgUpData='imgUpDataTwo'></imgOSSuploader>
       </div>
-      <div :class="btnBk?'btn btnTwo':'btn'" @click="upData">{{$route.query.state=='edit'?'保存':'提交申请'}}</div>
+      <div :class="btnBk?'btnTwo':''" class="common_btn btn" @click="upData">{{$route.query.state=='edit'?'保存':'提交申请'}}</div>
       <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
 
     <van-popup
       v-model="show"
       position="bottom"
-      >
-      <!-- <van-area 
+    >
+      <!-- <van-area
         :area-list="areaList"
         confirm-button-text="保存"
         @confirm="confirm"
@@ -105,28 +105,28 @@
     <van-popup
       v-model="showDatetime"
       position="bottom"
-        >
-        <van-datetime-picker
-            v-model="currentTime"
-            type="time"
-            :min-hour="0"
-            :max-hour="24"
-            @confirm="formatter"
-            @cancel='tiemcancel'
-            />
+    >
+      <van-datetime-picker
+        v-model="currentTime"
+        type="time"
+        :min-hour="0"
+        :max-hour="24"
+        @confirm="formatter"
+        @cancel='tiemcancel'
+      />
     </van-popup>
     <van-popup
       v-model="showDatetimeTwo"
       position="bottom"
-        >
-        <van-datetime-picker
-            v-model="currentTimeTwo"
-            type="time"
-            :min-hour="0"
-            :max-hour="24"
-            @confirm="formatterTwo"
-            @cancel='tiemcancelTwo'
-            />
+    >
+      <van-datetime-picker
+        v-model="currentTimeTwo"
+        type="time"
+        :min-hour="0"
+        :max-hour="24"
+        @confirm="formatterTwo"
+        @cancel='tiemcancelTwo'
+      />
     </van-popup>
   </div>
 </template>
@@ -163,7 +163,7 @@
                 input2: '',
                 input3: '',
                 upfileList: [],
-                readingF: [], 
+                readingF: [],
                 upfileListTwo: [],
                 readingX: [],
                 imgurls: [],
@@ -197,18 +197,18 @@
                 this.province = e;
                 this.show = false;
                 let list = this.areaList.filter( item => {
-                  return item.text==e[0];
+                    return item.text==e[0];
                 });
                 // console.log(list);
                 this.province.push(list[0].id);
                 let listTwo = list[0].children.filter( item => {
-                  return item.text==e[1];
+                    return item.text==e[1];
                 });
                 // console.log(listTwo)
                 this.province.push(listTwo[0].id);
 
                 let listSan = listTwo[0].children.filter( item => {
-                  return item.text==e[2];
+                    return item.text==e[2];
                 });
                 // console.log(listSan)
                 this.province.push(listSan[0].id);
@@ -216,30 +216,30 @@
             },
 
             getClassArr() {
-              let ad_data = {
-                  method: "get.user.strre.category.list"
-              };
-              this.$post('/api/v1/UserStoreCategory', ad_data)
-                  .then((res) => {
-                      // console.log(res);
-                      if (res.status == 200) {
-                          for (var i in res.data) {
-                              this.classArr.push({
-                                  text: res.data[i].cate_name,
-                                  children: []
-                              });
-                              let list = res.data[i].sub;
-                              for (var n in list) {
-                                  this.classArr[i].children.push({
-                                      id: list[n].id,
-                                      text: list[n].cate_name,
-                                  })
-                              }
-                          }
-                      }
-                  }).catch(function (error) {
-                  console.log(error);
-              });
+                let ad_data = {
+                    method: "get.user.strre.category.list"
+                };
+                this.$post('/api/v1/UserStoreCategory', ad_data)
+                    .then((res) => {
+                        // console.log(res);
+                        if (res.status == 200) {
+                            for (var i in res.data) {
+                                this.classArr.push({
+                                    text: res.data[i].cate_name,
+                                    children: []
+                                });
+                                let list = res.data[i].sub;
+                                for (var n in list) {
+                                    this.classArr[i].children.push({
+                                        id: list[n].id,
+                                        text: list[n].cate_name,
+                                    })
+                                }
+                            }
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
             },
             onConfirm(e) {
                 // console.log(e);
@@ -275,45 +275,45 @@
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
                 if(this.input==''){
-                  this.$toast('商家名称不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('商家名称不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
                 }else if(this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结束时间'){
-                  this.$toast('营业开始时间和结束时间不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('营业开始时间和结束时间不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.province[0]=='选择省'){
-                  this.$toast('请选择商家地址');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('请选择商家地址');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.input2==''){
-                  this.$toast('详细地址不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('详细地址不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.input3==''){
-                  this.$toast('商家电话不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('商家电话不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.classList=='请选择商家经营分类'){
-                  this.$toast('请选择商家经营分类');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('请选择商家经营分类');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.message==''){
-                  this.$toast('经营范围不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('经营范围不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
 
                 }else if(this.upfileList.length==0){
                     this.$toast('封面不能为空');
@@ -322,10 +322,10 @@
                     return;
 
                 }else if(this.upfileListTwo.length==0){
-                  this.$toast('宣传照不能为空');
-                  this.$store.commit('setLoading');
-                  this.btnBk= false;
-                  return;
+                    this.$toast('宣传照不能为空');
+                    this.$store.commit('setLoading');
+                    this.btnBk= false;
+                    return;
                 }
                 if(imglist.length==0){
                     this.$store.commit('setLoading');
@@ -383,20 +383,20 @@
             editAdd() {
 
             },
-          
+
             //获取坐标
             isGteLocation(value){
-              if(!value){
-                this.$dialog.alert({
-                  title: '提示',
-                  message: '获取位置失败,是否重新获取',
-                }).then(() => {
-                  this.getLocation(this.isGteLocation); 
-                }) .catch(() => {
-                })
-              }else{
-                this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
-              }
+                if(!value){
+                    this.$dialog.alert({
+                        title: '提示',
+                        message: '获取位置失败,是否重新获取',
+                    }).then(() => {
+                        this.getLocation(this.isGteLocation);
+                    }) .catch(() => {
+                    })
+                }else{
+                    this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
+                }
             }
         },
         created() {
@@ -420,7 +420,7 @@
             this.getClassArr();
         },
         mounted(){
-          // console.log(AreaArr)
+            // console.log(AreaArr)
         },
         computed: {},
         watch: {}
@@ -444,11 +444,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      text-align: center;
+      .addressSpan{
+        width: 90px;
         text-align: center;
-        .addressSpan{
-            width: 90px;
-            text-align: center;
-        }
+      }
       > div:first-child {
         display: flex;
         font-size: 14px;
@@ -486,29 +486,26 @@
   }
 
   .btn {
-    line-height: 0.5rem;
-    margin: 0.8rem 0.1rem;
-    background-color: $sss-color;
-    border-radius: 5px;
-    color: #fff;
+    margin: 0.5rem 0.1rem;
+
   }
   .btnTwo{
     background-color: #9d9f9f;
   }
   .wrapper{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items:flex-end;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items:flex-end;
   }
   .startDatetime{
-      width: 0.9rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #9d9f9f;
+    width: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9d9f9f;
   }
   .startDatetimeColor{
-      color: #000;
+    color: #000;
   }
 </style>

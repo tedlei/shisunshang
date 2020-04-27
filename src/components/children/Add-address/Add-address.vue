@@ -2,19 +2,16 @@
   <div class="content">
     <div class="common_box left_ttl">联系人</div>
     <div class="common_box ipt_box">
-      <div class="left_name">姓名：</div>
-      <div class="right_ipt">
-        <el-input v-model="allinput.input1" placeholder="请填写收货人姓名"></el-input>
-      </div>
+      <van-field v-model="allinput.input1" label="姓名：" placeholder="请填写收货人姓名"/>
     </div>
     <div class="common_box ipt_box">
-      <div class="left_name">手机号：</div>
-      <div class="right_ipt">
-        <el-input v-model="allinput.input2" placeholder="请填写收货手机号"></el-input>
-      </div>
+      <van-field v-model="allinput.input2" label="手机号：" placeholder="请填写收货手机号"/>
     </div>
     <div class="common_box left_ttl">收货地址</div>
+
+
     <div class="common_box ipt_box">
+
       <div class="left_name">所在地区：</div>
       <div class="right_ipt select_address">
         <van-cell is-link @click="showPopup" style="padding-left: 0;padding-right: 0">{{Areas}}</van-cell>
@@ -46,10 +43,7 @@
     </van-popup>
 
     <div class="common_box ipt_box">
-      <div class="left_name">详细地址：</div>
-      <div class="right_ipt">
-        <el-input v-model="allinput.input4" placeholder="街道，门牌号等"></el-input>
-      </div>
+      <van-field v-model="allinput.input4" label="详细地址：" placeholder="街道，门牌号等"/>
     </div>
     <!--    <div class="common_box ipt_box">-->
     <!--      <div class="left_name">所在小区：</div>-->
@@ -65,8 +59,9 @@
 
       </div>
     </div>
-    <div class="btn">
-      <van-button type="primary" block @click="baocun">保存</van-button>
+
+    <div class="common_btn btn" @click="baocun">
+      保存
     </div>
   </div>
 
@@ -141,14 +136,14 @@
             },
             // 底部选择省市弹窗
             showPopup() {
-              // console.log(this.chooseAreasCode.province)
-              // this.$refs.picker.setValues(['重庆市', '重庆市', '江北区']);
-              this.areashow = true;
+                // console.log(this.chooseAreasCode.province)
+                // this.$refs.picker.setValues(['重庆市', '重庆市', '江北区']);
+                this.areashow = true;
             },
             onChange(picker, values, index) {
-              // console.log(picker)
-              // console.log(values)
-              // console.log(index)
+                // console.log(picker)
+                // console.log(values)
+                // console.log(index)
             },
             // 底部选择省市弹窗 确定按钮
             confirm(e) {
@@ -161,7 +156,7 @@
                 // this.$refs.picker.setValues([e[0], e[1], e[2]]);
                 for (let i in this.areaList) {
                     if (this.areaList[i].text == e[0]) {
-                      console.log(this.areaList[i].id);
+                        console.log(this.areaList[i].id);
                         this.chooseAreasCode.province_id = this.areaList[i].id;
                         let list = this.areaList[i].children;
                         for (let n in list) {
@@ -183,11 +178,11 @@
             },
             // 底部选择省市弹窗 取消按钮
             cancel() {
-              this.areashow = false;
+                this.areashow = false;
             },
             //保存
             baocun: function () {
-              let newValue = this.$route.query.addressid;
+                let newValue = this.$route.query.addressid;
                 var flag = 0,
                     _this = this;
                 for (let key in _this.allinput) {
@@ -198,7 +193,8 @@
                     } else {
                         flag = 0
                     }
-                };
+                }
+                ;
                 if (flag == 1) {
                     this.$toast({
                         message: '请填写完整哦',
@@ -224,12 +220,12 @@
                         // console.log(_this.chooseAreasCode);
                         _this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                              if(response.status==200){
-                                this.$toast('添加成功');
-                                this.$router.back(-1);
-                              }else{
-                                this.$toast(response.message);
-                              }
+                                if (response.status == 200) {
+                                    this.$toast('添加成功');
+                                    this.$router.back(-1);
+                                } else {
+                                    this.$toast(response.message);
+                                }
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -247,12 +243,12 @@
                         // console.log(_this.chooseAreasCode);
                         this.$post('/api/v1/address', newaddress)
                             .then((response) => {
-                               if(response.status==200){
-                                this.$toast('修改成功');
-                                this.$router.back(-1);
-                              }else{
-                                this.$toast(response.message);
-                              }
+                                if (response.status == 200) {
+                                    this.$toast('修改成功');
+                                    this.$router.back(-1);
+                                } else {
+                                    this.$toast(response.message);
+                                }
                             }).catch(function (error) {
                             console.log(error);
                         });
@@ -280,8 +276,12 @@
       margin-bottom: 0;
       text-align: left;
 
+      > > > .van-cell {
+        padding: 0;
+      }
+
       .left_name {
-        min-width: max-content;
+        width: 90px;
       }
     }
 
@@ -290,7 +290,7 @@
       align-items: center;
 
       .right_ipt {
-        width: 100%;
+        flex: 1;
       }
 
       .right_ipt /deep/ input {
@@ -324,8 +324,8 @@
       overflow: auto;
     }
   }
-  .btn{
-    margin: 0.2rem 0;
-    padding: 0 0.2rem;
+
+  .btn {
+    margin: 0.2rem 0.1rem 0 0.1rem;
   }
 </style>
