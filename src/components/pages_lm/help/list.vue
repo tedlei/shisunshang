@@ -53,6 +53,7 @@
     width: 100%;
 
     .help_list {
+        color: #000;
       height: 50px;
       background-color: #fff;
 
@@ -65,7 +66,7 @@
         align-items: center;
 
         .f1, .f2 {
-          color: #999;
+            color: #000;
           font-size: 16px;
         }
 

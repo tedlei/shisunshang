@@ -120,7 +120,7 @@
         <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
             <div class="topBack">
                 <van-icon name="arrow-left" size="28" />
-                <span style="margin-left:1.4rem;font-size:16px;color:rgb(15,15,15)">国健生态</span>
+                <span style="margin-left:1.4rem;font-size:16px;color:rgb(15,15,15)">石笋山二维码</span>
             </div>
             <div id="qrHome" class="qrconde">
                 <img src="http://test.gj.wjeys.com/public/static/vue/weixin_code.jpg" />
