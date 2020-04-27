@@ -74,10 +74,10 @@ export default {
             this.$store.commit("sendsearchVal", searchVal);
         },
         inputsearchVal: Debounce(function(val) {
-            if (this.readonly == false) {
+            if (this.tan == false) {
                 Bus.$emit("searchD", val);
             }
-        }, 300)
+        }, 500)
         //监听输入是否为空
         // searchValchange: function () {
         //     this.$store.commit('sendsearchVal', this.searchVal)
