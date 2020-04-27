@@ -13,8 +13,9 @@
         </div>
         <div class="bottom">
           <div class="mycheck">
-            <van-radio-group v-model="radio = item.default == 1 ? index : index+1" >
-              <van-radio class="all" :name="index" checked-color="#009900" icon-size="16px" @click="handleCheckAllChange(index,item.id)">默认地址
+            <van-radio-group v-model="radio = item.default == 1 ? index : index+1">
+              <van-radio class="all" :name="index" checked-color="#009900" icon-size="16px"
+                         @click="handleCheckAllChange(index,item.id)">默认地址
               </van-radio>
             </van-radio-group>
             <!--            <el-radio class="all" @change="handleCheckAllChange(index,item.id)"-->
@@ -39,7 +40,7 @@
 
     </ul>
     <!--  添加  -->
-    <div class="bottom_fixed add_address" v-show="addresslist != null">
+    <div class="common_btn bottom_fixed add_address">
       <router-link :to="{path:'/mine/Add-address',query:{addressid:'add'}}">
         添加收货地址
       </router-link>
@@ -47,7 +48,8 @@
     </div>
 
     <!--  空  -->
-    <empty :isemptytype="isemptytype" v-if="addresslist == null"></empty>
+    <van-empty description="暂无收货地址！" v-show="addresslist == null"/>
+
   </div>
 </template>
 
@@ -149,7 +151,7 @@
 
 <style scoped lang="scss">
   .content {
-    padding-bottom: 50px;
+    bottom: 0.5rem;
 
     .address_list {
       text-align: left;
@@ -188,9 +190,8 @@
     }
 
     .add_address {
-      line-height: 50px;
-      color: #fff;
-      background-color: #009900;
+      line-height: 0.5rem;
+      border-radius: 0;
     }
   }
 </style>

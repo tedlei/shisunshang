@@ -120,7 +120,8 @@
 
     </div>
     <!--  空  -->
-    <empty v-show="isEmpty"></empty>
+    <van-empty description="暂无商品！" v-show="isEmpty"/>
+
   </div>
 
 </template>

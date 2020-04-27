@@ -384,7 +384,7 @@ export default {
           this.longitude = res.longitude;
         } else {
           console.log("获取位置失败！");
-          this.tc("获取位置失败，请检查您的GPS");
+          this.tc("获取位置失败，请检查您的GPS是否开启！");
           setTimeout(() => {
             this.$router.back(-1);
           }, 1000);

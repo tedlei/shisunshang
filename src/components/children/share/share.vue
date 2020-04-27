@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <ul class="share_list">
-      <li v-for="item in sharelists" :key="item.id" @click="todetail(item.id)">
+      <li v-for="item in sharelists" :key="item.id" @click="todetail(item.id)" class="common_box">
         <div class="left_img">
           <van-image
             width="100%"
@@ -69,7 +69,7 @@
                 console.log(e);
                 // this.shareshow = true;
                 this.$router.push({
-                  path:'/goodsdetails?id='+e
+                    path: '/goodsdetails?id=' + e
                 })
                 // let userinfo = JSON.parse(this.$store.getters.getuserinfo)
                 // if (userinfo) {
@@ -108,16 +108,13 @@
   }
 
   .content {
+    bottom: 0.65rem;
     .share_list {
-      background-color: #fff;
-      padding: 10px;
       text-align: left;
-      margin-bottom: 0.6rem;
       li {
-        margin-bottom: 20px;
+
         display: flex;
         border-bottom: 1px solid #f2f2f2;
-        padding-bottom: 10px;
 
         .left_img {
           width: 30vw;
@@ -150,7 +147,8 @@
             i {
               color: #999999;
             }
-            .font_fx{
+
+            .font_fx {
               width: 0.5rem;
               height: 0.25rem;
               text-align: center;
