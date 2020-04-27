@@ -147,7 +147,7 @@
                         console.log(response);
                         if(response.data==null || response.data.lenght==0){
                             this.$dialog.confirm({
-                              title: '绑定银行后才能提现，现在前往绑定银行卡吗？',
+                              title: '提现需绑定银行卡，是否前往绑定？',
                             })
                                 .then(() => {
                                     // console.log('马上绑定')

@@ -104,7 +104,6 @@
                         } else {
                             _this.$toast(response.message)
                         }
-
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -127,12 +126,14 @@
                         break;
                     default:
                 }
-                this.Fnum = e;
-                this.page= 0;
-                this.goodslist = [];
-                this.finished = false;
-                this.loading = true;
-                this.onLoad();
+                if(this.Fnum!=e){
+                    this.Fnum = e;
+                    this.page= 0;
+                    this.goodslist = [];
+                    this.finished = false;
+                    this.loading = true;
+                    this.onLoad();
+                }
 
             },
             //分类点击切换

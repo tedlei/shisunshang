@@ -19,7 +19,7 @@
         </ul>
       </div>
       <!--  空  -->
-      <van-empty description="暂发票记录！" v-else/>
+      <van-empty description="暂无发票记录！" v-else/>
     </div>
     <div class="common_btn bottom_fixed add_invoice">
       <router-link :to="{path:'/mine/invoice',query:{state:1}}">

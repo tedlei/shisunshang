@@ -57,7 +57,7 @@
                 });
             },
             pay: function (e) {
-                this.$store.commit('setLoading');
+                  this.$store.commit('setLoading');
                 let _this = this
                 let jsApiParameters = {};
                 let msg = {
@@ -68,12 +68,13 @@
                     .then((response) => {
                         if (response.status == 200) {
                             jsApiParameters = response.data.payment;
+                            this.$store.commit('setLoading');
+
                             callpay();
                         } else {
                             this.$store.commit('setLoading');
 
                         }
-                        // console.log(response)
                     }).catch(function (error) {
                     console.log(error);
                 });
@@ -86,16 +87,16 @@
                         function (res) {
                             if (res.err_msg == "get_brand_wcpay_request:ok") {
                                 //跳转到支付成功页面
-                                this.$store.commit('setLoading');
                                 this.$router.push({path: '/mine/record', query: {recordid: 5}});
                             } else if (res.err_msg = "get_brand_wcpay_request:fail") {
-                                this.$store.commit('setLoading');
-                                
+
                             }
+
 
                         }
                     );
                 }
+
                 function callpay() {
                     // console.log(WeixinJSBridge)
                     if (typeof WeixinJSBridge == "undefined") {
@@ -107,6 +108,7 @@
                         }
                     } else {
                         jsApiCall();
+
                     }
                 }
             }
