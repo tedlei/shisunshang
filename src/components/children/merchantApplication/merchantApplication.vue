@@ -4,16 +4,14 @@
     <div class="inputs">
       <van-field v-model="input" label="商家名称：" placeholder="请填写商家名称"/>
       <!-- <van-field v-model="input1" label="营业时间：" placeholder="请填写营业时间"/> -->
-      <div class="address">
+      <div class="address" >
         <div>
           <span class="addressSpan">营业时间：</span>
-          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'"
-               @click="showDatetime=true">
+          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetime=true">
             <span>{{currentTimeMsg}}</span>
           </div>
           &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
-          <div :class="currentTimeMsgTwo=='结束时间'?'startDatetime':'startDatetime startDatetimeColor'"
-               @click="showDatetimeTwo=true">
+          <div :class="currentTimeMsgTwo=='结束时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
             <span>{{currentTimeMsgTwo}}</span>
           </div>
         </div>
@@ -59,9 +57,7 @@
         <p>上传商家展示宣传照：</p>
         <imgOSSuploader :maxCount='9' :reading='readingX' @imgUpData='imgUpDataTwo'></imgOSSuploader>
       </div>
-      <div :class="btnBk?'btnTwo':''" class="common_btn btn" @click="upData">
-        {{$route.query.state=='edit'?'保存':'提交申请'}}
-      </div>
+      <div :class="btnBk?'btnTwo':''" class="common_btn btn" @click="upData">{{$route.query.state=='edit'?'保存':'提交申请'}}</div>
       <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
 
@@ -156,7 +152,7 @@
                     '（区/县）',
                 ],
                 show: false,
-                classArr: [],
+                classArr: [ ],
                 show2: false,
                 classList: '请选择商家经营分类',
                 upclassId: '',
@@ -181,38 +177,38 @@
             }
         },
         methods: {
-            formatter(value) {
+            formatter(value){
                 // console.log(value)
                 this.currentTimeMsg = value;
-                this.showDatetime = false;
+                this.showDatetime=false;
             },
-            tiemcancel() {
-                this.showDatetime = false;
+            tiemcancel(){
+                this.showDatetime=false;
             },
-            formatterTwo(value) {
+            formatterTwo(value){
                 this.currentTimeMsgTwo = value;
-                this.showDatetimeTwo = false;
+                this.showDatetimeTwo=false;
             },
-            tiemcancelTwo() {
-                this.showDatetimeTwo = false;
+            tiemcancelTwo(){
+                this.showDatetimeTwo=false;
             },
             confirm(e) {
                 console.log(e);
                 this.province = e;
                 this.show = false;
-                let list = this.areaList.filter(item => {
-                    return item.text == e[0];
+                let list = this.areaList.filter( item => {
+                    return item.text==e[0];
                 });
                 // console.log(list);
                 this.province.push(list[0].id);
-                let listTwo = list[0].children.filter(item => {
-                    return item.text == e[1];
+                let listTwo = list[0].children.filter( item => {
+                    return item.text==e[1];
                 });
                 // console.log(listTwo)
                 this.province.push(listTwo[0].id);
 
-                let listSan = listTwo[0].children.filter(item => {
-                    return item.text == e[2];
+                let listSan = listTwo[0].children.filter( item => {
+                    return item.text==e[2];
                 });
                 // console.log(listSan)
                 this.province.push(listSan[0].id);
@@ -272,68 +268,68 @@
                 this.upfileListTwo = data;
             },
             //提交按钮节流后提交
-            upData: Throttle(function () {
+            upData:Throttle( function() {
                 // console.log(this);
-                this.btnBk = true;
+                this.btnBk= true;
                 this.$store.commit('setLoading');
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
                 // console.log(imglist)
-                if (this.input == '') {
+                if(this.input==''){
                     this.$toast('商家名称不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
-                } else if (this.currentTimeMsg == '开始时间' && this.currentTimeMsgTwo == '结束时间') {
+                }else if(this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结束时间'){
                     this.$toast('营业开始时间和结束时间不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.province[0] == '选择省') {
+                }else if(this.province[0]=='选择省'){
                     this.$toast('请选择商家地址');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.input2 == '') {
+                }else if(this.input2==''){
                     this.$toast('详细地址不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.input3 == '') {
+                }else if(this.input3==''){
                     this.$toast('商家电话不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.classList == '请选择商家经营分类') {
+                }else if(this.classList=='请选择商家经营分类'){
                     this.$toast('请选择商家经营分类');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.message == '') {
+                }else if(this.message==''){
                     this.$toast('经营范围不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.upfileList.length == 0) {
+                }else if(this.upfileList.length==0){
                     this.$toast('封面不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
 
-                } else if (this.upfileListTwo.length == 0) {
+                }else if(this.upfileListTwo.length==0){
                     this.$toast('宣传照不能为空');
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
                 }
-                if (imglist.length == 0) {
+                if(imglist.length==0){
                     this.$store.commit('setLoading');
-                    this.btnBk = false;
+                    this.btnBk= false;
                     return;
                 }
                 imgUpload(imglist).then(imgurls => {
@@ -358,7 +354,7 @@
                         mobile: this.input3,
                         bus_scope: this.message,
                         cate_id: this.upclassId,
-                        bus_hours: this.currentTimeMsg + '~' + this.currentTimeMsgTwo,
+                        bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
                         bus_hours_st: this.currentTimeMsg,
                         bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: imgurls[0],
@@ -369,37 +365,37 @@
                         .then((res) => {
                             // console.log(res);
                             if (res.status == 200) {
-                                this.$notify({type: 'success', message: '入驻成功'});
+                                this.$notify({ type: 'success', message: '入驻成功' });
                                 this.$store.commit('setLoading');
-                                this.btnBk = false;
+                                this.btnBk= false;
                                 this.$router.push({path: '/mine/nearby'});
                             } else {
                                 this.$store.commit('setLoading');
-                                this.btnBk = false;
+                                this.btnBk= false;
                                 this.$toast(res.message);
                             }
                         }).catch(function (error) {
                         console.log(error);
                     });
                 })
-            }, 1500),
+            },1500),
             //编辑保存
             editAdd() {
 
             },
 
             //获取坐标
-            isGteLocation(value) {
-                if (!value) {
+            isGteLocation(value){
+                if(!value){
                     this.$dialog.alert({
                         title: '提示',
                         message: '获取位置失败,是否重新获取',
                     }).then(() => {
                         this.getLocation(this.isGteLocation);
-                    }).catch(() => {
+                    }) .catch(() => {
                     })
-                } else {
-                    this.tc('获取坐标成功' + value.latitude + " " + value.longitude)
+                }else{
+                    this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
                 }
             }
         },
@@ -423,7 +419,7 @@
             // }
             this.getClassArr();
         },
-        mounted() {
+        mounted(){
             // console.log(AreaArr)
         },
         computed: {},
@@ -438,7 +434,7 @@
   //     padding: 0.1rem 0 0 0.1rem;
   // }
   .inputs {
-    margin: 0 0 0.1rem 0;
+    margin:0 0 0.1rem 0;
 
     .address {
       height: 44px;
@@ -449,12 +445,10 @@
       justify-content: space-between;
       align-items: center;
       text-align: center;
-
-      .addressSpan {
+      .addressSpan{
         width: 90px;
         text-align: center;
       }
-
       > div:first-child {
         display: flex;
         font-size: 14px;
@@ -495,27 +489,23 @@
     margin: 0.5rem 0.1rem;
 
   }
-
-  .btnTwo {
+  .btnTwo{
     background-color: #9d9f9f;
   }
-
-  .wrapper {
+  .wrapper{
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: flex-end;
+    align-items:flex-end;
   }
-
-  .startDatetime {
+  .startDatetime{
     width: 0.9rem;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #9d9f9f;
   }
-
-  .startDatetimeColor {
+  .startDatetimeColor{
     color: #000;
   }
 </style>
