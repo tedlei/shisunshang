@@ -18,20 +18,16 @@
                          @click="handleCheckAllChange(index,item.id)">默认地址
               </van-radio>
             </van-radio-group>
-            <!--            <el-radio class="all" @change="handleCheckAllChange(index,item.id)"-->
-            <!--                      v-model="radio = item.default == 0 ? index+1 : index" :label="index"-->
-            <!--                      style="margin-right: 10px">默认地址-->
-            <!--            </el-radio>-->
           </div>
           <div>
             <span class="edit">
                <router-link :to="{path:'/mine/Add-address',query:{addressid:item.id}}">
-                <i class="el-icon-edit-outline"></i>
+                <van-icon style="vertical-align: middle" name="edit" size="15"/>
                 <span>编辑</span>
               </router-link>
             </span>
             <span @click="DialogVisible(item.id)" :key='item.id'>
-              <i class="el-icon-delete"></i>
+              <van-icon style="vertical-align: middle" name="delete" size="15"/>
               <span>删除</span>
             </span>
           </div>

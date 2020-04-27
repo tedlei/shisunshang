@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div class="content">
       <ul class="ad_list">
         <li v-for="(item,index) in adlists" :key="index" class="common_box">
@@ -36,6 +34,16 @@
               </div>
             </div>
             <!-- </router-link> -->
+          </div>
+          <div class="EditDelete" v-if="dmsg == 'myad' ? true : false">
+            <div @click.stop="editAdd(item.id)">
+              <van-icon style="margin:0 0.05rem;" name="edit" size="15"/>
+              编辑
+            </div>
+            <div @click.stop="deleteAdd(item.id)">
+              <van-icon style="margin:0 0.05rem 0 0.2rem;" name="delete" size="15"/>
+              删除
+            </div>
           </div>
         </li>
       </ul>
@@ -97,6 +105,47 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            // 删除
+            deleteAdd: function (e) {
+                this.$dialog.confirm({
+                    title: '确定删除该地址？',
+                    message: '删除该地址后，将不会恢复!'
+                }).then(() => {
+                    let admsg = {
+                        method: 'del.weixin.ad.list',
+                        id: e
+                    };
+                    this.$post("/api/v1/weixinAd", admsg)
+                        .then(response => {
+                            if (response.status == 200) {
+                                this.$toast({
+                                    message: '删除成功!',
+                                    type: 'success',
+                                });
+                                for (let i in this.adlists) {
+                                    if (this.adlists[i].id == e) {
+                                        this.adlists.splice(i, 1)
+                                    }
+                                }
+                                this.adlists = this.adlists;
+                                this.isempty = this.adlists.length > 0 ? false : true
+                            }
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }).catch(() => {
+                });
+
+            },
+            // 编辑
+            editAdd: function (e) {
+                this.$router.push({
+                    path: '/mine/ad/articles',
+                    query: {editId: e, state: 'edit'}
+                })
             }
         },
         mounted() {
@@ -147,13 +196,21 @@
             }
           }
         }
+
+        .EditDelete {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          padding-top: 0.1rem;
+          margin-top: 0.1rem;
+          border-top: 1px solid #f2f2f2;
+
+          i {
+            vertical-align: -2px;
+          }
+        }
       }
 
-      li:nth-last-child(1) {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-      }
     }
   }
 
