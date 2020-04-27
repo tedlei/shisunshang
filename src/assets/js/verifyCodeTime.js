@@ -122,6 +122,7 @@ let Api = {
         document.body.appendChild(toastDom.$el)
     },
 
+    //获取当前位置
     async getLocation(getLocation) {
         let href = location.href;
         let arr = href.split('/')

@@ -3,7 +3,6 @@
         <div class="heder">
             <div>
                 <div class="hederImg">
-                    <!-- <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt=""> -->
                     <van-image
                         round
                         width="0.5rem"
@@ -21,12 +20,6 @@
                 </div>
             </div>
             <div class="hederMsg">
-                <!--                <div class="hederMsgIco">-->
-                <!--                    <img src="../../assets/img/fx.png" alt />-->
-                <!--                </div>-->
-                <!--                <div class="hederMsgIco">-->
-                <!--                    <img src alt />-->
-                <!--                </div>-->
                 <div @click="isCollectionAdd">
                     <van-icon v-if="isCollection==true" name="like" />
                     <van-icon v-else name="like-o" />
@@ -48,8 +41,6 @@
             <van-tab title="商品分类" :title-style="active==1?'color: #009900;':'color: #999999;'">
                 <div class="main_class_list">
                     <div class="classification" v-show="active==1">
-                        <!-- <div> -->
-                            <!-- <sidebars></sidebars> -->
                         <div class="sidebar">
                             <div
                                 :class="isBoder==n?'sidebarBoder':''"
@@ -58,7 +49,6 @@
                                 @click="addSidebar(n , item.id)"
                             >{{item.cate_name}}</div>
                         </div>
-                        <!-- </div> -->
                         <div class="div_right">
                             <div class="sorting">
                                 <div :class="sortingColor==0?'sortingColor':''" @click="sortingColor = 0">综合排序</div>
@@ -306,6 +296,7 @@ export default {
 
 <style lang="scss">
 .storeDetails{
+    overflow: hidden;
     .van-tabs {
         height: 100%;
         .van-tabs__content {
@@ -420,55 +411,6 @@ export default {
                                 }
                             }
                         }
-                        // flex: 1;
-                        // display: flex;
-                        // > div:first-child {
-                        //     width: 21%;
-                        // }
-                        // > div:nth-child(2) {
-                        //     width: 79%;
-                        //     background-color: #fff;
-                        //     .sorting {
-                        //         display: flex;
-                        //         justify-content: space-around;
-                        //         padding-left: 0.1rem;
-                        //         line-height: 0.4rem;
-                        //         color: #999999;
-                        //         > div {
-                        //             display: flex;
-                        //             align-items: center;
-                        //             img {
-                        //                 margin-left: 0.05rem;
-                        //                 width: 0.08rem;
-                        //                 height: 0.08rem;
-                        //             }
-                        //             .sortYsj {
-                        //                 > img {
-                        //                     display: block;
-                        //                 }
-                        //             }
-                        //         }
-                        //         .sortingColor {
-                        //             color: $sss-color;
-                        //         }
-                        //     }
-                        // }
-                        // .sidebar {
-                        //     height: 100%;
-                        //     line-height: 0.45rem;
-                        //     background-color: #f2f2f2;
-                        //     font-size: 0.13rem;
-                        //     > div {
-                        //         padding: 0 0.1rem;
-                        //         border-bottom: 1px solid #cccccc;
-                        //         border-left: 3px solid #f2f2f2;
-                        //         box-sizing: border-box;
-                        //     }
-                        //     .sidebarBoder {
-                        //         border-left: 3px solid $sss-color;
-                        //         color: $sss-color;
-                        //     }
-                        // }
                     }
                 }
             }
@@ -486,10 +428,11 @@ export default {
     position: fixed;
     .heder {
         width: 100%;
+        height: 1.1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.3rem 0.1rem;
+        padding: 0 0.1rem;
         color: #fff;
         background-image: url("../../assets/img/bjtt.jpg");
         > div:first-child {
