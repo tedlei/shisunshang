@@ -1,22 +1,21 @@
 <template>
   <div>
-
-
     <div class="content">
       <div class="myinvoice" v-if="myinvoicelists">
         <ul class="myinvoice_ul">
-          <li @click="entranceAdd(item)" class="common_box" v-for="(item,index) in myinvoicelists" :key="index">
-            <van-swipe-cell ref="vanswipe">
-              <van-cell :border="false" :title="item.title" :value="'税号：'+item.number"/>
-              <template #right>
-                <van-button square type="default" text="设为默认"
-                            :style="{'background-color': '#ccc', 'color': '#fff !important'}"/>
-                <van-button square type="default" text="删除" @click="beforeDelet(item.id)"
-                            :style="{'background-color': '#009900', 'color': '#fff !important'}"/>
-              </template>
-            </van-swipe-cell>
+          <li @click="entranceAdd(item)" v-for="(item,index) in myinvoicelists" :key="index" class="common_box">
+            <p>{{item.title}}</p>
+            <p>{{'税号：'+ item.number}}</p>
+            <div class="Divider"></div>
+            <div class="EditDelete">
+              <div @click.stop="beforeDelet(item.id)">
+                <van-icon style="margin:0 0.05rem 0 0.2rem;" name="delete" size="15"/>
+                删除
+              </div>
+            </div>
           </li>
         </ul>
+
       </div>
       <!--  空  -->
       <van-empty description="暂无发票记录！" v-else/>
@@ -113,33 +112,25 @@
 
     .myinvoice_ul {
       li {
-        > > > .van-swipe-cell {
-
-          .van-cell {
-            text-align: left;
-            display: block;
-          }
-
-          .van-cell__value {
-            text-align: left;
-          }
-
-          .van-swipe-cell__right {
-            font-size: 0;
-
-            .van-button {
-              height: 100%;
-              border: none;
-            }
-          }
-
+        p {
+          text-align: left;
+          margin-bottom: 0.1rem;
         }
 
-
-        .section {
-          font-size: 0.15rem;
-          color: #999999;
+        .Divider {
+          height: 1px;
+          background-color: #ebedf0;
         }
+        .EditDelete {
+          display: flex;
+          justify-content: flex-end;
+          padding: 0.05rem 0.1rem 0.05rem 0;
+          > div {
+            display: flex;
+            align-items: center;
+          }
+        }
+
       }
 
     }
@@ -149,6 +140,7 @@
   .add_invoice {
     border-radius: 0;
     line-height: 0.5rem;
+
     i {
       font-size: 0.16rem;
       vertical-align: middle;

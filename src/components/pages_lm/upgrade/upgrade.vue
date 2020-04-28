@@ -85,6 +85,7 @@
     import upgList from "./upgList.vue";
 
     export default {
+
         components: {upgList},
         data() {
             return {

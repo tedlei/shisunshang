@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div class="content">
       <ul class="ad_list">
         <li v-for="(item,index) in adlists" :key="index" class="common_box">
