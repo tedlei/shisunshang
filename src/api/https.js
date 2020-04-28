@@ -16,7 +16,12 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 }
 // console.log(location.host);
 // console.log(address)
-const baseURL = 'http://admin.gjst.net';
+for(let item of address){
+    if(location.host==item.domain){
+        const baseURL = item.interface;
+    }
+}
+// const baseURL = 'http://admin.gjst.net';
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;
