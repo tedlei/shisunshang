@@ -66,7 +66,7 @@
                     method: 'get.money.list',
                     page: this.pages,
                     page_size: 20,
-                    type: this.$route.query.recordid == undefined ? '' : this.$route.query.recordid,
+                    type: this.$route.query.recordid == undefined ? this.active : this.$route.query.recordid,
                 };
                 this.$post('/api/v1/userMoney', Money)
                     .then((response) => {
@@ -86,7 +86,6 @@
             onLoad() {
                 // 异步更新数据
                 this.getMoney();
-
             },
             //切换
             getNum: function (index) {
@@ -112,10 +111,6 @@
             // this.onLoad()
         },
         mounted() {
-            setTimeout(() => {
-                this.loading = false;
-                this.finished = false;
-            }, 5000)
             this.getMoney();
         }
     }

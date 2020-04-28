@@ -44,7 +44,7 @@
           </div>
         </li>
       </ul>
-      <van-empty description="暂无收货地址！" v-show="adlists == null"/>
+      <van-empty description="暂无入驻商家！" v-show="adlists == null"/>
     </div>
 
     <div class="common_btn bottom_fixed addTo">

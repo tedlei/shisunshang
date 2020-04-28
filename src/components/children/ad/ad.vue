@@ -142,7 +142,7 @@
             },
             // 编辑
             editAdd: function (e) {
-                this.$router.push({
+                this.$router.replace({
                     path: '/mine/ad/articles',
                     query: {editId: e, state: 'edit'}
                 })

@@ -2,10 +2,7 @@
     <div class="content">
         <div v-show="look">
             <div style="position: relative;color: #fff">
-                <img src="../../../assets/img/icon3.png" />
-                <span
-                    style="position: absolute;left: 50px;transform: translateY(-50%);top: 50%"
-                >我的团队</span>
+                <img src="../../../assets/img/team.jpg" />
             </div>
             <div class="common_box totalperson">团队总人数:{{team_num}}人</div>
             <div>
@@ -14,6 +11,7 @@
                         v-for="(item,index) in msglists"
                         :key="index"
                         @click="openteam(item.id,item.name)"
+                        class="common_box"
                         >
                         <div class="left">{{item.name}}:{{item.num}}人</div>
                         <div class="right">
@@ -23,10 +21,11 @@
                     </li>
                 </ul>
             </div>
-            <div class="hrDiv"></div>
+
+
             <div>
                 <ul class="team_list">
-                    <li @click="openteamTwo">
+                    <li @click="openteamTwo" class="common_box">
                         <div class="left">
                             我的附近商家:
                             {{business_num}}
@@ -124,7 +123,6 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 10px;
         background-color: #fff;
         border-bottom: 1px solid #f2f2f2;
 
@@ -138,9 +136,7 @@ export default {
         }
     }
 }
-.hrDiv {
-    height: 0.1rem;
-}
+
 .content {
     .hrDiv {
         height: 0.1rem;

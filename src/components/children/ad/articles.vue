@@ -1,7 +1,9 @@
 <template>
   <div class="content">
-    <van-field v-model="text" placeholder="填写文章标题" style="margin: 10px 0;font-weight: bold;"/>
-    <div>
+    <div class="common_box">
+      <van-field v-model="text" placeholder="填写文章标题" />
+    </div>
+    <div class="common_box">
       <van-field
         v-model="message"
         rows="4"
@@ -10,7 +12,8 @@
         placeholder="输入文章内容"
         show-word-limit
       />
-      <van-field name="uploader" label="文件上传">
+      <p style="margin: 0.1rem;text-align: left">上传图片：</p>
+      <van-field name="uploader" label="" >
         <template #input>
           <imgOSSuploader :maxCount='1' :reading='readingF' @imgUpData='imgUpData'></imgOSSuploader>
         </template>
@@ -68,7 +71,6 @@
                 } else if (this.Files.length == 0) {
                     this.$toast('发布图片不能为空')
                 } else {
-                    console.log(this.Files[0].file)
                     if (this.Files[0].file) {
                         imgUpload(this.Files).then(res => {
                             let ad_data = {
@@ -95,11 +97,11 @@
                         })
                     } else {
                         let ad_data = {
-                                method: this.isedit == true ? 'set.weixin.ad.item' : 'add.weixin.ad.item',
-                                img: this.readingF[0],
-                                title: this.text,
-                                desc: this.message,
-                            };
+                            method: this.isedit == true ? 'set.weixin.ad.item' : 'add.weixin.ad.item',
+                            img: this.readingF[0],
+                            title: this.text,
+                            desc: this.message,
+                        };
                         ad_data = this.isedit == true ? {...ad_data, ...{id: Number(this.$route.query.editId)}} : ad_data
                         this.$post('/api/v1/weixinAd', ad_data)
                             .then((res) => {
@@ -161,6 +163,12 @@
 
 <style scoped lang="scss">
   .content {
+    .common_box{
+      padding: 0 0.1rem;
+      >>>.van-cell{
+        padding: 0.1rem;
+      }
+    }
     .tips {
       text-align: left;
       padding: 20px 10px 30px 10px;
