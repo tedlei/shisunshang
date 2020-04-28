@@ -4,6 +4,7 @@ import axios from 'axios';
 import Qs from 'qs'
 import store from "../store";
 import router from "../router"
+import address from "../../static/address"
 
 Vue.use(Toast);
 
@@ -13,7 +14,8 @@ if (ua.match(/MicroMessenger/i) == 'micromessenger') {
 } else {
   // store.commit('userinfo', JSON.stringify(info));
 }
-
+// console.log(location.host);
+// console.log(address)
 const baseURL = 'http://admin.gjst.net';
 
 axios.defaults.timeout = 5000;

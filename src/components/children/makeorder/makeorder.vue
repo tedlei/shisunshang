@@ -322,7 +322,13 @@
 
             //是否使用签到金
             useSingin() {
-                if(this.orderData.user_qd_money<this.orderData.total_qd_price){
+                // console.log(this.orderData.user_qd_money,'我是签到金')
+                // console.log(this.orderData.total_qd_price,'我是商品价格')
+                // console.log(this.orderData.user_qd_money<this.orderData.total_qd_price);
+                // console.log('5400' < '69');
+                // console.log(Number(this.orderData.user_qd_money)<this.orderData.total_qd_price);
+                // console.log(Number('54.00')<this.orderData.total_qd_price);
+                if(Number(this.orderData.user_qd_money)<this.orderData.total_qd_price){
                     this.$dialog.confirm({
                         message: '签到金不足,差额部分将用人民币补足。'
                     })

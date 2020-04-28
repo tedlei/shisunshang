@@ -539,7 +539,7 @@
                         // console.log(res);
                         this.$store.commit('setCartNum', res.data.num)
                     }).catch(function (error) {
-                    console.log(error);
+                        console.log(error);
                 });
             },
 
@@ -565,6 +565,7 @@
             this.getCart();
         },
         mounted() {
+
         }
     }
 </script>

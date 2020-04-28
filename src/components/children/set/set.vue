@@ -5,6 +5,7 @@
         <li v-for="(item,index) in msglists" :key="index" @click="set(item.left)">
           <div class="left">{{item.left}}</div>
           <div class="right">
+              {{index==3?user.level_name:''}}
             <img :src="item.right" v-if="index==0"/>
             <span v-else>{{item.right}}</span>
             <i class="el-icon-arrow-right" v-show="index!=1&&index!=0&&index!==2"></i>
@@ -22,6 +23,7 @@
         name: "set",
         data() {
             return {
+                user: {},
                 msglists: [
                     {
                         left: "头像",
@@ -154,6 +156,8 @@
             }
         },
         created() {
+            let user = JSON.parse(this.$store.getters.getuserinfo);
+            this.user = user;
             // console.log(this.$store.getters.getuserinfo)
         }
     };
