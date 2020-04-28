@@ -126,7 +126,7 @@ let Api = {
     },
 
     //地图位置点选
-    mapLocaSel(fun){
+    mapLocaSel(isBack,fun) {
         const toastDom = new MapLoca({
             el: document.createElement('mapLoca'),
             data() {
@@ -134,9 +134,12 @@ let Api = {
                     show: true,
                     fun   //回调函数
                 }
-            }
+            },
         })
+        if(isBack) toastDom.show = false
+        // console.log(this.$route,123436546354)
         // // 把 实例化的 toast.vue 添加到 body 里
+        // document.getElementById('app').appendChild(toastDom.$el)
         document.body.appendChild(toastDom.$el)
     },
 
@@ -159,7 +162,7 @@ let Api = {
             wx.getLocation({
                 type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
-                    console.log(res,13243654365465)
+                    console.log(res, 13243654365465)
                     if (!boo) fun(res)
                     else {
                         wx.openLocation({
