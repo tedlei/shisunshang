@@ -23,7 +23,8 @@
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
-      <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
+      <van-field v-model="input2" label="详细地址：" @click="getFocus()" :readonly="true" placeholder="请输入详细地址" />
+      <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" />
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
@@ -173,6 +174,7 @@
                 input: '',
                 input1: '',
                 input2: '',
+                doorCode:"",
                 input3: '',
                 upfileList: [],
                 readingF: [],
@@ -186,6 +188,8 @@
                 showDatetimeTwo: false,
                 currentTimeTwo: '12:00',
                 currentTimeMsgTwo: '结业时间',
+                latitude:0,
+                longitude:0
             }
         },
         methods: {
@@ -366,6 +370,7 @@
                         area_id: this.province[5],
                         // referee: this.Recommender,
                         address: this.input2,
+                        mph:this.doorCode,
                         mobile: this.input3,
                         bus_scope: this.message,
                         cate_id: this.upclassId,
@@ -373,7 +378,9 @@
                         bus_hours_st: this.currentTimeMsg,
                         bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: this.$store.getters.getMerchantApplicationObj.imgurl,
-                        album: album
+                        album: album,
+                        latitude:this.latitude,
+                        longitude:this.longitude
                     };
                     console.log(ad_data, '没有新图片');
                     this.$post('/api/v1/userStore', ad_data)
@@ -462,19 +469,16 @@
                 }
 
             }, 1500),
-            //获取坐标
-            isGteLocation(value) {
-                if (!value) {
-                    this.$dialog.alert({
-                        title: '提示',
-                        message: '获取位置失败,是否重新获取',
-                    }).then(() => {
-                        this.getLocation(this.isGteLocation);
-                    }).catch(() => {
-                    })
-                } else {
-                    this.tc('获取坐标成功' + value.latitude + " " + value.longitude)
-                }
+
+            //详细地址获取焦点
+            getFocus(){
+                this.mapLocaSel(res=>{
+                    let {latlng,poiname} = res;
+                    this.latitude = latlng.lat;
+                    this.longitude = latlng.lng;
+                    this.input2 = res.poiname;
+                    console.log(res,this.latitude, this.longitude,123463543);
+                })
             }
         },
         created() {
@@ -491,12 +495,16 @@
             this.province[4] = obj.city_id;
             this.province[5] = obj.area_id;
             this.input2 = obj.address;
+            this.doorCode = obj.mph
             this.input3 = obj.mobile;
             this.classList = obj.category1.cate_name + '/' + obj.category.cate_name;
             this.upclassId = obj.cate_id,
                 this.message = obj.bus_scope;
             this.readingF[0] = obj.imgurl;
             this.readingX = obj.album;
+            this.latitude = obj.latitude;
+            this.longitude = obj.longitude;
+            console.log(this)
             this.getClassArr();
         },
         mounted() {

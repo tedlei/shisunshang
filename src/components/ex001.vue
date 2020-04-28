@@ -30,9 +30,8 @@ export default {
         this.tou = user.portrait;
         // console.log(user);
     },
-    mounted(){
-    }
-}
+
+};
 </script>
 <style lang="scss" scoped>
     

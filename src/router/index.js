@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import goodschildren from '@/components/children/child'
 import order from '@/components/children/order/order'
-
 import home from '@/components/home/home'
 import classification from '@/components/classification/classification'
 import business from '@/components/business/business'
@@ -11,7 +10,6 @@ import my_cart from '@/components/my_cart/my_cart'
 import author from '../components/author'
 import authorTwo from '../components/authorTwo'
 import ex001 from '../components/ex001'
-
 import goodsDATA from '../components/goods/goodsDATA'
 import storeDetails from '../components/storeDetails/storeDetails'
 import applicationcs from '../components/children/applicationcs/applicationcs'
@@ -33,6 +31,7 @@ import merchantApplicationEidet from '@/components/children/merchantApplicationE
 import nearby from '@/components/children/nearby/nearby'
 import recommendedShop from '@/components/children/recommendedShop/recommendedShop'
 import setphone from '@/components/children/set/set-phone'
+import Grade from '@/components/children/set/Grade'
 import setpaypassword from '@/components/children/set/set-pay-password'
 import addbankcard from '@/components/children/set/add-bank-card'
 import Bankcard from '@/components/children/set/Bank-card'
@@ -271,6 +270,12 @@ const $router = new Router({
           component: setphone,
           meta: {title: '绑定手机号', showFooter: false, goods: false,},
         },
+        {
+            path: '/set/Grade',
+            name: 'Grade',
+            component: Grade,
+            meta: {title: '我的会员等级', showFooter: false, goods: false,},
+          },
         {
             path: '/set/feedback',
             name: 'feedback',

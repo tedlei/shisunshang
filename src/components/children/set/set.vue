@@ -87,6 +87,11 @@
                             path: "/set/Bank-card"
                         });
                         break;
+                    case "等级":
+                        this.$router.push({
+                            path: "/set/Grade"
+                        });
+                        break;
                     case "实名认证":
                         if (JSON.parse(this.$store.getters.getuserinfo).auth_state == 0) {
                             this.$router.push({

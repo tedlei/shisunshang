@@ -30,7 +30,7 @@
             </div>
         </div>
         <!-- 分割线 -->
-        <van-divider />
+        <!-- <van-divider /> -->
         </router-link>
     </div>
 </template>
@@ -59,8 +59,8 @@
 </script>
 <style lang="scss" scoped>
     .commodities{
-        margin-top: 0.1rem;
-        padding: 0 0.1rem;
+        padding: 0.1rem 0.1rem;
+        border-bottom: 1px solid #ddd;
         display: flex;
         align-items: center;
         .commoditiesContent{

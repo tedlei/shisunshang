@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import hint from '../../components/pages_lm/hint/hint.vue'
 import inputH from '../../components/pages_lm/inputHint/inputHint.vue'
-import {get} from '../../api/https.js'
+import mapLoca from '../../components/pages_lm/mapLocaSel/mapLocaSel.vue'
+import { get } from '../../api/https.js'
 import wx from 'weixin-js-sdk'
 const Hint = Vue.extend(hint)
 const InputH = Vue.extend(inputH)
+const MapLoca = Vue.extend(mapLoca)
 
 let Api = {
     //初始化
@@ -17,6 +19,7 @@ let Api = {
         this.prototype.tc = Api.tc;
         this.prototype.inputHint = Api.inputHint;
         this.prototype.getLocation = Api.getLocation;
+        this.prototype.mapLocaSel = Api.mapLocaSel;
 
     },
     setItem(name, value) {
@@ -122,11 +125,26 @@ let Api = {
         document.body.appendChild(toastDom.$el)
     },
 
+    //地图位置点选
+    mapLocaSel(fun){
+        const toastDom = new MapLoca({
+            el: document.createElement('mapLoca'),
+            data() {
+                return {
+                    show: true,
+                    fun   //回调函数
+                }
+            }
+        })
+        // // 把 实例化的 toast.vue 添加到 body 里
+        document.body.appendChild(toastDom.$el)
+    },
+
     //获取当前位置
-    async getLocation(getLocation) {
+    async getLocation(fun, boo) {
         let href = location.href;
         let arr = href.split('/')
-        let url = arr[0]+'//'+arr[2]
+        let url = arr[0] + '//' + arr[2]
         let data = await get("wxshare/wxconfig/myapi.php?urlparam=" + encodeURIComponent(url))
         let authRes = data.data;
         wx.config({
@@ -139,13 +157,26 @@ let Api = {
         });
         wx.ready(() => {
             wx.getLocation({
-                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
-                    getLocation(res)
+                    console.log(res,13243654365465)
+                    if (!boo) fun(res)
+                    else {
+                        wx.openLocation({
+                            latitude: res.latitude, // 纬度，浮点数，范围为90 ~ -90
+                            longitude: res.location, // 经度，浮点数，范围为180 ~ -180。
+                            name: '', // 位置名
+                            address: '', // 地址详情说明
+                            scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                            infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+                        })
+                    }
                 },
-                fail:function(err){
-                    getLocation(null);
+                fail: function (err) {
+                    fun(null);
                 }
+
+
             });
         })
     }
