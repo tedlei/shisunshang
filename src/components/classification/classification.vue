@@ -209,7 +209,7 @@
         padding: 0.1rem;
         padding-bottom: 0;
         overflow-y: auto;
-
+        -webkit-overflow-scrolling: touch;
         .ttl {
           text-align: left;
           padding: 5px 0;

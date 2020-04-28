@@ -117,15 +117,16 @@
         <!--  -->
         <!-- <signin></signin> -->
 
-        <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
+        <!-- <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
             <div class="topBack">
                 <van-icon name="arrow-left" size="28" />
-                <span style="margin-left:1.4rem;font-size:16px;color:rgb(15,15,15)">石笋山二维码</span>
+                <span style="font-size:16px;color:rgb(15,15,15)">石笋山生态平台</span>
+                <div></div>
             </div>
             <div id="qrHome" class="qrconde">
                 <img src="http://test.gj.wjeys.com/public/static/vue/weixin_code.jpg" />
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -161,17 +162,18 @@ export default {
             lists: [],
             news: [],
             boxheight: "",
-            qrCodeShow: false
+            // qrCodeShow: false
         };
     },
     methods: {
         //显示二维码
         Previewcode: function(boo) {
-            if (boo) {
-                setTimeout(() => {
-                    this.qrCodeShow = false;
-                }, 500);
-            } else this.qrCodeShow = true;
+            this.$router.push({path:'/codePage'})
+            // if (boo) {
+            //     setTimeout(() => {
+            //         this.qrCodeShow = false;
+            //     }, 500);
+            // } else this.qrCodeShow = true;
         },
         imgLoad(index) {
             let doc = document.getElementById("imgId" + index);
@@ -399,28 +401,6 @@ export default {
       display: none !important;
     }
 
-    .qrCodeMax {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #fff;
-      z-index: 1000001;
-
-      .topBack {
-        width: 100%;
-        height: 0.48rem;
-        padding: 0 0.2px;
-        border-bottom: 1px solid rgb(242, 242, 242);
-        position: absolute;
-        top: 0;
-        display: flex;
-        align-items: center;
-        color: #999;
-      }
-    }
+    
 }
 </style>

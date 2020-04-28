@@ -350,6 +350,7 @@ export default {
           height: 100%;
           position: relative;
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
           .main_list_a {
             width: 100%;
 						height: 100%;
@@ -449,6 +450,7 @@ export default {
                 // background: #000;
                 flex: 1;
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
                 position: relative;
                 .list_abs {
 									width: 100%;

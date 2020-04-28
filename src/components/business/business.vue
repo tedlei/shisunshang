@@ -280,6 +280,7 @@ export default {
       height: 100%;
       background-color: #fff;
       overflow-y: auto;
+      
       .left_li {
         height: 0.51rem;
         border-bottom: 1px solid #f2f2f2;
@@ -307,6 +308,7 @@ export default {
         top: 0;
         left: 0;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         z-index: 10001;
         .left_ul_li {
           height: 0.51rem;
@@ -326,6 +328,7 @@ export default {
         padding-bottom: 0;
         overflow-y: auto;
         position: relative;
+        -webkit-overflow-scrolling: touch;
         .right_ul_cer {
           position: absolute;
           z-index: 20;

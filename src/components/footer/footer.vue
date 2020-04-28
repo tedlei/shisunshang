@@ -112,7 +112,7 @@ footer {
   bottom: 0;
   background-color: #fff;
   padding: 0 0.08rem;
-  z-index: 999;
+  z-index: 88;
   border-top: 1px solid #f2f2f2;
   display: flex;
   align-items: center;

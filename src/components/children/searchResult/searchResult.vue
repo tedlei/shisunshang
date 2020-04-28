@@ -182,7 +182,7 @@
     left: 0;
     right: 0;
     overflow-y: auto;
-    webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
     .search_record {
       margin-top: 20px;
       padding: 0 10px;

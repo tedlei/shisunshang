@@ -259,7 +259,7 @@
     height: 100vh;
     background-color: #fff;
     overflow-y: auto;
-
+    -webkit-overflow-scrolling: touch;
     .upg_img {
       width: 100%;
       position: relative;

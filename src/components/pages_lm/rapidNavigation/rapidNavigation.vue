@@ -7,8 +7,10 @@
           <span>{{show?'收起':'快速导航'}}</span>
             <div class="navList">
                 <div class="list" v-for="(item,i) of list" :key="i" @click="taptz(item.path)">
-                    <van-icon size="20" :name="item.icon" />
-                    <span style="font-size:0.12rem;">{{item.title}}</span>
+                    <div class="iconImg">
+                        <img :style="{left:item.icon+'%'}" class="img" src="../../../assets/img/nav_icon.png">
+                    </div>
+                    <span style="font-size:0.12rem;margin-top:0.02rem">{{item.title}}</span>
                 </div>
             </div>
       </div>
@@ -20,11 +22,11 @@ export default {
     data(){
         return {
             list:[
-                {title:'首页',icon:'wap-home-o',path:'/'},
-                {title:'分类',icon:'apps-o',path:'/classification'},
-                {title:'附近商家',icon:'location-o',path:'/business'},
-                {title:'购物车',icon:'shopping-cart-o',path:'/my_cart'},
-                {title:'我的',icon:'user-o',path:'/mine'}
+                {title:'首页',icon:-135,path:'/'},
+                {title:'分类',icon:0,path:'/classification'},
+                {title:'附近商家',icon:-260,path:'/business'},
+                {title:'购物车',icon:-380,path:'/my_cart'},
+                {title:'我的',icon:-515,path:'/mine'}
             ],
             show:false,   //打开关闭
             isPageShow:false,  //显示隐藏
@@ -86,17 +88,17 @@ export default {
         align-items: center;
         position: absolute;
         top: 75%;
-        left: calc(100vw - 230px);
+        left: calc(100vw - 250px);
         // transition: all 0.5s;
         .navList{
-            width: 180px;
+            width: 200px;
             padding:0.1rem 0;
             background-color: #fff;
             border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
+            border-bottom-left-radius: 8px;
             position: absolute;
             // top: 0;
-            right: -180px;
+            right: -200px;
             display: flex;
             flex-wrap: wrap;
             // justify-content: space-between;
@@ -110,6 +112,19 @@ export default {
                 justify-content: center;
                 align-items: center;
                 color: #333;
+                .iconImg{
+                    width: 21px;
+                    height: 21px;
+                    overflow: hidden;
+                    position: relative;
+                    .img{
+                        width: 600%;
+                        max-width: initial;
+                        height: auto;
+                        position: absolute;
+                        bottom: 0;
+                    }
+                }
             }
         }
     }

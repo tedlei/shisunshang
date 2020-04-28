@@ -21,6 +21,7 @@ export default {
 .list_app{
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     position: relative;
 }
 </style>
