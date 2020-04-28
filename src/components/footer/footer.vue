@@ -88,20 +88,18 @@
 </template>
 
 <script>
-export default {
-  name: "Footer",
-  created() {
-    // this.getNum();
-  },
-  methods: {
-
-  },
-  watch: {
-    $route() {
-      // this.getNum();
-    }
-  }
-};
+    export default {
+        name: "Footer",
+        created() {
+            // this.getNum();
+        },
+        methods: {},
+        watch: {
+            $route() {
+                // this.getNum();
+            }
+        }
+    };
 </script>
 
 <style scoped lang="scss">
@@ -119,86 +117,86 @@ footer {
   span {
     color: #999999;
   }
-}
 
-.footer_guide {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.guide_item {
-  display: inline-block;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.item_icon {
-  display: inline-block;
-
-  i {
-    display: inline-block;
-    background-size: auto 300%;
+  .footer_guide {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
   }
-}
 
-.icon-home {
-  width: 0.21rem;
-  height: 0.21rem;
-  background: url("../../assets/img/nav_icon.png") no-repeat;
-  background-position: -0.32rem -0.42rem;
-}
+  .guide_item {
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 
-.icon-fenlei {
-  width: 0.22rem;
-  height: 0.21rem;
-  background: url("../../assets/img/nav_icon.png") no-repeat;
-  background-position: 0 -0.42rem;
-}
+  .item_icon {
+    display: inline-block;
 
-.icon-fujin {
-  width: 0.21rem;
-  height: 0.21rem;
-  background: url("../../assets/img/nav_icon.png") no-repeat;
-  background-position: -0.585rem -0.42rem;
-}
+    i {
+      display: inline-block;
+      background-size: auto 300%;
+    }
+  }
 
-.icon-cart {
-  width: 0.21rem;
-  height: 0.21rem;
-  background: url("../../assets/img/nav_icon.png") no-repeat;
-  background-position: -0.85rem -0.42rem;
-}
+  .icon-home {
+    width: 0.21rem;
+    height: 0.21rem;
+    background: url("../../assets/img/nav_icon.png") no-repeat;
+    background-position: -0.32rem -0.42rem;
+  }
 
-.icon-mine {
-  width: 0.21rem;
-  height: 0.21rem;
-  background: url("../../assets/img/nav_icon.png") no-repeat;
-  background-position: -1.16rem -0.42rem;
-}
+  .icon-fenlei {
+    width: 0.22rem;
+    height: 0.21rem;
+    background: url("../../assets/img/nav_icon.png") no-repeat;
+    background-position: 0 -0.42rem;
+  }
 
-.on span {
-  color: #009900;
-}
+  .icon-fujin {
+    width: 0.21rem;
+    height: 0.21rem;
+    background: url("../../assets/img/nav_icon.png") no-repeat;
+    background-position: -0.585rem -0.42rem;
+  }
 
-.on .icon-home {
-  background-position: -0.32rem 0;
-}
+  .icon-cart {
+    width: 0.21rem;
+    height: 0.21rem;
+    background: url("../../assets/img/nav_icon.png") no-repeat;
+    background-position: -0.85rem -0.42rem;
+  }
 
-.on .icon-fenlei {
-  background-position: 0 0;
-}
+  .icon-mine {
+    width: 0.21rem;
+    height: 0.21rem;
+    background: url("../../assets/img/nav_icon.png") no-repeat;
+    background-position: -1.16rem -0.42rem;
+  }
 
-.on .icon-fujin {
-  background-position: -0.585rem 0;
-}
+  .on span {
+    color: #009900;
+  }
 
-.on .icon-cart {
-  background-position: -0.85rem 0;
-}
+  .on .icon-home {
+    background-position: -0.32rem 0;
+  }
 
-.on .icon-mine {
-  background-position: -1.16rem 0;
+  .on .icon-fenlei {
+    background-position: 0 0;
+  }
+
+  .on .icon-fujin {
+    background-position: -0.585rem 0;
+  }
+
+  .on .icon-cart {
+    background-position: -0.85rem 0;
+  }
+
+  .on .icon-mine {
+    background-position: -1.16rem 0;
+  }
 }
 </style>
