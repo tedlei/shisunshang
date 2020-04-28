@@ -1,51 +1,53 @@
 <template>
-  <div class="content" :style="addresslist== null ? {paddingBottom:0}:''">
-    <ul class="address_list" v-show="addresslist != null">
-      <li class="common_box" v-for="(item, index) in addresslist" :key="item.id">
-        <div @click="rouMake(item)" class="top">
-          <div>
-            <span>{{item.name}}</span>
-            <span>{{item.phone}}</span>
+  <div>
+    <div class="content" :style="addresslist== null ? {paddingBottom:0}:''">
+      <ul class="address_list" v-show="addresslist != null">
+        <li class="common_box" v-for="(item, index) in addresslist" :key="item.id">
+          <div @click="rouMake(item)" class="top">
+            <div>
+              <span>{{item.name}}</span>
+              <span>{{item.phone}}</span>
+            </div>
+            <div class="adress">
+              {{item.province}}&nbsp;{{item.city}}&nbsp;{{item.area}}&nbsp;{{item.address}}
+            </div>
           </div>
-          <div class="adress">
-            {{item.province}}&nbsp;{{item.city}}&nbsp;{{item.area}}&nbsp;{{item.address}}
-          </div>
-        </div>
-        <div class="bottom">
-          <div class="mycheck">
-            <van-radio-group v-model="radio = item.default == 1 ? index : index+1">
-              <van-radio class="all" :name="index" checked-color="#009900" icon-size="16px"
-                         @click="handleCheckAllChange(index,item.id)">默认地址
-              </van-radio>
-            </van-radio-group>
-          </div>
-          <div>
+          <div class="bottom">
+            <div class="mycheck">
+              <van-radio-group v-model="radio = item.default == 1 ? index : index+1">
+                <van-radio class="all" :name="index" checked-color="#009900" icon-size="16px"
+                           @click="handleCheckAllChange(index,item.id)">默认地址
+                </van-radio>
+              </van-radio-group>
+            </div>
+            <div>
             <span class="edit">
                <router-link :to="{path:'/mine/Add-address',query:{addressid:item.id}}">
                 <van-icon style="vertical-align: middle" name="edit" size="15"/>
                 <span>编辑</span>
               </router-link>
             </span>
-            <span @click="DialogVisible(item.id)" :key='item.id'>
+              <span @click="DialogVisible(item.id)" :key='item.id'>
               <van-icon style="vertical-align: middle" name="delete" size="15"/>
               <span>删除</span>
             </span>
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
 
-    </ul>
+      </ul>
+
+
+      <!--  空  -->
+      <van-empty description="暂无收货地址！" v-show="addresslist == null"/>
+
+    </div>
     <!--  添加  -->
     <div class="common_btn bottom_fixed add_address">
       <router-link :to="{path:'/mine/Add-address',query:{addressid:'add'}}">
         添加收货地址
       </router-link>
-
     </div>
-
-    <!--  空  -->
-    <van-empty description="暂无收货地址！" v-show="addresslist == null"/>
-
   </div>
 </template>
 
@@ -185,9 +187,11 @@
       }
     }
 
-    .add_address {
-      line-height: 0.5rem;
-      border-radius: 0;
-    }
+  }
+
+  .add_address {
+    line-height: 0.5rem;
+    border-radius: 0;
+
   }
 </style>

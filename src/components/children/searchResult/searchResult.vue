@@ -12,7 +12,7 @@
 
       <div class="search_div">
         <!--   搜索前   -->
-        <div class="search_record" v-show="!this.gainsearchVal">
+        <div class="search_record" v-show="isshow">
           <div class="search_box">
             <p style="padding-top:0.2rem;"><i></i>热门搜索</p>
             <ul class="hot_list clearfix">
@@ -33,13 +33,10 @@
           </div>
         </div>
         <!--      搜索结果-->
-        <div class="search_result" v-if="this.gainsearchVal">
+        <div class="search_result" v-show="this.gainsearchVal && shows">
           <goodslist :gainsearchVal="gainsearchVal"></goodslist>
         </div>
-        <!--        &lt;!&ndash;      搜索空&ndash;&gt;-->
-        <!--        <div class="none" v-show="false">-->
-        <!--          <img src="../../../assets/img/search_none.png" style="width: 30%;margin-top: 50px">-->
-        <!--        </div>-->
+
       </div>
 
     </van-popup>
@@ -62,6 +59,8 @@
                 tans: false,
                 hotlist: [],
                 historylist: [],
+                isshow: !this.gainsearchVal,
+                shows: true,
             }
         },
         created() {
@@ -71,8 +70,8 @@
             gainsearchVal: function () {
                 return this.$store.state.searchVal;
             },
-
         },
+
         methods: {
             //弹窗消失
             Popup: function () {
@@ -183,6 +182,7 @@
     right: 0;
     overflow-y: auto;
     webkit-overflow-scrolling: touch;
+
     .search_record {
       margin-top: 20px;
       padding: 0 10px;

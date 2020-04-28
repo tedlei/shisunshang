@@ -1,5 +1,6 @@
 <template>
     <div class="content">
+      <div class="common_box">
         <van-cell-group>
             <van-field label="我的等级：" :value="user.level_name" readonly input-align="right"/>
             <van-field v-if="user.level_name!='顾客'" label="到期时间：" :value="add_time" readonly input-align="right"/>
@@ -16,6 +17,7 @@
                 <van-switch v-model="checked" active-color="#07c160" inactive-color="#cccccc" @change="changeAdd"/>
             </template>
         </van-field>
+      </div>
     </div>
 </template>
 
@@ -35,14 +37,14 @@
         formatDateTime(inputTime) {
             let date = new Date(inputTime*1000);
             var year = date.getFullYear();
-            var month = date.getMonth()+1; //月份+1   
-            var day = date.getDate(); 
-            var hour = date.getHours(); 
-            var minutes = date.getMinutes(); 
+            var month = date.getMonth()+1; //月份+1
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
             if(minutes<10) minutes= '0'+minutes;
             var second = date.getSeconds();
             return  year+"-"+month+"-"+day+" "+hour+":"+minutes;
-           
+
         },
         yugi(str1, str2){
             var reg = /[^\d]+/;
@@ -79,17 +81,24 @@
         }else{
             this.add_time = this.formatDateTime(user.level_end_time);
             // console.log(this.yugi("2019/9/10","2018/12/20"));
-            
+
         }
     },
     computed: {
-        
+
     },
     watch: {
-        
+
     }
 }
 </script>
 <style lang="scss" scoped>
-    
+.content{
+  .common_box{
+    padding:0 0.1rem;
+    >>>.van-cell{
+      padding: 0.1rem;
+    }
+  }
+}
 </style>
