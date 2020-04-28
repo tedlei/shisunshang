@@ -1,29 +1,32 @@
 <template>
   <div class="content">
     <div class="exchage_box">
-      <van-radio-group v-model="radio" style="margin-bottom: 0.4rem" @change="change">
-        <van-radio :name="index" checked-color="#009900" v-for="(item,index) in tanslist" :key="index">
-          <div class="right_box">
-            <div class="money_box">
-              <span>从</span>
-              <div>
-                <div class="clo-g">{{item.form_name}}</div>
-                <div class="">￥{{item.form_money | moneyFormat}}</div>
+      <div class="common_box">
+        <van-radio-group v-model="radio" @change="change">
+          <van-radio :name="index" checked-color="#009900" v-for="(item,index) in tanslist" :key="index">
+            <div class="right_box">
+              <div class="money_box">
+                <span>从</span>
+                <div>
+                  <div class="clo-g">{{item.form_name}}</div>
+                  <div class="">￥{{item.form_money | moneyFormat}}</div>
+                </div>
+              </div>
+              <van-icon name="down" style="font-size:0.24rem;transform: rotate(-90deg);" class="clo-9"/>
+              <div class="money_box">
+                <span>至</span>
+                <div>
+                  <div class="clo-g">{{item.goto_name}}</div>
+                  <div class="">￥{{item.goto_money | moneyFormat}}</div>
+                </div>
               </div>
             </div>
-            <van-icon name="down" style="font-size:0.24rem;transform: rotate(-90deg);" class="clo-9"/>
-            <div class="money_box">
-              <span>至</span>
-              <div>
-                <div class="clo-g">{{item.goto_name}}</div>
-                <div class="">￥{{item.goto_money | moneyFormat}}</div>
-              </div>
-            </div>
-          </div>
-        </van-radio>
-      </van-radio-group>
-      <div style="margin-bottom: 0.2rem">
-        <van-form @submit="onSubmit">
+          </van-radio>
+        </van-radio-group>
+      </div>
+
+      <van-form @submit="onSubmit">
+        <div class="common_box">
           <van-field v-model="form_id" name="form_id" v-show="false"/>
           <van-field v-model="goto_id" name="goto_id" v-show="false"/>
           <div style="position: relative">
@@ -57,12 +60,14 @@
             placeholder=""
             show-word-limit
           />
-          <van-button block type="info" native-type="submit" class="common_btn">
+        </div>
+        <div style="margin: 0 0.1rem">
+          <van-button block type="info" native-type="submit"  class="common_btn" >
             立即转账
           </van-button>
+        </div>
+      </van-form>
 
-        </van-form>
-      </div>
 
     </div>
 
@@ -93,14 +98,14 @@
                         this.tanslist = response.data.items;
                         this.form_id = this.tanslist[this.radio].money_type_id_from;
                         this.goto_id = this.tanslist[this.radio].money_type_id_goto;
-                        this.bili = this.tanslist[0].form_name+'转'+this.tanslist[0].goto_name+'为1：'+this.tanslist[0].limit_multiple;
+                        this.bili = this.tanslist[0].form_name + '转' + this.tanslist[0].goto_name + '为1：' + this.tanslist[0].limit_multiple;
                     }).catch(function (error) {
                     console.log(error);
                 });
             },
             //change
             change: function (e) {
-                this.bili = this.tanslist[e].form_name+'转'+this.tanslist[e].goto_name+'为1：'+this.tanslist[e].limit_multiple;
+                this.bili = this.tanslist[e].form_name + '转' + this.tanslist[e].goto_name + '为1：' + this.tanslist[e].limit_multiple;
                 this.form_id = this.tanslist[e].money_type_id_from;
                 this.goto_id = this.tanslist[e].money_type_id_goto;
 
@@ -119,9 +124,9 @@
                     .then((response) => {
                         if (response.status == 200) {
                             this.$toast('转账成功');
-                            setTimeout(()=>{
-                              window.location.reload();
-                            },2000)
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000)
                         } else {
                             this.$toast(response.message);
                         }
@@ -139,9 +144,6 @@
 <style scoped lang="scss">
   .content {
     .exchage_box {
-      background-color: #fff;
-      padding: 0.1rem;
-
       .right_box {
         display: flex;
         justify-content: space-between;
@@ -162,7 +164,7 @@
       }
 
       .van-radio {
-        margin-bottom: 0.1rem;
+        margin: 0.1rem 0;
       }
 
       /deep/ .van-radio__label {

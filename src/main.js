@@ -39,7 +39,6 @@ Vue.use(ElementUI);
 Vue.use(vant);
 Vue.config.productionTip = false;
 
-
 router.beforeEach((to, from, next) => {
   // 解析url参数并获取code
   function getUrlParam (variable) {   //name为要获取的参数名
@@ -55,8 +54,8 @@ router.beforeEach((to, from, next) => {
       var query = window.location.search.substring(1);
       var vars = query.split("&");
       for (var i=vars.length-1;i>-1;i--) {
-              var pair = vars[i].split("=");
-              if(pair[0] == variable){return pair[1];}
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
       }
       return(false);
   }

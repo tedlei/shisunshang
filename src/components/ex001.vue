@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import qrcode from 'vue_qrcodes'
 export default {
   data() {
     return {};
@@ -18,16 +19,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.goodsDiv {
-  display: inline-block;
-  height: 300px;
-  width: 50%;
-  padding: 0.2rem;
-  line-height: 300px;
-  color: #fff;
-  > div {
-    border: 2px solid red;
-    background-color: #121452;
-  }
-}
+    
 </style>

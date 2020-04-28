@@ -286,7 +286,6 @@
             },
             //提交按钮节流后提交
             upData: Throttle(function () {
-                // console.log(this);
                 this.btnBk = true;
                 this.$store.commit('setLoading');
                 let imglist = [...this.upfileList, ...this.upfileListTwo];
@@ -445,7 +444,9 @@
                             mobile: this.input3,
                             bus_scope: this.message,
                             cate_id: this.upclassId,
-                            bus_hours: this.input1,
+                            bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
+                            bus_hours_st: this.currentTimeMsg,
+                            bus_hours_et: this.currentTimeMsgTwo,
                             imgurl: imglist[0],
                             album: imglist.slice(1)
                         };

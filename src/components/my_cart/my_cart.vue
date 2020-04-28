@@ -94,7 +94,7 @@
       </van-loading>
     </div> -->
     <!--  推荐  -->
-    <div class="cart_rmd" v-show="isRecommend">
+    <div :class="isCart?'cart_rmd cart_rmd_mg':'cart_rmd'" v-show="isRecommend">
       <img src="../../assets/img/tj.png" style="margin-bottom: 0.1rem">
       <!--  商品列表  -->
       <el-row class="goodslist">
@@ -539,7 +539,7 @@
                         // console.log(res);
                         this.$store.commit('setCartNum', res.data.num)
                     }).catch(function (error) {
-                    console.log(error);
+                        console.log(error);
                 });
             },
 
@@ -565,6 +565,7 @@
             this.getCart();
         },
         mounted() {
+
         }
     }
 </script>
@@ -888,6 +889,9 @@
   }
 
   /* 推荐 */
+  .cart_rmd_mg{
+      margin-bottom: 0.45rem;
+  }
   .cart_rmd {
     padding: 0.1rem 0.05rem 0.1rem 0.05rem;
 
