@@ -1,4 +1,4 @@
 [
-    {"domain":"www.wjeys.com","interface":"admin.wjeys.com"},
-    {"domain":"www.gjst.net","interface":"admin.gjst.net"}
+    {"domain":"www.gjst.net","interface":"admin.gjst.net","openId":"wx5e4b4e507ac2fbd2"},
+    {"domain":"www.wjeys.com","interface":"admin.wjeys.com","openId":"wxf730b0b04586d06f"}
 ]

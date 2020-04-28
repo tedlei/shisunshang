@@ -6,6 +6,7 @@
 
 <script>
     import Bus from "../assets/js/bus";
+    import address from "../../static/address";
 
     export default {
         name: "author",
@@ -19,6 +20,11 @@
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由
                     let appId = 'wx5e4b4e507ac2fbd2'
+                    for(let item of address){
+                        if(location.host==item.domain){
+                            appId = item.openId;
+                        }
+                    }
                     let url = 'http://www.gjst.net/author';
                     let redirectUrl = encodeURIComponent(url);
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect`

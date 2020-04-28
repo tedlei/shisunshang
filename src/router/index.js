@@ -331,6 +331,12 @@ const $router = new Router({
           meta: {title: '我的分享', showFooter: false, goods: false,}
         },
         {
+            path: '/mine/PosterStand',
+            name: 'PosterStand',
+            component: resolve => require(['@/components/mine/myShare/PosterStand'], resolve),
+            meta: {title: '下载海报展架', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/ad/addetails',
           name: 'addetails',
           component: addetails,

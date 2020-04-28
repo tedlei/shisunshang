@@ -32,6 +32,9 @@
                   <span class="clo-g" v-show="$route.query.printid != 1">￥{{item.price}}</span>
                   <span class="" v-show="$route.query.printid == 1">{{item.companynam}}</span>
                 </div>
+                <!-- <div>
+                  <span class="" v-if="$route.query.printid == 2">{{item.add_time}}</span>
+                </div> -->
               </div>
             </div>
           </div>

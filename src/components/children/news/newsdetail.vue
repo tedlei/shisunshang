@@ -4,7 +4,7 @@
       <div class="main" v-html="content"></div>
       <div class="add_time" v-if="!$route.query.type">
         <span>{{add_time}}</span>
-        <span>阅读量：{{click_times}}</span>
+        <!-- <span>阅读量：{{click_times}}</span> -->
       </div>
     </div>
   </div>
