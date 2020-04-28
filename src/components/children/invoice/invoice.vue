@@ -11,11 +11,11 @@
             <div @click="myinvoice" class="radios_btn" v-show='radio==2' >我的发票</div>
           </div>
         </van-radio-group>
-        
+
       </div>
       <van-form @submit="onSubmit">
         <div v-show="radio=='2'">
-          <div class="information">
+          <div class="common_box information">
             <div class="informationType">
               <div>
                 发票类型
@@ -30,7 +30,7 @@
           </div>
 
           <div v-if="radioTwo=='1'">
-            <div>
+            <div class="common_box">
               <van-field
                 v-model="companyInput"
                 rows="1"
@@ -52,8 +52,8 @@
                 input-align="right"
               />
             </div>
-            <div style="height:0.1rem"></div>
-            <div>
+
+            <div class="common_box">
               <van-field
                 v-model="companyInput3"
                 rows="1"
@@ -98,7 +98,7 @@
           </div>
 
           <!--个人-->
-          <div v-if="radioTwo=='2'">
+          <div class="common_box" v-if="radioTwo=='2'">
             <van-field
               v-model="personalInput"
               rows="1"
@@ -118,11 +118,11 @@
             </span>
           </p>
         </div>
-        <div class="primaryBtn">
+        <div class="common_btn primaryBtn">
           <van-button type="primary" color="#009900" :block="true" native-type="submit">保存</van-button>
         </div>
       </van-form>
-      
+
     </div>
     <van-overlay :show="show">
       <div class="wrapper" @click.stop>
@@ -202,7 +202,7 @@
 
             },
             change: function (e) {
-                
+
             },
             myinvoice() {
               this.$router.push({
@@ -227,8 +227,13 @@
 </script>
 <style lang="scss" scoped>
   .contentRadio {
-    background-color: #f2f2f2;
     text-align: left;
+    .common_box{
+      padding: 0 0.1rem;
+      >>>.van-cell{
+        padding: 0.1rem;
+      }
+    }
     .tips {
       padding: 0.1rem 0.1rem;
       line-height: 0.3rem;
@@ -267,15 +272,13 @@
       background-color: #fff;
       .informationType {
         padding: 0.1rem;
-        border-bottom: 1px solid #f2f2f2;
         display: flex;
         justify-content: space-between;
       }
     }
 
     .primaryBtn {
-      margin: 0.7rem auto;
-      width: 90%;
+      margin: 0.1rem;
     }
   }
 

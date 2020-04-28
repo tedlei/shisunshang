@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="r_c_box money_box">
+    <div class="common_box money_box">
       <div class="money_text">
         <p>充值金额（元）</p>
         <div class="clo-g" style="display: flex;align-items: center">
@@ -21,7 +21,7 @@
         </li>
       </ul>
     </div>
-    <div class="r_c_box pay_box">
+    <div class="common_box pay_box">
       <p>支付方式</p>
       <van-radio-group v-model="radio" style="margin-top:15px;">
         <van-cell-group>
@@ -141,11 +141,7 @@
 
 <style scoped lang="scss">
   .content {
-    .r_c_box {
-      margin-top: 0.1rem;
-      background-color: #fff;
-      padding: 0.1rem;
-    }
+
 
     .money_box {
       .money_text {
@@ -186,7 +182,7 @@
     }
 
     .pay_box {
-      padding-bottom: 40px;
+
       text-align: left;
 
       .pay_item {

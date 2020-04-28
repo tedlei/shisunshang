@@ -1,84 +1,88 @@
 <template>
   <div class="content">
     <van-form @submit="onSubmit">
-      <div class="money_text">
-        <p>可提现金额（元）</p>
-        <div class="clo-g" style="display: flex;align-items: center">
-          ￥
-          <van-field
-            readonly
-            :value="dang"
-            @touchstart.native.stop="show = true"
-            :style="{'padding-left':'0'}"
-          />
+      <div class="common_box">
+        <div class="money_text">
+          <p>可提现金额（元）</p>
+          <div class="clo-g" style="display: flex;align-items: center">
+            ￥
+            <van-field
+              readonly
+              :value="dang"
+              @touchstart.native.stop="show = true"
+              :style="{'padding-left':'0'}"
+            />
+          </div>
         </div>
+
+        <van-field
+          v-model="dmoney"
+          name="money"
+          type="number"
+          label="提现金额"
+          placeholder="请输入提现金额"
+        />
+
+        <van-field
+          readonly
+          clickable
+          name="picker"
+          :value="value1"
+          label=""
+          right-icon="arrow-down"
+          placeholder="请选择提现账户"
+          @click="showPopup('moneytype')"
+        />
+        <van-field name="money_type_id" :value="money_type_id" v-show="false"></van-field>
+        <van-field
+          readonly
+          clickable
+          name="picker"
+          :value="value2"
+          label=""
+          right-icon="arrow-down"
+          placeholder="请选择银行账户"
+          @click="showPopup('bank')"
+        />
+        <van-field name="bank_id" :value="bank_id" v-show="false"></van-field>
+
+        <van-field
+          readonly
+          clickable
+          :value="qiti+'元'"
+          label="起提金额"
+          placeholder=""
+        />
+
+        <van-field
+          readonly
+          clickable
+          :value="poundage+'%'"
+          label="手续费"
+          placeholder=""
+        />
+        <van-field
+          readonly
+          clickable
+          :value="'必须是'+multiple+'的倍数'"
+          label="提现倍数"
+          placeholder=""
+        />
+
+        <van-field
+          v-model="password"
+          type="password"
+          name="pass2"
+          label="交易密码"
+          placeholder="交易密码"
+        />
+      </div>
+      <div class="common_btn" style="margin:  0.1rem">
+        <van-button round block type="info" native-type="submit" class="common_btn">
+          提交
+        </van-button>
       </div>
 
-      <van-field
-        v-model="dmoney"
-        name="money"
-        type="number"
-        label="提现金额"
-        placeholder="请输入提现金额"
-      />
-
-      <van-field
-        readonly
-        clickable
-        name="picker"
-        :value="value1"
-        label=""
-        right-icon="arrow-down"
-        placeholder="请选择提现账户"
-        @click="showPopup('moneytype')"
-        />
-      <van-field name="money_type_id" :value="money_type_id" v-show="false"></van-field>
-      <van-field
-        readonly
-        clickable
-        name="picker"
-        :value="value2"
-        label=""
-        right-icon="arrow-down"
-        placeholder="请选择银行账户"
-        @click="showPopup('bank')"
-      />
-      <van-field name="bank_id" :value="bank_id" v-show="false"></van-field>
-
-      <van-field
-        readonly
-        clickable
-        :value="qiti+'元'"
-        label="起提金额"
-        placeholder=""
-      />
-
-      <van-field
-        readonly
-        clickable
-        :value="poundage+'%'"
-        label="手续费"
-        placeholder=""
-      />
-      <van-field
-        readonly
-        clickable
-        :value="'必须是'+multiple+'的倍数'"
-        label="提现倍数"
-        placeholder=""
-      />
-
-      <van-field
-        v-model="password"
-        type="password"
-        name="pass2"
-        label="交易密码"
-        placeholder="交易密码"
-      />
-
-      <van-button round block type="info" native-type="submit" class="common_btn" style="margin-top: 0.3rem">
-        提交
-      </van-button>
 
     </van-form>
     <van-popup v-model="showPicker" position="bottom">
@@ -145,18 +149,18 @@
                 this.$post('/api/v1/bank', bankmsg)
                     .then((response) => {
                         console.log(response);
-                        if(response.data==null || response.data.lenght==0){
+                        if (response.data == null || response.data.lenght == 0) {
                             this.$dialog.confirm({
-                              title: '提现需绑定银行卡，是否前往绑定？',
+                                title: '提现需绑定银行卡，是否前往绑定？',
                             })
                                 .then(() => {
                                     // console.log('马上绑定')
                                     this.$router.push('/set/Bank-card');
-                                  // on confirm
+                                    // on confirm
                                 })
                                 .catch(() => {
                                     this.$router.back(-1);
-                                  // on cancel
+                                    // on cancel
                                 });
                         }
                         for (let i in response.data) {
@@ -239,20 +243,20 @@
         mounted() {
             this.getpei();
             // console.log(this.$store.getters.getuserinfo.is_set_paypassword==0)
-            if(this.$store.getters.getuserinfo.is_set_paypassword==0){
+            if (this.$store.getters.getuserinfo.is_set_paypassword == 0) {
                 this.$dialog.confirm({
-                  title: '请绑定手机号码设置支付密码之后才能提现，现在前往设置支付密码？',
+                    title: '请绑定手机号码设置支付密码之后才能提现，现在前往设置支付密码？',
                 })
                     .then(() => {
                         // console.log('马上绑定')
                         this.$router.push('/set/set-pay-password');
-                      // on confirm
+                        // on confirm
                     })
                     .catch(() => {
                         this.$router.back(-1);
-                      // on cancel
+                        // on cancel
                     });
-            }else{
+            } else {
                 this.getID();
             }
             this.getbalance();
@@ -267,8 +271,6 @@
 <style scoped lang="scss">
   .content {
     form {
-      padding: 0.1rem;
-      background-color: #fff;
 
       .van-cell {
         padding-left: 0;
@@ -297,7 +299,8 @@
     }
 
   }
-  /deep/ .van-field__label{
-      text-align: left;
+
+  /deep/ .van-field__label {
+    text-align: left;
   }
 </style>

@@ -150,7 +150,6 @@
     border-radius: 0;
     line-height: 0.5rem;
     i {
-      color: #999;
       font-size: 0.16rem;
       vertical-align: middle;
       color: #fff;

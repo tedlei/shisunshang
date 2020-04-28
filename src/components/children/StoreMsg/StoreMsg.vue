@@ -37,6 +37,14 @@
         </div>
       </div>
 
+      <router-link
+        v-if="shops.is_promotion == 1"
+        class="uploadpic"
+        :to="{path:'/uploadpic',query:{store_id: shops.id}}"
+      >
+        <div class="uploadpic_text">上传小票</div>
+      </router-link>
+
       <div class="common_box introduce">
         <p>{{shops.bus_scope}}</p>
         <div class="introduce_img">
@@ -106,16 +114,7 @@
       </div>-->
     </div>
 
-    <router-link
-      v-if="shops.is_promotion == 1"
-      class="uploadpic"
-      :to="{path:'/uploadpic',query:{store_id: shops.id}}"
-    >
-      <div class="uploadpic_icon">
-        <van-icon name="plus" class=""/>
-      </div>
-      <div class="uploadpic_text">上传小票</div>
-    </router-link>
+
   </div>
 </template>
 
@@ -387,30 +386,17 @@
   }
 
   .uploadpic {
-    position: fixed;
-    padding: 0.05rem 0;
     color: #fff !important;
     right: 0;
     bottom: 1rem;
     display: block !important;
     z-index: 1;
     font-size: 0.1rem;
-
-    .uploadpic_icon {
-      width: 0.4rem;
-      line-height: 0.4rem;
-      font-size: 0.2rem;
-      height: 0.4rem;
-      border-radius: 50%;
-      background-color: rgba(0, 153, 0, 0.7);
-      margin: 0 auto;
-    }
-
+    margin: 0.1rem;
+    line-height: 0.4rem;
     .uploadpic_text {
       background-color: rgba(0, 153, 0, 0.7);
-      padding: 2px 0.05rem;
-      border-radius: 0.5rem;
-      margin-top: 0.05rem;
+      border-radius: 5px;
     }
   }
 

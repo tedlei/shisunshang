@@ -6,8 +6,7 @@
           <span style="font-size:0.13rem">¥</span>
           <span style="margin-left:0.05rem">{{parseInt(item.money)}}</span>
       </p>
-      <p>充值余额</p>
-      <div class="upgl_cz">{{parseFloat(userMoney).toFixed(2)}}</div>
+
   </div>
 </template>
 
@@ -17,31 +16,31 @@
   components: {},
   data () {
     return {
-      
+
     }
   },
   methods: {
     tapSel(i,t){
       if(t){
         this.$notify({ type: 'success', message: '您已开通此等级或之上的会员，请勿重复选择' });
-        
+
         return
       }
       this.$emit('tapSel',i)
     }
   },
   computed: {
-    
+
   },
   watch: {
-    
+
   }
 }
 </script>
 <style lang="scss" scoped>
 .upgl-app{
     width: 30%;
-    height: 1.27rem;
+    height: 0.8rem;
     margin-top: 0.13rem;
     // margin-left: 0.24rem;
     border:2px solid #E4E4E4;

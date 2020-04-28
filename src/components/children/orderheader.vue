@@ -1,10 +1,10 @@
 <template>
   <header :style="{height:this.$route.name == 'Special-area'?'0.55rem':''}">
-    <van-icon name="arrow-left" class="back"  @click="nobackss" style="left: 5px;" v-show="!noback"/>
-    <van-icon name="arrow-left" class="back"  @click="routerback" style="left: 5px;" v-show="noback"/>
+    <van-icon name="arrow-left" class="back" @click="nobackss" style="left: 5px;" v-show="!noback"/>
+    <van-icon name="arrow-left" class="back" @click="routerback" style="left: 5px;" v-show="noback"/>
     <div class="center_name" v-show="this.$route.name != 'Special-area'">
       <span v-if="this.$route.meta.title == 'footprint'">{{tt[this.$route.query.printid]}}</span>
-      <span v-else-if="this.$route.meta.title == 'record'">{{this.$route.query.recordid ? record[this.$route.query.recordid - 1]:'财务记录'}}</span>
+      <span v-else-if="this.$route.meta.title == '财务记录'">{{this.$route.query.recordid ? record[Number(this.$route.query.recordid) - 1]:'财务记录'}}</span>
       <span v-else-if="title">{{title}}</span>
       <span v-else-if="this.$route.path=='/goodslist'">{{$route.query.name}}</span>
       <span v-else-if="this.$route.query.orderid != 5">{{this.$route.meta.title}}</span>
@@ -17,18 +17,18 @@
             class="childSearch"
     ></search>
     <!--    -->
-
     <span class="news">
         <span v-if="this.$route.meta.news">全部已读</span>
-        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3 && isEmpty" style="color: #0f0f0f" @click="edit">编辑</span>
+        <span v-else-if="this.$route.meta.footprint && this.$route.query.printid != 3 && isEmpty" style="color: #0f0f0f"
+              @click="edit">编辑</span>
         <span v-else-if="this.$route.meta.title == '微信营销广告'"><router-link to="/mine/ad/myad">我的发布</router-link></span>
-        <!-- <span v-else-if="this.$route.meta.title == '添加收货地址'" @click="baocun($route.query.addressid)">保存</span> -->
-        <!-- <span v-else-if="this.bank" @click="add_bank">添加</span> -->
+
         <span v-else-if="this.Rrecord"><router-link to="/mine/R-record">充值记录</router-link></span>
         <span v-else-if="this.Wrecord"><router-link to="/mine/withdrawRecord">提现记录</router-link></span>
         <span v-else-if="this.Atc && this.$route.meta.title != '实名认证'" @click='activeChild'>保存</span>
-        <!-- <span v-else-if="this.ivc"><router-link to="/mine/myinvoice">我的发票</router-link></span> -->
-        <van-button  v-else-if="this.$route.meta.title==='财务记录'" type="primary" size="small" class="news_btn" @click="topUp">充值</van-button>
+
+        <van-button v-else-if="this.$route.meta.title==='财务记录'" type="primary" size="small" class="news_btn common_btn"
+                    @click="topUp">充值</van-button>
     </span>
   </header>
 </template>
@@ -48,7 +48,7 @@
                 tt: ['我的收藏', '我的关注', '我的足迹', '我的评价',],
                 record: ['充值账户', '补贴账户', '推广账户', '代理账户', '签到账户', '生态币账户', '原始股账户', '财务记录'],
                 title: '',   //自定义title
-                isEmpty:false,
+                isEmpty: false,
             }
         },
         computed: {
@@ -84,7 +84,7 @@
             routerback() {
                 if (this.$route.query.goindex === 'true') {
                     this.$router.push('/')
-                }else if(this.$route.name=='order' || this.$route.name=='successfulPayment'){
+                } else if (this.$route.name == 'order' || this.$route.name == 'successfulPayment') {
                     this.$router.push('/mine')
                 } else {
                     this.$router.back(-1)
@@ -112,8 +112,8 @@
             activeChild: function () {
                 Bus.$emit('Atc', true)
             },
-            topUp(){
-                this.$router.push({path:'/mine/Rechargemoney'})
+            topUp() {
+                this.$router.push({path: '/mine/Rechargemoney'})
             }
         },
         mounted() {
@@ -159,19 +159,20 @@
 
     .childSearch {
       background: none;
-      >>>.van-search__content{
+
+      > > > .van-search__content {
         background-color: #fff;
       }
+    }
+    .common_btn{
+      line-height: inherit;
     }
 
     .news, .footprint {
       font-size: 0.14rem;
-      right: 0.05rem;
+      right: 0.1rem;
       color: #0f0f0f;
     }
 
-    /deep/ .el-input {
-      margin: 0 0.3rem;
-    }
   }
 </style>
