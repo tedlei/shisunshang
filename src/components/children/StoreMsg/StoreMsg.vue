@@ -65,7 +65,7 @@
         </van-row> -->
       </div>
 
-      <div class="common_box record_integral" v-if="shops.pay_list.length > 0">
+      <div class="common_box record_integral" v-if="shops.pay_list && shops.pay_list.length > 0">
         <div class="record_ttl clo-g">
           <span>上传人数：{{shops.pay_count}}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
@@ -86,6 +86,7 @@
         </div>
       </div>
     </div>
+
     <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
       <div id="qrCode2" v-show="codes" class="qrconde" ref="qrCode2"></div>
       <div v-show="cx" class="cx_box">
@@ -202,7 +203,6 @@
                 ImagePreview(this.shops.album, num);
             },
 
-
             Previewcode: function (boo, e) {
                 if (!boo && e == 'qrcode') {
                     this.codes = true
@@ -232,6 +232,9 @@
                 this.creatQrCode();
             },1000);
         },
+        destroyed() {
+
+        }
     };
 </script>
 

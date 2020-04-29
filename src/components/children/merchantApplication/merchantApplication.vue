@@ -23,8 +23,11 @@
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
-      <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
-      <van-field v-model="input3" type="number" label="联系电话：" placeholder="请输入商家联系电话"/>
+      <!-- @click="getFocus()" :readonly="true"  获取地理位置 -->
+      <van-field v-model="input2" label="详细地址："  placeholder="请输入详细地址" />
+      <!-- <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" /> -->
+
+      <van-field v-model="input3" type="number" label="联系电话：" placeholder="请输入商家联系电话" />
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
@@ -139,73 +142,72 @@
     import ditu from '../../../assets/js/wechatConfig'
     import {Throttle} from "../../../assets/js/utils"
 
-    export default {
-        components: {
-            imgOSSuploader,
-        },
-        data() {
-            return {
-                areaList: AreaArr,
-                province: [
-                    '选择省',
-                    '市',
-                    '（区/县）',
-                ],
-                show: false,
-                classArr: [ ],
-                show2: false,
-                classList: '请选择商家经营分类',
-                upclassId: '',
-                message: '',
-                Recommender: '',
-                input: '',
-                input1: '',
-                input2: '',
-                input3: '',
-                upfileList: [],
-                readingF: [],
-                upfileListTwo: [],
-                readingX: [],
-                imgurls: [],
-                btnBk: false,
-                currentTime: '08:00',
-                currentTimeMsg: '开始时间',
-                showDatetime: false,
-                showDatetimeTwo: false,
-                currentTimeTwo: '12:00',
-                currentTimeMsgTwo: '结束时间',
-            }
-        },
-        methods: {
-            formatter(value){
-                // console.log(value)
-                this.currentTimeMsg = value;
-                this.showDatetime=false;
-            },
-            tiemcancel(){
-                this.showDatetime=false;
-            },
-            formatterTwo(value){
-                this.currentTimeMsgTwo = value;
-                this.showDatetimeTwo=false;
-            },
-            tiemcancelTwo(){
-                this.showDatetimeTwo=false;
-            },
-            confirm(e) {
-                console.log(e);
-                this.province = e;
-                this.show = false;
-                let list = this.areaList.filter( item => {
-                    return item.text==e[0];
-                });
-                // console.log(list);
-                this.province.push(list[0].id);
-                let listTwo = list[0].children.filter( item => {
-                    return item.text==e[1];
-                });
-                // console.log(listTwo)
-                this.province.push(listTwo[0].id);
+export default {
+  components: {
+    imgOSSuploader
+  },
+  data() {
+    return {
+      areaList: AreaArr,
+      province: ["选择省", "市", "（区/县）"],
+      show: false,
+      classArr: [],
+      show2: false,
+      classList: "请选择商家经营分类",
+      upclassId: "",
+      message: "",
+      Recommender: "",
+      input: "",
+      input1: "",
+      input2: "",
+      // doorCode:"",
+      input3: "",
+      upfileList: [],
+      readingF: [],
+      upfileListTwo: [],
+      readingX: [],
+      imgurls: [],
+      btnBk: false,
+      currentTime: "08:00",
+      currentTimeMsg: "开始时间",
+      showDatetime: false,
+      showDatetimeTwo: false,
+      currentTimeTwo: "12:00",
+      currentTimeMsgTwo: "结束时间",
+      // latitude:0,
+      // longitude:0
+    };
+  },
+  methods: {
+    formatter(value) {
+      // console.log(value)
+      this.currentTimeMsg = value;
+      this.showDatetime = false;
+    },
+    tiemcancel() {
+      this.showDatetime = false;
+    },
+    formatterTwo(value) {
+      this.currentTimeMsgTwo = value;
+      this.showDatetimeTwo = false;
+    },
+    tiemcancelTwo() {
+      this.showDatetimeTwo = false;
+    },
+    confirm(e) {
+      console.log(e);
+      this.province = e;
+      this.show = false;
+      let list = this.areaList.filter(item => {
+        return item.text == e[0];
+      });
+      // console.log(list);
+      this.province.push(list[0].id);
+      let listTwo = list[0].children.filter(item => {
+        return item.text == e[1];
+      });
+      // console.log(listTwo)
+      this.province.push(listTwo[0].id);
 
                 let listSan = listTwo[0].children.filter( item => {
                     return item.text==e[2];

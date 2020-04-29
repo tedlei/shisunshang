@@ -4,33 +4,36 @@
     <div class="inputs">
       <van-field v-model="input" label="公司名称：" placeholder="请填写公司名称"/>
       <!-- <van-field v-model="input1" label="营业时间：" placeholder="请选择营业时间"/> -->
-        <div class="address" >
+      <div class="address">
         <div>
           <span class="addressSpan">营业时间：</span>
-          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetime=true">
-              <span>{{currentTimeMsg}}</span>
+          <div :class="currentTimeMsg=='开始时间'?'startDatetime':'startDatetime startDatetimeColor'"
+               @click="showDatetime=true">
+            <span>{{currentTimeMsg}}</span>
           </div>
           &nbsp;一&nbsp;至&nbsp;一&nbsp;&nbsp;
-          <div :class="currentTimeMsgTwo=='结业时间'?'startDatetime':'startDatetime startDatetimeColor'" @click="showDatetimeTwo=true">
-              <span>{{currentTimeMsgTwo}}</span>
+          <div :class="currentTimeMsgTwo=='结业时间'?'startDatetime':'startDatetime startDatetimeColor'"
+               @click="showDatetimeTwo=true">
+            <span>{{currentTimeMsgTwo}}</span>
           </div>
         </div>
       </div>
       <div class="address" @click="show=true">
         <div>
-          <span>公司地址：</span>
+          <span class="addressSpan">公司地址：</span>
           <span>{{province[0]}}/{{province[1]}}/{{province[2]}}</span>
         </div>
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
-      <van-field v-model="input2" label="详细地址：" @click="getFocus()" :readonly="true" placeholder="请输入详细地址" />
-      <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" />
+      <!--  @click="getFocus()" :readonly="true"  -->
+      <van-field v-model="input2" label="详细地址：" placeholder="请输入详细地址"/>
+      <!-- <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" /> -->
       <van-field v-model="input3" type="number" label="公司电话：" placeholder="请输入公司办公电话"/>
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
       <div class="hrDiv"></div>
       <div class="address" @click="show2=true">
         <div>
-          <span>经营分类：</span>
+          <span class="addressSpan">经营分类：</span>
           <span>
               {{classList}}
           </span>
@@ -58,7 +61,9 @@
         <p>上传商家展示宣传照：</p>
         <imgOSSuploader :maxCount='9' :reading='readingX' @imgUpData='imgUpDataTwo'></imgOSSuploader>
       </div>
-      <div :class="btnBk?'btn btnTwo':'btn'" @click="upData">{{$route.query.state=='edit'?'保存':'提交申请'}}</div>
+      <div :class="btnBk?'btnTwo':''" class="common_box btn" @click="upData">
+        {{$route.query.state=='edit'?'保存':'提交申请'}}
+      </div>
       <!-- <div @click="ditu">滴滴滴滴滴滴</div> -->
     </div>
     <van-popup
@@ -116,28 +121,28 @@
     <van-popup
       v-model="showDatetime"
       position="bottom"
-        >
-        <van-datetime-picker
-            v-model="currentTime"
-            type="time"
-            :min-hour="0"
-            :max-hour="24"
-            @confirm="formatter"
-            @cancel='tiemcancel'
-            />
+    >
+      <van-datetime-picker
+        v-model="currentTime"
+        type="time"
+        :min-hour="0"
+        :max-hour="24"
+        @confirm="formatter"
+        @cancel='tiemcancel'
+      />
     </van-popup>
     <van-popup
       v-model="showDatetimeTwo"
       position="bottom"
-        >
-        <van-datetime-picker
-            v-model="currentTimeTwo"
-            type="time"
-            :min-hour="0"
-            :max-hour="24"
-            @confirm="formatterTwo"
-            @cancel='tiemcancelTwo'
-            />
+    >
+      <van-datetime-picker
+        v-model="currentTimeTwo"
+        type="time"
+        :min-hour="0"
+        :max-hour="24"
+        @confirm="formatterTwo"
+        @cancel='tiemcancelTwo'
+      />
     </van-popup>
   </div>
 </template>
@@ -156,7 +161,7 @@
         },
         data() {
             return {
-                showTime:false,
+                showTime: false,
                 currentTime: '12:00',
                 areaList: AreaArr,
                 province: [
@@ -174,7 +179,7 @@
                 input: '',
                 input1: '',
                 input2: '',
-                doorCode:"",
+                // doorCode:"",
                 input3: '',
                 upfileList: [],
                 readingF: [],
@@ -188,25 +193,25 @@
                 showDatetimeTwo: false,
                 currentTimeTwo: '12:00',
                 currentTimeMsgTwo: '结业时间',
-                latitude:0,
-                longitude:0
+                // latitude:0,
+                // longitude:0
             }
         },
         methods: {
-            formatter(value){
+            formatter(value) {
                 // console.log(value)
                 this.currentTimeMsg = value;
-                this.showDatetime=false;
+                this.showDatetime = false;
             },
-            tiemcancel(){
-                this.showDatetime=false;
+            tiemcancel() {
+                this.showDatetime = false;
             },
-            formatterTwo(value){
+            formatterTwo(value) {
                 this.currentTimeMsgTwo = value;
-                this.showDatetimeTwo=false;
+                this.showDatetimeTwo = false;
             },
-            tiemcancelTwo(){
-                this.showDatetimeTwo=false;
+            tiemcancelTwo() {
+                this.showDatetimeTwo = false;
             },
             confirm(e) {
                 console.log(e);
@@ -294,7 +299,7 @@
                     this.$store.commit('setLoading');
                     this.btnBk = false;
                     return;
-                } else if (this.currentTimeMsg=='开始时间'&&this.currentTimeMsgTwo=='结业时间') {
+                } else if (this.currentTimeMsg == '开始时间' && this.currentTimeMsgTwo == '结业时间') {
                     this.$toast('营业时间不能为空');
                     this.$store.commit('setLoading');
                     this.btnBk = false;
@@ -370,17 +375,17 @@
                         area_id: this.province[5],
                         // referee: this.Recommender,
                         address: this.input2,
-                        mph:this.doorCode,
+                        mph: this.doorCode,
                         mobile: this.input3,
                         bus_scope: this.message,
                         cate_id: this.upclassId,
-                        bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
+                        bus_hours: this.currentTimeMsg + '~' + this.currentTimeMsgTwo,
                         bus_hours_st: this.currentTimeMsg,
                         bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: this.$store.getters.getMerchantApplicationObj.imgurl,
                         album: album,
-                        latitude:this.latitude,
-                        longitude:this.longitude
+                        // latitude:this.latitude,
+                        // longitude:this.longitude
                     };
                     console.log(ad_data, '没有新图片');
                     this.$post('/api/v1/userStore', ad_data)
@@ -443,7 +448,7 @@
                             mobile: this.input3,
                             bus_scope: this.message,
                             cate_id: this.upclassId,
-                            bus_hours: this.currentTimeMsg+'~'+this.currentTimeMsgTwo,
+                            bus_hours: this.currentTimeMsg + '~' + this.currentTimeMsgTwo,
                             bus_hours_st: this.currentTimeMsg,
                             bus_hours_et: this.currentTimeMsgTwo,
                             imgurl: imglist[0],
@@ -471,23 +476,23 @@
             }, 1500),
 
             //详细地址获取焦点
-            getFocus(){
-                this.mapLocaSel(res=>{
-                    let {latlng,poiname} = res;
-                    this.latitude = latlng.lat;
-                    this.longitude = latlng.lng;
-                    this.input2 = res.poiname;
-                    console.log(res,this.latitude, this.longitude,123463543);
-                })
-            }
+            // getFocus(){
+            //     this.mapLocaSel(res=>{
+            //         let {latlng,poiname} = res;
+            //         this.latitude = latlng.lat;
+            //         this.longitude = latlng.lng;
+            //         this.input2 = res.poiname;
+            //         console.log(res,this.latitude, this.longitude,123463543);
+            //     })
+            // }
         },
         created() {
             let obj = this.$store.getters.getMerchantApplicationObj;
             console.log(obj);
             this.input = obj.name;
             this.input1 = obj.bus_hours;
-            if(obj.bus_hours_et)this.currentTimeMsg = obj.bus_hours_et;
-            if(obj.bus_hours_st)this.currentTimeMsgTwo = obj.bus_hours_st;
+            if (obj.bus_hours_et) this.currentTimeMsg = obj.bus_hours_et;
+            if (obj.bus_hours_st) this.currentTimeMsgTwo = obj.bus_hours_st;
             this.province[0] = obj.province;
             this.province[1] = obj.city;
             this.province[2] = obj.area;
@@ -495,15 +500,15 @@
             this.province[4] = obj.city_id;
             this.province[5] = obj.area_id;
             this.input2 = obj.address;
-            this.doorCode = obj.mph
+            // this.doorCode = obj.mph
             this.input3 = obj.mobile;
             this.classList = obj.category1.cate_name + '/' + obj.category.cate_name;
             this.upclassId = obj.cate_id,
                 this.message = obj.bus_scope;
             this.readingF[0] = obj.imgurl;
             this.readingX = obj.album;
-            this.latitude = obj.latitude;
-            this.longitude = obj.longitude;
+            // this.latitude = obj.latitude;
+            // this.longitude = obj.longitude;
             console.log(this)
             this.getClassArr();
         },
@@ -523,6 +528,11 @@
   // }
   .inputs {
     margin: 0.1rem 0;
+
+    .addressSpan {
+      width: 90px;
+      text-align: center;
+    }
 
     .address {
       height: 44px;
@@ -570,7 +580,6 @@
   }
 
   .btn {
-    line-height: 0.5rem;
     margin: 0.8rem 0.1rem;
     background-color: $sss-color;
     border-radius: 5px;
@@ -580,20 +589,23 @@
   .btnTwo {
     background-color: #9d9f9f;
   }
-  .wrapper{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items:flex-end;
+
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
   }
-  .startDatetime{
-      width: 0.9rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #9d9f9f;
+
+  .startDatetime {
+    width: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9d9f9f;
   }
-  .startDatetimeColor{
-      color: #000;
+
+  .startDatetimeColor {
+    color: #000;
   }
 </style>

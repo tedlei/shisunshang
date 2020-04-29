@@ -10,18 +10,14 @@ Vue.use(Toast);
 
 let tokens = '';
 let ua = window.navigator.userAgent.toLocaleLowerCase();
+let baseURL = 'http://admin.gjst.net';
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-} else {
-  // store.commit('userinfo', JSON.stringify(info));
+  for(let item of address){
+      if(location.host==item.domain){
+          baseURL = 'http://'+item.interface;
+      }
+  }
 }
-// console.log(location.host);
-// console.log(address)
-// for(let item of address){
-//     if(location.host==item.domain){
-//          baseURL = item.interface;
-//     }
-// }
-const baseURL = 'http://admin.gjst.net';
 
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = baseURL;

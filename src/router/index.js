@@ -45,6 +45,7 @@ import help from '@/components/pages_lm/help/help'
 import helpList from '@/components/pages_lm/help/list'
 import helpDetail from '@/components/pages_lm/help/detail'
 import upgrade from '@/components/pages_lm/upgrade/upgrade'
+import codePage from '@/components/pages_lm/codePage/codePage'
 
 
 Vue.use(Router)
@@ -445,6 +446,12 @@ const $router = new Router({
           name: 'certification',
           component: certification,
           meta: {title: '实名认证', showFooter: false, goods: false,}
+        },
+        {
+          path: '/codePage',
+          name: 'codePage',
+          component: codePage,
+          meta: {title: '石笋山生态平台', showFooter: false, goods: false,}
         },
         {    //帮助中心
           path: '/help',
