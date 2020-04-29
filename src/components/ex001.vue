@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import qrcode from 'vue_qrcodes'
+import QRCode from "qrcodejs2";
+// import qrcode from 'vue_qrcodes'
 export default {
     data() {
         return {

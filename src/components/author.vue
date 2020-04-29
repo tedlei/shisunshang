@@ -15,7 +15,7 @@
         },
         created() {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
-            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                  let code = this.getUrlParam('code');
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由
@@ -47,24 +47,24 @@
                         console.log(error);
                     });
                 }
-            }else{
-                let msg = {
-                    method: 'login.wechat.oauth2.test',
-                };
-                this.$post('api/v1/user', msg)
-                    .then((res) => {
-                        // console.log(res);
-                        if (res.status == 200) {
-                            localStorage.setItem('usertoken',res.data.token);
-                            console.log('授权完毕')
-                            location.replace('/');
-                            //location.href="/";
-                            Bus.$emit('getHot', true);
-                        }
-                    }).catch(function (error) {
-                    console.log(error);
-                });
-            }
+            // }else{
+            //     let msg = {
+            //         method: 'login.wechat.oauth2.test',
+            //     };
+            //     this.$post('api/v1/user', msg)
+            //         .then((res) => {
+            //             // console.log(res);
+            //             if (res.status == 200) {
+            //                 localStorage.setItem('usertoken',res.data.token);
+            //                 console.log('授权完毕')
+            //                 location.replace('/');
+            //                 //location.href="/";
+            //                 Bus.$emit('getHot', true);
+            //             }
+            //         }).catch(function (error) {
+            //         console.log(error);
+            //     });
+            // }
 
         },
 

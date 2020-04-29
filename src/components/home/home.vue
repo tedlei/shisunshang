@@ -234,7 +234,7 @@ export default {
                         if (response.data.is_sign == 0) {
                             this.$dialog.confirm({
                                 title: '嗨！',
-                                message: '今日还未签到是否签到赢好礼呢！'
+                                message: '今日未签到，是否签到赢好礼呢！'
                             }).then(() => {
                                 this.$router.push({
                                     path: '/Signin'
