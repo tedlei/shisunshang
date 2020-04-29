@@ -1,13 +1,35 @@
 <template>
   <div class="qrCodeMax">
     <div id="qrHome" class="qrconde">
-      <img src="http://test.gj.wjeys.com/public/static/vue/weixin_code.jpg" />
+      <img v-if="Url" :src="Url" />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import address from '../../../../static/address';
+import Bus from '../../../assets/js/bus';
+export default {
+    data() {
+        return {
+            Url: null
+        }
+    },
+    methods:{
+
+    },
+    mounted(){
+        // console.log(address)
+        for(let item of address){
+            // console.log(location.host)
+            if(location.host==item.domain){
+                this.Url = item.qrUrl;
+                Bus.$emit('title',item.title);
+                // console.log(this.Url)
+            }
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>

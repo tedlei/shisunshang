@@ -25,7 +25,7 @@
                             appId = item.openId;
                         }
                     }
-                    let url = 'http://www.gjst.net/author';
+                    let url = 'http://' + location.host + '/author';
                     let redirectUrl = encodeURIComponent(url);
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect`
                 }else{

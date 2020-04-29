@@ -1,4 +1,17 @@
 [
-    {"domain":"www.gjst.net","interface":"admin.gjst.net","openId":"wx5e4b4e507ac2fbd2"},
-    {"domain":"www.wjeys.com","interface":"admin.wjeys.com","openId":"wxf730b0b04586d06f"}
+    {
+        "domain":"www.gjst.net",
+        "interface":"admin.gjst.net",
+        "openId":"wx5e4b4e507ac2fbd2",
+        "title":"石笋山生态平台",
+        "qrUrl":"http://test.gj.wjeys.com/public/static/vue/weixin_code.jpg"
+        
+    },
+    {
+        "domain":"www.wjeys.com",
+        "interface":"admin.wjeys.com",
+        "openId":"wxf730b0b04586d06f",
+        "title":"5+2养生",
+        "qrUrl":"http://test.gj.wjeys.com/public/static/vue/5+2weixin_code.jpg"
+    }
 ]
