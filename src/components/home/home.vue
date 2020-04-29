@@ -137,6 +137,7 @@ import Search from "../search/search";
 import Bus from "../../assets/js/bus";
 import Swiper from "swiper";
 import Signin from "../Signin/Signin.vue";
+import address from "../../../static/address";
 
 export default {
     name: "home",
@@ -275,7 +276,9 @@ export default {
     created() {
         let users = JSON.parse(localStorage.getItem("userinfo"));
         if (!users.hrl_openid) {
-            this.$router.push("/authorTwo");
+            if(location.host==address[0].domain){
+                this.$router.push("/authorTwo");
+            }
         }
         setTimeout(() => {
             const mySwiper = new Swiper(".swiper-container", {

@@ -6,6 +6,7 @@
 
 <script>
     import Bus from "../assets/js/bus";
+    import address from "../../static/address";
 
     export default {
         name: "author",
@@ -14,12 +15,17 @@
         },
         created() {
             let ua = window.navigator.userAgent.toLocaleLowerCase();
-            // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                  let code = this.getUrlParam('code');
                 if(!code){
                     //请求微信授权,并跳转到 /WxAuth 路由
                     let appId = 'wx5e4b4e507ac2fbd2'
-                    let url = 'http://www.gjst.net/author';
+                    for(let item of address){
+                        if(location.host==item.domain){
+                            appId = item.openId;
+                        }
+                    }
+                    let url = 'http://' + location.host + '/author';
                     let redirectUrl = encodeURIComponent(url);
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect`
                 }else{
@@ -41,24 +47,24 @@
                         console.log(error);
                     });
                 }
-            // }else{
-            //     let msg = {
-            //         method: 'login.wechat.oauth2.test',
-            //     };
-            //     this.$post('api/v1/user', msg)
-            //         .then((res) => {
-            //             // console.log(res);
-            //             if (res.status == 200) {
-            //                 localStorage.setItem('usertoken',res.data.token);
-            //                 console.log('授权完毕')
-            //                 location.replace('/');
-            //                 //location.href="/";
-            //                 Bus.$emit('getHot', true);
-            //             }
-            //         }).catch(function (error) {
-            //         console.log(error);
-            //     });
-            // }
+            }else{
+                let msg = {
+                    method: 'login.wechat.oauth2.test',
+                };
+                this.$post('api/v1/user', msg)
+                    .then((res) => {
+                        // console.log(res);
+                        if (res.status == 200) {
+                            localStorage.setItem('usertoken',res.data.token);
+                            console.log('授权完毕')
+                            location.replace('/');
+                            //location.href="/";
+                            Bus.$emit('getHot', true);
+                        }
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            }
 
         },
 

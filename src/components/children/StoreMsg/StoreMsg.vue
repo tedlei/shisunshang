@@ -65,7 +65,7 @@
         </van-row> -->
       </div>
 
-      <div class="common_box record_integral" v-if="shops.pay_list.length > 0">
+      <div class="common_box record_integral" v-if="shops.pay_list && shops.pay_list.length > 0">
         <div class="record_ttl clo-g">
           <span>上传人数：{{shops.pay_count}}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;

@@ -16,7 +16,7 @@
               finished-text="没有更多了"
               @load="onLoad"
               ref="checkbox"
-            >
+                >
               <van-row class="introduce_img" :gutter="10">
                 <van-col v-for="(items,indexs) in goodslist" :key="indexs" :span="12" class="lists">
 
@@ -28,21 +28,21 @@
                         <p class="goodsk_price">￥{{Number(items.price)}}</p>
                         <p class="goodsk_p">签到金可订购</p>
                       </div>
-
                       <van-image
                         fit="cover"
                         :src="items.imgsrc"
                         class="goods_img"
                       />
                     </div>
-
                     <div class="msg">
                       <div class="text fontWrap fontWrapTwo">
                         <span class="vip">{{zhuan[$route.query.typeid]}}</span>
                         {{items.name}}
                       </div>
-                      <div class="yishou">已售：{{items.xiaoliang}}件</div>
-                      <div class="clo-g price">￥{{items.price}}</div>
+                      <div class="msg_pric">
+                        <div class="clo-g price">￥{{items.price}}</div>
+                        <div class="yishou">已售：{{items.xiaoliang}}件</div>
+                      </div>
                     </div>
                   </div>
                 </van-col>
@@ -276,6 +276,10 @@
       padding: 0;
     }
   }
-
+    .msg_pric{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
 </style>

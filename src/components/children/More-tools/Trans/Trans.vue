@@ -12,7 +12,7 @@
                   <div class="">￥{{item.form_money | moneyFormat}}</div>
                 </div>
               </div>
-              <van-icon name="down" style="font-size:0.24rem;transform: rotate(-90deg);" class="clo-9"/>
+              <van-icon name="down" style="transform: rotate(-90deg);" class="clo-9"/>
               <div class="money_box">
                 <span>至</span>
                 <div>

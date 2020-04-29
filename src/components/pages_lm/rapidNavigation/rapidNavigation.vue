@@ -1,6 +1,6 @@
 <template>
   <div class="ranav_app" id='rapNavig' :class="show?'isShow':''"
-    @click="tapIsShow" v-show="isPageShow" @touchmove='aa'
+    @click="tapIsShow" v-show="isPageShow" @touchmove.prevent='aa'
         :style="{top:wz>-1?wz+'px':'70%'}">
       <div class="ranavText" :class="show?'':'ranavShow'">
           <van-icon  :name="!show?'arrow-left':'arrow'" />
