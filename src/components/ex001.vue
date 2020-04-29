@@ -1,64 +1,71 @@
 <template>
     <div>
-        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-            <van-list
-                v-model="loading"
-                :finished="finished"
-                finished-text="没有更多了"
-                @load="onLoad"
-                >
-                <div class="div1" v-for="item in list" :key="item">
-                    {{item}}
-                </div>
-            </van-list>
-        </van-pull-refresh>
-        
+        <div v-show='!show' class="">
+            <div class="erweima">
+                <!-- <qrcode :url="urls" 
+                    :iconurl="portrait" 
+                    :wid="170" 
+                    :hei="170"
+                    :imgwid="50"
+                    :imghei="50">
+                </qrcode> -->
+            </div>
+            <img src="../assets/img/zjhb1.jpg" @load="tuxiang" ref="tuxiang" alt="">
+        </div>
+        <canvas v-show='show' id="myCanvas" :width="cwidth" :height="chetght" style="border:1px solid #c3c3c3;">
+        </canvas>
     </div>
 </template>
 
 <script>
 import qrcode from 'vue_qrcodes'
 export default {
-  data() {
-    return {
-      list: [],
-      loading: false,
-      finished: false,
-      refreshing: false,
-    };
-  },
-  methods: {
-    onLoad() {
-      setTimeout(() => {
-        if (this.refreshing) {
-          this.list = [];
-          this.refreshing = false;
+    data() {
+        return {
+            urls:'http://www.gjst.net',
+            portrait: '',
+            cwidth: null,
+            chetght: null,
+            show:false
+        };
+    },
+    components:{
+        qrcode
+    },
+    methods: {
+        tuxiang(e){
+            this.cwidth = this.$refs.tuxiang.width;
+            this.chetght = this.$refs.tuxiang.height;
+            this.huatule();
+        },
+        huatule(){
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            var img=new Image()
+            img.src=require("../assets/img/zjhb1.jpg");
+            // img.style = "width:" + this.cwidth + 'px;' + "height:" + this.chetght + 'px';
+            let w = this.cwidth;
+            let h = this.chetght;
+            console.log(w);
+            img.onload=function (){
+                cxt.drawImage(img,0,0,w,h);
+            }
+            this.show = true;
+            // console.log(img);
         }
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
 
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 1000);
     },
-    onRefresh() {
-      // 清空列表数据
-      this.finished = false;
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      this.loading = true;
-      this.onLoad();
+    created(){
+        let userinfo = JSON.parse(this.$store.getters.getuserinfo);
+        this.portrait = userinfo.portrait;
     },
-  },
+    mounted(){
+        // this.huatule();
+    }
 };
 </script>
 <style lang="scss" scoped>
-    .div1{
-        height: 200px;
-        margin: 10px;
-        background: chartreuse;
+    .erweima{
+        position: absolute;
     }
 </style>
