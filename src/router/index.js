@@ -46,6 +46,7 @@ import helpList from '@/components/pages_lm/help/list'
 import helpDetail from '@/components/pages_lm/help/detail'
 import upgrade from '@/components/pages_lm/upgrade/upgrade'
 import codePage from '@/components/pages_lm/codePage/codePage'
+import deal from '@/components/pages_lm/upgrade/deal'
 
 
 Vue.use(Router)
@@ -481,6 +482,15 @@ const $router = new Router({
           component:upgrade,
           meta: {
             title: '在线升级',
+            showFooter: false,     //配置底部tabbar
+          },
+        },
+        {
+          path:'/deal',
+          name:'deal',
+          component:deal,
+          meta: {
+            title: '协议和政策',
             showFooter: false,     //配置底部tabbar
           },
         }

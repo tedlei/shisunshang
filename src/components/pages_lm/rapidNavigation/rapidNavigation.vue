@@ -32,12 +32,15 @@ export default {
             isPageShow:false,  //显示隐藏
             wz:-1,   //移动高度
             maxgd:0,   //最大高度
+            pathList:[
+                '/','/classification','/business','/my_cart','/mine','/author'
+            ]
         }
     },
     created(){
         this.maxgd = document.documentElement.clientHeight || document.body.clientHeight;
         let {path} = this.$route;
-        if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
+        if(this.pathList.indexOf(path)>-1){
             this.isPageShow = false
         }else this.isPageShow = true;
     },
@@ -59,7 +62,7 @@ export default {
         $route(to,from){
             this.show = false;
             let {path} = to;
-            if(path==='/'||path==='/classification'||path==='/business'||path==='/my_cart'||path==='/mine'){
+            if(this.pathList.indexOf(path)>-1){
                 this.isPageShow = false;
             }else this.isPageShow = true;
         }
@@ -73,9 +76,7 @@ export default {
     height: 40px;
     position: fixed;
     left: calc(100vw - 50px);
-    // top: 80%;
     z-index: 10001;
-    // transition: all 0.5s;
     .ranavText{
         width: 50px;
         height: 40px;
@@ -89,7 +90,6 @@ export default {
         position: absolute;
         top: 75%;
         left: calc(100vw - 250px);
-        // transition: all 0.5s;
         .navList{
             width: 200px;
             padding:0.1rem 0;
@@ -97,11 +97,9 @@ export default {
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
             position: absolute;
-            // top: 0;
             right: -200px;
             display: flex;
             flex-wrap: wrap;
-            // justify-content: space-between;
             .list{
                 width: 33.33333%;
                 height: 100%;
