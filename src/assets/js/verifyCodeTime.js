@@ -96,7 +96,7 @@ let Api = {
                 }
             }
         })
-        // 把 实例化的 toast.vue 添加到 body 里
+        // 把实例化的vue文件添加到body里
         document.body.appendChild(toastDom.$el)
         // 过了 duration 时间后隐藏
         setTimeout(() => { toastDom.show = false }, duration)
@@ -121,25 +121,26 @@ let Api = {
                 }
             }
         })
-        // // 把 实例化的 toast.vue 添加到 body 里
+        // 把实例化的vue文件添加到body里
         document.body.appendChild(toastDom.$el)
     },
 
     //地图位置点选
-    mapLocaSel(isBack,fun) {
+    mapLocaSel(fun) {
         const toastDom = new MapLoca({
             el: document.createElement('mapLoca'),
             data() {
                 return {
-                    show: true,
-                    fun   //回调函数
+                    show: true,  //显示隐藏
+                    fun,   //回调函数
+                    value: (event) => {  //经纬度回调函数
+                        var loc = event.data;
+                        if (loc && loc.module == "locationPicker") this.goBack(loc);
+                    }
                 }
             },
         })
-        if(isBack) toastDom.show = false
-        // console.log(this.$route,123436546354)
-        // // 把 实例化的 toast.vue 添加到 body 里
-        // document.getElementById('app').appendChild(toastDom.$el)
+        // 把实例化的vue文件添加到body里
         document.body.appendChild(toastDom.$el)
     },
 
