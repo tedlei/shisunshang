@@ -132,7 +132,6 @@
             //获取用户信息
             getUserrzxx(num) {
                 let data = this.$store.getters.getuserinfo;
-                // console.log(JSON.parse(data));
                 if (data) {
                     if (!JSON.parse(data).phone) {
                         if (num === 1) {
@@ -158,7 +157,7 @@
         created() {
             let user = JSON.parse(this.$store.getters.getuserinfo);
             this.user = user;
-            // console.log(this.$store.getters.getuserinfo)
+            console.log(user)
         }
     };
 </script>

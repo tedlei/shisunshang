@@ -138,7 +138,8 @@
                 adress: "重庆市江北区金渝大道168号",
                 qrCodeShow: false,
                 codes: false,
-                cx: false
+                cx: false,
+                aa:1
             }
 
         },
@@ -228,9 +229,10 @@
         },
         mounted() {
             this.getData();
-            setTimeout(() => {
-                this.creatQrCode();
-            },1000);
+
+        },
+        updated(){
+          this.creatQrCode();
         },
         destroyed() {
 
