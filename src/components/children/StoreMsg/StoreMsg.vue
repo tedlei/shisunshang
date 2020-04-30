@@ -228,9 +228,12 @@
         },
         mounted() {
             this.getData();
-            setTimeout(() => {
-                this.creatQrCode();
-            },1000);
+            this.$nextTick(function() {
+              this.creatQrCode();
+            });
+            // setTimeout(() => {
+            //     this.creatQrCode();
+            // },1000);
         },
         destroyed() {
 
