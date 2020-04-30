@@ -104,7 +104,7 @@
             style="display: flex;justify-content: space-between;"
             class="m_b_10 conmo_box"
             @click="show=true"
-          >
+            >
             <div class="left vip_head">购买方式：</div>
             <div style="display: flex; align-items: center;" class="right">
               <div>{{actionsName[isactions]}}</div>
@@ -176,10 +176,16 @@
           <div id="commoditEvaluate">
             <shop :is_follow="is_follow"></shop>
           </div>
+
+
+
+
+
+
           <!-- 海报 -->
           <div class="Cover" v-show="isQRcodeDomainName">
-            <div v-show="!isPoster">
-              <div class="PosterDiv" id="Poster" :style="{'width':w+'px','height':h+'px'}">
+            <div v-show="!isPoster" >
+              <div class="PosterDiv" @click="Closehb" id="Poster" :style="{'width':w+'px','height':h+'px'}">
                 <div>
                   <img :src="portrait" alt/>
                   <div>
@@ -205,12 +211,16 @@
               </div>
             </div>
             <div class="haibao" v-show="isPoster">
-              <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false">
+              <!-- <div class="CloseQRcodeDomainName" @click="isQRcodeDomainName = false"> -->
+              <div class="CloseQRcodeDomainName" @click="Closehb">
                 <img src="../../assets/img/hbx.png" alt/>
               </div>
               <img style="width: 100%; heigth:100%;" :src="imgResult" alt="#"/>
             </div>
           </div>
+
+
+
           <div class="CoverTwo" v-show="isUrl" @click="isUrl = false">
             <div style="text-align: right">
               <img src="../../assets/img/zhi.png" class="zhi"/>
@@ -584,9 +594,10 @@
                 this.showTwo = false;
                 this.isQRcodeDomainName = true;
                 setTimeout(() => {
-                    if (!this.isPoster) {
+                    this.imgResult = '';
+                    // if (!this.isPoster) {
                         this.downloadImage();
-                    }
+                    // }
                 }, 800);
             },
 
@@ -625,10 +636,16 @@
                         let imgUri = canvas.toDataURL("image/jpeg", 1); // 获取生成的图片的url
                         // console.log(imgUri)
                         this.imgResult = imgUri;
+                        // console.log(imgUri)
                         this.isPoster = true;
                         // clearTimeout();
                     }
                 );
+            },
+            //海报关闭
+            Closehb(){
+                this.isQRcodeDomainName = false;
+                this.isPoster = false;
             },
 
             //获取推荐列表、
