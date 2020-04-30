@@ -106,9 +106,8 @@
                     .then((response) => {
                         if (response.status == 200) {
                             response.data.unshift({id: 0, cate_name: '全部'})
-                            for (let item of response.data) {
-                                this.navItems.push(item)
-                            }
+                            this.navItems = response.data;
+
                         } else {
                             _this.$toast(response.message)
                         }
