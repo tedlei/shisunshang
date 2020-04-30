@@ -3,7 +3,7 @@
     <header ref="headerh">
       <!--扫码-->
       <div @click="opensearch" style="width: 100%;margin:0 0.1rem">
-        <search :dmsg="true"></search>
+        <search :dmsg="msg"></search>
       </div>
       <!--消息-->
       <!--      <div class="news">-->

@@ -294,7 +294,7 @@
                     },
                     {
                         img: "gj6",
-                        name: "我的团队",
+                        name: "我的分享",
                         linkto: "/mine/Myteam"
                     },
                     // {
