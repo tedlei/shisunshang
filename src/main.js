@@ -115,28 +115,28 @@ router.beforeEach((to, from, next) => {
   }
 
 
-  /*路由发生改变修改页面的title */
-  if (to.name == 'home') {
-    // console.log(post)
-    // console.log('我是主页')
-    let ad_data = { method: 'get.web.info' };
-    post('/api/v1/sets', ad_data)
-      .then((res) => {
-        document.title = res.data.webtitle;
-      }).catch(function (error) {
-        console.log(error);
-      });
-  } else if (to.name != 'Special-area' && to.meta.title && to.name != 'goodslist') {
-    document.title = to.meta.title;
-  }else if(to.name == 'goodslist'){
-    //   console.log(to)
-    document.title = to.query.name;
-  }
-
-  if(!['/goodsdetails/makeorder','/mine/invoice','/mine/myinvoice'].includes(to.path)){
-    // console.log('我不是发票')
-    store.commit('sendIvcMsg', 1);
-  }
+    /*路由发生改变修改页面的title */
+    if (to.name == 'home') {
+      // console.log(post)
+      // console.log('我是主页')
+      let ad_data = { method: 'get.web.info' };
+      post('/api/v1/sets', ad_data)
+          .then((res) => {
+              document.title = res.data.webtitle;
+          }).catch(function (error) {
+              console.log(error);
+          });
+    } else if (to.name != 'Special-area' && to.meta.title && to.name != 'goodslist') {
+          document.title = to.meta.title;
+    }else if(to.name == 'goodslist'){
+      //   console.log(to)
+          document.title = to.query.name;
+    }
+  
+    if(!['/goodsdetails/makeorder','/mine/invoice','/mine/myinvoice'].includes(to.path)){
+      // console.log('我不是发票')
+      store.commit('sendIvcMsg', 1);
+    }
   next();
 });
 

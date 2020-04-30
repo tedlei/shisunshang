@@ -339,6 +339,12 @@ const $router = new Router({
             meta: {title: '下载海报展架', showFooter: false, goods: false,}
         },
         {
+            path: '/mine/PosterStandTwo',
+            name: 'PosterStandTwo',
+            component: resolve => require(['@/components/mine/myShare/PosterStandTwo'], resolve),
+            meta: {title: '下载海报展架', showFooter: false, goods: false,}
+        },
+        {
           path: '/mine/ad/addetails',
           name: 'addetails',
           component: addetails,
