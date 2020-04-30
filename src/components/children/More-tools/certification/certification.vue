@@ -5,7 +5,7 @@
       <p class="tips">身份信息(必填)</p>
       <div class="common_box">
         <van-field v-model="username" name="username" placeholder="真实姓名"/>
-        <van-field v-model="number1" type="text" name="number" placeholder="您的身份证号码(将做加密处理)"/>
+        <van-field v-model="number1" type="number" name="number" placeholder="您的身份证号码(将做加密处理)"/>
       </div>
       <p class="tips">您的手机号码(必填)</p>
       <div class="common_box">

@@ -5,7 +5,7 @@
       <van-field v-model="allinput.input1" label="姓名：" placeholder="请填写收货人姓名"/>
     </div>
     <div class="common_box ipt_box">
-      <van-field v-model="allinput.input2" label="手机号：" placeholder="请填写收货手机号"/>
+      <van-field v-model="allinput.input2" type="number" label="手机号：" placeholder="请填写收货手机号"/>
     </div>
     <div class="common_box left_ttl">收货地址</div>
 
