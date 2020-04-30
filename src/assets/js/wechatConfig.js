@@ -2,6 +2,7 @@ import { get,post } from '../../api/https'
 import wx from 'weixin-js-sdk'
 import store from "../../store";
 import { Toast,Dialog } from 'vant';
+import address from '../../../static/address';
 
 const wechatAuth = async function (url, to, userinfo, goods) {
   // wx.checkJsApi({
@@ -75,9 +76,16 @@ const wechatAuth = async function (url, to, userinfo, goods) {
           }
         //   console.log(urls);
           //  好友
+            let titles = '';
+            for(let item of address){
+                if(item.domain==location.host){
+                    titles = item.title;
+                }
+            }
+            // if(location.host == )
             wx.updateAppMessageShareData({
-              title: goods?goods.title:'国健生态平台',
-              desc: goods?goods.desc:'国健生态平台!Come on.!',
+              title: goods?goods.title:titles,
+              desc: goods?goods.desc:titles+'!Come on.!',
               link: urls,
               imgUrl: goods?goods.imgUrl:'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
               success:  () => {//设置成功
@@ -101,7 +109,7 @@ const wechatAuth = async function (url, to, userinfo, goods) {
             });
           //朋友圈
             wx.updateTimelineShareData({
-              title: goods?goods.title:'国健生态平台',//朋友圈没有描述
+              title: goods?goods.title:titles,//朋友圈没有描述
               link: urls,
               imgUrl: goods?goods.imgUrl:'http://test.gj.wjeys.com/public/up/test_gj_wjeys_com-2-2-20200414144028-14_106_130_90-628585.jpg',
               success:  () => {//设置成功

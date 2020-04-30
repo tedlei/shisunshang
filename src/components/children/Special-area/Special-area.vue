@@ -144,9 +144,10 @@
             //分类点击切换
             qiehuan(name, title) {
                 // console.log(this.classId)
-                // console.log(name)
+                console.log(name)
+                console.log(title)
                 if (this.classId != name) {
-                    this.classId = name;
+                    this.classId = this.navItems[name].id;
                     this.page = 0;
                     this.goodslist = [];
                     this.finished = false;
@@ -165,6 +166,7 @@
                     page_size: 10,
                     cate_id: this.classId == 0 ? '' : this.classId
                 };
+                
                 this.$post('/api/v1/goods', parms)
                     .then((res) => {
                         if (res.data) {

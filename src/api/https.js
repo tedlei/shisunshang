@@ -13,9 +13,9 @@ let ua = window.navigator.userAgent.toLocaleLowerCase();
 let baseURL = 'http://admin.gjst.net';
 if (ua.match(/MicroMessenger/i) == 'micromessenger') {
   for(let item of address){
-      if(location.host==item.domain){
-          baseURL = 'http://'+item.interface;
-      }
+        if(location.host==item.domain){
+            baseURL = 'http://'+item.interface;
+        }
   }
 }
 
