@@ -7,7 +7,7 @@
     </ul>
     <!--    -->
     <van-tabs class="nav" v-model="active" animated @click="qiehuan">
-      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name" :name='item.id'>
+      <van-tab v-for="(item,index) in navItems" :key="index" :title="item.cate_name" >
         <div class="content" :style="{'height':content_H}" id="chatContent" v-if="goodslist.length > 0">
           <div class="common_box" ref="chatContent">
             <van-list
@@ -16,7 +16,7 @@
               finished-text="没有更多了"
               @load="onLoad"
               ref="checkbox"
-                >
+            >
               <van-row class="introduce_img" :gutter="10">
                 <van-col v-for="(items,indexs) in goodslist" :key="indexs" :span="12" class="lists">
 
@@ -83,7 +83,7 @@
                 navItems: [],
                 defaultcateid: '',
                 cateidarry: [],
-                active: '',
+                active: 0,
                 zhuan: {vip: '会员区', customer: '顾客区', retail: '零售区', shop: '商家区'},
                 firstNav: [{text: '顾客区', value: 0, typeid: 'customer'},
                     {text: '会员区', value: 1, typeid: 'vip'},
@@ -169,7 +169,7 @@
                     .then((res) => {
                         if (res.data) {
                             this.page += res.data.length;
-                            // console.log(this.page);
+
                             this.goodslist = [...this.goodslist, ...res.data];
                             // 加载状态结束
                             this.loading = false;
@@ -276,10 +276,11 @@
       padding: 0;
     }
   }
-    .msg_pric{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+
+  .msg_pric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
 </style>
