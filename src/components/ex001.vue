@@ -12,12 +12,12 @@ import QRCode from "qrcodejs2";
 export default {
   data() {
     return {
-      imgSrc: require("../assets/img/zjhb2.jpg"),
+      imgSrc: require("../assets/img/zjhb1.jpg"),
       w: 0,
       h: 0,
       can: null,
-      qrCodeW: 35,
-      qrCodeLoca: { w: 50.6068, h: 75.3339 }
+      qrCodeW: 40,
+      qrCodeLoca: { w: 50, h: 50 }
     };
   },
   methods: {
@@ -50,6 +50,7 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       });
       var canvas = document.getElementsByTagName("canvas")[0];
+      // console.log(canvas)
       this.convertCanvasToImage(canvas,wh);
     },
 
