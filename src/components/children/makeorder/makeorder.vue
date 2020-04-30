@@ -135,19 +135,18 @@
         <div style="width: max-content;min-width: 70px;">买家留言：</div>
         <van-field v-model="input" placeholder="(选填)可输入20字买家留言"/>
       </div>
-      <router-link
+      <!-- <router-link
         :to="{path:'/mine/invoice',query:{state:'0'}}"
         class="common m_b_10"
         v-if="$route.query.buy_type == 'retail' || $route.query.buy_type == 'shop'"
         >
         <div>发票信息</div>
         <div class="right">
-          <!-- <span v-if="this.infor == 1">不开具发票</span> -->
           <span v-if="this.infor == 1">不开具发票</span>
           <span v-else>{{$store.getters.getinvoice.title}}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
-      </router-link>
+      </router-link> -->
       <!-- <div v-show='$store.state.IvcMsg!=1' style="color:rgb(153, 153, 153);" class="common m_b_10">
         <div>发票抬头名称：</div>
         <div class="right"></div>
@@ -281,7 +280,7 @@
                 };
                 this.$post('/api/v1/order', ad_data)
                     .then((res) => {
-                        console.log(res);
+                        // console.log(res);
                         // return false;
                         if (res.status == 200) {
                             this.orderData = res.data;

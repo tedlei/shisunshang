@@ -5,7 +5,7 @@
                 <img style="height:3.2rem;" :src="item.url" alt="">
             </div>
         </div>
-        <van-overlay :show="show" @click="Closehb">
+        <van-overlay style="" :show="show" @click="Closehb">
             <div class="wrapper">
                 <div></div>
                 <div id="Posters" v-show="!showTwo">
@@ -22,7 +22,7 @@
                     <img @load="olad" ref="zjhb" :src="bkUrl" alt="">
                 </div>
                 <div v-show="showTwo">
-                    <img :src="hbUrl" alt="">
+                    <img :style="'height:'+ h + 'px'" :src="hbUrl" alt="">
                 </div>
             </div>
         </van-overlay>
@@ -57,6 +57,7 @@
             show:false,
             showTwo: false,
             hbUrl:'',
+            h: '',
             bkUrl: '',
             top:'50%',
             left: '50%',
@@ -95,7 +96,9 @@
         olad(e){
             // console.log(this.$refs.zjhb.width*20);
                 let Poster = document.getElementById('Posters');
-                    // console.dir(Poster);
+                // console.dir(Poster.offsetWidth);
+                // console.dir(Poster.offsetHeight);
+                this.h = Poster.offsetHeight
                 let opts = {
                     useCORS: true,
                     width: Poster.offsetWidth,
@@ -133,10 +136,10 @@
         
     },
     computed: {
-      
+        
     },
     watch: {
-      
+        
     }
 }
 </script>
@@ -161,7 +164,8 @@
     }
     .wrapper {
         height: 100%;
-        overflow-y: auto;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling:touch;
         padding: 0 0.1rem;
         >div:first-child{
             height: 0.48rem;

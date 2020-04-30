@@ -7,8 +7,8 @@
         </div> -->
         <div class="btn" v-if="iswc">
             <div v-clipboard:copy="urls"
-             v-clipboard:success="onCopy"
-             v-clipboard:error="onError" @click="select(1)">复制推广二维码</div>
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError" @click="select(1)">复制推广二维码</div>
             <div @click="download">下载海报展架</div>
         </div>
         <div>

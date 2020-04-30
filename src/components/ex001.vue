@@ -19,7 +19,7 @@
 
 <script>
 import QRCode from "qrcodejs2";
-// import qrcode from 'vue_qrcodes'
+import qrcode from 'vue_qrcodes'
 export default {
     data() {
         return {

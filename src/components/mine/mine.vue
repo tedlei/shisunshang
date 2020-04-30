@@ -338,11 +338,11 @@
                         name: "商家入驻",
                         linkto: "/mine/nearby"
                     },
-                    {
-                        img: 'mgj4',
-                        name: '发票专区',
-                        linkto: '/mine/myinvoice'
-                    },
+                    // {
+                    //     img: 'mgj4',
+                    //     name: '发票专区',
+                    //     linkto: '/mine/myinvoice'
+                    // },
                     // {
                     //     img: 'mgj5',
                     //     name: '实名认证',
