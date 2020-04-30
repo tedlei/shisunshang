@@ -24,8 +24,8 @@
         <van-icon name="arrow" color='#9d9f9f'/>
       </div>
       <!-- @click="getFocus()" :readonly="true"  获取地理位置 -->
-      <van-field v-model="input2" label="详细地址："  placeholder="请输入详细地址" />
-      <!-- <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" /> -->
+      <van-field v-model="input2" label="详细地址：" @click="getFocus()" :readonly="true" placeholder="请输入详细地址" />
+      <van-field v-model="doorCode" label="门牌号：" placeholder="请输入门牌号" />
 
       <van-field v-model="input3" type="number" label="联系电话：" placeholder="请输入商家联系电话" />
       <!-- <van-field v-model="Recommender" type="number" label="推荐人：" placeholder="请输入推荐人电话（选填）"/> -->
@@ -160,7 +160,7 @@ export default {
       input: "",
       input1: "",
       input2: "",
-      // doorCode:"",
+      doorCode:"",
       input3: "",
       upfileList: [],
       readingF: [],
@@ -174,8 +174,8 @@ export default {
       showDatetimeTwo: false,
       currentTimeTwo: "12:00",
       currentTimeMsgTwo: "结束时间",
-      // latitude:0,
-      // longitude:0
+      latitude:0,
+      longitude:0
     };
   },
   methods: {
@@ -353,6 +353,7 @@ export default {
                         area_id: this.province[5],
                         // referee: this.Recommender,
                         address: this.input2,
+                        mph: this.doorCode,
                         mobile: this.input3,
                         bus_scope: this.message,
                         cate_id: this.upclassId,
@@ -360,7 +361,9 @@ export default {
                         bus_hours_st: this.currentTimeMsg,
                         bus_hours_et: this.currentTimeMsgTwo,
                         imgurl: imgurls[0],
-                        album: album
+                        album: album,
+                        latitude:this.latitude,
+                        longitude:this.longitude
                     };
                     // console.log(ad_data)
                     this.$post('/api/v1/userStore', ad_data)
@@ -386,19 +389,15 @@ export default {
 
             },
 
-            //获取坐标
-            isGteLocation(value){
-                if(!value){
-                    this.$dialog.alert({
-                        title: '提示',
-                        message: '获取位置失败,是否重新获取',
-                    }).then(() => {
-                        this.getLocation(this.isGteLocation);
-                    }) .catch(() => {
-                    })
-                }else{
-                    this.tc('获取坐标成功'+value.latitude+" "+value.longitude)
-                }
+            //详细地址获取焦点
+            getFocus(){
+                this.mapLocaSel(res=>{
+                    let {latlng,poiname} = res;
+                    this.latitude = latlng.lat;
+                    this.longitude = latlng.lng;
+                    this.input2 = res.poiname;
+                    console.log(res,this.latitude, this.longitude,123463543);
+                })
             }
         },
         created() {

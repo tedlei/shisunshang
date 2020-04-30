@@ -476,15 +476,15 @@ const $router = new Router({
             }
           ],
         },
-        {
-          path:'/upgrade',
-          name:'upgrade',
-          component:upgrade,
-          meta: {
-            title: '在线升级',
-            showFooter: false,     //配置底部tabbar
-          },
-        },
+        // {
+        //   path:'/upgrade',
+        //   name:'upgrade',
+        //   component:upgrade,
+        //   meta: {
+        //     title: '在线升级',
+        //     showFooter: false,     //配置底部tabbar
+        //   },
+        // },
         {
           path:'/deal',
           name:'deal',
