@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="common_box">
+    <div class="common_box" v-if="show">
       <van-field
         v-model="password1"
         type="password"
@@ -43,7 +43,6 @@
         label="支付密码"
         placeholder="请输入6位数字密码"
         :rules="[{ required: true, message: '请输入支付密码' }]"
-        v-if="show"
       />
 
       <van-field
@@ -53,7 +52,6 @@
         label="确认支付密码"
         placeholder="请再次输入支付密"
         :rules="[{ required: true, message: '请再次输入支付密' }]"
-        v-if="show"
       />
     </div>
     <div style="margin: 0.1rem;">
