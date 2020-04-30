@@ -80,7 +80,7 @@
                 page: 0,
                 flag: true,
                 dontOnload: false,
-                navItems: [{id: 0, cate_name: '全部'}],
+                navItems: [],
                 defaultcateid: '',
                 cateidarry: [],
                 active: '',
@@ -105,6 +105,7 @@
                 this.$post('/api/v1/goodsCategory', parms)
                     .then((response) => {
                         if (response.status == 200) {
+                            response.data.unshift({id: 0, cate_name: '全部'})
                             for (let item of response.data) {
                                 this.navItems.push(item)
                             }
