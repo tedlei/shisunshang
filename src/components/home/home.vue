@@ -105,7 +105,8 @@
     import Bus from "../../assets/js/bus";
     import Swiper from "swiper";
     import Signin from "../Signin/Signin.vue";
-
+    import address from "../../../static/address";
+    
     export default {
         name: "home",
         //2.然后,在components中写入子组件
