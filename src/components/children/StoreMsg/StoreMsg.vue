@@ -6,9 +6,19 @@
       </div>
       <div class="common_box store_msg">
         <div class="name">
-          <div style="display: flex;flex: 1">
+          <div style="display: flex;flex: 1;align-items: center">
             <span class="left_name fontWrap fontWrapOne">{{shops.name}}</span>
-            <img src="../../../assets/img/cx.jpg" v-if="shops.is_promotion == 1" @click="Previewcode(false,'cx')">
+
+            <div class="cx_box_s" v-if="shops.is_promotion == 1" @click="Previewcode(false,'cx')">
+              <p class="cx_name">{{shops.name}}</p>
+              <img src="../../../assets/img/cx.jpg">
+              <div class="cx_btm">
+                <p class="cx_t">石笋山生态平台</p>
+                <p class="cx_time">{{shops.utime}}</p>
+                <img src="../../../assets/img/zhang.png" class="zhang">
+              </div>
+            </div>
+
           </div>
 
           <span class="cx_jin">商家促销金:{{shops.promotion_money}}</span>
@@ -97,7 +107,6 @@
           <p class="cx_time">{{shops.utime}}</p>
           <img src="../../../assets/img/zhang.png" class="zhang">
         </div>
-
       </div>
 
     </div>
@@ -228,8 +237,8 @@
         },
         mounted() {
             this.getData();
-            this.$nextTick(function() {
-              this.creatQrCode();
+            this.$nextTick(function () {
+                this.creatQrCode();
             });
             // setTimeout(() => {
             //     this.creatQrCode();
@@ -260,61 +269,92 @@
         justify-content: space-between;
 
         img {
-          margin: 0 0.1rem;
-          width: auto;
-          height: 0.24rem;
+          width: 0.48rem;
         }
 
-        .cx_jin {
-          background-color: #009900;
-          line-height: 0.2rem;
-          border-radius: 0.2rem;
-          color: #fff;
-          padding: 2px 0.05rem;
-          font-size: 0.12rem;
-          width: max-content;
+        .cx_box_s {
+          position: relative;
+          font-size: 0.02rem;
+          text-align: center;
+          margin:0 0.1rem;
+          .cx_name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            top: 0.03rem;
+          }
+
+          .cx_btm {
+            position: absolute;
+            right: 0.03rem;
+            bottom: 0.04rem;
+            line-height: 1.4;
+            font-size: 0.015rem;
+            .zhang {
+              top: 20%;
+              transform: translate(-50%, -50%);
+              position: absolute;
+              width: 0.08rem;
+              height: auto;
+              margin: 0 auto;
+              line-height: inherit;
+            }
+          }
         }
-      }
 
-      .time {
-        margin: 0.1rem 0;
-        color: #999999;
-      }
 
-      .adress {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      .cx_jin {
+        background-color: #009900;
+        line-height: 0.2rem;
+        border-radius: 0.2rem;
+        color: #fff;
+        padding: 2px 0.05rem;
+        font-size: 0.12rem;
+        width: max-content;
       }
     }
 
-    .s_code {
-      margin-top: 0.1rem;
+    .time {
+      margin: 0.1rem 0;
+      color: #999999;
+    }
+
+    .adress {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+  }
 
-    .introduce {
-      p {
-        text-align: justify;
-        line-height: 2;
-        margin-bottom: 0.1rem;
-      }
+  .s_code {
+    margin-top: 0.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-      .introduce_img {
-        padding: 0.1rem 0;
+  .introduce {
+    p {
+      text-align: justify;
+      line-height: 2;
+      margin-bottom: 0.1rem;
+    }
 
-        .img_main {
-          padding-bottom: 0.1rem;
-          width: 100%;
-          background: rgba(0, 0, 0, 0.05);
-          // border-radius: 5px;
-          display: flex;
-          flex-wrap: wrap;
-        }
+    .introduce_img {
+      padding: 0.1rem 0;
+
+      .img_main {
+        padding-bottom: 0.1rem;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.05);
+        // border-radius: 5px;
+        display: flex;
+        flex-wrap: wrap;
       }
     }
+  }
+
   }
 
   .qrCodeMax {
@@ -369,6 +409,7 @@
     .record_ttl {
       font-size: 0.16rem;
     }
+
     .record_content {
       padding: 0.1rem;
       border: 1px dashed #009900;
@@ -400,6 +441,7 @@
     font-size: 0.1rem;
     margin: 0.1rem;
     line-height: 0.4rem;
+
     .uploadpic_text {
       background-color: rgba(0, 153, 0, 0.7);
       border-radius: 5px;
