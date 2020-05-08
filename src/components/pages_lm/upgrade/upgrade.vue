@@ -49,7 +49,7 @@
 
     <van-dialog v-model="show" title="声明和条款" width="95%" show-cancel-button @confirm="tapKt">
       <div style="padding:0.1rem 0.2rem;text-align:left;color:rgb(38,38,38);font-size:0.15rem;">
-        搜索服务需要您同意
+        购物服务需要您同意
         <span @click="tapbtn(1)" style="color:rgb(0,122,255);">《用户协议》</span>和
         <span @click="tapbtn(2)" style="color:rgb(0,122,255);">《隐私政策》</span>方可使用。在使用过程中需要使用网络、电话、存储、账户、应用列表信息、读取联系人/
         短信/通话记录/日历，您是否同意？

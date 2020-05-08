@@ -105,6 +105,7 @@
     import Bus from "../../assets/js/bus";
     import Swiper from "swiper";
     import Signin from "../Signin/Signin.vue";
+    import address from "../../../static/address";
 
     export default {
         name: "home",
