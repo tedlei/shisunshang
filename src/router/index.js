@@ -47,6 +47,7 @@ import helpDetail from '@/components/pages_lm/help/detail'
 import upgrade from '@/components/pages_lm/upgrade/upgrade'
 import codePage from '@/components/pages_lm/codePage/codePage'
 import deal from '@/components/pages_lm/upgrade/deal'
+import transferMoney from '@/components/pages_lm/transferMoney/transferMoney'
 
 
 Vue.use(Router)
@@ -447,6 +448,15 @@ const $router = new Router({
           name: 'Trans',
           component: Trans,
           meta: {title: '账户互转', showFooter: false, goods: false,}
+        },
+        {
+          path:'/mine/transferMoney',
+          name:'transferMoney',
+          component:transferMoney,
+          meta: {
+            title: '充值金转账',
+            showFooter: false,     //配置底部tabbar
+          },
         },
         {
           path: '/mine/certification',
