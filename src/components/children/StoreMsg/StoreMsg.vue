@@ -89,6 +89,7 @@
 
     <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
       <div id="qrCode2" v-show="codes" class="qrconde" ref="qrCode2"></div>
+      
       <div v-show="cx" class="cx_box">
         <p class="cx_name">{{shops.name}}</p>
         <img src="../../../assets/img/cx.jpg">
@@ -97,7 +98,6 @@
           <p class="cx_time">{{shops.utime}}</p>
           <img src="../../../assets/img/zhang.png" class="zhang">
         </div>
-
       </div>
 
     </div>

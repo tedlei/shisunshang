@@ -52,7 +52,7 @@
         </div>
 
         <div class="content" v-if="goodslist.length==0">
-          <van-empty description="暂无商品！"/>
+            <van-empty description="暂无商品！"/>
         </div>
 
       </van-tab>
@@ -111,7 +111,6 @@
                         } else {
                             _this.$toast(response.message)
                         }
-
                     }).catch(function (error) {
                     console.log(error);
                 })
@@ -169,9 +168,9 @@
                 
                 this.$post('/api/v1/goods', parms)
                     .then((res) => {
+                        
                         if (res.data) {
                             this.page += res.data.length;
-
                             this.goodslist = [...this.goodslist, ...res.data];
                             // 加载状态结束
                             this.loading = false;
