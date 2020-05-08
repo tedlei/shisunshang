@@ -95,22 +95,35 @@
           </ul>
         </div>
       </div>
-    </div>
 
-    <div class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
-      <div id="qrCode2" v-show="codes" class="qrconde" ref="qrCode2"></div>
-      
-      <div v-show="cx" class="cx_box">
-        <p class="cx_name">{{shops.name}}</p>
-        <img src="../../../assets/img/cx.jpg">
-        <div class="cx_btm">
-          <p class="cx_t">石笋山生态平台</p>
-          <p class="cx_time">{{shops.utime}}</p>
-          <img src="../../../assets/img/zhang.png" class="zhang">
+        <div id="Posters" class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
+            <div class="PostersImg" v-show='showTwo'>
+                <img src="../../../assets/img/sjhbb.jpg" alt="">
+            </div>
+            <div class="qrCodeMaxRule" v-show='showTwo'>
+                <h2>规则说明</h2>
+                <h6>{{shops.name}}联合石笋山生态平台推出消费多少送多少活动</h6>
+                <h6>最高赠送2000元！</h6>
+                <h6 style="color:rgb(39,221,147)">活动细则：</h6>
+                <h6>顾客扫描商家二维码后，可凭消费小票在商家获得最高2000元的平台签到金（每天限一次）；</h6>
+                <h6>消费2000元以下，消费多少送多少平台签到金，</h6>
+                <h6>消费2000元以上可最高获得2000元平台签到金</h6>
+                <h6>活动时间：2020年5月1日起</h6>
+                <h6 style="color:rgb(39,221,147)">注意事项：</h6>
+                <h6 style="text-align: left;">1、所有赠送的签到金仅限于石笋山生态平台使用，顾客区限购物1：1抵扣购物金，邮费、报价金自理；</h6>
+                <h6 style="text-align: left;">2、顾客与商家必须对上传票据的真实性负责。一经平台审核发现问题，平台会对顾客与商家的平台账号做封号处理。</h6>
+                <h3 style="margin: 0.35rem 0 0.2rem 0;">扫一扫，上传小票</h3>
+            </div>
+            <div style="z-index: 99999;border: 3px solid #fff;" id="qrCode2" v-show="codes&&showTwo" class="qrconde" ref="qrCode2"></div>
+            <h4 style="z-index: 99999;margin: 0.15rem 0 0.2rem 0;" v-show='showTwo'>本活动的最终解释权归石笋山生态平台所有</h4>
+            <div class='Return' style="z-index: 99999;">返回</div>
+            <!-- <div class="PostersImg" v-show='!showTwo'>
+                <img :src="hbUrl" alt="">
+            </div> -->
         </div>
-      </div>
-
     </div>
+
+    
     <div class="footer">
       <a :href="'tel:' + shops.mobile">
         <div class="left_hujiao">
@@ -148,7 +161,9 @@
                 adress: "重庆市江北区金渝大道168号",
                 qrCodeShow: false,
                 codes: false,
-                cx: false
+                cx: false,
+                showTwo: true,
+                hbUrl: ''
             }
 
         },
@@ -170,6 +185,7 @@
             //生成商家二维码
             creatQrCode() {
                 let QRcodeDomainName = location.href;
+                let _this = this;
                 let arr = QRcodeDomainName.split('/')
                 let url = arr[0] + '//' + arr[2] + '/uploadpic?store_id=' + this.$route.query.id
                 // console.log(url)
@@ -184,18 +200,20 @@
                 });
                 qrCode = new QRCode("qrCode2", {
                     text: url, // 需要转换为二维码的内容
-                    width: 260,
-                    height: 260,
+                    width: 140,
+                    height: 140,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
                     // render: 'table',
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                    
+
                 var canvas = document.getElementsByTagName('canvas')[1];
                 var img = convertCanvasToImage(canvas);
+                // _this.loadImg(img.src);
                 document.getElementById('qrCode2').innerHTML = '';
                 document.getElementById('qrCode2').appendChild(img)
-
                 function convertCanvasToImage(canvas) {
                     //新Image对象，可以理解为DOM
                     var image = new Image();
@@ -207,7 +225,7 @@
             },
             //图片阅览
             Previewcx: function () {
-
+                
             },
             Preview: function (num) {
                 ImagePreview(this.shops.album, num);
@@ -225,6 +243,7 @@
                     this.codes = false;
                     this.cx = false;
                 }
+                
             },
 
             //获取图片
@@ -233,11 +252,64 @@
                 let doc = document.getElementById('imgHeight' + num);
                 doc.style.height = doc1.scrollWidth + 'px'
             },
+            loadImg(url){
+                let img = new Image();
+                let canvas = document.createElement('canvas');
+                let can = canvas.getContext("2d");
+                img.onload=()=>{
+                    let {width,height} = img;
+                    canvas.width = width;
+                    canvas.height = height;
+                    can.drawImage(img, 0, 0, width, height);
+                    let img1 = new Image();
+                    img1.onload=()=>{
+                        can.drawImage(img1, width*0.65, height*0.65,width*0.2,width*0.2);
+                        // can.font = width*0.0578 +"px bold 黑体";
+                        // can.fillStyle = "#000";
+                        // can.textAlign = "center";
+                        // can.fillText("石笋山旅游景区", width*0.5, height*0.27);
+                        // can.font = width*0.0266 +"px bold 黑体";
+                        // can.fillText("石笋山生态平台", width*0.72, height*0.72);
+                        // can.fillText("二零二零年四月十七日", width*0.72, height*0.78);
+                        this.hbUrl = canvas.toDataURL("image/png")
+                        // console.log(this.hbUrl,54141)
+                    }
+                    img1.src = url;
+                }
+                img.src = require('../../../assets/img/sjhbb.jpg');
+            },
 
+            olad(){
+                // console.log(this.$refs.zjhb.width*20);
+                let Poster = document.getElementById('Posters');
+                // console.dir(Poster.offsetWidth);
+                // console.dir(Poster.offsetHeight);
+                // this.h = Poster.offsetHeight
+                let opts = {
+                    useCORS: true,
+                    width: Poster.offsetWidth,
+                    height: this.h,
+                    logging: false,
+                    // scale:1,
+                    dpi: window.devicePixelRatio
+                };
+                window.scrollTo(0, 0);
+                html2canvas(Poster, opts).then(
+                    canvas => {
+                        let imgUri = canvas.toDataURL("image/jpeg", 1); // 获取生成的图片的url
+                        // console.log(imgUri);
+                        // this.hbUrl = imgUri;
+                        // this.showTwo = false;
+                    }
+                );
+
+            },
 
         },
-        mounted() {
+        created(){
             this.getData();
+        },
+        mounted() {
             this.$nextTick(function () {
                 this.creatQrCode();
             });
@@ -252,9 +324,12 @@
 </script>
 
 <style scoped lang="scss">
+    .Return{
+        
+    }
   .content {
     padding-bottom: 0.5rem;
-
+    
     .store_banner {
       background-color: #fff;
     }
@@ -288,6 +363,7 @@
 
           .cx_btm {
             position: absolute;
+            
             right: 0.03rem;
             bottom: 0.04rem;
             line-height: 1.4;
@@ -303,7 +379,6 @@
             }
           }
         }
-
 
       .cx_jin {
         background-color: #009900;
@@ -364,15 +439,39 @@
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #fff;
     z-index: 99999;
-    // .qrconde {
-    //   width: 70%;
-    //   // width: 3rem;
-    //   // height: 3rem;
-    // }
+    overflow: scroll;
+    .Return{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        color: #fff;
+        text-align: left;
+        padding: 0 0.2rem;
+        background: rgba(0, 0, 0, 0.05);
+    }
+    .PostersImg{
+        width: 100%;
+        position: absolute;
+        top:0;
+    }
+    .qrCodeMaxRule{
+        padding: 0 0.2rem;
+        padding-top: 2rem;
+        z-index: 99999;
+        letter-spacing:0.01rem;
+        >h2:first-child{
+            margin-bottom: 0.1rem;
+        }
+        >h6{
+            line-height: 0.2rem;
+        }
+    }
     .cx_box {
       position: relative;
 

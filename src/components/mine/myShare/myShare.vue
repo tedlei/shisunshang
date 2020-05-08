@@ -5,18 +5,18 @@
              v-clipboard:error="onError" @click="select(1)" >
             复制推广二维码
         </div> -->
-        <div class="btn" v-if="iswc">
+        <!-- <div class="btn" v-if="iswc">
             <div v-clipboard:copy="urls"
                 v-clipboard:success="onCopy"
                 v-clipboard:error="onError" @click="select(1)">复制推广二维码</div>
             <div @click="download">下载海报展架</div>
-        </div>
+        </div> -->
         <div>
         </div>
         <img :src="imgSrc" alt="" v-show="show">
         <div class="minDiv" id="Posters" v-show="!show">
             <div></div>
-            <div>
+            <div style="">
                 <div id="qrCode" ref="qrCode"></div>
                 <img class="portrait" :src="portrait" alt="">
                 <!-- <qrcode :url="urls" 
@@ -31,7 +31,9 @@
                 推广链接：http://www.gjst.net/
             </div>
             <div>识别二维码加入我们</div>
-            <!-- <input type="text" v-model="urls" hidden/> -->
+            <div class="btnTwo" v-if="iswc" v-clipboard:copy="urls"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError" @click="select(1)">复制推广二维码</div>
         </div>
         <!-- <div class="mycode">
           <div class="qrcode">
@@ -133,8 +135,8 @@
                     canvas => {
                         let imgUri = canvas.toDataURL("image/jpeg", 1); // 获取生成的图片的url
                         // console.log(imgUri)
-                        this.imgSrc = imgUri;
-                        this.show = true;
+                        // this.imgSrc = imgUri;
+                        // this.show = true;
                     }
                 );
                 this.iswc = true;
@@ -166,6 +168,14 @@
             margin: 0 0.1rem;
         }
     }
+    .btnTwo{
+        width: 120px;
+        line-height: 30px;
+        margin: 10px 0;
+        background-color: #fff;
+        border-radius: 5px;
+
+    }
     // .qrcode{
     //     border: 4px solid #fff !important;
     //     > > > .logoimg{
@@ -182,7 +192,7 @@
         justify-content: center;
         align-items: center;
         >div:first-child{
-            height: 1.3rem;
+            height: 2rem;
         }
         >div:nth-child(2){
             background-color: #fff;
