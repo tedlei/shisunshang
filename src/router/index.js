@@ -43,6 +43,7 @@ import store from "../store";
 // lm
 import help from '@/components/pages_lm/help/help'
 import helpList from '@/components/pages_lm/help/list'
+import twoList from '@/components/pages_lm/help/twoList'
 import helpDetail from '@/components/pages_lm/help/detail'
 import upgrade from '@/components/pages_lm/upgrade/upgrade'
 import codePage from '@/components/pages_lm/codePage/codePage'
@@ -479,6 +480,14 @@ const $router = new Router({
               component: helpList,
               meta: {
                 title: '帮助中心',
+                showFooter: false,     //配置底部tabbar
+              },
+            },
+            {   //帮助中心详情
+              path: 'twoList',
+              component: twoList,
+              meta: {
+                title: '商家帮助中心',
                 showFooter: false,     //配置底部tabbar
               },
             },
