@@ -99,13 +99,13 @@
         </div>
       </div>
 
-      <div id="Posters" class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
+      <div id="Posters" class="qrCodeMax" v-show="qrCodeShow">
         <div class="PostersImg" v-show="showTwo">
           <img src="../../../assets/img/sjhbb.jpg" alt />
         </div>
         <div class="qrCodeMaxRule" v-show="showTwo">
           <h2>规则说明</h2>
-          <h6>{{shops.name}}联合石笋山生态平台推出消费多少送多少活动</h6>
+          <h6><span style="text-decoration:underline;color:blue;">{{shops.name}}</span>联合石笋山生态平台推出消费多少送多少活动</h6>
           <h6>最高赠送2000元！</h6>
           <h6 style="color:rgb(39,221,147)">活动细则：</h6>
           <h6>顾客扫描商家二维码后，可凭消费小票在商家获得最高2000元的平台签到金（每天限一次）；</h6>
@@ -125,7 +125,7 @@
           ref="qrCode2"
         ></div>
         <h4 style="z-index: 99999;margin: 0.15rem 0 0.2rem 0;" v-show="showTwo">本活动的最终解释权归石笋山生态平台所有</h4>
-        <div class="Return" style="z-index: 99999;">返回</div>
+        <div class="Return" style="z-index: 99999;" @click="Previewcode(true)">返回</div>
         <!-- <div class="PostersImg" v-show='!showTwo'>
                 <img :src="hbUrl" alt="">
         </div>-->
@@ -372,7 +372,7 @@ export default {
 }
 .content {
   padding-bottom: 0.5rem;
-
+    
   .store_banner {
     background-color: #fff;
   }
