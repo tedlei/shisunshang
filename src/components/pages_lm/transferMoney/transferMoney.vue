@@ -53,9 +53,9 @@
       >确认转账</van-button>
     </template>
     <template v-else>
-      <div class="succMain"> 
+      <div class="succMain">
         <div class="succIcon">
-          <van-icon name="success" size='0.4rem' color='#fff' />
+          <van-icon name="success" size="0.4rem" color="#fff" />
         </div>
         <p class="succTitle">充值金转账成功</p>
         <p class="succSeach">
@@ -100,14 +100,23 @@ export default {
       phone: "", //输入的手机号
       zzMoney: "", //要转账金额
       zzExplain: "", //转账说明
-      zzShow:true,   //转账成功
+      zzShow: true //转账成功
     };
   },
   created() {
-    let { getuserinfo } = this.$store.getters;
-    this.qdMoney = JSON.parse(getuserinfo).money1;
+    // let { getuserinfo } = this.$store.getters;
+    // this.qdMoney = JSON.parse(getuserinfo).money1;
+    this.getuserinfo();
   },
   methods: {
+    //获取用户信息
+    async getuserinfo() {
+      let ad_data = {
+        method: "get.user.info"
+      };
+      let { data } = await this.$post("/api/v1/user", ad_data);
+      this.qdMoney = data.money1
+    },
     //验证手机号
     verifyPhone(phone) {
       if (phone.length !== 11) {
@@ -151,7 +160,7 @@ export default {
         method: "add.trans.money.tomember.item",
         money: zzMoney,
         member_mobile: phone,
-        desc:zzExplain
+        desc: zzExplain
       };
       if (!phone) {
         this.tc("请输入手机号");
@@ -167,7 +176,7 @@ export default {
       }
       this.$post("/api/v1/UserTrans", ad_data)
         .then(res => {
-          if(res.data){
+          if (res.data) {
             this.zzShow = false;
           }
           // console.log(res, 123);
@@ -281,14 +290,14 @@ export default {
       }
     }
   }
-  .succMain{
+  .succMain {
     width: 100%;
     // height: 1.41rem;
     padding-top: 0.32rem;
     padding-bottom: 0.21rem;
     background-color: #fff;
-    border-radius:10px;
-    .succIcon{
+    border-radius: 10px;
+    .succIcon {
       width: 0.44rem;
       height: 0.44rem;
       margin: 0 auto;
@@ -297,19 +306,19 @@ export default {
       text-align: center;
       line-height: 0.44rem;
     }
-    .succTitle{
+    .succTitle {
       margin-top: 0.1rem;
       font-size: 0.18rem;
       color: #100808;
       text-align: center;
     }
-    .succSeach{
+    .succSeach {
       margin-top: 0.1rem;
       font-size: 0.14rem;
-      color: #B8B8B8;
+      color: #b8b8b8;
       text-align: center;
-      span{
-        color:$sss-color;
+      span {
+        color: $sss-color;
       }
     }
   }
