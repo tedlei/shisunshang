@@ -15,7 +15,7 @@
             <div class="user_msg">
               <p class="user_name">{{userinfo.weixinname}}</p>
               <span class="user_phone">{{userinfo.phone}}</span>
-              <div class="vip_lv">
+              <div class="vip_lv" @click="levelName">
                 <span>
                   {{userinfo.level_name}}
                   <img
@@ -511,6 +511,9 @@
                 this.$router.push({
                     path: "/upgrade"
                 });
+            },
+            levelName(){
+                this.$router.push({path:"/set/Grade"})
             }
         },
         created() {

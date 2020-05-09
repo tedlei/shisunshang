@@ -72,7 +72,7 @@ const $router = new Router({
       name: 'ex001',
       component: ex001,
     },
-    
+
     {
       path: '/',
       name: 'home',

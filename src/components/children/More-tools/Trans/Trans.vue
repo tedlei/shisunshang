@@ -41,8 +41,8 @@
               label="转账金额：￥"
               placeholder="请输入转账金额"
               type="number"
-              :rules="[{ required: true, message: '请输入转账金额' }]"
             />
+              <!-- :rules="[{ required: true, message: '请输入转账金额' }]" -->
             <div class="alltans clo-g" @click="alltans">金额全转</div>
           </div>
           <van-field v-model="bili" name="用户名" label="转账比例：" readonly />
@@ -51,7 +51,7 @@
             name="desc"
             rows="2"
             autosize
-            label="转账说明"
+            label="转账说明:"
             type="textarea"
             maxlength="50"
             placeholder
