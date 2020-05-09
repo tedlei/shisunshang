@@ -66,7 +66,7 @@
           <span class="text_rich">{{item.message}}</span>
         </div>
         <router-link :to="{path:item.ad.url}">
-          <img :src="item.ad.img" style="padding-bottom: 0.1rem"/>
+          <img :src="item.ad.img" style="margin-bottom: 0.1rem;border-radius: 5px;"/>
         </router-link>
 
         <van-row class="introduce_img">
@@ -302,7 +302,7 @@
   .content {
     top: 0;
     bottom: 0.65rem;
-
+    
     header {
       text-align: left;
       padding: 0 0.1rem;

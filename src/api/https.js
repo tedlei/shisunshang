@@ -145,12 +145,15 @@ axios.interceptors.response.use(
  */
 
 export function get(url, params = {}) {
+  store.commit('setLoading',true);
   return new Promise((resolve, reject) => {
     axios.get(url, params)
       .then(response => {
+        store.commit('setLoading',false);
         resolve(response);
       })
       .catch(err => {
+        store.commit('setLoading',false);
         reject(err)
       })
   })
@@ -165,9 +168,11 @@ export function get(url, params = {}) {
  */
 export function post(url, params = {},) {
   params.token1 = 'code';
+  store.commit('setLoading',true);
   return new Promise((resolve, reject) => {
     axios.post(url, Qs.stringify(params),)
       .then(response => {
+        store.commit('setLoading',false);
         if (response.status === 500) {
           Toast('数据错误')
           reject(false)
@@ -179,6 +184,7 @@ export function post(url, params = {},) {
           // console.log(resolve(response.data))
         }
       }, err => {
+        store.commit('setLoading',false);
         reject(false)
       })
   })

@@ -43,10 +43,12 @@ import store from "../store";
 // lm
 import help from '@/components/pages_lm/help/help'
 import helpList from '@/components/pages_lm/help/list'
+import twoList from '@/components/pages_lm/help/twoList'
 import helpDetail from '@/components/pages_lm/help/detail'
 import upgrade from '@/components/pages_lm/upgrade/upgrade'
 import codePage from '@/components/pages_lm/codePage/codePage'
 import deal from '@/components/pages_lm/upgrade/deal'
+import transferMoney from '@/components/pages_lm/transferMoney/transferMoney'
 
 
 Vue.use(Router)
@@ -449,6 +451,15 @@ const $router = new Router({
           meta: {title: '账户互转', showFooter: false, goods: false,}
         },
         {
+          path:'/mine/transferMoney',
+          name:'transferMoney',
+          component:transferMoney,
+          meta: {
+            title: '充值金转账',
+            showFooter: false,     //配置底部tabbar
+          },
+        },
+        {
           path: '/mine/certification',
           name: 'certification',
           component: certification,
@@ -469,6 +480,14 @@ const $router = new Router({
               component: helpList,
               meta: {
                 title: '帮助中心',
+                showFooter: false,     //配置底部tabbar
+              },
+            },
+            {   //帮助中心详情
+              path: 'twoList',
+              component: twoList,
+              meta: {
+                title: '商家帮助中心',
                 showFooter: false,     //配置底部tabbar
               },
             },
