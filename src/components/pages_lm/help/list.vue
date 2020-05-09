@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Bus from "../../../assets/js/bus.js";
+import Bus from "../../../assets/js/bus";
 export default {
   components: {},
   data() {
@@ -23,6 +23,7 @@ export default {
   created() {
     let { id, title } = this.$route.query;
     if (title) Bus.$emit("title", title);
+    else  Bus.$emit("title", '');
     if (id) this.getHelpList(id);
     if(!id||!title) this.list = [
       { title: "用户端帮助中心", id: 1 },
@@ -38,7 +39,6 @@ export default {
       };
       this.$post("/api/v1/news", ad_data)
         .then(res => {
-          console.log(res, 123453);
           let { items } = res.data;
           this.list = items;
         })
@@ -55,9 +55,6 @@ export default {
         query: { id: item.id, title: item.title }
       });
     }
-  },
-  destroyed() {
-    Bus.$emit("title", "");
   }
 };
 </script>

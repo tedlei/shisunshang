@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Bus from "../../../assets/js/bus.js";
+import Bus from '../../../assets/js/bus';
 export default {
   data() {
     return {
@@ -14,7 +14,7 @@ export default {
   },
   created() {
     let { id, title } = this.$route.query;
-    Bus.$emit("title", title);
+    Bus.$emit("title",title);
     this.getList(id);
   },
   methods: {
@@ -35,9 +35,6 @@ export default {
     tapList(item) {
         this.$router.push({path: '/help', query: {id:item.id,title:item.name}})
     }
-  },
-  destroyed() {
-    Bus.$emit("title", "");
   }
 };
 </script>
