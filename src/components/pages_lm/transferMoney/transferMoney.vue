@@ -157,11 +157,11 @@ export default {
         this.tc("请输入手机号");
         return;
       }
-      if (!parseInt(qdMoney) > 0) {
+      if (!parseFloat(qdMoney) > 0) {
         this.tc("您没有充值金可使用");
         return;
       }
-      if (!parseInt(zzMoney) > 0) {
+      if (!parseFloat(zzMoney) > 0) {
         this.tc("请输入要转账的金额");
         return;
       }
