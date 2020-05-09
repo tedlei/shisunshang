@@ -139,7 +139,7 @@
                         <router-link
                           style="margin-right:0.05rem;"
                           :to="{path:'/goodsdetails/Orderdetails',query: {id: items.id}}"
-                        >
+                            >
                           <van-button
                             plain
                             type="primary"
@@ -384,7 +384,7 @@
                 };
                 this.$post("/api/v1/order", ad_data)
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         if (res.status == 200) {
                             this.$toast.success("订单已取消");
                             this.page = 0;
@@ -466,6 +466,7 @@
             //查看物流
             ViewLogistics(id) {
                 location.href = "https://m.kuaidi100.com/result.jsp?nu=" + id;
+                // location.href = "https://m.kuaidi100.com/result.jsp?nu=" + 'JDX001600503173';
             },
             //确认收货
             Confirmreceipt(id, index) {
@@ -510,7 +511,7 @@
     bottom: 0;
     width: 100%;
 
-    > > > .nav {
+    >>> .nav {
       .van-tabs__nav {
         background-color: #009900;
       }

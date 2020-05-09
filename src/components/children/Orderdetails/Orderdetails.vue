@@ -68,29 +68,18 @@
         </div>
       </div>
     </div>
-    <!-- 配速方式 -->
-    <div class="common_box">
-      <div class="common">
-        <div class="left">
-          配速方式
-        </div>
-        <div class="right">
-          物流配送
-        </div>
-      </div>
-    </div>
+    
     <!-- 发票信息 -->
-    <div class="common_box">
+    <!-- <div class="common_box">
       <div class="common m_b_10">
         <div>发票信息</div>
         <div class="right">
           <span style="color: #ff0000;margin-right: 10px">{{orderData.is_invoice==0?'未开具发票':orderData.invoice_detail.title}}</span>
           <span>
-            <!-- {{}} -->
           </span>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 商品费用算法 -->
     <div class="common_box">
       <div class="common">
@@ -188,6 +177,28 @@
           买家留言：<span style="color:#999999">
             {{orderData.remark}}
           </span>
+        </div>
+      </div>
+    </div>
+    <!-- 配速方式 -->
+    <div class="common_box">
+      <div class="common">
+        <div class="left">
+          配送方式
+        </div>
+        <div class="right">
+          物流配送
+        </div>
+      </div>
+    </div>
+    <!-- 运单号方式 -->
+    <div class="common_box" v-if='orderData.postnumber'>
+      <div class="common">
+        <div class="left">
+          运单编号
+        </div>
+        <div class="right">
+          {{orderData.postnumber}}
         </div>
       </div>
     </div>

@@ -125,7 +125,7 @@
     <div style="padding-bottom: 0.5rem;" class="common_box allmsg">
       <div class="common delivery">
         <div class="left">
-          配速方式
+          配送方式
         </div>
         <div class="right">
           物流配送

@@ -96,7 +96,7 @@
         </div>
       </div>
 
-        <div id="Posters" class="qrCodeMax" v-show="qrCodeShow" @click="Previewcode(true)">
+        <div id="Posters" class="qrCodeMax" v-show="qrCodeShow" >
             <div class="PostersImg" v-show='showTwo'>
                 <img src="../../../assets/img/sjhbb.jpg" alt="">
             </div>
@@ -110,13 +110,13 @@
                 <h6>消费2000元以上可最高获得2000元平台签到金</h6>
                 <h6>活动时间：2020年5月1日起</h6>
                 <h6 style="color:rgb(39,221,147)">注意事项：</h6>
-                <h6 style="text-align: left;">1、所有赠送的签到金仅限于石笋山生态平台使用，顾客区限购物1：1抵扣购物金，邮费、报价金自理；</h6>
+                <h6 style="text-align: left;">1、所有赠送的签到金仅限于石笋山生态平台使用，顾客区限购物1：1抵扣购物金，邮费、保价金自理；</h6>
                 <h6 style="text-align: left;">2、顾客与商家必须对上传票据的真实性负责。一经平台审核发现问题，平台会对顾客与商家的平台账号做封号处理。</h6>
                 <h3 style="margin: 0.35rem 0 0.2rem 0;">扫一扫，上传小票</h3>
             </div>
             <div style="z-index: 99999;border: 3px solid #fff;" id="qrCode2" v-show="codes&&showTwo" class="qrconde" ref="qrCode2"></div>
             <h4 style="z-index: 99999;margin: 0.15rem 0 0.2rem 0;" v-show='showTwo'>本活动的最终解释权归石笋山生态平台所有</h4>
-            <div class='Return' style="z-index: 99999;">返回</div>
+            <div class='Return' style="z-index: 99999;" @click="Previewcode(true)"><van-icon name="arrow-left" /></div>
             <!-- <div class="PostersImg" v-show='!showTwo'>
                 <img :src="hbUrl" alt="">
             </div> -->
@@ -450,10 +450,9 @@
         width: 100%;
         height: 0.4rem;
         line-height: 0.4rem;
-        color: #fff;
         text-align: left;
         padding: 0 0.2rem;
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(0, 0, 0, 0.1);
     }
     .PostersImg{
         width: 100%;
